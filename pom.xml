@@ -123,5 +123,6 @@
 
     <modules>
         <module>utils</module>
+        <module>ui</module>
     </modules>
 </project>

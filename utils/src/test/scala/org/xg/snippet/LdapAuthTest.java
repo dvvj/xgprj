@@ -40,7 +40,7 @@ public class LdapAuthTest {
         env.put(Context.SECURITY_CREDENTIALS, cred);
         //in following property we specify ldap protocol and connection url.
         //generally the port is 389
-        env.put(Context.PROVIDER_URL, "ldap://localhost:32772");
+        env.put(Context.PROVIDER_URL, "ldap://localhost:32773");
         ctx = new InitialLdapContext(env, null);
         System.out.println("Context created.");
         return ctx;
