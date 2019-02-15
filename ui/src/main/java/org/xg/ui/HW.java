@@ -19,7 +19,6 @@ public class HW extends Application {
     Button btn = new Button();
     btn.setText("Say 'Hello World'");
     btn.setOnAction(new EventHandler<ActionEvent>() {
-
       @Override
       public void handle(ActionEvent event) {
         System.out.println("Hello World!");
