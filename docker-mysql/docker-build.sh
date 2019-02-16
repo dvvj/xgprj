@@ -1,1 +1,1 @@
-docker build -t xgsql .
+docker build --no-cache -t xgsql .
