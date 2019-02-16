@@ -7,7 +7,6 @@ import javax.naming.ldap.{InitialLdapContext, LdapContext}
 
 object LdapHelpers {
 
-  import org.xg.logging.LogHelpers._
   private[ldap] def createContext(
                                  dn:String,
                                  cred:String,
@@ -25,7 +24,7 @@ object LdapHelpers {
 
     val res = new InitialLdapContext(ht, null)
 
-    log("Context created!")
+    //log("Context created!")
     res
   }
 

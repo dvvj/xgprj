@@ -5,6 +5,7 @@ import java.sql.{Connection, DriverManager}
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+import org.xg.auth.AuthHelpers
 import org.xg.db.impl.DbOpsImpl
 
 object ConnectorTests extends App {
@@ -47,8 +48,9 @@ object ConnectorTests extends App {
       // res.getString("name") //
       val prd = res.getString("name")
       val id = res.getString("id")
-      val bday = res.getString("bday")
-      println(s"$id\t$prd\t$bday")
+      val passHash = res.getBytes("pass_hash")
+      val hashStr = AuthHelpers.hash2Str(passHash)
+      println(s"$id\t$prd\t$hashStr")
     }
   }
 
@@ -61,6 +63,7 @@ object ConnectorTests extends App {
     val success = ops.addNewCustomer(
       user,
       "王丽",
+      "dkfd",
       "323102003434123",
       "18623234322",
       "大街",
@@ -78,7 +81,7 @@ object ConnectorTests extends App {
   println(s"Connected: ${conn.getCatalog}")
   //traceAllProducts(conn)
 
-  tryInsertCustomer(conn)
+//  tryInsertCustomer(conn)
 
   traceAllCustomers(conn)
 
