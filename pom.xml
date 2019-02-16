@@ -142,5 +142,6 @@
         <module>utils</module>
         <module>ui</module>
         <module>db</module>
+        <module>svc</module>
     </modules>
 </project>
