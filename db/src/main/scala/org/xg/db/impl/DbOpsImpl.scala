@@ -8,6 +8,8 @@ import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
 
+import scala.collection.mutable.ListBuffer
+
 object DbOpsImpl {
 
   private class JDBCDbOps(conn:Connection) extends TDbOps {
@@ -34,6 +36,24 @@ object DbOpsImpl {
           false
         }
       }
+    }
+
+    override def allCustomers(conn:Connection):String = {
+      val stm = conn.prepareStatement(
+        "SELECT * from customers"
+      )
+
+      val res = stm.executeQuery()
+      val customerTrs = ListBuffer[String]()
+      while (res.next()) {
+        // res.getString("name") //
+        val prd = res.getString("name")
+        val id = res.getString("id")
+        val passHash = res.getBytes("pass_hash")
+        val hashStr = AuthHelpers.hash2Str(passHash)
+        customerTrs += s"$id\t$prd\t$hashStr"
+      }
+      customerTrs.mkString("\n")
     }
   }
 

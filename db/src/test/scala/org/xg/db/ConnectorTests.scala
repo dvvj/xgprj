@@ -6,22 +6,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 import org.xg.auth.AuthHelpers
-import org.xg.db.impl.DbOpsImpl
+import org.xg.db.impl.{DbOpsImpl, Utils}
 
 object ConnectorTests extends App {
 
-  def tryConnect(connStr:String):Connection = {
-    try {
-      val conn = DriverManager.getConnection(connStr)
-      conn
-    }
-    catch {
-      case t:Throwable => {
-        t.printStackTrace()
-        throw t
-      }
-    }
-  }
+
 
   def traceAllProducts(conn:Connection):Unit = {
     val stm = conn.prepareStatement(
@@ -76,7 +65,7 @@ object ConnectorTests extends App {
     else println(s"Failed to insert user [$user]")
   }
 
-  val conn = tryConnect("jdbc:mysql://localhost/xgproj?useUnicode=true&characterEncoding=UTF-8&user=root&password=cPEaKeXnzq8fuRBD87csHdaL")
+  val conn = Utils.tryConnect("jdbc:mysql://localhost/xgproj?user=root&password=cPEaKeXnzq8fuRBD87csHdaL")
 
   println(s"Connected: ${conn.getCatalog}")
   //traceAllProducts(conn)
