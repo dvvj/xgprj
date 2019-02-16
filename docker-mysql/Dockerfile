@@ -6,3 +6,4 @@ ENV MYSQL_DATABASE xgproj
 # All scripts in docker-entrypoint-initdb.d/ are automatically
 # executed during container startup
 COPY ./scripts/ /docker-entrypoint-initdb.d/
+COPY mysqld_charset.cnf /etc/mysql/conf.d/mysqld_charset.cnf
