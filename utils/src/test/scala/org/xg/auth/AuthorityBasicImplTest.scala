@@ -32,7 +32,8 @@ class AuthorityBasicImplTest extends TestNGSuite with Matchers with TableDrivenP
       val authorizer = instance(userPassMap)
       println(s"\tchecking user: [$uid], pass: [$pass] ...")
 
-      val authRes = authorizer.authenticate(uid, pass)
+      val passHash = AuthHelpers.sha512(pass)
+      val authRes = authorizer.authenticate(uid, passHash)
       authRes shouldBe expResult
     }
   }

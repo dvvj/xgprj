@@ -17,8 +17,9 @@ public final class CustomerDbAuthority {
     _auth = AuthorityBasicImpl.instanceJ(userPassMap);
   }
 
-  public String authenticate(String uid, String pass) {
-    return _auth.authenticate(uid, pass);
+  public static boolean authenticate(String uid, byte[] passHash) {
+    String token = instance._auth.authenticate(uid, passHash);
+    return instance._auth.isValidToken(token);
   }
 
   private static CustomerDbAuthority createInstasnce() {

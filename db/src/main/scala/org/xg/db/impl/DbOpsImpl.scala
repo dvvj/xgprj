@@ -3,6 +3,7 @@ package org.xg.db.impl
 import java.sql.Connection
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDateTime, ZonedDateTime}
+import java.util.Base64
 
 import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
@@ -81,7 +82,8 @@ object DbOpsImpl {
         val id = res.getString("uid")
         val passHash = res.getBytes("pass_hash")
         val hashStr = AuthHelpers.hash2Str(passHash)
-        customerTrs += s"$id\t$prd\t$hashStr"
+        val hashBase64 = Base64.getEncoder.encodeToString(passHash)
+        customerTrs += s"$id\t$prd\t$hashStr\t$hashBase64"
       }
       customerTrs.mkString("\n")
     }

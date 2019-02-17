@@ -1,6 +1,8 @@
 package org.xg;
 
-import org.xg.auth.UserPassPost;
+import org.xg.auth.CustomerDbAuthority;
+import org.xg.auth.UserPass;
+import org.xg.auth.UserPassBase64;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -15,9 +17,16 @@ public class AuthOps {
   @Path("userPass")
   @Consumes(MediaType.TEXT_PLAIN)
   public Response authorize(String userPassPostJson) {
-    UserPassPost upp = UserPassPost.fromJson(userPassPostJson);
-    return Response.status(200)
-      .entity(upp.toString())
+    UserPass up = UserPassBase64.decFromJson(userPassPostJson);
+
+    boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHash());
+    Response resp = authenticated ?
+      Response.ok(
+        String.format("user [%s] authorized!", up.uid())
+      ).build()
+      : Response.status(Response.Status.UNAUTHORIZED)
+      .entity(String.format("user [%s] NOT authorized!", up.uid()))
       .build();
+    return resp;
   }
 }
