@@ -36,7 +36,7 @@ object ConnectorTests extends App {
     while (res.next()) {
       // res.getString("name") //
       val prd = res.getString("name")
-      val id = res.getString("id")
+      val id = res.getString("uid")
       val passHash = res.getBytes("pass_hash")
       val hashStr = AuthHelpers.hash2Str(passHash)
       println(s"$id\t$prd\t$hashStr")
@@ -56,6 +56,7 @@ object ConnectorTests extends App {
       "323102003434123",
       "18623234322",
       "大街",
+      "test_ref",
       dt
     )
 

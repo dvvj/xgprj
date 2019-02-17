@@ -15,15 +15,19 @@ object DbOpsImpl {
   private class JDBCDbOps(conn:Connection) extends TDbOps {
     private val _conn = conn
 
-    override def addNewCustomer(uid: String, name: String, pass:String, idCardNo: String, mobile: String, postalAddr: String, bday: String): Boolean = {
+    override def addNewCustomer(
+                                 uid: String, name: String, pass:String,
+                                 idCardNo: String, mobile: String, postalAddr: String, bday: String,
+                                 ref_uid: String
+                               ): Boolean = {
       //val dtStr = bday.format(DateTimeFormatter.ISO_DATE)
       try {
         val passHash = AuthHelpers.hash2Str(
           AuthHelpers.sha512(pass)
         )
         val sttm = _conn.prepareStatement(
-          "INSERT INTO customers(id, name, pass_hash, idcard_no, mobile, postal_addr, bday)" +
-            s" VALUES ('$uid', '$name', X'$passHash', '$idCardNo', '$mobile', '$postalAddr', '$bday')"
+          "INSERT INTO customers(uid, name, pass_hash, idcard_no, mobile, postal_addr, ref_uid, bday)" +
+            s" VALUES ('$uid', '$name', X'$passHash', '$idCardNo', '$mobile', '$postalAddr', '$ref_uid', '$bday')"
         )
         val res = sttm.executeUpdate()
         if (res != 1)
@@ -48,7 +52,7 @@ object DbOpsImpl {
       while (res.next()) {
         // res.getString("name") //
         val prd = res.getString("name")
-        val id = res.getString("id")
+        val id = res.getString("uid")
         val passHash = res.getBytes("pass_hash")
         val hashStr = AuthHelpers.hash2Str(passHash)
         customerTrs += s"$id\t$prd\t$hashStr"

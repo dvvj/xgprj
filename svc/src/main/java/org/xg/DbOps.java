@@ -14,7 +14,7 @@ import java.sql.Connection;
 public class DbOps {
 
   @GET
-  @Path("allCustomers")
+  @Path("testAllCustomers")
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
   public String allCustomers() {
 
