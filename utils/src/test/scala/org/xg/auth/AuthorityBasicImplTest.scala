@@ -13,16 +13,16 @@ class AuthorityBasicImplTest extends TestNGSuite with Matchers with TableDrivenP
     "usr2" -> AuthHelpers.sha512("abcdefg")
   )
   import AuthorityBasicImpl._
-  private val authSuccessToken = Option(TokenNotUsed)
+  private val authSuccessToken = TokenNotUsed
 
   private val testData = Table(
     ( "userPassMap", "uid", "pass", "expAuthResult" ),
-    ( userPassMap1, "usr1", "123", None ),
+    ( userPassMap1, "usr1", "123", InvalidToken ),
     ( userPassMap1, "usr1", "1234", authSuccessToken ),
     ( userPassMap1, "usr2", "abcdefg", authSuccessToken ),
-    ( userPassMap1, null, "abcdefg", None ),
-    ( null, "usr1", "1234", None ),
-    ( null, null, "1234", None )
+    ( userPassMap1, null, "abcdefg", InvalidToken ),
+    ( null, "usr1", "1234", InvalidToken ),
+    ( null, null, "1234", InvalidToken )
   )
 
   @Test
@@ -32,7 +32,7 @@ class AuthorityBasicImplTest extends TestNGSuite with Matchers with TableDrivenP
       val authorizer = instance(userPassMap)
       println(s"\tchecking user: [$uid], pass: [$pass] ...")
 
-      val authRes = authorizer.authenticate(uid, pass, UserType.Customer)
+      val authRes = authorizer.authenticate(uid, pass)
       authRes shouldBe expResult
     }
   }

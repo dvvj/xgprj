@@ -8,5 +8,10 @@ import org.joda.time.DateTime
 trait TDbOps {
   def addNewCustomer(uid:String, name:String, pass:String, idCardNo:String, mobile:String, postalAddr:String, ref_uid: String, bday:String):Boolean
 
-  def allCustomers(conn:Connection):String
+  def allCustomers:String
+  def getUserPassMap:Map[String, Array[Byte]]
+  def getUserPassMapJ:java.util.Map[String, Array[Byte]] = {
+    import collection.JavaConverters._
+    getUserPassMap.asJava
+  }
 }

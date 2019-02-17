@@ -15,6 +15,32 @@ object DbOpsImpl {
   private class JDBCDbOps(conn:Connection) extends TDbOps {
     private val _conn = conn
 
+    import collection.mutable
+    override def getUserPassMap: Map[String, Array[Byte]] = {
+      try {
+        val sttm = _conn.prepareStatement(
+          "SELECT uid, pass_hash FROM customers"
+        )
+        val res = sttm.executeQuery()
+        val userPassMap = mutable.Map[String, Array[Byte]]()
+        while (res.next()) {
+          // res.getString("name") //
+          val uid = res.getString("uid")
+          val passHash = res.getBytes("pass_hash")
+          userPassMap += uid -> passHash
+        }
+        userPassMap.toMap
+
+      }
+      catch {
+        case t:Throwable => {
+          //t.printStackTrace()
+          throw new RuntimeException("Error in getUserPassMap", t)
+        }
+      }
+
+    }
+
     override def addNewCustomer(
                                  uid: String, name: String, pass:String,
                                  idCardNo: String, mobile: String, postalAddr: String, bday: String,
@@ -42,7 +68,7 @@ object DbOpsImpl {
       }
     }
 
-    override def allCustomers(conn:Connection):String = {
+    override def allCustomers:String = {
       val stm = conn.prepareStatement(
         "SELECT * from customers"
       )

@@ -8,7 +8,7 @@ private class AuthorityBasicImpl(_userPassMap:Map[String, Array[Byte]]) extends 
   private val userPassMap:Map[String, Array[Byte]] =
     if (_userPassMap != null) _userPassMap else Map()
   import AuthorityBasicImpl._
-  override def authenticate(uid: String, pass: String, utype: UserType): Option[String] = {
+  def _authenticate(uid: String, pass: String): Option[String] = {
     if (userPassMap.contains(uid)) {
       val sha = userPassMap(uid)
       val userSha = AuthHelpers.sha512(pass)
@@ -18,11 +18,26 @@ private class AuthorityBasicImpl(_userPassMap:Map[String, Array[Byte]]) extends 
     else None
   }
 
+  override def authenticate(uid: String, pass: String): String = {
+    val t = _authenticate(uid, pass)
 
+    if (t.nonEmpty) t.get
+    else InvalidToken
+  }
+
+  override def isValidToken(token: String): Boolean = {
+    token != null && token != InvalidToken
+  }
 }
 
 object AuthorityBasicImpl {
   private[auth] val TokenNotUsed = "TokenNotUsed"
+  private[auth] val InvalidToken = ""
 
   def instance(userPassMap:Map[String, Array[Byte]]):TAuthority[String] = new AuthorityBasicImpl(userPassMap)
+  def instanceJ(userPassMap:util.Map[String, Array[Byte]]):TAuthority[String] = {
+    import collection.JavaConverters._
+    new AuthorityBasicImpl(userPassMap.asScala.toMap)
+  }
+
 }

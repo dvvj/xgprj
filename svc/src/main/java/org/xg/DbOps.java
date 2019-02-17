@@ -19,14 +19,12 @@ public class DbOps {
   public String allCustomers() {
 
     try {
-      Connection conn = Utils.tryConnect(
-        "jdbc:mysql://10.0.2.15:3306/xgproj?user=dbuser&password=dbpass"
-      );
+      Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 
       System.out.println("connected!");
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      String allCustomers = dbOps.allCustomers(conn);
+      String allCustomers = dbOps.allCustomers();
       conn.close();
       return allCustomers;
     }
