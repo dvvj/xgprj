@@ -33,7 +33,7 @@
                         <index>true</index>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.xg.ui.HW</mainClass>
+                            <mainClass>org.xg.ui.UiLogin</mainClass>
                         </manifest>
                         <manifestEntries>
                             <mode>development</mode>
