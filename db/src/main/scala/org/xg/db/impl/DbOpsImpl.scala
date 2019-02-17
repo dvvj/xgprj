@@ -87,6 +87,24 @@ object DbOpsImpl {
       }
       customerTrs.mkString("\n")
     }
+
+    override def allProducts: String = {
+      val stm = conn.prepareStatement(
+        "SELECT * from products"
+      )
+
+      val res = stm.executeQuery()
+      val productTrs = ListBuffer[String]()
+      while (res.next()) {
+        // res.getString("name") //
+        val prd = res.getString("name")
+        val id = res.getString("id")
+        val price0 = res.getFloat("price0")
+        productTrs += s"$id\t$prd\t$price0"
+      }
+      productTrs.mkString("\n")
+
+    }
   }
 
   def jdbcImpl(conn:Connection):TDbOps = new JDBCDbOps(conn)

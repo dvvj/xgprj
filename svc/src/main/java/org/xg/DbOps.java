@@ -34,4 +34,26 @@ public class DbOps {
     }
 
   }
+
+  @GET
+  @Path("allProducts")
+  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  public String allProducts() {
+
+    try {
+      Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
+
+      System.out.println("connected!");
+
+      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+      String allProducts = dbOps.allProducts();
+      conn.close();
+      return allProducts;
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new RuntimeException("Error", ex);
+    }
+
+  }
 }
