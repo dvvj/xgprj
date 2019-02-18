@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+
+
+<Group id="rootGroup" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+   fx:controller="org.xg.ui.fxmlTest.StageCoachController">
+   <children>
+      <Rectangle id="blue" arcHeight="50.0" arcWidth="50.0" fill="DODGERBLUE" height="250.0" stroke="BLACK" strokeType="INSIDE" width="350.0" />
+      <VBox layoutX="30.0" layoutY="20.0" prefHeight="200.0" prefWidth="300.0" spacing="10.0">
+         <children>
+            <Text id="textStageX" strokeType="OUTSIDE" strokeWidth="0.0" text="x:" />
+            <Text id="textStageY" strokeType="OUTSIDE" strokeWidth="0.0" text="y:" />
+            <Text id="textStageH" strokeType="OUTSIDE" strokeWidth="0.0" text="height:" />
+            <Text id="textStageW" strokeType="OUTSIDE" strokeWidth="0.0" text="width:" />
+            <CheckBox id="checkBoxResizable" mnemonicParsing="false" text="resizable" />
+            <CheckBox id="checkBoxFullScreen" mnemonicParsing="false" text="full screen" />
+            <HBox id="titleBox" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label id="titleLabel" text="title" />
+                  <TextField id="titleTextField" text="Stage Coach" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</Group>
