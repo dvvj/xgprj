@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+
+
+<?import javafx.geometry.Insets?>
+<VBox alignment="CENTER_LEFT"
+      maxHeight="-Infinity"
+      maxWidth="-Infinity"
+      minHeight="-Infinity"
+      minWidth="-Infinity"
+      prefWidth="700"
+      prefHeight="150"
+      spacing="10"
+      xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/javafx/1"
+      fx:controller="org.xg.ui.fxmlTest.FxmlInjectionController">
+
+   <children>
+      <Label text="Location:"/>
+      <Label fx:id="locationLabel" text="[location]"/>
+      <Label text="Resources:"/>
+      <Label fx:id="resourcesLabel" text="[resources]"/>
+   </children>
+   <opaqueInsets>
+      <Insets/>
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="10" left="10" right="10" top="10"/>
+   </padding>
+</VBox>

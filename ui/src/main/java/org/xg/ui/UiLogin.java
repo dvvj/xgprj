@@ -1,5 +1,6 @@
 package org.xg.ui;
 
+import com.sun.javafx.tk.FontLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
@@ -12,6 +13,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -29,8 +31,14 @@ public class UiLogin extends Application {
     );
     HBox root = loader.load();
     UiLoginController controller = loader.getController();
+    controller.setStage(stage);
 
-    Scene scene = new Scene(root, 600, 300);
+    Font font = Font.loadFont(
+      getClass().getResourceAsStream("/NotoSansCJK-Medium.ttc"), 18
+    );
+    System.out.println("font loaded: " + font.getFamily());
+
+    Scene scene = new Scene(root, 600, 250);
     scene.setFill(Color.TRANSPARENT);
     scene.getStylesheets().add(
       getClass().getResource("/default.css").toExternalForm()

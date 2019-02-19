@@ -42,6 +42,7 @@ public class StageCoachController {
   }
 
   public void toBackHandler(ActionEvent e) {
+    System.out.println(titleTextField.getText());
     stage.toBack();
   }
 
