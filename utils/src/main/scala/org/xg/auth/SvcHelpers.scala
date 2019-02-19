@@ -21,7 +21,7 @@ object SvcHelpers {
       .asString
 
     if (res.code == 200) {
-      AuthResp.fromJson(res.body)
+      fromJson(res.body)
     }
     else {
       val code = res.code

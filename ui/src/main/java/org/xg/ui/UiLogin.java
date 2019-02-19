@@ -45,6 +45,7 @@ public class UiLogin extends Application {
     );
 
     stage.setScene(scene);
+    stage.setTitle("title");
     stage.show();
 //    Label lblUid = new Label("用户 ID");
 //    Label lblUType = new Label("用户类型");
