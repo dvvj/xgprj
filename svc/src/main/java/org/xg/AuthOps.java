@@ -20,13 +20,16 @@ public class AuthOps {
     UserPass up = UserPassBase64.decFromJson(userPassPostJson);
 
     boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHash());
-    Response resp = authenticated ?
-      Response.ok(
+
+    if (authenticated) {
+      return Response.ok(
         String.format("user [%s] authorized!", up.uid())
-      ).build()
-      : Response.status(Response.Status.UNAUTHORIZED)
-      .entity(String.format("user [%s] NOT authorized!", up.uid()))
-      .build();
-    return resp;
+      ).build();
+    }
+    else {
+      return Response.status(Response.Status.UNAUTHORIZED)
+        .entity(String.format("user [%s] NOT authorized!", up.uid()))
+        .build();
+    }
   }
 }

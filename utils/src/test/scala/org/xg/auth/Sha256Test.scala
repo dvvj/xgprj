@@ -13,4 +13,8 @@ object Sha256Test extends App {
     println(s"${res.length}: $passHash")
   }
 
+  val token = AuthHelpers.generateToken(
+    Array("usr1", "ut1", "hash1")
+  )
+  println(token)
 }

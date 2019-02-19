@@ -18,4 +18,20 @@ object AuthHelpers {
     }.mkString
   }
 
+  private val MsgConnector = "d=3+5*@UsjTE*z23"
+  type TokenEncoder = Array[String] => Array[Byte]
+
+  private val DefTokenEncoder:TokenEncoder = msgs => {
+    val msg = msgs.mkString(s"\t$MsgConnector\t")
+    sha512(msg)
+  }
+
+  def generateToken(
+                     msgs:Array[String],
+                     enc:TokenEncoder = DefTokenEncoder
+                   ):String = {
+    val hash = enc(msgs)
+    hash2Str(hash)
+  }
+
 }

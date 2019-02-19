@@ -38,7 +38,7 @@ class SessionMgr(val timeOutSec:Int) {
     }
   }
 
-  def checkSession(uid:String):SvcResp = {
+  def checkSession(uid:String, token:String):SvcResp = {
 
     if (_sessMap.contains(uid)) {
       val sess = _sessMap(uid)
@@ -51,8 +51,12 @@ class SessionMgr(val timeOutSec:Int) {
         }
         error(s"Uid [$uid]: session expired!")
       }
-      else
-        SUCCESS
+      else {
+        if (sess.token == token)
+          SUCCESS
+        else
+          error(s"Uid [$uid]: token mismatch (a new session created?!)")
+      }
     }
     else {
       error(s"Uid [$uid]: no session!")

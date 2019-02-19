@@ -40,7 +40,7 @@ class SessionMgrTest extends TestNGSuite with Matchers with TableDrivenPropertyC
       uidsToAdd.foreach(sessMgr.addSession(_, tokenNA))
 
       uidsToCheck.foreach { uidc =>
-        sessMgr.checkSession(uidc) shouldBe SUCCESS
+        sessMgr.checkSession(uidc, tokenNA) shouldBe SUCCESS
       }
 
     }
@@ -51,7 +51,7 @@ class SessionMgrTest extends TestNGSuite with Matchers with TableDrivenPropertyC
     ( 15, 25 )
   )
 
-  @Test
+  @Test(enabled = false)
   def testExpire():Unit = {
     forAll (expireTestData) { (timeout, sleepTime) =>
 
@@ -61,13 +61,13 @@ class SessionMgrTest extends TestNGSuite with Matchers with TableDrivenPropertyC
       val r0 = sessMgr.addSession(uid, tokenNA)
       r0 shouldBe SUCCESS
       println(s"Uid [$uid] added.")
-      val r1 = sessMgr.checkSession(uid)
+      val r1 = sessMgr.checkSession(uid, tokenNA)
       r1 shouldBe SUCCESS
 
       println(s"Sleeping $sleepTime seconds ...")
       Thread.sleep(sleepTime * 1000)
 
-      val r2 = sessMgr.checkSession(uid)
+      val r2 = sessMgr.checkSession(uid, tokenNA)
       r2.success shouldBe false
 
       val allUsers = sessMgr.testAllUsers()
@@ -91,21 +91,21 @@ class SessionMgrTest extends TestNGSuite with Matchers with TableDrivenPropertyC
   @Test
   def concurrTest():Unit = {
     val iter = 10
+    val concurrency = 10
 
     (0 until iter).foreach { it =>
       println(s"Iteration $it:")
       val sessionMgr = SessionMgr.create(100)
-      val concurrency = 5
       val uids = (1 to concurrency).map(idx => s"uid$idx")
       uids.foreach { uid =>
         new Thread(
           new AddSessionRunnable(sessionMgr, uid)
         ).start()
       }
-      Thread.sleep(1000)
+      Thread.sleep(2000)
       println(s"Checking iteration $it")
       uids.foreach { uid =>
-        val resp = sessionMgr.checkSession(uid)
+        val resp = sessionMgr.checkSession(uid, tokenNA)
         resp shouldBe SUCCESS
       }
     }
