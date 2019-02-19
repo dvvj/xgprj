@@ -6,7 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.xg.auth.AuthResp;
 import org.xg.auth.SvcHelpers;
 
 public class UiLoginController {
@@ -19,6 +21,9 @@ public class UiLoginController {
   @FXML
   private PasswordField pfPass;
 
+  @FXML
+  private Text txtStatus;
+
   private Stage stage;
   public void setStage(Stage stage) {
     this.stage = stage;
@@ -28,12 +33,18 @@ public class UiLoginController {
     System.out.println("login button pressed");
     String authUrl = "https://localhost:8443/webapi/auth/userPass";
 
-    String token = SvcHelpers.authReq(
+    AuthResp resp = SvcHelpers.authReq(
       authUrl,
       tfUid.getText(),
       pfPass.getText()
     );
 
-    System.out.println("Response: " + token);
+    if (resp.success()) {
+      System.out.println(resp.token());
+      txtStatus.setText("success");
+    }
+    else {
+      txtStatus.setText("failed");
+    }
   }
 }

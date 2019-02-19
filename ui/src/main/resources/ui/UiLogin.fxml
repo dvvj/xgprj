@@ -31,11 +31,12 @@
             <PasswordField  fx:id="pfPass" prefWidth="200" text="123" />
          </children>
       </VBox>
-      <VBox alignment="BASELINE_RIGHT" prefHeight="200.0" prefWidth="180.0">
+      <VBox alignment="BASELINE_RIGHT" prefHeight="200.0" prefWidth="200.0">
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
          </HBox.margin>
-         <Button id="btnLogin" text="登录" onAction="#onLogin" />
+         <Button fx:id="btnLogin" text="登录" prefWidth="200.0" onAction="#onLogin" />
+         <Text fx:id="txtStatus" text="" />
       </VBox>
 
    </children>

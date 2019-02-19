@@ -34,4 +34,8 @@ object AuthHelpers {
     hash2Str(hash)
   }
 
+  def generateTokenJ(msgs:Array[String]):String = {
+    generateToken(msgs)
+  }
+
 }

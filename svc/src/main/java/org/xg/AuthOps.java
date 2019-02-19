@@ -1,5 +1,7 @@
 package org.xg;
 
+import org.xg.auth.AuthHelpers;
+import org.xg.auth.AuthResp;
 import org.xg.auth.CustomerDbAuthority;
 import org.xg.svc.UserPass;
 
@@ -8,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.ZonedDateTime;
 
 @Path("auth")
 public class AuthOps {
@@ -21,9 +24,8 @@ public class AuthOps {
     boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHashStr());
 
     if (authenticated) {
-      return Response.ok(
-        String.format("user [%s] authorized!", up.uid())
-      ).build();
+      AuthResp resp = AuthResp.authSuccess(up);
+      return Response.ok(AuthResp.toJson(resp)).build();
     }
     else {
       return Response.status(Response.Status.UNAUTHORIZED)

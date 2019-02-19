@@ -1,11 +1,15 @@
 package org.xg.auth
 
+import java.time.ZonedDateTime
+
 import org.xg.svc.UserPass
 import scalaj.http.{Http, HttpOptions}
 
 object SvcHelpers {
 
-  def authReq(url:String, uid:String, pass:String):String = {
+  import AuthResp._
+
+  def authReq(url:String, uid:String, pass:String):AuthResp = {
     val up = UserPass.fromUserPass(uid, pass)
     val j = UserPass.toJson(up)
 
@@ -16,7 +20,13 @@ object SvcHelpers {
       .option(HttpOptions.allowUnsafeSSL)
       .asString
 
-    res.body
+    if (res.code == 200) {
+      AuthResp.fromJson(res.body)
+    }
+    else {
+      val code = res.code
+      authFailed(s"Auth failed, code ${code}")
+    }
   }
 
 }
