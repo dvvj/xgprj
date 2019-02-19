@@ -21,7 +21,7 @@ public class StageCoachFxmlMain extends Application {
 
     controller.setStage(primaryStage);
 
-    Scene scene = new Scene(rootGrp, 250, 350);
+    Scene scene = new Scene(rootGrp, 350, 300);
     scene.setFill(Color.TRANSPARENT);
 
     primaryStage.setScene(scene);

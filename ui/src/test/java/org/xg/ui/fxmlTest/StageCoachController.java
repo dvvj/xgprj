@@ -1,5 +1,6 @@
 package org.xg.ui.fxmlTest;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -38,5 +39,14 @@ public class StageCoachController {
   private Stage stage;
   public void setStage(Stage stage) {
     this.stage = stage;
+  }
+
+  public void toBackHandler(ActionEvent e) {
+    stage.toBack();
+  }
+
+  @FXML
+  public void toFrontHandler(ActionEvent e) {
+    stage.toFront();
   }
 }

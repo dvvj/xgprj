@@ -1,6 +1,7 @@
 package org.xg.ui;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,37 +23,52 @@ public class UiLogin extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    Label lblUid = new Label("用户 ID");
-    Label lblUType = new Label("用户类型");
-    Label lblPass = new Label("登录密码");
-    VBox vboxLabels = new VBox(lblUid, lblUType, lblPass);
-    vboxLabels.setAlignment(Pos.BASELINE_RIGHT);
-    vboxLabels.setLayoutX(20);
-    vboxLabels.setLayoutY(20);
-    vboxLabels.setSpacing(10);
 
-    Text txtUid = new Text();
-    Text txtUType = new Text("todo");
-    PasswordField pass = new PasswordField();
-    pass.setPromptText("您的密码");
+    FXMLLoader loader = new FXMLLoader(
+      getClass().getResource("/ui/UiLogin.fxml")
+    );
+    HBox root = loader.load();
+    UiLoginController controller = loader.getController();
 
-    VBox vboxInputs = new VBox(txtUid, txtUType, pass);
-    vboxInputs.setSpacing(10);
-
-    HBox hboxAll = new HBox(vboxLabels, vboxInputs);
-    hboxAll.setSpacing(20);
-    hboxAll.setPadding(new Insets(40));
-    hboxAll.setAlignment(Pos.CENTER);
-
-
-    Scene scene = new Scene(hboxAll);
+    Scene scene = new Scene(root, 600, 300);
     scene.setFill(Color.TRANSPARENT);
     scene.getStylesheets().add(
       getClass().getResource("/default.css").toExternalForm()
     );
 
     stage.setScene(scene);
-
     stage.show();
+//    Label lblUid = new Label("用户 ID");
+//    Label lblUType = new Label("用户类型");
+//    Label lblPass = new Label("登录密码");
+//    VBox vboxLabels = new VBox(lblUid, lblUType, lblPass);
+//    vboxLabels.setAlignment(Pos.BASELINE_RIGHT);
+//    vboxLabels.setLayoutX(20);
+//    vboxLabels.setLayoutY(20);
+//    vboxLabels.setSpacing(10);
+//
+//    Text txtUid = new Text();
+//    Text txtUType = new Text("todo");
+//    PasswordField pass = new PasswordField();
+//    pass.setPromptText("您的密码");
+//
+//    VBox vboxInputs = new VBox(txtUid, txtUType, pass);
+//    vboxInputs.setSpacing(10);
+//
+//    HBox hboxAll = new HBox(vboxLabels, vboxInputs);
+//    hboxAll.setSpacing(20);
+//    hboxAll.setPadding(new Insets(40));
+//    hboxAll.setAlignment(Pos.CENTER);
+//
+//
+//    Scene scene = new Scene(hboxAll);
+//    scene.setFill(Color.TRANSPARENT);
+//    scene.getStylesheets().add(
+//      getClass().getResource("/default.css").toExternalForm()
+//    );
+//
+//    stage.setScene(scene);
+//
+//    stage.show();
   }
 }
