@@ -179,5 +179,6 @@
         <module>ui</module>
         <module>db</module>
         <module>svc</module>
+        <module>svc-tests</module>
     </modules>
 </project>

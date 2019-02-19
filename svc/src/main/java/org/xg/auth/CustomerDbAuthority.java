@@ -22,6 +22,11 @@ public final class CustomerDbAuthority {
     return instance._auth.isValidToken(token);
   }
 
+  public static boolean authenticate(String uid, String passHashStr) {
+    String token = instance._auth.authenticate(uid, passHashStr);
+    return instance._auth.isValidToken(token);
+  }
+
   private static CustomerDbAuthority createInstasnce() {
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);

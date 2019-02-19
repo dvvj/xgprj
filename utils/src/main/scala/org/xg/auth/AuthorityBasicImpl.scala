@@ -7,6 +7,8 @@ private class AuthorityBasicImpl(_userPassMap:Map[String, Array[Byte]]) extends 
 
   private val userPassMap:Map[String, Array[Byte]] =
     if (_userPassMap != null) _userPassMap else Map()
+  private val userPassStrMap:Map[String, String] =
+    userPassMap.mapValues(AuthHelpers.hash2Str)
   import AuthorityBasicImpl._
   def _authenticate(uid: String, passHash: Array[Byte]): Option[String] = {
     if (userPassMap.contains(uid)) {
@@ -18,8 +20,25 @@ private class AuthorityBasicImpl(_userPassMap:Map[String, Array[Byte]]) extends 
     else None
   }
 
+  def _authenticateStr(uid: String, passHashStr: String): Option[String] = {
+    if (userPassMap.contains(uid)) {
+      val shaStr = userPassStrMap(uid)
+      //val userSha = AuthHelpers.sha512(pass)
+      if (shaStr == passHashStr) Option(TokenNotUsed)
+      else None
+    }
+    else None
+  }
+
   override def authenticate(uid: String, passHash: Array[Byte]): String = {
     val t = _authenticate(uid, passHash)
+
+    if (t.nonEmpty) t.get
+    else InvalidToken
+  }
+
+  override def authenticate(uid: String, passHashStr: String): String = {
+    val t = _authenticateStr(uid, passHashStr)
 
     if (t.nonEmpty) t.get
     else InvalidToken

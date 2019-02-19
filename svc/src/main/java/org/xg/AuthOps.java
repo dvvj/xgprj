@@ -1,8 +1,7 @@
 package org.xg;
 
 import org.xg.auth.CustomerDbAuthority;
-import org.xg.auth.UserPass;
-import org.xg.auth.UserPassBase64;
+import org.xg.svc.UserPass;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -17,9 +16,9 @@ public class AuthOps {
   @Path("userPass")
   @Consumes(MediaType.TEXT_PLAIN)
   public Response authorize(String userPassPostJson) {
-    UserPass up = UserPassBase64.decFromJson(userPassPostJson);
+    UserPass up = UserPass.fromJson(userPassPostJson);
 
-    boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHash());
+    boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHashStr());
 
     if (authenticated) {
       return Response.ok(

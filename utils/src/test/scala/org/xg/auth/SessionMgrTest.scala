@@ -88,7 +88,7 @@ class SessionMgrTest extends TestNGSuite with Matchers with TableDrivenPropertyC
     }
   }
 
-  @Test
+  @Test(enabled = false)
   def concurrTest():Unit = {
     val iter = 10
     val concurrency = 10
