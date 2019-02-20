@@ -22,6 +22,9 @@ public class AuthOps {
   public Response authorize(String userPassPostJson) {
     UserPass up = UserPass.fromJson(userPassPostJson);
 
+    System.out.println(
+      String.format("Authenticating %s with %s", up.uid(), up.passHashStr())
+    );
     boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHashStr());
 
     if (authenticated) {

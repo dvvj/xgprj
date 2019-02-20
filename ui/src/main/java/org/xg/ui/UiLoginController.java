@@ -31,7 +31,7 @@ public class UiLoginController {
   }
 
   public void onLogin(ActionEvent e) {
-    System.out.println("login button pressed");
+    //System.out.println("login button pressed");
     String authUrl = "https://localhost:8443/webapi/auth/userPass";
 
     AuthResp resp = SvcHelpers.authReq(

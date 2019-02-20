@@ -23,8 +23,6 @@ public class DbOps {
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 
-      System.out.println("connected!");
-
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       String allCustomers = dbOps.allCustomers();
       conn.close();
@@ -44,8 +42,6 @@ public class DbOps {
 
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
-
-      System.out.println("connected!");
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       String allProducts = dbOps.allProducts();

@@ -4,6 +4,7 @@ import org.xg.DbConfig;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
+import org.xg.log.Logging;
 import scala.Enumeration;
 
 import java.sql.Connection;
@@ -18,24 +19,26 @@ public final class CustomerDbAuthority {
   }
 
   public static boolean authenticate(String uid, byte[] passHash) {
-    String token = instance._auth.authenticate(uid, passHash);
-    return instance._auth.isValidToken(token);
+    String token = getInstance()._auth.authenticate(uid, passHash);
+    return getInstance()._auth.isValidToken(token);
   }
 
   public static boolean authenticate(String uid, String passHashStr) {
-    String token = instance._auth.authenticate(uid, passHashStr);
-    return instance._auth.isValidToken(token);
+    String token = getInstance()._auth.authenticate(uid, passHashStr);
+    return getInstance()._auth.isValidToken(token);
   }
 
   private static CustomerDbAuthority createInstasnce() {
     try {
+      Logging.debug("Creating CustomerDbAuthority: connecting %s", DbConfig.ConnectionStr);
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 
-      System.out.println("connected!");
+      Logging.debug("Connected!");
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       Map<String, byte[]> userPassMap = dbOps.getUserPassMapJ();
       conn.close();
+      Logging.debug("userPassMap Size: %d", userPassMap.size());
 
       return new CustomerDbAuthority(userPassMap);
     }
@@ -45,7 +48,19 @@ public final class CustomerDbAuthority {
     }
   }
 
-  private final static CustomerDbAuthority instance = createInstasnce();
+  private static CustomerDbAuthority instance;
+  private final static Object _instanceLock = new Object();
+
+  private static CustomerDbAuthority getInstance() {
+    if (instance == null) {
+      synchronized (_instanceLock) {
+        if (instance == null) {
+          instance = createInstasnce();
+        }
+      }
+    }
+    return instance;
+  }
 
 //  private static final String _InvalidToken = "";
 //

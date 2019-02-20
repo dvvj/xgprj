@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.xg.log.Logging;
 
 public class UiLogin extends Application {
 
@@ -36,7 +37,7 @@ public class UiLogin extends Application {
     Font font = Font.loadFont(
       getClass().getResourceAsStream("/NotoSansCJK-Medium.ttc"), 18
     );
-    System.out.println("font loaded: " + font.getFamily());
+    Logging.debug("Font loaded: [%s]", font.getFamily());
 
     Scene scene = new Scene(root, 600, 250);
     scene.setFill(Color.TRANSPARENT);
