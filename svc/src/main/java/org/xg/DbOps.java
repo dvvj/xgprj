@@ -1,5 +1,6 @@
 package org.xg;
 
+import org.xg.auth.Secured;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 @Path("db")
 public class DbOps {
 
+  @Secured
   @GET
   @Path("testAllCustomers")
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")

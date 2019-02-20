@@ -29,4 +29,18 @@ object SvcHelpers {
     }
   }
 
+  val AuthHeaderBearer = "Bearer"
+  private def encodeAuthHeader(token:String):String = s"$AuthHeaderBearer $token"
+  def decodeAuthHeader(authHeader:String):String = {
+    authHeader.substring(AuthHeaderBearer.length).trim
+  }
+  def reqGet(url:String, token:String = ""):String = {
+    val header = encodeAuthHeader(token)
+    val res = Http(url)
+      .option(HttpOptions.allowUnsafeSSL)
+      .header("Authorization", header)
+      .asString
+    res.body
+  }
+
 }

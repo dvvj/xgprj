@@ -8,12 +8,16 @@ import org.json4s.DefaultFormats
 case class GlobalCfg(
   svcSvr:String
 ) {
-  import GlobalCfg.REQ_AUTH
+  import GlobalCfg._
   def authURL:String = s"$svcSvr/$REQ_AUTH"
+  def allCustomersURL:String = s"$svcSvr/$ALLCUSTOMERS"
+  def allProductsURL:String = s"$svcSvr/$ALLPRODUCTS"
 }
 
 object GlobalCfg {
   private val REQ_AUTH = "auth/userPass"
+  private val ALLCUSTOMERS = "db/testAllCustomers"
+  private val ALLPRODUCTS = "db/allProducts"
 
   def fromJson(j:String):GlobalCfg = {
     import org.json4s.jackson.JsonMethods._
