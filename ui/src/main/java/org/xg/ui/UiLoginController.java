@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.auth.AuthResp;
@@ -42,9 +43,11 @@ public class UiLoginController {
     if (resp.success()) {
       System.out.println(resp.token());
       txtStatus.setText("success");
+      txtStatus.setStroke(Color.GREEN);
     }
     else {
       txtStatus.setText("failed");
+      txtStatus.setStroke(Color.RED);
     }
   }
 }
