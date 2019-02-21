@@ -11,10 +11,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.ZonedDateTime;
+import java.util.logging.Logger;
 
 
 @Path("auth")
 public class AuthOps {
+
+  private final static Logger logger = Logger.getLogger(AuthOps.class.getName());
 
   @POST
   @Path("userPass")
@@ -22,9 +25,8 @@ public class AuthOps {
   public Response authorize(String userPassPostJson) {
     UserPass up = UserPass.fromJson(userPassPostJson);
 
-    System.out.println(
-      String.format("Authenticating %s with %s", up.uid(), up.passHashStr())
-    );
+    logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
+
     boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHashStr());
 
     if (authenticated) {
