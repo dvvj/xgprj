@@ -17,6 +17,33 @@ object DbOpsImpl {
     private val _conn = conn
 
     import collection.mutable
+
+    override def ordersOf(uid: String): String = {
+      try {
+        val sttm = _conn.prepareStatement(
+          s"SELECT * FROM orders WHERE customer_id = '$uid'"
+        )
+        val res = sttm.executeQuery()
+        val orders = ListBuffer[String]()
+        println("getting results ...")
+        while (res.next()) {
+          // res.getString("name") //
+          val orderId = res.getBigDecimal("id")
+          val prodId = res.getString("product_id")
+          val createTime = res.getDate("creation_time")
+          orders += s"$orderId\tproduct_id: $prodId\t$createTime"
+          println(s"\t$orders")
+        }
+        orders.mkString("\n")
+      }
+      catch {
+        case t:Throwable => {
+          //t.printStackTrace()
+          throw new RuntimeException("Error in getUserPassMap", t)
+        }
+      }
+    }
+
     override def getUserPassMap: Map[String, Array[Byte]] = {
       try {
         val sttm = _conn.prepareStatement(

@@ -8,7 +8,8 @@ object AuthTests extends App {
   val cfg = GlobalCfg.localTestCfg
   //val authUrl = .authURL // "https://localhost:8443/webapi/auth/userPass"
 
-  val resp = SvcHelpers.authReq(cfg.authURL, "customer1", "123")
+  val uid = "customer1"
+  val resp = SvcHelpers.authReq(cfg.authURL, uid, "123")
 
   if (resp.success)
     println(s"Success! Token: ${resp.token}")
@@ -21,4 +22,6 @@ object AuthTests extends App {
   println(s"customers: $customers1")
   val customers2 = SvcHelpers.reqGet(cfg.allCustomersURL, resp.token)
   println(s"customers: $customers2")
+  val currOrders = SvcHelpers.reqPost(cfg.currOrdersURL, resp.token, "customer3")
+  println(s"currOrders:\n$currOrders")
 }

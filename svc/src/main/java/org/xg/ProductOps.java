@@ -1,6 +1,5 @@
 package org.xg;
 
-import org.xg.auth.Secured;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
@@ -11,32 +10,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.Connection;
 
-@Path("db")
-public class DbOps {
-
-  @Secured
+@Path("product")
+public class ProductOps {
   @GET
-  @Path("testAllCustomers")
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-  public String allCustomers() {
-
-    try {
-      Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
-
-      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      String allCustomers = dbOps.allCustomers();
-      conn.close();
-      return allCustomers;
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException("Error", ex);
-    }
-
-  }
-
-  @GET
-  @Path("allProducts")
+  @Path("all")
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
   public String allProducts() {
 
@@ -52,6 +29,5 @@ public class DbOps {
       ex.printStackTrace();
       throw new RuntimeException("Error", ex);
     }
-
   }
 }

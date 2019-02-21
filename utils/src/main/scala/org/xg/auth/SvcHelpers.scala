@@ -43,4 +43,20 @@ object SvcHelpers {
     res.body
   }
 
+  def reqPost(url:String, token:String, data:String):String = {
+    val header = encodeAuthHeader(token)
+    val res = Http(url)
+      .option(HttpOptions.allowUnsafeSSL)
+      .postData(data)
+      .method("POST")
+      .headers(
+        Map(
+          "content-type" -> "text/plain",
+          "Authorization" -> header
+        )
+      )
+      .asString
+    res.body
+  }
+
 }

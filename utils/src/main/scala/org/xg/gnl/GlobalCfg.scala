@@ -11,13 +11,15 @@ case class GlobalCfg(
   import GlobalCfg._
   def authURL:String = s"$svcSvr/$REQ_AUTH"
   def allCustomersURL:String = s"$svcSvr/$ALLCUSTOMERS"
+  def currOrdersURL:String = s"$svcSvr/$CURR_ORDERS"
   def allProductsURL:String = s"$svcSvr/$ALLPRODUCTS"
 }
 
 object GlobalCfg {
   private val REQ_AUTH = "auth/userPass"
-  private val ALLCUSTOMERS = "db/testAllCustomers"
-  private val ALLPRODUCTS = "db/allProducts"
+  private val ALLCUSTOMERS = "customer/testAll"
+  private val CURR_ORDERS = "order/testCurrUser"
+  private val ALLPRODUCTS = "product/all"
 
   def fromJson(j:String):GlobalCfg = {
     import org.json4s.jackson.JsonMethods._

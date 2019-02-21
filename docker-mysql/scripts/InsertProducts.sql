@@ -9,7 +9,7 @@ INSERT INTO customers (uid, name, idcard_no, mobile, postal_addr, bday, ref_uid,
 INSERT INTO customers (uid, name, idcard_no, mobile, postal_addr, bday, ref_uid, pass_hash)  VALUES ('customer4','王丽','3102033333333333','13833333333','邮寄地址4','1983-12-03','TestRef-4ae8f129bf1c',X'79681fe463f8f34fda5d8bebb59e61b6099c031cf2aa251116cd4bedbec59430f82a02868807315f66a75e408f4f106f65394dfa792413620f9f79ce3a2baef6');
 
 INSERT INTO orders (customer_id, product_id, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer3', 1, '2018-02-11 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer3', 2, '2018-02-11 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 2, '2018-02-11 19:30:44', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 3, '2017-03-04 18:35:04', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 4, '2017-02-11 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 4, '2017-02-11 19:30:44', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 1, '2017-02-01 09:30:44', NULL, NULL, NULL);
