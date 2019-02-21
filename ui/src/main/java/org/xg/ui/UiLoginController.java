@@ -4,11 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -16,6 +15,7 @@ import org.xg.auth.AuthResp;
 import org.xg.auth.SvcHelpers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UiLoginController {
@@ -36,16 +36,28 @@ public class UiLoginController {
     this.stage = stage;
   }
 
-  private void launchMain(String fxmlMain) {
+  private void launchMain() {
     try {
       FXMLLoader loader = new FXMLLoader(
-        getClass().getResource(fxmlMain)
+        getClass().getResource("/ui/CustomerMain.fxml")
       );
       loader.setResources(
         ResourceBundle.getBundle("ui.CustomerMain")
       );
       HBox root = loader.load();
       CustomerMainController controller = loader.getController();
+
+      URL path = getClass().getResource("/ui/ProductTable.fxml");
+      FXMLLoader productLoader = new FXMLLoader(path);
+      //productLoader.setLocation(path);
+      TableView tv = productLoader.load();
+      ProductTableController productTableController = productLoader.getController();
+
+      FXMLLoader productDetailLoader = new FXMLLoader(
+        getClass().getResource("/ui/ProductDetail.fxml")
+      );
+      VBox detailBox = productDetailLoader.load();
+      root.getChildren().addAll(tv, detailBox);
 
       Scene scene = new Scene(root);
       Stage mainStage = new Stage();
@@ -71,7 +83,7 @@ public class UiLoginController {
       System.out.println(resp.token());
       txtStatus.setText("success");
       txtStatus.setStroke(Color.GREEN);
-      launchMain("/ui/CustomerMain.fxml");
+      launchMain();
       stage.close();
     }
     else {
