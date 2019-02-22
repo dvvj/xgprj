@@ -4,6 +4,7 @@ import org.xg.auth.Secured;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
+import org.xg.db.model.CommonUtils;
 import org.xg.db.model.MCustomer;
 
 import javax.ws.rs.GET;

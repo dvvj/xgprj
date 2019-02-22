@@ -3,6 +3,7 @@ package org.xg;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
+import org.xg.db.model.MProduct;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,16 +15,17 @@ import java.sql.Connection;
 public class ProductOps {
   @GET
   @Path("all")
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_JSON_UTF8)
   public String allProducts() {
 
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      String allProducts = dbOps.allProducts();
+      MProduct[] allProducts = dbOps.allProducts();
       conn.close();
-      return allProducts;
+      String res = MProduct.toJsons(allProducts);
+      return res;
     }
     catch (Exception ex) {
       ex.printStackTrace();

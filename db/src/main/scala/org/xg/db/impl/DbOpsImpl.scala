@@ -8,7 +8,7 @@ import java.util.Base64
 import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
-import org.xg.db.model.MCustomer
+import org.xg.db.model.{MCustomer, MProduct}
 import org.xg.gnl.DataUtils
 
 import scala.collection.mutable.ListBuffer
@@ -159,22 +159,27 @@ object DbOpsImpl {
       customers.toArray
     }
 
-    override def allProducts: String = {
+    override def allProducts: Array[MProduct] = {
       val stm = conn.prepareStatement(
         "SELECT * from products"
       )
 
       val res = stm.executeQuery()
-      val productTrs = ListBuffer[String]()
+      val products = ListBuffer[MProduct]()
       while (res.next()) {
         // res.getString("name") //
-        val prd = res.getString("name")
-        val id = res.getString("id")
+        val name = res.getString("name")
+        val id = res.getInt("id")
         val price0 = res.getFloat("price0")
-        productTrs += s"$id\t$prd\t$price0"
+        val detailedInfo = res.getString("detailed_info")
+        val keywords = res.getString("keywords")
+        products += MProduct(
+          id, name, price0,
+          detailedInfo,
+          keywords
+        )
       }
-      productTrs.mkString("\n")
-
+      products.toArray
     }
   }
 

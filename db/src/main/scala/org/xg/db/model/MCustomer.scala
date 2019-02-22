@@ -13,14 +13,13 @@ case class MCustomer(
 )
 
 object MCustomer {
-  def toJsons(customers:Array[MCustomer]):String = {
-    import org.json4s.jackson.Serialization._
-    write(customers)(DefaultFormats)
-  }
-
-  def fromJsons(j:String):Array[MCustomer] = {
-    import org.json4s.jackson.JsonMethods._
-    implicit val fmt = DefaultFormats
-    parse(j).extract[Array[MCustomer]]
-  }
+  import CommonUtils._
+  def toJsons(customers:Array[MCustomer]):String = _toJsons(customers)
+  def fromJsons(j:String):Array[MCustomer] = _fromJsons(j)
+  //
+//  def fromJsons(j:String):Array[MCustomer] = {
+//    import org.json4s.jackson.JsonMethods._
+//    implicit val fmt = DefaultFormats
+//    parse(j).extract[Array[MCustomer]]
+//  }
 }
