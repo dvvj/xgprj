@@ -8,6 +8,7 @@ import java.util.Base64
 import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
+import org.xg.db.model.MCustomer
 import org.xg.gnl.DataUtils
 
 import scala.collection.mutable.ListBuffer
@@ -129,23 +130,33 @@ object DbOpsImpl {
       }
     }
 
-    override def allCustomers:String = {
+    override def allCustomers:Array[MCustomer] = {
       val stm = conn.prepareStatement(
         "SELECT * from customers"
       )
 
       val res = stm.executeQuery()
-      val customerTrs = ListBuffer[String]()
+      val customers = ListBuffer[MCustomer]()
       while (res.next()) {
         // res.getString("name") //
-        val prd = res.getString("name")
-        val id = res.getString("uid")
-        val passHash = res.getBytes("pass_hash")
-        val hashStr = AuthHelpers.hash2Str(passHash)
-        val hashBase64 = Base64.getEncoder.encodeToString(passHash)
-        customerTrs += s"$id\t$prd\t$hashStr\t$hashBase64"
+        val uid = res.getString("uid")
+        val name = res.getString("name")
+        val idCardNo = res.getString("idcard_no")
+        val mobile = res.getString("mobile")
+        val postalAddr = res.getString("postal_addr")
+        val bday = res.getString("bday")
+        val refId = res.getString("ref_uid")
+        customers += MCustomer(
+          uid, name,
+          idCardNo, mobile,
+          postalAddr,
+          bday, refId
+        )
+//        val passHash = res.getBytes("pass_hash")
+//        val hashStr = AuthHelpers.hash2Str(passHash)
+//        val hashBase64 = Base64.getEncoder.encodeToString(passHash)
       }
-      customerTrs.mkString("\n")
+      customers.toArray
     }
 
     override def allProducts: String = {

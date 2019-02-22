@@ -34,13 +34,18 @@ object SvcHelpers {
   def decodeAuthHeader(authHeader:String):String = {
     authHeader.substring(AuthHeaderBearer.length).trim
   }
-  def reqGet(url:String, token:String = ""):String = {
+  def get(url:String, token:String = ""):String = {
     val header = encodeAuthHeader(token)
     val res = Http(url)
       .option(HttpOptions.allowUnsafeSSL)
       .header("Authorization", header)
       .asString
     res.body
+  }
+
+  def getDecArray[T](url:String, token:String, decoder:String => Array[T]):Array[T] = {
+    val res = get(url, token)
+    decoder(res)
   }
 
   def reqPost(url:String, token:String, data:String):String = {

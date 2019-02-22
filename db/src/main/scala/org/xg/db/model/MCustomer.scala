@@ -1,18 +1,26 @@
 package org.xg.db.model
 
-trait MCustomer {
+import org.json4s.DefaultFormats
 
-  def uid:String
+case class MCustomer(
+  uid:String,
+  name:String,
+  idCardNo:String,
+  mobile:String,
+  postalAddr:String,
+  bday:String,
+  refUid:String
+)
 
-  def name:String
+object MCustomer {
+  def toJsons(customers:Array[MCustomer]):String = {
+    import org.json4s.jackson.Serialization._
+    write(customers)(DefaultFormats)
+  }
 
-  def idcard_no:String
-
-  def mobile:String
-
-  def postal_addr:String
-
-  def bday:String
-
-  def ref_uid:String
+  def fromJsons(j:String):Array[MCustomer] = {
+    import org.json4s.jackson.JsonMethods._
+    implicit val fmt = DefaultFormats
+    parse(j).extract[Array[MCustomer]]
+  }
 }

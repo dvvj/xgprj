@@ -4,11 +4,12 @@ import java.sql.Connection
 import java.time.LocalDateTime
 
 import org.joda.time.DateTime
+import org.xg.db.model.MCustomer
 
 trait TDbOps {
   def addNewCustomer(uid:String, name:String, pass:String, idCardNo:String, mobile:String, postalAddr:String, ref_uid: String, bday:String):Boolean
 
-  def allCustomers:String
+  def allCustomers:Array[MCustomer]
   def ordersOf(uid:String):String
   def placeOrder(uid:String, productId:Int, qty:Double):Long
   def allProducts:String

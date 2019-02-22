@@ -4,6 +4,7 @@ import org.xg.auth.Secured;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
+import org.xg.db.model.MCustomer;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -16,16 +17,16 @@ public class CustomerOps {
   @Secured
   @GET
   @Path("testAll")
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_JSON_UTF8)
   public String allCustomers() {
 
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      String allCustomers = dbOps.allCustomers();
+      MCustomer[] customers = dbOps.allCustomers();
       conn.close();
-      return allCustomers;
+      return MCustomer.toJsons(customers);
     }
     catch (Exception ex) {
       ex.printStackTrace();

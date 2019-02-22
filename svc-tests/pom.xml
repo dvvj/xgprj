@@ -17,6 +17,11 @@
 
       <dependency>
           <groupId>org.xg</groupId>
+          <artifactId>db</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>org.xg</groupId>
           <artifactId>utils</artifactId>
       </dependency>
       <dependency>
