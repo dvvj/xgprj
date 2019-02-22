@@ -2,16 +2,20 @@ package org.xg.auth
 
 import java.time.{ZoneId, ZoneOffset, ZonedDateTime}
 
-import org.xg.gnl.SvcResp
+import org.xg.gnl.{DataUtils, SvcResp}
 
 class SessionMgr(val timeOutSec:Int) {
 
+  import SessionMgr._
   import collection.mutable
   private var _sessMap = mutable.Map[String, UserSession]()
+  private var _revMap = mutable.Map[String, UserSession]()
 
   private def _addSession(uid:String, time:ZonedDateTime, token:String):Unit = {
     val expireTime = time.plusSeconds(new java.lang.Long(timeOutSec))
-    _sessMap += uid -> UserSession(uid, expireTime, token)
+    val sess = UserSession(uid, expireTime, token)
+    _sessMap += uid -> sess
+    _revMap += token -> sess
   }
 
   private def _removeSession(uid:String):Unit = {
@@ -20,21 +24,26 @@ class SessionMgr(val timeOutSec:Int) {
 
   import SvcResp._
   def addSession(uid:String, token:String):SvcResp = {
-    if (!_sessMap.contains(uid)) {
-      synchronized {
-        if (!_sessMap.contains(uid)) {
-          val zdt = ZonedDateTime.now(ZoneId.of("UTC"))
-          //println(zdt)
-          _addSession(uid, zdt, token)
-          SUCCESS
-        }
-        else {
-          error(s"Uid [$uid]: One session per user only!")
-        }
-      }
-    }
-    else {
-      error(s"Uid [$uid]: One session per user only!")
+//    if (!_sessMap.contains(uid)) {
+//      synchronized {
+//        if (!_sessMap.contains(uid)) {
+//          val zdt = DataUtils.utcTimeNow
+//          //println(zdt)
+//          _addSession(uid, zdt, token)
+//          SUCCESS
+//        }
+//        else {
+//          error(s"Uid [$uid]: One session per user only!")
+//        }
+//      }
+//    }
+//    else {
+//      error(s"Uid [$uid]: One session per user only!")
+//    }
+    synchronized {
+      val zdt = DataUtils.utcTimeNow
+      _addSession(uid, zdt, token)
+      SUCCESS
     }
   }
 
@@ -43,7 +52,7 @@ class SessionMgr(val timeOutSec:Int) {
     if (_sessMap.contains(uid)) {
       val sess = _sessMap(uid)
 
-      val timeNow = ZonedDateTime.now(ZoneId.of("UTC"))
+      val timeNow = DataUtils.utcTimeNow
 
       if (timeNow.compareTo(sess.expireTime) > 0) {
         synchronized {
@@ -63,11 +72,19 @@ class SessionMgr(val timeOutSec:Int) {
     }
   }
 
+  def reverseLookup(token:String):String = {
+    if (_revMap.contains(token)) {
+      _revMap(token).uid
+    }
+    else InvalidUid
+  }
+
   private[auth] def testAllUsers():Set[String] = {
     _sessMap.keySet.toSet
   }
 }
 
 object SessionMgr {
+  val InvalidUid:String = ""
   def create(timeOutSec:Int):SessionMgr = new SessionMgr(timeOutSec)
 }

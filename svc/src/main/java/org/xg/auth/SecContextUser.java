@@ -11,10 +11,10 @@ public class SecContextUser implements Principal {
     this.uid = uid;
     this.roles = roles;
   }
-
-  public String getUid() {
-    return uid;
-  }
+//
+//  public String getUid() {
+//    return uid;
+//  }
 
   @Override
   public String getName() {

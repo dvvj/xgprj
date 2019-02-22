@@ -28,16 +28,17 @@ public class AuthFilter implements ContainerRequestFilter {
       abortWithUnauthorized(reqContext);
 
     String scheme = reqContext.getUriInfo().getRequestUri().getScheme();
+    String uid = SessionManager.findUid(token);
     reqContext.setSecurityContext(
       new SecContext(
-        new SecContextUser("customer1", Arrays.asList("user")),
+        new SecContextUser(uid, Arrays.asList("user")),
         scheme
       )
     );
   }
 
   private static boolean tokenChecked(String token) {
-    return token != null && !token.isEmpty();
+    return SessionManager.checkSession(token);
   }
 
   private static void abortWithUnauthorized(ContainerRequestContext reqContext) {

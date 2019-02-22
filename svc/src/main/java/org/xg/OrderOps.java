@@ -1,5 +1,6 @@
 package org.xg;
 
+import org.xg.auth.Secured;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
@@ -7,8 +8,10 @@ import org.xg.db.model.MOrder;
 import org.xg.svc.UserOrder;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.sql.Connection;
 import java.util.logging.Logger;
 
@@ -17,17 +20,20 @@ public class OrderOps {
 
   private final static Logger logger = Logger.getLogger(OrderOps.class.getName());
 
-
-  @POST
+  @Secured
+  @GET
   @Path("testCurrUser")
-  @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_JSON_UTF8)
-  public Response userOrders(String userId) {
+  public Response userOrders(@Context SecurityContext sc) {
     try {
+      String uid = sc.getUserPrincipal().getName();
+      logger.warning(
+        String.format("Getting orders for user [%s]", uid)
+      );
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      MOrder[] orders = dbOps.ordersOf(userId);
+      MOrder[] orders = dbOps.ordersOf(uid);
       conn.close();
       return Response.ok(
         MOrder.toJsons(orders)
@@ -39,15 +45,17 @@ public class OrderOps {
     }
   }
 
+  @Secured
   @PUT
   @Path("placeOrder")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-  public Response placeOrder(String orderJson) {
+  public Response placeOrder(String orderJson, @Context SecurityContext sc) {
     UserOrder userOrder = UserOrder.fromJson(orderJson);
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 
+      String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       Long orderId = dbOps.placeOrder(
         userOrder.uid(), userOrder.productId(), userOrder.qty()

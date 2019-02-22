@@ -3,6 +3,7 @@ package org.xg;
 import org.xg.auth.AuthHelpers;
 import org.xg.auth.AuthResp;
 import org.xg.auth.CustomerDbAuthority;
+import org.xg.auth.SessionManager;
 import org.xg.svc.UserPass;
 
 import javax.ws.rs.Consumes;
@@ -31,6 +32,10 @@ public class AuthOps {
 
     if (authenticated) {
       AuthResp resp = AuthResp.authSuccess(up);
+      SessionManager.addSession(up.uid(), resp.token());
+      logger.warning(
+        String.format("Session added: [%s]-[%s]", up.uid(), resp.token())
+      );
       return Response.ok(AuthResp.toJson(resp)).build();
     }
     else {
