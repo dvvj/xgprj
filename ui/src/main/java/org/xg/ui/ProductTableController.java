@@ -19,7 +19,8 @@ public class ProductTableController {
       tableColumn("Name", "name"),
       tableColumn("Price", "price0"),
       tableColumn("Detailed Info", "detailedInfo"),
-      tableColumn("Keywords", "keywords")
+      tableColumn("Keywords", "keywords"),
+      tableOpsColumn("Operations")
     );
 
     tblProducts.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

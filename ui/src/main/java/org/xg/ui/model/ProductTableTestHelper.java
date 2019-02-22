@@ -1,9 +1,14 @@
 package org.xg.ui.model;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import org.xg.ui.comp.ProductQtyTableCell;
 
 import java.util.Arrays;
 
@@ -22,6 +27,13 @@ public class ProductTableTestHelper {
   public static <T> TableColumn<Product, T> tableColumn(String colName, String propName) {
     TableColumn<Product, T> col = new TableColumn<>(colName);
     col.setCellValueFactory(new PropertyValueFactory<>(propName));
+    return col;
+  }
+
+  public static TableColumn<Product, String> tableOpsColumn(String colName) {
+    TableColumn<Product, String> col = new TableColumn<>(colName);
+    //col.setCellValueFactory(new PropertyValueFactory<>(propName));
+    col.setCellFactory(c -> new ProductQtyTableCell());
     return col;
   }
 }
