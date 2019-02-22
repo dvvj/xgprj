@@ -23,6 +23,7 @@ CREATE TABLE orders (
   id BIGINT NOT NULL AUTO_INCREMENT,
   customer_id VARCHAR(256) NOT NULL,
   product_id INT NOT NULL,
+  qty FLOAT NOT NULL,
   creation_time TIMESTAMP NOT NULL,
   proc_time1 TIMESTAMP,
   proc_time2 TIMESTAMP,

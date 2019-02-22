@@ -24,8 +24,8 @@ object DbOpsImpl {
         val time = DataUtils.utcTimeNow
         val timeStr = DataUtils.zonedDateTime2Str(time)
         val sttm = _conn.prepareStatement(
-          "INSERT INTO orders(customer_id, product_id, creation_time)" +
-            s" VALUES ('$uid', $productId, '$timeStr')",
+          "INSERT INTO orders(customer_id, product_id, qty, creation_time)" +
+            s" VALUES ('$uid', $productId, $qty, '$timeStr')",
           Statement.RETURN_GENERATED_KEYS
         )
         val affectedRows = sttm.executeUpdate()
@@ -62,7 +62,8 @@ object DbOpsImpl {
           val orderId = res.getBigDecimal("id")
           val prodId = res.getString("product_id")
           val createTime = res.getDate("creation_time")
-          orders += s"$orderId\tproduct_id: $prodId\t$createTime"
+          val qty = res.getFloat("qty")
+          orders += s"$orderId\tproduct_id: $prodId\t$createTime\t$qty"
           println(s"\t$orders")
         }
         orders.mkString("\n")

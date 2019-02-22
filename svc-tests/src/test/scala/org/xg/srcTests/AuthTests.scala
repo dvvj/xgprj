@@ -26,11 +26,11 @@ object AuthTests extends App {
   val currOrders = SvcHelpers.reqPost(cfg.currOrdersURL, resp.token, uid)
   println(s"currOrders:\n$currOrders")
 
-  val orderJson = UserOrder.toJson(
-    UserOrder(
-      uid, 1, 2.0
-    )
-  )
+//  val orderJson = UserOrder.toJson(
+//    UserOrder(
+//      uid, 1, 2.0
+//    )
+//  )
 //  val placeOrderRes = SvcHelpers.reqPut(
 //    cfg.placeOrderURL, resp.token,
 //    orderJson
