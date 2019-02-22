@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import org.xg.ui.comp.ProductQtyTableCell;
 
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 public class ProductTableTestHelper {
 
@@ -28,6 +29,17 @@ public class ProductTableTestHelper {
     TableColumn<Product, T> col = new TableColumn<>(colName);
     col.setCellValueFactory(new PropertyValueFactory<>(propName));
     return col;
+  }
+
+  public static <T> TableColumn<Product, T> tableColumnResBundle(
+    String colNameKey,
+    ResourceBundle resBundle,
+    String propName
+  ) {
+    return tableColumn(
+      resBundle.getString(colNameKey),
+      propName
+    );
   }
 
   public static TableColumn<Product, String> tableOpsColumn(String colName) {

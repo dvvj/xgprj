@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.auth.AuthResp;
 import org.xg.auth.SvcHelpers;
+import org.xg.ui.utils.Global;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,8 +48,9 @@ public class UiLoginController {
       HBox root = loader.load();
       CustomerMainController controller = loader.getController();
 
+      ResourceBundle resBundle = Global.getBundle("ui.ProductTable");
       URL path = getClass().getResource("/ui/ProductTable.fxml");
-      FXMLLoader productLoader = new FXMLLoader(path);
+      FXMLLoader productLoader = new FXMLLoader(path, resBundle);
       //productLoader.setLocation(path);
       TableView tv = productLoader.load();
       ProductTableController productTableController = productLoader.getController();
@@ -59,7 +61,8 @@ public class UiLoginController {
       VBox detailBox = productDetailLoader.load();
       root.getChildren().addAll(tv, detailBox);
 
-      Scene scene = new Scene(root);
+      Scene scene = Global.sceneDefStyle(root);
+
       Stage mainStage = new Stage();
       mainStage.setScene(scene);
       mainStage.show();
@@ -80,7 +83,7 @@ public class UiLoginController {
     );
 
     if (resp.success()) {
-      System.out.println(resp.token());
+      //System.out.println(resp.token());
       txtStatus.setText("success");
       txtStatus.setStroke(Color.GREEN);
       launchMain();

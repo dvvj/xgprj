@@ -17,6 +17,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.log.Logging;
+import org.xg.ui.utils.Global;
+import org.xg.ui.utils.Utf8ResBundleCtrl;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class UiLogin extends Application {
 
@@ -26,24 +31,25 @@ public class UiLogin extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-
+    ResourceBundle resBundle = Global.getBundle("ui.UiLogin");
     FXMLLoader loader = new FXMLLoader(
-      getClass().getResource("/ui/UiLogin.fxml")
+      getClass().getResource("/ui/UiLogin.fxml"),
+      resBundle
     );
     HBox root = loader.load();
     UiLoginController controller = loader.getController();
     controller.setStage(stage);
 
-    Font font = Font.loadFont(
-      getClass().getResourceAsStream("/NotoSansCJK-Medium.ttc"), 18
-    );
-    Logging.debug("Font loaded: [%s]", font.getFamily());
+//    Font font = Font.loadFont(
+//      getClass().getResourceAsStream("/NotoSansCJK-Medium.ttc"), 18
+//    );
+//    Logging.debug("Font loaded: [%s]", font.getFamily());
 
-    Scene scene = new Scene(root, 600, 250);
+    Scene scene = Global.sceneDefStyle(root);
     scene.setFill(Color.TRANSPARENT);
-    scene.getStylesheets().add(
-      getClass().getResource("/default.css").toExternalForm()
-    );
+//    scene.getStylesheets().add(
+//      getClass().getResource("/default.css").toExternalForm()
+//    );
 
     stage.setScene(scene);
     stage.setTitle("title");

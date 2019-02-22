@@ -16,9 +16,9 @@
              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </HBox.margin>
          <children>
-            <Label text="用户 ID" />
-            <Label text="用户类型" />
-            <Label text="登录密码" />
+            <Label text="%login.userId" />
+            <Label text="%login.userType" />
+            <Label text="%login.pass" />
          </children>
       </VBox>
       <VBox alignment="BASELINE_LEFT" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
@@ -35,7 +35,7 @@
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
          </HBox.margin>
-         <Button fx:id="btnLogin" text="登录" prefWidth="200.0" onAction="#onLogin" />
+         <Button fx:id="btnLogin" text="%login.doLogin" prefWidth="200.0" onAction="#onLogin" />
          <Text fx:id="txtStatus" text="" />
       </VBox>
 
