@@ -1,7 +1,7 @@
 package org.xg.srcTests
 
 import org.xg.auth.{AuthResp, SvcHelpers}
-import org.xg.db.model.{MCustomer, MProduct}
+import org.xg.db.model.{MCustomer, MOrder, MProduct}
 import org.xg.gnl.GlobalCfg
 import org.xg.svc.UserOrder
 
@@ -19,14 +19,14 @@ object AuthTests extends App {
     println(s"Failed! Message: ${resp.msg}")
 
   val products = SvcHelpers.getDecArray(cfg.allProductsURL, resp.token, MProduct.fromJsons)
-  println(s"products: ${products.mkString("\n")}")
+  println(s"products:\n${products.mkString("\n")}")
 
   val customers1 = SvcHelpers.get(cfg.allCustomersURL)
   println(s"customers: $customers1")
   val customers2 = SvcHelpers.getDecArray(cfg.allCustomersURL, resp.token, MCustomer.fromJsons)
-  println(s"customers: ${customers2.mkString("\n")}")
-  val currOrders = SvcHelpers.reqPost(cfg.currOrdersURL, resp.token, uid)
-  println(s"currOrders:\n$currOrders")
+  println(s"customers:\n${customers2.mkString("\n")}")
+  val currOrders = SvcHelpers.postDecArray(cfg.currOrdersURL, resp.token, uid, MOrder.fromJsons)
+  println(s"currOrders:\n${currOrders.mkString("\n")}")
 
 //  val orderJson = UserOrder.toJson(
 //    UserOrder(

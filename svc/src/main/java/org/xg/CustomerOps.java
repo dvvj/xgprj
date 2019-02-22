@@ -11,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Connection;
 
 @Path("customer")
@@ -19,7 +20,7 @@ public class CustomerOps {
   @GET
   @Path("testAll")
   @Produces(SvcUtils.MediaType_JSON_UTF8)
-  public String allCustomers() {
+  public Response allCustomers() {
 
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
@@ -27,7 +28,9 @@ public class CustomerOps {
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       MCustomer[] customers = dbOps.allCustomers();
       conn.close();
-      return MCustomer.toJsons(customers);
+      return Response.ok(
+        MCustomer.toJsons(customers)
+      ).build();
     }
     catch (Exception ex) {
       ex.printStackTrace();

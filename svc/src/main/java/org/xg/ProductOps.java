@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Connection;
 
 @Path("product")
@@ -16,7 +17,7 @@ public class ProductOps {
   @GET
   @Path("all")
   @Produces(SvcUtils.MediaType_JSON_UTF8)
-  public String allProducts() {
+  public Response allProducts() {
 
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
@@ -25,7 +26,7 @@ public class ProductOps {
       MProduct[] allProducts = dbOps.allProducts();
       conn.close();
       String res = MProduct.toJsons(allProducts);
-      return res;
+      return Response.ok(res).build();
     }
     catch (Exception ex) {
       ex.printStackTrace();

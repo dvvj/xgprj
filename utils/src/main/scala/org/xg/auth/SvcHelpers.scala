@@ -48,7 +48,7 @@ object SvcHelpers {
     decoder(res)
   }
 
-  def reqPost(url:String, token:String, data:String):String = {
+  def post(url:String, token:String, data:String):String = {
     val header = encodeAuthHeader(token)
     val res = Http(url)
       .option(HttpOptions.allowUnsafeSSL)
@@ -62,6 +62,11 @@ object SvcHelpers {
       )
       .asString
     res.body
+  }
+
+  def postDecArray[T](url:String, token:String, data:String, decoder:String => Array[T]):Array[T] = {
+    val res = post(url, token, data)
+    decoder(res)
   }
 
   def reqPut(url:String, token:String, data:String):String = {

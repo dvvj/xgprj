@@ -8,7 +8,7 @@ import java.util.Base64
 import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
-import org.xg.db.model.{MCustomer, MProduct}
+import org.xg.db.model.{MCustomer, MOrder, MProduct}
 import org.xg.gnl.DataUtils
 
 import scala.collection.mutable.ListBuffer
@@ -50,25 +50,35 @@ object DbOpsImpl {
 
     }
 
-    override def ordersOf(uid: String): String = {
+    override def ordersOf(uid: String): Array[MOrder] = {
       try {
         val sttm = _conn.prepareStatement(
           s"SELECT * FROM orders WHERE customer_id = '$uid'"
         )
         val res = sttm.executeQuery()
-        val orders = ListBuffer[String]()
-        println("getting results ...")
+        val orders = ListBuffer[MOrder]()
+        //println("getting results ...")
         while (res.next()) {
           // res.getString("name") //
-          val orderId = res.getBigDecimal("id")
-          val prodId = res.getString("product_id")
-          val createTime = res.getTimestamp("creation_time")
-          val zdt = DataUtils.timestamp2Zone(createTime)
+          val orderId = res.getLong("id")
+          val prodId = res.getInt("product_id")
+          val timeStr = res.getString("creation_time")
+//          val createTime = res.getTimestamp("creation_time")
+//          val zdt = DataUtils.timestamp2Zone(createTime)
           val qty = res.getFloat("qty")
-          orders += s"$orderId\tproduct_id: $prodId\t$zdt\t$qty"
-          println(s"\t$orders")
+          orders += MOrder(
+            orderId,
+            uid,
+            prodId,
+            qty,
+            timeStr,
+            null,
+            null,
+            null
+          )
+          //println(s"\t$orders")
         }
-        orders.mkString("\n")
+        orders.toArray
       }
       catch {
         case t:Throwable => {

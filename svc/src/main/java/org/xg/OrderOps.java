@@ -3,6 +3,7 @@ package org.xg;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
+import org.xg.db.model.MOrder;
 import org.xg.svc.UserOrder;
 
 import javax.ws.rs.*;
@@ -20,15 +21,17 @@ public class OrderOps {
   @POST
   @Path("testCurrUser")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_JSON_UTF8)
   public Response userOrders(String userId) {
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      String orders = dbOps.ordersOf(userId);
+      MOrder[] orders = dbOps.ordersOf(userId);
       conn.close();
-      return Response.ok(orders).build();
+      return Response.ok(
+        MOrder.toJsons(orders)
+      ).build();
     }
     catch (Exception ex) {
       ex.printStackTrace();
