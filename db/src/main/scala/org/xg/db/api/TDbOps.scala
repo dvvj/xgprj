@@ -10,6 +10,7 @@ trait TDbOps {
 
   def allCustomers:String
   def ordersOf(uid:String):String
+  def placeOrder(uid:String, productId:Int, qty:Double):Long
   def allProducts:String
   def getUserPassMap:Map[String, Array[Byte]]
   def getUserPassMapJ:java.util.Map[String, Array[Byte]] = {

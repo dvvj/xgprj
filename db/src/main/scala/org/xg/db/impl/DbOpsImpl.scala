@@ -1,13 +1,14 @@
 package org.xg.db.impl
 
-import java.sql.Connection
+import java.sql.{Connection, ResultSet, Statement}
 import java.time.format.DateTimeFormatter
-import java.time.{LocalDateTime, ZonedDateTime}
+import java.time.{LocalDateTime, ZoneId, ZonedDateTime}
 import java.util.Base64
 
 import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
+import org.xg.gnl.DataUtils
 
 import scala.collection.mutable.ListBuffer
 
@@ -17,6 +18,36 @@ object DbOpsImpl {
     private val _conn = conn
 
     import collection.mutable
+
+    override def placeOrder(uid: String, productId: Int, qty: Double): Long = {
+      try {
+        val time = DataUtils.utcTimeNow
+        val timeStr = DataUtils.zonedDateTime2Str(time)
+        val sttm = _conn.prepareStatement(
+          "INSERT INTO orders(customer_id, product_id, creation_time)" +
+            s" VALUES ('$uid', $productId, '$timeStr')",
+          Statement.RETURN_GENERATED_KEYS
+        )
+        val affectedRows = sttm.executeUpdate()
+        if (affectedRows == 0)
+          throw new RuntimeException("Failed to create order")
+        val genKeys = sttm.getGeneratedKeys
+
+        if (genKeys.next()) {
+          val res = genKeys.getLong(1)
+          res
+        }
+        else
+          throw new RuntimeException("No id obtained!")
+      }
+      catch {
+        case t:Throwable => {
+          t.printStackTrace()
+          throw new RuntimeException("Error placing order", t)
+        }
+      }
+
+    }
 
     override def ordersOf(uid: String): String = {
       try {

@@ -2,6 +2,7 @@ package org.xg.srcTests
 
 import org.xg.auth.{AuthResp, SvcHelpers}
 import org.xg.gnl.GlobalCfg
+import org.xg.svc.UserOrder
 
 object AuthTests extends App {
 
@@ -22,6 +23,18 @@ object AuthTests extends App {
   println(s"customers: $customers1")
   val customers2 = SvcHelpers.reqGet(cfg.allCustomersURL, resp.token)
   println(s"customers: $customers2")
-  val currOrders = SvcHelpers.reqPost(cfg.currOrdersURL, resp.token, "customer3")
+  val currOrders = SvcHelpers.reqPost(cfg.currOrdersURL, resp.token, uid)
   println(s"currOrders:\n$currOrders")
+
+  val orderJson = UserOrder.toJson(
+    UserOrder(
+      uid, 1, 2.0
+    )
+  )
+//  val placeOrderRes = SvcHelpers.reqPut(
+//    cfg.placeOrderURL, resp.token,
+//    orderJson
+//  )
+//  println(s"placeOrderRes:\n$placeOrderRes")
+
 }
