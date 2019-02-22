@@ -7,21 +7,28 @@ import org.xg.db.impl.Utils;
 import org.xg.db.model.CommonUtils;
 import org.xg.db.model.MCustomer;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.sql.Connection;
+import java.util.logging.Logger;
 
 @Path("customer")
 public class CustomerOps {
+  private final static Logger logger = Logger.getLogger(CustomerOps.class.getName());
+
   @Secured
   @GET
   @Path("testAll")
+  @RolesAllowed("user")
   @Produces(SvcUtils.MediaType_JSON_UTF8)
-  public Response allCustomers() {
-
+  public Response allCustomers(@Context SecurityContext sc) {
+    logger.warning("(To be removed) " + sc.getUserPrincipal());
     try {
       Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
 

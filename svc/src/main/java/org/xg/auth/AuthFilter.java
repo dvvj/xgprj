@@ -8,6 +8,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Secured
 @Provider
@@ -23,10 +24,16 @@ public class AuthFilter implements ContainerRequestFilter {
 
     String token = SvcHelpers.decodeAuthHeader(authHeader);
 
-    if (tokenChecked(token))
-      return;
+    if (!tokenChecked(token))
+      abortWithUnauthorized(reqContext);
 
-    abortWithUnauthorized(reqContext);
+    String scheme = reqContext.getUriInfo().getRequestUri().getScheme();
+    reqContext.setSecurityContext(
+      new SecContext(
+        new SecContextUser("customer1", Arrays.asList("user")),
+        scheme
+      )
+    );
   }
 
   private static boolean tokenChecked(String token) {
@@ -34,9 +41,6 @@ public class AuthFilter implements ContainerRequestFilter {
   }
 
   private static void abortWithUnauthorized(ContainerRequestContext reqContext) {
-
-
-
     reqContext.abortWith(
       Response.status(Response.Status.UNAUTHORIZED)
       .header(
