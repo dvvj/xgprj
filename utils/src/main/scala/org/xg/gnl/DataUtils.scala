@@ -1,11 +1,13 @@
 package org.xg.gnl
 
+import java.sql.Timestamp
 import java.time.{ZoneId, ZonedDateTime}
 import java.time.format.DateTimeFormatter
 
 object DataUtils {
 
-  def utcTimeNow:ZonedDateTime = ZonedDateTime.now(ZoneId.of("UTC"))
+  val UTC:ZoneId = ZoneId.of("UTC")
+  def utcTimeNow:ZonedDateTime = ZonedDateTime.now(UTC)
 
   def zonedDateTime2Str(zdt:ZonedDateTime):String = {
     zdt.toLocalDateTime.format(
@@ -13,4 +15,7 @@ object DataUtils {
     )
   }
 
+  def timestamp2Zone(ts:Timestamp):ZonedDateTime = {
+    ts.toLocalDateTime.atZone(UTC)
+  }
 }

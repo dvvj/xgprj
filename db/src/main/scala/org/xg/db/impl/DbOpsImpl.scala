@@ -61,9 +61,10 @@ object DbOpsImpl {
           // res.getString("name") //
           val orderId = res.getBigDecimal("id")
           val prodId = res.getString("product_id")
-          val createTime = res.getDate("creation_time")
+          val createTime = res.getTimestamp("creation_time")
+          val zdt = DataUtils.timestamp2Zone(createTime)
           val qty = res.getFloat("qty")
-          orders += s"$orderId\tproduct_id: $prodId\t$createTime\t$qty"
+          orders += s"$orderId\tproduct_id: $prodId\t$zdt\t$qty"
           println(s"\t$orders")
         }
         orders.mkString("\n")
