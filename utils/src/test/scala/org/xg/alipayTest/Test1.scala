@@ -1,6 +1,7 @@
 package org.xg.alipayTest
 
 import java.io.FileInputStream
+import java.net.{URLDecoder, URLEncoder}
 import java.nio.charset.StandardCharsets
 
 import com.alipay.api.DefaultAlipayClient
@@ -34,8 +35,8 @@ object Test1 extends App {
 //  println(resp.getBody)
 
   val req = new AlipayTradePagePayRequest
-  //req.setReturnUrl("https://www.google.com/")
-  req.setNotifyUrl("https://www.google.com/")
+  req.setReturnUrl("https://reqres.in//api/users?page=2")
+  req.setNotifyUrl("https://reqres.in//api/users?page=2")
   val currentTime = System.currentTimeMillis()
   val payModel = new AlipayTradeAppPayModel
   payModel.setSubject("标题")
@@ -59,6 +60,7 @@ object Test1 extends App {
 //  val uid = "aYMvrMC8+qdi3Mj1lqxRZJPUsrychFTewHXFVXq5ySDxWgIluiZN3K2r70Eebm4r01"
 //  val msg = "{'articles':[{'action_name':'立即查看','desc':'这是图文内容','image_url':'http://pic.alipayobjects.com/e/201311/1PaQ27Go6H_src.jpg','title':'这是标题','url':'https://www.alipay.com/'}],'msg_type':'image-text','to_user_id':'" + uid + "'}"
 
-  val resp = client.execute(req)
-  println(resp.getBody)
+  val resp = client.pageExecute(req).getBody
+  val content = resp //URLDecoder.decode(resp.getBody, "UTF-8")
+  println(content)
 }
