@@ -31,10 +31,10 @@ public class UiLogin extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    ResourceBundle resBundle = Global.getBundle("ui.UiLogin");
+
     FXMLLoader loader = new FXMLLoader(
       getClass().getResource("/ui/UiLogin.fxml"),
-      resBundle
+      Global.AllRes
     );
     HBox root = loader.load();
     UiLoginController controller = loader.getController();

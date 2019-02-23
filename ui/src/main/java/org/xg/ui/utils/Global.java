@@ -10,9 +10,7 @@ import java.util.ResourceBundle;
 public class Global {
   public final static Locale locale = new Locale("zh", "CN");
 
-  public static ResourceBundle getBundle(String resName) {
-    return ResourceBundle.getBundle(resName, locale, new Utf8ResBundleCtrl());
-  }
+  public final static ResourceBundle AllRes = ResourceBundle.getBundle("ui.AllRes", locale, new Utf8ResBundleCtrl());
 
   public static Scene sceneDefStyle(Parent root) {
     Scene scene = new Scene(root);

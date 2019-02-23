@@ -6,10 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.text.Text?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.xg.ui.comp.ProductQtyTableCellController">
+      fx:controller="org.xg.ui.comp.PlaceOrderCtrl">
     <Button text="-" />
     <TextField fx:id="txtQty" text="0" />
     <Button text="+" />

@@ -3,6 +3,8 @@ package org.xg.ui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -37,29 +39,71 @@ public class UiLoginController {
     this.stage = stage;
   }
 
-  private void launchMain() {
+  private static Node loadLeftSide(String userInfo, ResourceBundle resBundle) throws IOException {
+
+    VBox leftSide = new VBox();
+    leftSide.setPadding(
+      new Insets(20)
+    );
+    leftSide.setSpacing(10);
+
+    HBox greetings = new HBox();
+    greetings.setSpacing(10);
+    Text txtWelcome = new Text();
+    txtWelcome.setText(resBundle.getString("greeting.welcome"));
+    Text txtUserInfo = new Text();
+    txtUserInfo.setText(userInfo);
+    txtUserInfo.setStroke(Color.GREEN);
+    greetings.getChildren().addAll(txtWelcome, txtUserInfo);
+
+    URL path = UiLoginController.class.getResource("/ui/ProductTable.fxml");
+    FXMLLoader productLoader = new FXMLLoader(path, resBundle);
+    //productLoader.setLocation(path);
+    TableView tv = productLoader.load();
+
+    leftSide.getChildren().addAll(greetings, tv);
+    return leftSide;
+    //ProductTableController productTableController = productLoader.getController();
+  }
+
+  private static Node loadRightSide(String productName, ResourceBundle resBundle) throws IOException {
+
+    FXMLLoader rightSideLoader = new FXMLLoader(
+      UiLoginController.class.getResource("/ui/CustomerMainR.fxml"),
+      resBundle
+    );
+
+    VBox rightSide = rightSideLoader.load();
+    rightSide.setPadding(
+      new Insets(20)
+    );
+    FXMLLoader placeOrderLoader = new FXMLLoader(
+      UiLoginController.class.getResource("/ui/PlaceOrder.fxml"),
+      resBundle
+    );
+
+    HBox placeOrder = placeOrderLoader.load();
+
+    rightSide.getChildren().add(placeOrder);
+
+    return rightSide;
+  }
+
+  private static void launchMain(String userInfo) {
     try {
+
       FXMLLoader loader = new FXMLLoader(
-        getClass().getResource("/ui/CustomerMain.fxml")
+        UiLoginController.class.getResource("/ui/CustomerMain.fxml"),
+        Global.AllRes
       );
-      loader.setResources(
-        ResourceBundle.getBundle("ui.CustomerMain")
-      );
+
       HBox root = loader.load();
       CustomerMainController controller = loader.getController();
 
-      ResourceBundle resBundle = Global.getBundle("ui.ProductTable");
-      URL path = getClass().getResource("/ui/ProductTable.fxml");
-      FXMLLoader productLoader = new FXMLLoader(path, resBundle);
-      //productLoader.setLocation(path);
-      TableView tv = productLoader.load();
-      ProductTableController productTableController = productLoader.getController();
-
-      FXMLLoader productDetailLoader = new FXMLLoader(
-        getClass().getResource("/ui/ProductDetail.fxml")
+      root.getChildren().addAll(
+        loadLeftSide(userInfo, Global.AllRes),
+        loadRightSide("prod", Global.AllRes)
       );
-      VBox detailBox = productDetailLoader.load();
-      root.getChildren().addAll(tv, detailBox);
 
       Scene scene = Global.sceneDefStyle(root);
 
@@ -86,7 +130,7 @@ public class UiLoginController {
       //System.out.println(resp.token());
       txtStatus.setText("success");
       txtStatus.setStroke(Color.GREEN);
-      launchMain();
+      launchMain(tfUid.getText());
       stage.close();
     }
     else {

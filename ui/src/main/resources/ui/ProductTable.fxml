@@ -7,8 +7,8 @@
 <?import javafx.scene.layout.*?>
 
 <TableView fx:id="tblProducts"
-           xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.xg.ui.ProductTableController"
-            prefHeight="400.0" prefWidth="800.0">
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.xg.ui.ProductTableController"
+    prefHeight="400.0" prefWidth="800.0">
 </TableView>

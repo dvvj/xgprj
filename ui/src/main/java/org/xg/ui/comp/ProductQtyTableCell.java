@@ -18,7 +18,7 @@ public class ProductQtyTableCell extends TableCell<Product, String> {
     }
     else {
       FXMLLoader loader = new FXMLLoader(
-        getClass().getResource("/ui/ProductQtyTableCell.fxml")
+        getClass().getResource("/ui/PlaceOrder.fxml")
       );
 
       try {
