@@ -1,0 +1,1 @@
+INSERT INTO product_assets (id, asset_cfg) VALUES (1, 'todo');

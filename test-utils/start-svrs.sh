@@ -1,4 +1,4 @@
 cd ../docker-mysql/
 sh ./start.sh
 cd ../svc/
-sh ./start-svc-ssl.sh
+sh ./start-svc-ssl.sh /home/devvj/prod_assets
