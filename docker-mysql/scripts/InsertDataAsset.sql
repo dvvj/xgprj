@@ -1,1 +1,4 @@
-INSERT INTO product_assets (id, asset_cfg) VALUES (1, 'todo');
+INSERT INTO product_assets (product_id, assets) VALUES (1,'[{"url":"1.png","typ":"img","cat":"cat1"},{"url":"2.png","typ":"img","cat":"cat1"},{"url":"3.png","typ":"img","cat":"cat2"},{"url":"1.pdf","typ":"doc","cat":"cat3"},{"url":"2.pdf","typ":"doc","cat":"cat1"}]');
+INSERT INTO product_assets (product_id, assets) VALUES (2,'[{"url":"1.png","typ":"img","cat":"cat1"}]');
+INSERT INTO product_assets (product_id, assets) VALUES (3,'[{"url":"1.png","typ":"img","cat":"cat1"},{"url":"1.pdf","typ":"doc","cat":"cat1"}]');
+INSERT INTO product_assets (product_id, assets) VALUES (4,'[{"url":"1.png","typ":"img","cat":"cat1"},{"url":"1.pdf","typ":"doc","cat":"cat1"}]');
