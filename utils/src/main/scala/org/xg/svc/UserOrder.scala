@@ -1,19 +1,17 @@
 package org.xg.svc
 
 import org.json4s.DefaultFormats
+import org.xg.json.CommonUtils
 
 case class UserOrder(uid:String, productId:Int, qty:Double)
 
 object UserOrder {
   def toJson(upp:UserOrder):String = {
-    import org.json4s.jackson.Serialization._
-    write(upp)(DefaultFormats)
+    CommonUtils._toJson(upp)
   }
 
   def fromJson(json:String):UserOrder = {
-    import org.json4s.jackson.JsonMethods._
-    implicit val _fmt = DefaultFormats
-    parse(json).extract[UserOrder]
+    CommonUtils._fromJson(json)
   }
 
 }

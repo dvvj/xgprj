@@ -13,7 +13,7 @@ case class MCustomer(
 )
 
 object MCustomer {
-  import CommonUtils._
+  import org.xg.json.CommonUtils._
   def toJsons(customers:Array[MCustomer]):String = _toJsons(customers)
   def fromJsons(j:String):Array[MCustomer] = _fromJsons(j)
   //

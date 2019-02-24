@@ -2,6 +2,7 @@ package org.xg.svc
 
 import org.json4s.DefaultFormats
 import org.xg.auth.AuthHelpers
+import org.xg.json.CommonUtils
 
 case class UserPass(uid:String, passHashStr:String)
 
@@ -14,14 +15,11 @@ object UserPass {
   //  }
 
   def toJson(upp:UserPass):String = {
-    import org.json4s.jackson.Serialization._
-    write(upp)(DefaultFormats)
+    CommonUtils._toJson(upp)
   }
 
   def fromJson(json:String):UserPass = {
-    import org.json4s.jackson.JsonMethods._
-    implicit val _fmt = DefaultFormats
-    parse(json).extract[UserPass]
+    CommonUtils._fromJson(json)
   }
 
 

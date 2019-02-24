@@ -18,7 +18,7 @@ case class MOrder(
 }
 
 object MOrder {
-  import CommonUtils._
+  import org.xg.json.CommonUtils._
   def toJsons(customers:Array[MOrder]):String = _toJsons(customers)
   def fromJsons(j:String):Array[MOrder] = _fromJsons(j)
 }

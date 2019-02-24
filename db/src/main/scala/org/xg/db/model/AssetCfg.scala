@@ -2,6 +2,7 @@ package org.xg.db.model
 
 import AssetCfg._
 import org.json4s.DefaultFormats
+import org.xg.json.CommonUtils
 case class AssetItem(
   url:String,
   typ:String,

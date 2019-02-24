@@ -7,7 +7,8 @@ import org.json4s.DefaultFormats
 
 case class GlobalCfg(
   svcSvr:String,
-  infoDbSvr:String
+  infoDbSvr:String,
+  assetLocalPath:String
 ) {
   import GlobalCfg._
   def authURL:String = s"$svcSvr/$REQ_AUTH"
@@ -15,6 +16,7 @@ case class GlobalCfg(
   def currOrdersURL:String = s"$svcSvr/$CURR_ORDERS"
   def placeOrderURL:String = s"$svcSvr/$PLACE_ORDER"
   def allProductsURL:String = s"$svcSvr/$ALLPRODUCTS"
+  def imgAssetURL:String = s"$svcSvr/$IMAGE_ASSET"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
@@ -24,6 +26,7 @@ object GlobalCfg {
   private val CURR_ORDERS = "order/testCurrUser"
   private val PLACE_ORDER = "order/placeOrder"
   private val ALLPRODUCTS = "product/all"
+  private val IMAGE_ASSET = "asset/img"
 
   def fromJson(j:String):GlobalCfg = {
     import org.json4s.jackson.JsonMethods._

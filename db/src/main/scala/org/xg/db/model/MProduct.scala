@@ -11,7 +11,7 @@ case class MProduct(
 }
 
 object MProduct {
-  import CommonUtils._
+  import org.xg.json.CommonUtils._
   def toJsons(products:Array[MProduct]):String = _toJsons(products)
   def fromJsons(j:String):Array[MProduct] = _fromJsons(j)
 
