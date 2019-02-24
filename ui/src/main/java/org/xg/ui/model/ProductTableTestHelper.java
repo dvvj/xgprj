@@ -1,14 +1,10 @@
 package org.xg.ui.model;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
-import org.xg.ui.comp.ProductQtyTableCell;
+import org.xg.ui.comp.ProductPlaceOrderTableCell;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -25,27 +21,30 @@ public class ProductTableTestHelper {
       new Product(6, "prod6", 7.99, "detail 6", Arrays.asList("kw4", "kw5"))
     );
 
-  public static <T> TableColumn<Product, T> tableColumn(String colName, String propName) {
+  public static <T> TableColumn<Product, T> tableColumn(String colName, String propName, int prefWidth) {
     TableColumn<Product, T> col = new TableColumn<>(colName);
     col.setCellValueFactory(new PropertyValueFactory<>(propName));
+    col.setPrefWidth(prefWidth);
     return col;
   }
 
   public static <T> TableColumn<Product, T> tableColumnResBundle(
     String colNameKey,
     ResourceBundle resBundle,
-    String propName
+    String propName,
+    int prefWidth
   ) {
     return tableColumn(
       resBundle.getString(colNameKey),
-      propName
+      propName,
+      prefWidth
     );
   }
 
   public static TableColumn<Product, String> tableOpsColumn(String colName) {
     TableColumn<Product, String> col = new TableColumn<>(colName);
     //col.setCellValueFactory(new PropertyValueFactory<>(propName));
-    col.setCellFactory(c -> new ProductQtyTableCell());
+    col.setCellFactory(c -> new ProductPlaceOrderTableCell());
     return col;
   }
 }

@@ -4,10 +4,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
 import org.xg.ui.model.Product;
+import org.xg.ui.utils.Global;
 
 import java.io.IOException;
 
-public class ProductQtyTableCell extends TableCell<Product, String> {
+public class ProductPlaceOrderTableCell extends TableCell<Product, String> {
   @Override
   protected void updateItem(String item, boolean empty) {
     super.updateItem(item, empty);
@@ -18,7 +19,8 @@ public class ProductQtyTableCell extends TableCell<Product, String> {
     }
     else {
       FXMLLoader loader = new FXMLLoader(
-        getClass().getResource("/ui/PlaceOrder.fxml")
+        getClass().getResource("/ui/PlaceOrder.fxml"),
+        Global.AllRes
       );
 
       try {
@@ -26,7 +28,7 @@ public class ProductQtyTableCell extends TableCell<Product, String> {
         setGraphic(hbox);
       }
       catch (IOException ex) {
-        throw new RuntimeException("Error loading ProductQtyTableCell", ex);
+        throw new RuntimeException("Error loading ProductPlaceOrderTableCell", ex);
       }
     }
   }

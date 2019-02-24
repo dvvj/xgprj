@@ -8,8 +8,10 @@
 
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.xg.ui.comp.PlaceOrderCtrl">
+      fx:controller="org.xg.ui.comp.PlaceOrderCtrl"
+      spacing="5">
     <Button text="-" />
-    <TextField fx:id="txtQty" text="0" />
+    <TextField fx:id="txtQty" text="0" prefWidth="80" />
     <Button text="+" />
+    <Button text="%placeOrder.buyNow" fx:id="btnBuyNow" />
 </HBox>

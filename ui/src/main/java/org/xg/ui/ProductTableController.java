@@ -20,23 +20,39 @@ public class ProductTableController implements Initializable {
     tblProducts.getItems().addAll(testProducts);
 
     tblProducts.getColumns().addAll(
-      tableColumnResBundle(
-        "productTable.id",
-        resBundle,
-        "id"
-      ),
+//      tableColumnResBundle(
+//        "productTable.id",
+//        resBundle,
+//        "id"
+//      ),
       tableColumnResBundle(
         "productTable.name",
         resBundle,
-        "name"
+        "name",
+        80
       ),
-      tableColumn("Price", "price0"),
-      tableColumn("Detailed Info", "detailedInfo"),
-      tableColumn("Keywords", "keywords"),
-      tableOpsColumn("Operations")
+      tableColumnResBundle(
+        "productTable.price",
+        resBundle,
+        "price0",
+        80
+      ),
+      tableColumnResBundle("productTable.detailedInfo",
+        resBundle,
+        "detailedInfo",
+        80
+      ),
+      tableColumnResBundle("productTable.Keywords",
+        resBundle,
+        "keywords",
+        80
+      ),
+      tableOpsColumn(
+        resBundle.getString("productTable.action")
+      )
     );
 
-    tblProducts.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    tblProducts.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     tblProducts.setPlaceholder(new Label("No data/column"));
   }
 
