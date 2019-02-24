@@ -6,7 +6,8 @@ import org.apache.commons.io.IOUtils
 import org.json4s.DefaultFormats
 
 case class GlobalCfg(
-  svcSvr:String
+  svcSvr:String,
+  infoDbSvr:String
 ) {
   import GlobalCfg._
   def authURL:String = s"$svcSvr/$REQ_AUTH"
@@ -14,6 +15,7 @@ case class GlobalCfg(
   def currOrdersURL:String = s"$svcSvr/$CURR_ORDERS"
   def placeOrderURL:String = s"$svcSvr/$PLACE_ORDER"
   def allProductsURL:String = s"$svcSvr/$ALLPRODUCTS"
+  def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
 object GlobalCfg {

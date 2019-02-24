@@ -1,9 +1,10 @@
 package org.xg.auth;
 
-import org.xg.DbConfig;
+import org.xg.SvcUtils;
 import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
+import org.xg.gnl.GlobalCfg;
 import org.xg.log.Logging;
 import scala.Enumeration;
 
@@ -28,10 +29,10 @@ public final class CustomerDbAuthority {
     return getInstance()._auth.isValidToken(token);
   }
 
-  private static CustomerDbAuthority createInstasnce() {
+  private static CustomerDbAuthority createInstasnce(GlobalCfg cfg) {
     try {
-      Logging.debug("Creating CustomerDbAuthority: connecting %s", DbConfig.ConnectionStr);
-      Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
+      Logging.debug("Creating CustomerDbAuthority: connecting %s", cfg.infoDbConnStr());
+      Connection conn = Utils.tryConnect(cfg.infoDbConnStr());
 
       Logging.debug("Connected!");
 
@@ -52,10 +53,12 @@ public final class CustomerDbAuthority {
   private final static Object _instanceLock = new Object();
 
   private static CustomerDbAuthority getInstance() {
+    // todo: external config
+    GlobalCfg cfg = SvcUtils.getCfg();
     if (instance == null) {
       synchronized (_instanceLock) {
         if (instance == null) {
-          instance = createInstasnce();
+          instance = createInstasnce(cfg);
         }
       }
     }

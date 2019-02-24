@@ -30,7 +30,7 @@ public class OrderOps {
       logger.warning(
         String.format("Getting orders for user [%s]", uid)
       );
-      Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
+      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       MOrder[] orders = dbOps.ordersOf(uid);
@@ -53,7 +53,7 @@ public class OrderOps {
   public Response placeOrder(String orderJson, @Context SecurityContext sc) {
     UserOrder userOrder = UserOrder.fromJson(orderJson);
     try {
-      Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
+      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
 
       String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);

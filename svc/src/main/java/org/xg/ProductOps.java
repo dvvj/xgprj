@@ -20,7 +20,7 @@ public class ProductOps {
   public Response allProducts() {
 
     try {
-      Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
+      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       MProduct[] allProducts = dbOps.allProducts();

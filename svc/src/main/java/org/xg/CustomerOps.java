@@ -30,7 +30,7 @@ public class CustomerOps {
   public Response allCustomers(@Context SecurityContext sc) {
     logger.warning("(To be removed) " + sc.getUserPrincipal());
     try {
-      Connection conn = Utils.tryConnect(DbConfig.ConnectionStr);
+      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
 
       TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       MCustomer[] customers = dbOps.allCustomers();
