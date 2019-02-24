@@ -5,6 +5,8 @@ import java.time.ZonedDateTime
 import org.xg.svc.UserPass
 import scalaj.http.{Http, HttpOptions}
 
+import java.util.function.{Function => JFunc}
+
 object SvcHelpers {
 
   import AuthResp._
@@ -47,6 +49,12 @@ object SvcHelpers {
     val res = get(url, token)
     decoder(res)
   }
+
+  def getDecArrayJ[T](url:String, token:String, decoder:JFunc[String, Array[T]]):Array[T] = {
+    val res = get(url, token)
+    decoder(res)
+  }
+
 
   def post(url:String, token:String, data:String):String = {
     val header = encodeAuthHeader(token)

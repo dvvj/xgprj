@@ -128,6 +128,7 @@ public class UiLoginController {
 
     if (resp.success()) {
       //System.out.println(resp.token());
+      Global.updateToken(resp.token());
       txtStatus.setText("success");
       txtStatus.setStroke(Color.GREEN);
       launchMain(tfUid.getText());

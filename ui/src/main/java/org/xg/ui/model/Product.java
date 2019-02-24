@@ -1,5 +1,8 @@
 package org.xg.ui.model;
 
+import org.xg.db.model.MProduct;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class Product {
@@ -55,5 +58,16 @@ public class Product {
     this.price0 = price0;
     this.detailedInfo = detailedInfo;
     this.keywords = keywords;
+  }
+
+  public static Product fromMProduct(MProduct mp) {
+    double roundPrice = Math.round(mp.price0() * 100) / 100.0;
+    return new Product(
+      mp.id(),
+      mp.name(),
+      roundPrice,
+      mp.detailedInfo(),
+      Arrays.asList(mp.keywordsArr())
+    );
   }
 }

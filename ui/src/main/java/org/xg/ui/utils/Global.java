@@ -19,4 +19,13 @@ public class Global {
     );
     return scene;
   }
+
+  private static String _currToken;
+
+  public static void updateToken(String token) {
+    _currToken = token;
+  }
+  public static String getCurrToken() {
+    return _currToken;
+  }
 }

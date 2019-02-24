@@ -1,10 +1,17 @@
 package org.xg.ui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import org.xg.auth.SvcHelpers;
+import org.xg.db.model.MProduct;
+import org.xg.gnl.GlobalCfg;
 import org.xg.ui.model.Product;
+import org.xg.ui.utils.Global;
+import org.xg.ui.utils.Helpers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,9 +22,25 @@ public class ProductTableController implements Initializable {
   @FXML
   private TableView<Product> tblProducts;
 
+  private static ObservableList<Product> updateAllProducts() {
+    GlobalCfg cfg = GlobalCfg.localTestCfg();
+    String j = SvcHelpers.get(
+      cfg.allProductsURL(),
+      Global.getCurrToken()
+    );
+    MProduct[] products = MProduct.fromJsons(j);
+    Product[] prods = Helpers.convProducts(products);
+    return FXCollections.<Product>observableArrayList(
+      prods
+    );
+  }
+
+  private ObservableList<Product> productsCache;
+
   @Override
   public void initialize(URL location, ResourceBundle resBundle) {
-    tblProducts.getItems().addAll(testProducts);
+    productsCache = updateAllProducts();
+    tblProducts.getItems().addAll(productsCache);
 
     tblProducts.getColumns().addAll(
 //      tableColumnResBundle(

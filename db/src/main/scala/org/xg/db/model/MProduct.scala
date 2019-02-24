@@ -6,7 +6,9 @@ case class MProduct(
   price0:Double,
   detailedInfo:String,
   keywords:String
-)
+) {
+  def keywordsArr:Array[String] = keywords.split(",").map(_.trim).filter(!_.isEmpty)
+}
 
 object MProduct {
   import CommonUtils._
