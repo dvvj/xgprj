@@ -10,7 +10,7 @@ CREATE TABLE products (
 CREATE TABLE customers (
   uid VARCHAR(255) NOT NULL,
   name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  pass_hash BINARY(63) NOT NULL,
+  pass_hash BINARY(64) NOT NULL,
   idcard_no VARCHAR(31) NOT NULL,
   mobile VARCHAR(31) NOT NULL,
   postal_addr VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
