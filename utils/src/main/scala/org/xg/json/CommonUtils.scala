@@ -20,6 +20,7 @@ object CommonUtils {
 
   def _fromJson[T : Manifest](j:String):T = {
     implicit val _fmt = DefaultFormats
+//    println("_fromJson: " + j)
     parse(j).extract[T]
   }
 

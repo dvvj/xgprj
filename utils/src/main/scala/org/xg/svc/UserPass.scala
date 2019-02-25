@@ -19,7 +19,9 @@ object UserPass {
   }
 
   def fromJson(json:String):UserPass = {
-    CommonUtils._fromJson(json)
+    // to investigate: why this not working?
+    //   CommonUtils._fromJson(json)
+    CommonUtils._fromJson[UserPass](json)
   }
 
 

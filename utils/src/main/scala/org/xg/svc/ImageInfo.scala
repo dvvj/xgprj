@@ -15,6 +15,6 @@ object ImageInfo {
   }
 
   def fromJson(json:String):ImageInfo = {
-    CommonUtils._fromJson(json)
+    CommonUtils._fromJson[ImageInfo](json)
   }
 }

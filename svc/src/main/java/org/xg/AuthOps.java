@@ -9,6 +9,7 @@ import org.xg.svc.UserPass;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.ZonedDateTime;
@@ -24,24 +25,31 @@ public class AuthOps {
   @Path("userPass")
   @Consumes(MediaType.TEXT_PLAIN)
   public Response authorize(String userPassPostJson) {
-    UserPass up = UserPass.fromJson(userPassPostJson);
+    try {
+      UserPass up = UserPass.fromJson(userPassPostJson);
 
-    logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
+      logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
 
-    boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHashStr());
+      boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHashStr());
 
-    if (authenticated) {
-      AuthResp resp = AuthResp.authSuccess(up);
-      SessionManager.addSession(up.uid(), resp.token());
-      logger.warning(
-        String.format("Session added: [%s]-[%s]", up.uid(), resp.token())
-      );
-      return Response.ok(AuthResp.toJson(resp)).build();
+      if (authenticated) {
+        AuthResp resp = AuthResp.authSuccess(up);
+        SessionManager.addSession(up.uid(), resp.token());
+        logger.warning(
+          String.format("Session added: [%s]-[%s]", up.uid(), resp.token())
+        );
+        return Response.ok(AuthResp.toJson(resp)).build();
+      }
+      else {
+        return Response.status(Response.Status.UNAUTHORIZED)
+          .entity(String.format("user [%s] NOT authorized!", up.uid()))
+          .build();
+      }
     }
-    else {
-      return Response.status(Response.Status.UNAUTHORIZED)
-        .entity(String.format("user [%s] NOT authorized!", up.uid()))
-        .build();
+    catch (Exception ex) {
+      logger.warning("Failed to authenticate user");
+      ex.printStackTrace();
+      throw new WebApplicationException("Failed to authenticate user", ex);
     }
   }
 }

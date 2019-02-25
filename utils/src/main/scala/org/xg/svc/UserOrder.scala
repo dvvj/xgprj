@@ -11,7 +11,7 @@ object UserOrder {
   }
 
   def fromJson(json:String):UserOrder = {
-    CommonUtils._fromJson(json)
+    CommonUtils._fromJson[UserOrder](json)
   }
 
 }

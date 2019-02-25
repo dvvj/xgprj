@@ -1,5 +1,8 @@
 package org.xg.srcTests
 
+import java.io.FileOutputStream
+
+import org.apache.commons.io.IOUtils
 import org.xg.auth.SvcHelpers
 import org.xg.gnl.GlobalCfg
 import org.xg.svc.ImageInfo
@@ -17,4 +20,5 @@ object AssetTests extends App {
   )
 
   println(resp.length)
+  IOUtils.write(resp, new FileOutputStream("/tmp/ttt.png"))
 }

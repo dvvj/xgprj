@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter
 
 import org.xg.auth.AuthHelpers
 import org.xg.db.impl.{DbOpsImpl, Utils}
+import org.xg.gnl.GlobalCfg
 
 object ConnectorTests extends App {
 
@@ -66,7 +67,7 @@ object ConnectorTests extends App {
     else println(s"Failed to insert user [$user]")
   }
 
-  val conn = Utils.tryConnect("jdbc:mysql://localhost/xgproj?user=root&password=cPEaKeXnzq8fuRBD87csHdaL")
+  val conn = Utils.tryConnect(GlobalCfg.localTestCfg.infoDbConnStr)
 
   println(s"Connected: ${conn.getCatalog}")
   //traceAllProducts(conn)
