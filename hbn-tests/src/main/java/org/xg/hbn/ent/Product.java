@@ -6,10 +6,17 @@ import javax.persistence.*;
 @Table(name="products", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class Product {
 
+  @Id
+  @Column(name="id")
   private Integer id;
+
+  @Column(name="name", length = 63, nullable = false)
   private String name;
+  @Column(name="price0", nullable = false)
   private Double price0;
+  @Column(name="detailed_info", length = 511)
   private String detailedInfo;
+  @Column(name="keywords", length = 255)
   private String keywords;
 
   public Product() { }
@@ -28,13 +35,15 @@ public class Product {
     this.keywords = keywords;
   }
 
-  @Id
-  @Column(name="id")
+
   public Integer getId() {
     return id;
   }
 
-  @Column(name="name", length = 63, nullable = false)
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
   public String getName() {
     return name;
   }
@@ -42,7 +51,6 @@ public class Product {
     this.name = name;
   }
 
-  @Column(name="price0", nullable = false)
   public Double getPrice0() {
     return price0;
   }
@@ -50,7 +58,6 @@ public class Product {
     this.price0 = price0;
   }
 
-  @Column(name="detailed_info", length = 511)
   public String getDetailedInfo() {
     return detailedInfo;
   }
@@ -58,7 +65,6 @@ public class Product {
     this.detailedInfo = detailedInfo;
   }
 
-  @Column(name="keywords", length = 255)
   public String getKeywords() {
     return keywords;
   }
