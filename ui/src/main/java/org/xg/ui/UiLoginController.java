@@ -1,5 +1,6 @@
 package org.xg.ui;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import org.xg.auth.AuthResp;
 import org.xg.auth.SvcHelpers;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.Helpers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -115,28 +117,55 @@ public class UiLoginController {
       throw new RuntimeException("Error launching main window!", ex);
     }
   }
-
+  
   public void onLogin(ActionEvent e) {
     //System.out.println("login button pressed");
     String authUrl = "https://localhost:8443/webapi/auth/userPass";
 
-    AuthResp resp = SvcHelpers.authReq(
-      authUrl,
-      tfUid.getText(),
-      pfPass.getText()
+    Global.setText(txtStatus, "login.loggingIn", Color.BLACK);
+
+//    AuthResp resp = SvcHelpers.authReq(
+//      authUrl,
+//      tfUid.getText(),
+//      pfPass.getText()
+//    );
+
+    Task<AuthResp> authTask = Helpers.<AuthResp>statusTaskJ(
+      () -> {
+        AuthResp resp = SvcHelpers.authReq(authUrl, tfUid.getText(), pfPass.getText());
+        if (resp.success()) {
+          //System.out.println(resp.token());
+          Global.updateToken(resp.token());
+        }
+        return resp;
+      },
+      "done",
+      resp -> {
+        if (resp.success()) {
+          Global.setText(txtStatus, "login.loginSuccess", Color.GREEN);
+          launchMain(tfUid.getText());
+          stage.close();
+        }
+        else {
+          Global.setText(txtStatus, "login.loginFailed", Color.RED);
+        }
+        return null;
+      }
     );
 
-    if (resp.success()) {
-      //System.out.println(resp.token());
-      Global.updateToken(resp.token());
-      txtStatus.setText("success");
-      txtStatus.setStroke(Color.GREEN);
-      launchMain(tfUid.getText());
-      stage.close();
-    }
-    else {
-      txtStatus.setText("failed");
-      txtStatus.setStroke(Color.RED);
-    }
+    new Thread(authTask).start();
+
+//    if (resp.success()) {
+//      //System.out.println(resp.token());
+//      Global.updateToken(resp.token());
+//      txtStatus.setText("success");
+//      txtStatus.setStroke(Color.GREEN);
+//      launchMain(tfUid.getText());
+//      stage.close();
+//    }
+//    else {
+//      txtStatus.setText("failed");
+//      txtStatus.setStroke(Color.RED);
+//    }
   }
 }

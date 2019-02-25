@@ -3,6 +3,8 @@ package org.xg.ui.utils;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -18,6 +20,11 @@ public class Global {
       Global.class.getResource("/default.css").toExternalForm()
     );
     return scene;
+  }
+
+  public static void setText(Text txt, String resName, Color color) {
+    txt.setText(Global.AllRes.getString(resName));
+    txt.setStroke(color);
   }
 
   private static String _currToken;
