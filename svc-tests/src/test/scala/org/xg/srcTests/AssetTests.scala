@@ -20,5 +20,5 @@ object AssetTests extends App {
   )
 
   println(resp.length)
-  IOUtils.write(resp, new FileOutputStream("/tmp/ttt.png"))
+  //IOUtils.write(resp, new FileOutputStream("/tmp/ttt.png"))
 }
