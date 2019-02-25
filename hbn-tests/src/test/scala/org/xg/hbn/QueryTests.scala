@@ -25,7 +25,7 @@ object QueryTests extends App {
 
   runInTransaction { sess =>
     val newProduction = new Product(
-      6, "prod6", 189.99, "detailed 5", "kw5,kw6"
+      5, "prod6", 189.99, "detailed 5", "kw5,kw6"
     )
     sess.persist(newProduction)
   }

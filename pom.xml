@@ -131,6 +131,12 @@
 
             <dependency>
                 <groupId>org.xg</groupId>
+                <artifactId>hbn</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.xg</groupId>
                 <artifactId>db</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -191,6 +197,7 @@
         <module>db</module>
         <module>svc</module>
         <module>svc-tests</module>
+        <module>hbn</module>
         <module>hbn-tests</module>
     </modules>
 </project>
