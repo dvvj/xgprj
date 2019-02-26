@@ -117,7 +117,7 @@ public class UiLoginController {
       throw new RuntimeException("Error launching main window!", ex);
     }
   }
-  
+
   public void onLogin(ActionEvent e) {
     //System.out.println("login button pressed");
     String authUrl = "https://localhost:8443/webapi/auth/userPass";

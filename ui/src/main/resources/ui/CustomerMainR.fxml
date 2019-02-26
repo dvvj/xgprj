@@ -7,10 +7,15 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 <VBox xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:controller="org.xg.ui.CustomerMainRCtrl"
-    spacing="10">
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.xg.ui.CustomerMainRCtrl"
+      spacing="10">
+
+    <HBox fx:id="imgBox">
+        <ImageView fx:id="img" />
+    </HBox>
 
     <Label text="Product details"></Label>
     <HBox fx:id="hbPlaceOrder"></HBox>
