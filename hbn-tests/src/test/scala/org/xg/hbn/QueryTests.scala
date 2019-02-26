@@ -7,21 +7,7 @@ import org.xg.hbn.utils.HbnUtils
 
 object QueryTests extends App {
 
-
-  def runInTransaction(action: Session => Unit):Unit = {
-    try {
-      val sess = HbnUtils.sessFactory.getCurrentSession
-      val tr = sess.beginTransaction()
-      action(sess)
-      tr.commit()
-    }
-    catch {
-      case t:Throwable => {
-//        t.printStackTrace()
-        throw t
-      }
-    }
-  }
+  import Helpers._
 
   runInTransaction { sess =>
     val newProduction = new Product(
