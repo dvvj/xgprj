@@ -5,6 +5,7 @@ import java.util
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
 import org.xg.db.model.{MCustomer, MOrder, MProduct}
+import org.xg.gnl.DataUtils
 import org.xg.hbn.ent.{Customer, Product}
 
 object HbnDbOpsImpl {
@@ -37,7 +38,19 @@ object HbnDbOpsImpl {
 //      true
 //    }
 
-    override def placeOrder(uid: String, productId: Int, qty: Double): Long = ???
+    override def placeOrder(uid: String, productId: Int, qty: Double): Long = {
+      val creationTime = DataUtils.utcTimeNow
+      runInTransaction { sess =>
+        val order = new Order(
+          uid,
+          productId,
+          qty,
+          creationTime
+        )
+        val orderId = sess.save(order)
+        orderId.asInstanceOf[Long]
+      }
+    }
 
     override def allCustomers: Array[MCustomer] = {
       runInTransaction { sess =>
@@ -45,7 +58,7 @@ object HbnDbOpsImpl {
 
         val q = sess.createQuery(ql)
         val t = q.getResultList.asScala.map(_.asInstanceOf[Customer])
-        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
+//        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
         val res = t.toArray.map(convertCustomer)
         res
       }
@@ -63,11 +76,30 @@ object HbnDbOpsImpl {
       }
     }
 
-    override def getUserPassMap: Map[String, Array[Byte]] = ???
+    override def getUserPassMap: Map[String, Array[Byte]] = {
+      runInTransaction { sess =>
+        val ql = s"Select c.uid, c.passHash from ${classOf[Customer].getName} c"
 
-    override def getUserPassMapJ: util.Map[String, Array[Byte]] = ???
+        val q = sess.createQuery(ql)
+        val t = q.getResultList.asScala.map { r =>
+          val objArr = r.asInstanceOf[Array[AnyRef]]
+          val uid = objArr(0).asInstanceOf[String]
+          val passHash = objArr(1).asInstanceOf[Array[Byte]]
+          uid -> passHash
+        }
+        t.toMap
+      }
+    }
 
-    override def ordersOf(uid: String): Array[MOrder] = ???
+    override def ordersOf(uid: String): Array[MOrder] = {
+      runInTransaction { sess =>
+        val ql = s"Select o from ${classOf[Order].getName} o where o.customerId = '$uid'"
+        val q = sess.createQuery(ql)
+        val res = q.getResultList.asScala
+          .toArray.map(c => convertOrder(c.asInstanceOf[Order]))
+        res
+      }
+    }
   }
 
   val opsInstance:TDbOps = new OpsImpl

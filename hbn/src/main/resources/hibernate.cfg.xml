@@ -29,6 +29,7 @@
 
         <mapping class="org.xg.hbn.ent.Product" />
         <mapping class="org.xg.hbn.ent.Customer" />
+        <mapping class="org.xg.hbn.ent.Order" />
 
     </session-factory>
 

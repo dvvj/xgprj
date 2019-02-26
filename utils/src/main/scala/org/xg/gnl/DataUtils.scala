@@ -9,10 +9,13 @@ object DataUtils {
   val UTC:ZoneId = ZoneId.of("UTC")
   def utcTimeNow:ZonedDateTime = ZonedDateTime.now(UTC)
 
+  private val EmptyDateString = ""
   def zonedDateTime2Str(zdt:ZonedDateTime):String = {
-    zdt.toLocalDateTime.format(
-      DateTimeFormatter.ISO_LOCAL_DATE_TIME
-    )
+    if (zdt == null) EmptyDateString
+    else
+      zdt.toLocalDateTime.format(
+        DateTimeFormatter.ISO_LOCAL_DATE_TIME
+      )
   }
 
   def timestamp2Zone(ts:Timestamp):ZonedDateTime = {
