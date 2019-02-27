@@ -11,6 +11,7 @@
         <opencv-version>3.1.0</opencv-version>
         <scala.minor.version>2.12</scala.minor.version>
         <amazonaws.version>1.11.99</amazonaws.version>
+        <hibernate.version>5.3.8.Final</hibernate.version>
     </properties>
     <groupId>org.xg</groupId>
     <artifactId>xg-root</artifactId>
@@ -180,7 +181,13 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>5.3.8.Final</version>
+                <version>${hibernate.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-c3p0</artifactId>
+                <version>${hibernate.version}</version>
             </dependency>
 
             <dependency>
