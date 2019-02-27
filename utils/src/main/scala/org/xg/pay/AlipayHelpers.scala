@@ -45,8 +45,9 @@ object AlipayHelpers {
     req.setNotifyUrl("https://reqres.in//api/users?page=2")
     val currentTime = System.currentTimeMillis()
     val payModel = new AlipayTradeAppPayModel
-    payModel.setSubject("标题")
-    //payModel.setProductCode()
+    payModel.setSubject("大乐透")
+    payModel.setBody("大乐透")
+    payModel.setProductCode("FAST_INSTANT_TRADE_PAY")
     payModel.setTotalAmount("0.01")
     payModel.setOutTradeNo("fdsafdasfdsaf14343fs1fsda12321321312")
     req.setBizModel(payModel);//填充业务参数
