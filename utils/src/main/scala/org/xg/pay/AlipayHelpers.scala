@@ -10,8 +10,11 @@ import org.apache.commons.io.IOUtils
 
 object AlipayHelpers {
 
-  def testLocalCfg:AlipayCfg = {
-    val strm = new FileInputStream("/home/devvj/alipay-keys/rsa_private_key.raw")
+  def testLocalCfg(privateKeyPath:String):AlipayCfg = {
+    val strm = new FileInputStream(
+      privateKeyPath
+      //"/home/devvj/alipay-keys/rsa_private_key.raw"
+    )
     val privateKey = IOUtils.toString(strm, StandardCharsets.UTF_8)
 
     val cfg = AlipayCfg(

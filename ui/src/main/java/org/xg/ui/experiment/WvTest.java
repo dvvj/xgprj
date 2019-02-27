@@ -1,20 +1,18 @@
-package org.xg.ui;
+package org.xg.ui.experiment;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import org.w3c.dom.Document;
 import org.xg.pay.AlipayCfg;
 import org.xg.pay.AlipayHelpers;
 import org.xg.ui.utils.Global;
 
-public class WebviewTest extends Application {
-
+public class WvTest extends Application {
+  private static String privateKeyPath;
   public static void main(String[] args) {
+    privateKeyPath = args[0];
     launch(args);
   }
 
@@ -37,7 +35,7 @@ public class WebviewTest extends Application {
 
     root.getChildren().addAll(btn, wv);
 
-    AlipayCfg cfg = AlipayHelpers.testLocalCfg();
+    AlipayCfg cfg = AlipayHelpers.testLocalCfg(privateKeyPath);
     String pageContent = AlipayHelpers.test1(cfg);
     wv.getEngine().loadContent(pageContent);
 

@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils
 import org.xg.pay.{AlipayCfg, AlipayHelpers}
 
 object Test1 extends App {
-  val cfg = AlipayHelpers.testLocalCfg
+  val cfg = AlipayHelpers.testLocalCfg("/home/devvj/alipay-keys/rsa_private_key.raw")
 
   AlipayHelpers.test1(cfg)
 }
