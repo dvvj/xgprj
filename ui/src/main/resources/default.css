@@ -3,7 +3,30 @@
     -fx-font-family: 'Noto Sans CJK SC Medium';
 }
 
+@font-face {
+    font-family: "rei";
+    src: url("https://i.alipayobjects.com/common/fonts/rei.eot?20150616"); /* IE9 */
+    src: url("https://i.alipayobjects.com/common/fonts/rei.eot?20150616#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("https://i.alipayobjects.com/common/fonts/rei.woff?20150616") format("woff"), /* chrome 6+、firefox 3.6+、Safari5.1+、Opera 11+ */
+    url("https://i.alipayobjects.com/common/fonts/rei.ttf?20150616")  format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+    url("https://i.alipayobjects.com/common/fonts/rei.svg?20150616#rei") format("svg"); /* iOS 4.1- */
+}
+
+#header .logo-title {
+        font-size: 16px;
+        font-weight: normal;
+        font-family: "Microsoft YaHei",微软雅黑,"宋体", "Noto Sans CJK SC Medium";
+        border-left: 1px solid #676d70;
+        color: #676d70;
+        height: 20px;
+        float: left;
+        margin-top: 15px;
+        margin-left: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+    }
+
 html {
     font-size: 12pt;
-    font-family: 'Noto Sans CJK SC Medium';
+    font-family: "rei";
 }
