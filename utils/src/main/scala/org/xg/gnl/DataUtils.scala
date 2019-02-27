@@ -27,4 +27,6 @@ object DataUtils {
   def timestamp2Zone(ts:Timestamp):ZonedDateTime = {
     ts.toLocalDateTime.atZone(UTC)
   }
+
+  def timestampNow:Timestamp = Timestamp.valueOf(utcTimeNow.toLocalDateTime)
 }
