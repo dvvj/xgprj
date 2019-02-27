@@ -117,7 +117,7 @@ object DbOpsImpl {
                                  uid: String, name: String, pass:String,
                                  idCardNo: String, mobile: String, postalAddr: String, bday: String,
                                  ref_uid: String
-                               ): Boolean = {
+                               ): String = {
       //val dtStr = bday.format(DateTimeFormatter.ISO_DATE)
       try {
         val passHash = AuthHelpers.hash2Str(
@@ -130,12 +130,12 @@ object DbOpsImpl {
         val res = sttm.executeUpdate()
         if (res != 1)
           println(s"Return value: $res")
-        true
+        uid
       }
       catch {
         case t:Throwable => {
           t.printStackTrace()
-          false
+          null
         }
       }
     }

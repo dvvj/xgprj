@@ -17,7 +17,13 @@ object DataUtils {
         DateTimeFormatter.ISO_LOCAL_DATE_TIME
       )
   }
-
+  def dateStr(zdt:ZonedDateTime):String = {
+    if (zdt == null) EmptyDateString
+    else
+      zdt.toLocalDateTime.format(
+        DateTimeFormatter.ISO_DATE
+      )
+  }
   def timestamp2Zone(ts:Timestamp):ZonedDateTime = {
     ts.toLocalDateTime.atZone(UTC)
   }

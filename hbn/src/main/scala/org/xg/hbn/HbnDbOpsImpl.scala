@@ -25,7 +25,17 @@ object HbnDbOpsImpl {
                                  postalAddr: String,
                                  ref_uid: String,
                                  bday: String
-                               ): Boolean = ???
+                               ): String = {
+      runInTransaction { sess =>
+        val passHash = AuthHelpers.sha512(pass)
+        val customer = new Customer(
+          uid, name, passHash,
+          idCardNo, mobile, postalAddr, bday, ref_uid
+        )
+        sess.save(customer)
+        customer.getUid
+      }
+    }
 //    {
 //      runInTransaction { sess =>
 //        val passHash = AuthHelpers.sha512(pass)
@@ -102,5 +112,5 @@ object HbnDbOpsImpl {
     }
   }
 
-  val opsInstance:TDbOps = new OpsImpl
+  val hbnOps:TDbOps = new OpsImpl
 }

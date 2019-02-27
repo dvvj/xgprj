@@ -50,7 +50,7 @@ object ConnectorTests extends App {
     val dt = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE)
 
     val user = "added_customer4"
-    val success = ops.addNewCustomer(
+    val customerId = ops.addNewCustomer(
       user,
       "王丽",
       "dkfd",
@@ -61,7 +61,7 @@ object ConnectorTests extends App {
       dt
     )
 
-    if (success) {
+    if (customerId != null) {
       println(s"user [$user] inserted")
     }
     else println(s"Failed to insert user [$user]")
