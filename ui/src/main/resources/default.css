@@ -2,3 +2,8 @@
     -fx-font-size: 12pt;
     -fx-font-family: 'Noto Sans CJK SC Medium';
 }
+
+html {
+    font-size: 12pt;
+    font-family: 'Noto Sans CJK SC Medium';
+}
