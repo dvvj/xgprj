@@ -41,10 +41,13 @@ object TestUtils {
     )
   }
 
-  private def idx2Task0(idx:Int):Task0 = () => {
+  private def randSleep(rng:Int):Unit = {
     val seed = DataUtils.timestampNow.getTime
-    val rand = new Random(seed).nextInt(2000)
-    Thread.sleep(rand)
+    val r = new Random(seed).nextInt(rng)
+    Thread.sleep(r)
+  }
+  private def idx2Task0(idx:Int):Task0 = () => {
+    randSleep(2000)
     addNewCustomer(idx)
   }
 
@@ -56,5 +59,17 @@ object TestUtils {
     import org.xg.tests.ConcurrencyHelpers._
     val f = Future.sequence(schedules.map(runSchedule))
     Await.result(f, waitSecs seconds)
+  }
+
+  private def orderData2Task0(d:(String, Int, Double)):Task0 = () => {
+    val (uid, prodId, qty) = d
+    randSleep(1000)
+    hbnOps.placeOrder(uid, prodId, qty)
+  }
+
+  def placeOrderSchedule(
+    orderData:Iterable[(String, Int, Double)]
+  ):Schedule0 = {
+    orderData.map(orderData2Task0)
   }
 }
