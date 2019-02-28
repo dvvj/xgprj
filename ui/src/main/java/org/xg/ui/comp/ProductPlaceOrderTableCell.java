@@ -3,6 +3,7 @@ package org.xg.ui.comp;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.xg.ui.model.Product;
 import org.xg.ui.utils.Global;
 
@@ -24,8 +25,8 @@ public class ProductPlaceOrderTableCell extends TableCell<Product, String> {
       );
 
       try {
-        HBox hbox = loader.load();
-        setGraphic(hbox);
+        VBox vbox = loader.load();
+        setGraphic(vbox);
       }
       catch (IOException ex) {
         throw new RuntimeException("Error loading ProductPlaceOrderTableCell", ex);

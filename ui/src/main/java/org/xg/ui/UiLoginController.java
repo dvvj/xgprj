@@ -86,7 +86,7 @@ public class UiLoginController {
       resBundle
     );
 
-    HBox placeOrder = placeOrderLoader.load();
+    VBox placeOrder = placeOrderLoader.load();
 
     rightSide.getChildren().add(placeOrder);
 
