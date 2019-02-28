@@ -38,10 +38,10 @@ object PlaceOrderTests extends App {
     )
   )
 
-  runSchedulesAndWait(
-    Seq(uid1Orders, uid2Orders, uid3Orders),
-    60
-  )
+//  runSchedulesAndWait(
+//    Seq(uid1Orders, uid2Orders, uid3Orders),
+//    60
+//  )
 
   val orders1 = hbnOps.ordersOf(uid1)
   println(orders1.size)

@@ -1,7 +1,7 @@
 package org.xg.hbn
 
 import org.hibernate.Session
-import org.xg.db.model.{MCustomer, MOrder, MProduct}
+import org.xg.db.model.{AssetCfg, MCustomer, MOrder, MProduct}
 import org.xg.gnl.DataUtils
 import org.xg.hbn.utils.HbnUtils
 
@@ -42,8 +42,9 @@ object Helpers {
 
   import org.xg.hbn.ent._
 
-  def convertProduct(prod:Product):MProduct = {
-    MProduct(prod.getId, prod.getName, prod.getPrice0, prod.getDetailedInfo, prod.getKeywords)
+  def convertProduct(prod:Product, asset:Asset):MProduct = {
+    val assetItems = AssetCfg.assetsFromJsons(asset.getAssetJson)
+    MProduct(prod.getId, prod.getName, prod.getPrice0, prod.getDetailedInfo, prod.getKeywords, AssetCfg(prod.getId, assetItems))
   }
 
   def convertCustomer(c:Customer):MCustomer = {

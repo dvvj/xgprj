@@ -8,7 +8,7 @@ import java.util.Base64
 import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
-import org.xg.db.model.{MCustomer, MOrder, MProduct}
+import org.xg.db.model.{AssetCfg, MCustomer, MOrder, MProduct}
 import org.xg.gnl.DataUtils
 
 import scala.collection.mutable.ListBuffer
@@ -186,7 +186,8 @@ object DbOpsImpl {
         products += MProduct(
           id, name, price0,
           detailedInfo,
-          keywords
+          keywords,
+          AssetCfg(id, Array()) //todo
         )
       }
       products.toArray

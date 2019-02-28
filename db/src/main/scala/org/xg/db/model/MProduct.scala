@@ -5,7 +5,8 @@ case class MProduct(
   name:String,
   price0:Double,
   detailedInfo:String,
-  keywords:String
+  keywords:String,
+  assets:AssetCfg
 ) {
   def keywordsArr:Array[String] = keywords.split(",").map(_.trim).filter(!_.isEmpty)
 }

@@ -77,12 +77,17 @@ object HbnDbOpsImpl {
 
     override def allProducts: Array[MProduct] =     {
       runInTransaction { sess =>
-        val ql = s"Select p from ${classOf[Product].getName} p"
+        val queryProducts = s"Select p from ${classOf[Product].getName} p"
+        val prods = sess.createQuery(queryProducts).getResultList.asScala
+        val queryAssets = s"Select a from ${classOf[Asset].getName} a"
+        val assets = sess.createQuery(queryAssets).getResultList.asScala
+        val prodMap = prods.map(_.asInstanceOf[Product]).map(p => p.getId -> p).toMap
+        val res = assets.map(_.asInstanceOf[Asset]).map { asset =>
+          val prod = prodMap(asset.getProductId)
+          convertProduct(prod, asset)
+        }
 
-        val q = sess.createQuery(ql)
-        val res = q.getResultList.asScala
-          .toArray.map(c => convertProduct(c.asInstanceOf[Product]))
-        res
+        res.toArray
       }
     }
 
