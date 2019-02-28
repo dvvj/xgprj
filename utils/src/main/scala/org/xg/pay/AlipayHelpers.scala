@@ -2,6 +2,7 @@ package org.xg.pay
 
 import java.io.FileInputStream
 import java.nio.charset.StandardCharsets
+import java.time.LocalDateTime
 
 import com.alipay.api.DefaultAlipayClient
 import com.alipay.api.domain.AlipayTradeAppPayModel
@@ -27,7 +28,11 @@ object AlipayHelpers {
     cfg
   }
 
-  def test1(cfg:AlipayCfg):String = {
+  def test1RandTraceNo(cfg:AlipayCfg):String = {
+    test1(cfg, LocalDateTime.now().toString)
+  }
+
+  def test1(cfg:AlipayCfg, outTradeNo:String):String = {
 
     val client = new DefaultAlipayClient(
       cfg.url,
@@ -52,7 +57,7 @@ object AlipayHelpers {
     payModel.setBody("大乐透")
     payModel.setProductCode("FAST_INSTANT_TRADE_PAY")
     payModel.setTotalAmount("0.01")
-    payModel.setOutTradeNo("fdsafdasfdsaf14343fs1fsda12321321312")
+    payModel.setOutTradeNo(outTradeNo)
     req.setBizModel(payModel);//填充业务参数
     //  req.setBizContent("{" +
     //    "    \"out_trade_no\":" +currentTime+","+

@@ -9,13 +9,21 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import org.xg.ui.UiLoginController;
 import org.xg.ui.utils.Global;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,8 +44,26 @@ public class PlaceOrderCtrl implements Initializable {
   private BooleanProperty invalidNumber = new SimpleBooleanProperty();
 
   @FXML
-  private void handleMinus1(ActionEvent e) {
+  private void handlePurchase(ActionEvent e) {
+    FXMLLoader loader = new FXMLLoader(
+      UiLoginController.class.getResource("/ui/AlipayWebview.fxml"),
+      Global.AllRes
+    );
 
+    try {
+      HBox n = loader.load();
+      Scene scene = Global.sceneDefStyle(n);
+      Stage payStage = new Stage();
+      payStage.setScene(scene);
+      payStage.show();
+    }
+    catch (IOException ex) {
+      throw new RuntimeException("Error launching main window!", ex);
+    }
+  }
+
+  @FXML
+  private void handleMinus1(ActionEvent e) {
     handleValue(txtQty.getText(), -1.0);
   }
 
