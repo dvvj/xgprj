@@ -11,12 +11,13 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.xg.ui.CustomerMainRCtrl"
+      prefWidth="300"
       spacing="10">
 
     <HBox fx:id="imgBox">
         <ImageView fx:id="img" />
     </HBox>
 
-    <Label text="Product details"></Label>
+    <TextArea fx:id="txtDetails" text="Product details" wrapText="true" ></TextArea>
     <HBox fx:id="hbPlaceOrder"></HBox>
 </VBox>

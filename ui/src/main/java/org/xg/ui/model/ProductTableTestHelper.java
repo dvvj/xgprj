@@ -41,8 +41,9 @@ public class ProductTableTestHelper {
     );
   }
 
-  public static TableColumn<Product, String> tableOpsColumn(String colName) {
+  public static TableColumn<Product, String> tableOpsColumn(String colName, int prefWidth) {
     TableColumn<Product, String> col = new TableColumn<>(colName);
+    col.setPrefWidth(prefWidth);
     //col.setCellValueFactory(new PropertyValueFactory<>(propName));
     col.setCellFactory(c -> new ProductPlaceOrderTableCell());
     return col;

@@ -41,11 +41,11 @@ public class UiLoginController {
     this.stage = stage;
   }
 
-  private static Node loadLeftSide(String userInfo, ResourceBundle resBundle) throws IOException {
+  private Node loadLeftSide(String userInfo, ResourceBundle resBundle) throws IOException {
 
     VBox leftSide = new VBox();
     leftSide.setPadding(
-      new Insets(20)
+      new Insets(10)
     );
     leftSide.setSpacing(10);
 
@@ -62,23 +62,26 @@ public class UiLoginController {
     FXMLLoader productLoader = new FXMLLoader(path, resBundle);
     //productLoader.setLocation(path);
     TableView tv = productLoader.load();
+    productTableController = productLoader.getController();
 
     leftSide.getChildren().addAll(greetings, tv);
     return leftSide;
-    //ProductTableController productTableController = productLoader.getController();
+
   }
 
-  private static Node loadRightSide(String productName, ResourceBundle resBundle) throws IOException {
+  private ProductTableController productTableController;
+
+  private Node loadRightSide(String productName, ResourceBundle resBundle) throws IOException {
 
     FXMLLoader rightSideLoader = new FXMLLoader(
       UiLoginController.class.getResource("/ui/CustomerMainR.fxml"),
       resBundle
     );
-
     VBox rightSide = rightSideLoader.load();
     rightSide.setPadding(
       new Insets(20)
     );
+    rightSideController = rightSideLoader.getController();
     FXMLLoader placeOrderLoader = new FXMLLoader(
       UiLoginController.class.getResource("/ui/PlaceOrder.fxml"),
       resBundle
@@ -90,8 +93,9 @@ public class UiLoginController {
 
     return rightSide;
   }
+  private CustomerMainRCtrl rightSideController;
 
-  private static void launchMain(String userInfo) {
+  private void launchMain(String userInfo) {
     try {
 
       FXMLLoader loader = new FXMLLoader(
@@ -106,6 +110,8 @@ public class UiLoginController {
         loadLeftSide(userInfo, Global.AllRes),
         loadRightSide("prod", Global.AllRes)
       );
+
+      rightSideController.bindDetails(productTableController.getSelectedProductDetail());
 
       Scene scene = Global.sceneDefStyle(root);
 

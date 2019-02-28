@@ -10,13 +10,13 @@ public class Product {
   @Column(name="id")
   private Integer id;
 
-  @Column(name="name", length = 63, nullable = false)
+  @Column(name="name", length = 1023, nullable = false)
   private String name;
   @Column(name="price0", nullable = false)
   private Double price0;
-  @Column(name="detailed_info", length = 511)
+  @Column(name="detailed_info", length = 16383)
   private String detailedInfo;
-  @Column(name="keywords", length = 255)
+  @Column(name="keywords", length = 511)
   private String keywords;
 
   public Product() { }

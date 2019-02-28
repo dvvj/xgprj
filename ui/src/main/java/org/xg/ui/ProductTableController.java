@@ -1,10 +1,16 @@
 package org.xg.ui;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import org.xg.auth.SvcHelpers;
 import org.xg.db.model.MProduct;
@@ -21,6 +27,11 @@ import static org.xg.ui.model.ProductTableTestHelper.*;
 public class ProductTableController implements Initializable {
   @FXML
   private TableView<Product> tblProducts;
+
+  private StringProperty selectedProductDetail = new SimpleStringProperty();
+  public StringProperty getSelectedProductDetail() {
+    return selectedProductDetail;
+  }
 
   private static ObservableList<Product> updateAllProducts() {
     GlobalCfg cfg = GlobalCfg.localTestCfg();
@@ -71,12 +82,40 @@ public class ProductTableController implements Initializable {
         80
       ),
       tableOpsColumn(
-        resBundle.getString("productTable.action")
+        resBundle.getString("productTable.action"),
+        240
       )
     );
 
     tblProducts.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     tblProducts.setPlaceholder(new Label("No data/column"));
+
+    tblProducts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+
+    if (productsCache.size() > 0) {
+      tblProducts.getSelectionModel().select(0);
+    }
+  }
+
+  private class RowSelectChangeListener implements ChangeListener<Number> {
+    private final ObservableList<Product> products;
+    RowSelectChangeListener(ObservableList<Product> products) {
+      this.products = products;
+    }
+    @Override
+    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+      int nv = newValue.intValue();
+
+      boolean hasUpdate = oldValue != null && oldValue.intValue() != nv;
+
+      if (nv < products.size() && hasUpdate) {
+        Product prod = products.get(nv);
+        System.out.println("new selection: " + prod.getName());
+        selectedProductDetail.setValue(prod.getDetailedInfo());
+      }
+
+    }
   }
 
 //  @FXML

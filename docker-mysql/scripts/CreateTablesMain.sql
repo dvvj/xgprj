@@ -1,9 +1,9 @@
 CREATE TABLE products (
   id INT NOT NULL,
-  name VARCHAR(63) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  name VARCHAR(1023) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   price0 FLOAT NOT NULL,
-  detailed_info VARCHAR(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  keywords VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  detailed_info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  keywords VARCHAR(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (id)
 );
 
