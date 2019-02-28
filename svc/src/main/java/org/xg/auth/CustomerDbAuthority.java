@@ -5,6 +5,8 @@ import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
 import org.xg.gnl.GlobalCfg;
+import org.xg.hbn.HbnDbOpsImpl;
+import org.xg.hbn.utils.HbnUtils;
 import org.xg.log.Logging;
 import scala.Enumeration;
 
@@ -32,13 +34,12 @@ public final class CustomerDbAuthority {
   private static CustomerDbAuthority createInstasnce(GlobalCfg cfg) {
     try {
       Logging.debug("Creating CustomerDbAuthority: connecting %s", cfg.infoDbConnStr());
-      Connection conn = Utils.tryConnect(cfg.infoDbConnStr());
+//      Connection conn = Utils.tryConnect(cfg.infoDbConnStr());
+//      Logging.debug("Connected!");
 
-      Logging.debug("Connected!");
-
-      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+      TDbOps dbOps = HbnDbOpsImpl.hbnOps(); //DbOpsImpl.jdbcImpl(conn);
       Map<String, byte[]> userPassMap = dbOps.getUserPassMapJ();
-      conn.close();
+//      conn.close();
       Logging.debug("userPassMap Size: %d", userPassMap.size());
 
       return new CustomerDbAuthority(userPassMap);

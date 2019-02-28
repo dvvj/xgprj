@@ -21,16 +21,42 @@ public class AssetOps {
   @Path("img")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces("image/png")
-  public Response getImage(String imgInfoJson) {
+  public Response getImageByPost(String imgInfoJson) {
     try {
       ImageInfo imgInfo = ImageInfo.fromJson(imgInfoJson);
-      String imgPath = imgInfo.localPath(SvcUtils.getCfg().assetLocalPath());
+      String imgPath = imgInfo.localPath(SvcUtils.getCfg());
       File img = new File(imgPath);
       logger.warning("Getting image from: " + img.getAbsolutePath());
       if (img.exists()) {
         Response.ResponseBuilder response = Response.ok(img);
 //    response.header("Content-Disposition",
 //      "attachment; filename=image_from_server.png");
+        return response.build();
+      }
+      else
+        throw new IOException(
+          String.format("Image file [%s] not exist!", img.getAbsolutePath())
+        );
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException(ex);
+    }
+  }
+
+  @GET
+  @Path("img")
+  @Produces("image/png")
+  public Response getImage(@QueryParam("prodId") Integer prodId, @QueryParam("imageName") String imgName) {
+    try {
+      ImageInfo imgInfo = new ImageInfo(prodId, imgName);
+      String imgPath = imgInfo.localPath(SvcUtils.getCfg());
+      File img = new File(imgPath);
+      logger.warning("Getting image from: " + img.getAbsolutePath());
+      if (img.exists()) {
+        Response.ResponseBuilder response = Response.ok(img);
+        response.header("Content-Disposition",
+          "attachment; filename=image_from_server.png");
         return response.build();
       }
       else

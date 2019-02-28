@@ -1,8 +1,6 @@
 package org.xg.ui;
 
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,9 +10,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import org.xg.auth.SvcHelpers;
 import org.xg.db.model.MProduct;
 import org.xg.gnl.GlobalCfg;
+import org.xg.svc.ImageInfo;
 import org.xg.ui.model.Product;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -32,6 +32,16 @@ public class ProductTableController implements Initializable {
   public StringProperty getSelectedProductDetail() {
     return selectedProductDetail;
   }
+
+  private StringProperty selectedProductImageUrl = new SimpleStringProperty();
+  public StringProperty getSelectedProductImageUrl() {
+    return selectedProductImageUrl;
+  }
+
+//  private ObjectProperty<Image> selectedProductImg = new SimpleObjectProperty<>();
+//  public ObjectProperty<Image> getSelectedProductImg() {
+//    return selectedProductImg;
+//  }
 
   private static ObservableList<Product> updateAllProducts() {
     GlobalCfg cfg = GlobalCfg.localTestCfg();
@@ -71,11 +81,11 @@ public class ProductTableController implements Initializable {
         "price0",
         80
       ),
-      tableColumnResBundle("productTable.detailedInfo",
-        resBundle,
-        "detailedInfo",
-        80
-      ),
+//      tableColumnResBundle("productTable.detailedInfo",
+//        resBundle,
+//        "detailedInfo",
+//        80
+//      ),
       tableColumnResBundle("productTable.Keywords",
         resBundle,
         "keywords",
@@ -113,6 +123,21 @@ public class ProductTableController implements Initializable {
         Product prod = products.get(nv);
         System.out.println("new selection: " + prod.getName());
         selectedProductDetail.setValue(prod.getDetailedInfo());
+        ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
+        String url = imgInfo.getUrl(GlobalCfg.localTestCfg());
+        System.out.println("Getting image: " + url);
+//        Image img = new Image(url, true);
+//        img.progressProperty().addListener(new ChangeListener<Number>() {
+//          @Override
+//          public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//            if (newValue.doubleValue() >= 1.0) {
+//              System.out.println("load complete!");
+//              selectedProductImg.set(img);
+//            }
+//          }
+//        });
+
+        selectedProductImageUrl.setValue(url);
       }
 
     }

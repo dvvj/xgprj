@@ -58,7 +58,7 @@ class DataUtilsTest extends TestNGSuite with Matchers with TableDrivenPropertyCh
   )
   @Test
   def dateStrTest():Unit = {
-    forAll(zonedDateTime2StrTestData) { (zdt, expStr) =>
+    forAll(dateStrTestData) { (zdt, expStr) =>
       val res = DataUtils.dateStr(zdt)
       res shouldBe expStr
     }

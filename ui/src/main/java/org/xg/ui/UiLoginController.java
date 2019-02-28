@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -111,7 +110,10 @@ public class UiLoginController {
         loadRightSide("prod", Global.AllRes)
       );
 
-      rightSideController.bindDetails(productTableController.getSelectedProductDetail());
+      rightSideController.setBinding(
+        productTableController.getSelectedProductDetail(),
+        productTableController.getSelectedProductImageUrl()
+      );
 
       Scene scene = Global.sceneDefStyle(root);
 

@@ -5,6 +5,7 @@ import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
 import org.xg.db.model.MOrder;
+import org.xg.hbn.HbnDbOpsImpl;
 import org.xg.svc.UserOrder;
 
 import javax.ws.rs.*;
@@ -30,11 +31,11 @@ public class OrderOps {
       logger.warning(
         String.format("Getting orders for user [%s]", uid)
       );
-      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
-
-      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+//      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
+//      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+      TDbOps dbOps = HbnDbOpsImpl.hbnOps();
       MOrder[] orders = dbOps.ordersOf(uid);
-      conn.close();
+//      conn.close();
       return Response.ok(
         MOrder.toJsons(orders)
       ).build();
@@ -53,14 +54,15 @@ public class OrderOps {
   public Response placeOrder(String orderJson, @Context SecurityContext sc) {
     UserOrder userOrder = UserOrder.fromJson(orderJson);
     try {
-      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
-
+//      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
+//      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+      TDbOps dbOps = HbnDbOpsImpl.hbnOps();
       String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
-      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+
       Long orderId = dbOps.placeOrder(
         userOrder.uid(), userOrder.productId(), userOrder.qty()
       );
-      conn.close();
+//      conn.close();
 
       String msg = String.format("Created Order (id: %d)", orderId);
       logger.info(msg);

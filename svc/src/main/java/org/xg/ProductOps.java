@@ -4,6 +4,7 @@ import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
 import org.xg.db.model.MProduct;
+import org.xg.hbn.HbnDbOpsImpl;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,11 +21,11 @@ public class ProductOps {
   public Response allProducts() {
 
     try {
-      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
-
-      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+//      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
+//      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+      TDbOps dbOps = HbnDbOpsImpl.hbnOps();
       MProduct[] allProducts = dbOps.allProducts();
-      conn.close();
+//      conn.close();
       String res = MProduct.toJsons(allProducts);
       return Response.ok(res).build();
     }

@@ -1,12 +1,15 @@
 package org.xg.svc
 
+import org.xg.gnl.GlobalCfg
 import org.xg.json.CommonUtils
 
 case class ImageInfo(
   prodId:Int,
   relUrl:String
 ) {
-  def localPath(rootPath:String):String = s"$rootPath/$prodId/$relUrl"
+  def localPath(cfg:GlobalCfg):String = s"${cfg.assetLocalPath}/$prodId/$relUrl"
+  def url(cfg:GlobalCfg):String = s"${cfg.imgAssetURL}/$prodId/$relUrl"
+  def getUrl(cfg:GlobalCfg):String = s"${cfg.imgAssetURL}?prodId=$prodId&imageName=$relUrl"
 }
 
 object ImageInfo {

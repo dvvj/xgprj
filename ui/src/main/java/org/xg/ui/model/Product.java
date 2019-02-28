@@ -1,5 +1,6 @@
 package org.xg.ui.model;
 
+import org.xg.db.model.AssetItem;
 import org.xg.db.model.MProduct;
 
 import java.util.Arrays;
@@ -51,13 +52,25 @@ public class Product {
     this.name = name;
   }
 
+
+  public List<AssetItem> getAssets() {
+    return assets;
+  }
+
+  public void setAssets(List<AssetItem> assets) {
+    this.assets = assets;
+  }
+
+  private List<AssetItem> assets;
+
   public Product() { }
-  public Product(int id, String name, double price0, String detailedInfo, List<String> keywords) {
+  public Product(int id, String name, double price0, String detailedInfo, List<String> keywords, List<AssetItem> assets) {
     this.id = id;
     this.name = name;
     this.price0 = price0;
     this.detailedInfo = detailedInfo;
     this.keywords = keywords;
+    this.assets = assets;
   }
 
   public static Product fromMProduct(MProduct mp) {
@@ -67,7 +80,8 @@ public class Product {
       mp.name(),
       roundPrice,
       mp.detailedInfo(),
-      Arrays.asList(mp.keywordsArr())
+      Arrays.asList(mp.keywordsArr()),
+      Arrays.asList(mp.assets().assets())
     );
   }
 }

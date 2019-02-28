@@ -5,6 +5,7 @@ import org.xg.db.api.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
 import org.xg.db.model.MCustomer;
+import org.xg.hbn.HbnDbOpsImpl;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
@@ -29,11 +30,11 @@ public class CustomerOps {
   public Response allCustomers(@Context SecurityContext sc) {
     logger.warning("(To be removed) " + sc.getUserPrincipal());
     try {
-      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
-
-      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+//      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
+//      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+      TDbOps dbOps = HbnDbOpsImpl.hbnOps();
       MCustomer[] customers = dbOps.allCustomers();
-      conn.close();
+//      conn.close();
       return Response.ok(
         MCustomer.toJsons(customers)
       ).build();
