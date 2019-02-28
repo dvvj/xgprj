@@ -46,7 +46,7 @@ public class AssetOps {
 
   @GET
   @Path("img")
-  @Produces("image/png")
+  @Produces({"image/png", "image/jpg"})
   public Response getImage(@QueryParam("prodId") Integer prodId, @QueryParam("imageName") String imgName) {
     try {
       ImageInfo imgInfo = new ImageInfo(prodId, imgName);

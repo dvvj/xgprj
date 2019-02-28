@@ -45,6 +45,15 @@ object SvcHelpers {
     res.body
   }
 
+  def get4Bin(url:String, token:String = ""):Array[Byte] = {
+    val header = encodeAuthHeader(token)
+    val res = Http(url)
+      .option(HttpOptions.allowUnsafeSSL)
+      .header("Authorization", header)
+      .asBytes
+    res.body
+  }
+
   def getDecArray[T](url:String, token:String, decoder:String => Array[T]):Array[T] = {
     val res = get(url, token)
     decoder(res)

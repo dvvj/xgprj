@@ -15,6 +15,7 @@
       spacing="10">
 
     <HBox fx:id="imgBox">
+        <Label fx:id="lblUrl" text="url" visible="false" />
         <ImageView fx:id="img" />
     </HBox>
 

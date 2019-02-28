@@ -14,8 +14,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import org.xg.auth.SvcHelpers;
 import org.xg.ui.model.Product;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,7 +29,8 @@ public class CustomerMainRCtrl implements Initializable {
   @FXML
   private TextArea txtDetails;
 
-  private Label lblUrl = new Label();
+  @FXML
+  private Label lblUrl;
   //private StringProperty imgUrlProp = new SimpleStringProperty();
 
   public void setBinding(
@@ -44,11 +47,13 @@ public class CustomerMainRCtrl implements Initializable {
     lblUrl.textProperty().addListener(new ChangeListener<String>() {
       @Override
       public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        System.out.println("New value: " + newValue);
         if (!newValue.equals(oldValue)) {
           System.out.println("updating image");
-          //Image image = new Image(lblUrl.getText(), 200, 400, true, true);
-          //Image image = new Image()
-//          img.setImage(image);
+//          Image image = new Image(lblUrl.getText(), 200, 400, true, true);
+//          Image image = new Image()
+          byte[] bytes = SvcHelpers.get4Bin(lblUrl.getText(), "");
+          img.setImage(new Image(new ByteArrayInputStream(bytes), 300, 300, true, true));
 //
 //          System.out.println(
 //            String.format("setting image to [%s], progress [%.3f]", newValue, image.getProgress())
@@ -70,8 +75,11 @@ public class CustomerMainRCtrl implements Initializable {
         }
       }
     });
-    img.setImage(
-      new Image("file:///media/sf_vmshare/assets/4.png", 200, 400, true, true)
-    );
+
+
+//    img.setImage(
+////      new Image("file:///media/sf_vmshare/assets/4.png", 200, 400, true, true)
+//      new Image("https://localhost:8443/webapi/asset/img?prodId=4&imageName=4.png", 200, 400, true, true)
+//    );
   }
 }

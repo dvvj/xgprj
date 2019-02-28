@@ -119,7 +119,7 @@ public class ProductTableController implements Initializable {
 
       boolean hasUpdate = oldValue != null && oldValue.intValue() != nv;
 
-      if (nv < products.size() && hasUpdate) {
+      if (nv >= 0 && nv < products.size() && hasUpdate) {
         Product prod = products.get(nv);
         System.out.println("new selection: " + prod.getName());
         selectedProductDetail.setValue(prod.getDetailedInfo());
