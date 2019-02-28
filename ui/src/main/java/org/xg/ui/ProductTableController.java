@@ -93,6 +93,7 @@ public class ProductTableController implements Initializable {
       ),
       tableOpsColumn(
         resBundle.getString("productTable.action"),
+
         240
       )
     );
@@ -106,6 +107,11 @@ public class ProductTableController implements Initializable {
     if (productsCache.size() > 0) {
       tblProducts.getSelectionModel().select(0);
     }
+  }
+
+  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
+  public ObservableValue<Product> getSelectedProduct() {
+    return selectedProduct;
   }
 
   private class RowSelectChangeListener implements ChangeListener<Number> {
@@ -136,6 +142,7 @@ public class ProductTableController implements Initializable {
 //            }
 //          }
 //        });
+        selectedProduct.setValue(prod);
 
         selectedProductImageUrl.setValue(url);
       }

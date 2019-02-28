@@ -36,7 +36,7 @@ public class WvTest extends Application {
     root.getChildren().addAll(btn, wv);
 
     AlipayCfg cfg = AlipayHelpers.testLocalCfg(privateKeyPath);
-    String pageContent = AlipayHelpers.test1RandTraceNo(cfg);
+    String pageContent = AlipayHelpers.test1RandTraceNo(cfg, "prod name", 0.01);
     wv.getEngine().loadContent(pageContent);
 
     stage.setScene(

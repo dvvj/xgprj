@@ -28,11 +28,16 @@ object AlipayHelpers {
     cfg
   }
 
-  def test1RandTraceNo(cfg:AlipayCfg):String = {
-    test1(cfg, LocalDateTime.now().toString)
+  def test1RandTraceNo(cfg:AlipayCfg, prodName:String, totalAmount:Double):String = {
+    test1(
+      cfg,
+      LocalDateTime.now().toString,
+      prodName,
+      totalAmount
+    )
   }
 
-  def test1(cfg:AlipayCfg, outTradeNo:String):String = {
+  def test1(cfg:AlipayCfg, outTradeNo:String, prodName:String, totalAmount:Double):String = {
 
     val client = new DefaultAlipayClient(
       cfg.url,
@@ -53,10 +58,10 @@ object AlipayHelpers {
     req.setNotifyUrl("https://reqres.in//api/users?page=2")
     val currentTime = System.currentTimeMillis()
     val payModel = new AlipayTradeAppPayModel
-    payModel.setSubject("大乐透")
-    payModel.setBody("大乐透")
+    payModel.setSubject(prodName)
+    payModel.setBody(prodName)
     payModel.setProductCode("FAST_INSTANT_TRADE_PAY")
-    payModel.setTotalAmount("0.01")
+    payModel.setTotalAmount(f"$totalAmount%.2f")
     payModel.setOutTradeNo(outTradeNo)
     req.setBizModel(payModel);//填充业务参数
     //  req.setBizContent("{" +

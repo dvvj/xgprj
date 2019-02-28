@@ -81,14 +81,14 @@ public class UiLoginController {
       new Insets(20)
     );
     rightSideController = rightSideLoader.getController();
-    FXMLLoader placeOrderLoader = new FXMLLoader(
-      UiLoginController.class.getResource("/ui/PlaceOrder.fxml"),
-      resBundle
-    );
-
-    VBox placeOrder = placeOrderLoader.load();
-
-    rightSide.getChildren().add(placeOrder);
+//    FXMLLoader placeOrderLoader = new FXMLLoader(
+//      UiLoginController.class.getResource("/ui/PlaceOrder.fxml"),
+//      resBundle
+//    );
+//
+//    VBox placeOrder = placeOrderLoader.load();
+//
+//    rightSide.getChildren().add(placeOrder);
 
     return rightSide;
   }
@@ -112,7 +112,8 @@ public class UiLoginController {
 
       rightSideController.setBinding(
         productTableController.getSelectedProductDetail(),
-        productTableController.getSelectedProductImageUrl()
+        productTableController.getSelectedProductImageUrl(),
+        productTableController.getSelectedProduct()
       );
 
       Scene scene = Global.sceneDefStyle(root);

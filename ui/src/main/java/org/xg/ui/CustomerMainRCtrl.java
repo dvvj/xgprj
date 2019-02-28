@@ -8,20 +8,28 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
+import org.xg.ui.comp.PlaceOrderCtrl;
 import org.xg.ui.model.Product;
+import org.xg.ui.utils.Global;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CustomerMainRCtrl implements Initializable {
+  @FXML
+  VBox vboxMainR;
 
   @FXML
   private ImageView img;
@@ -33,16 +41,39 @@ public class CustomerMainRCtrl implements Initializable {
   private Label lblUrl;
   //private StringProperty imgUrlProp = new SimpleStringProperty();
 
+//  private HBox hbPlaceOrder;
+  private PlaceOrderCtrl poCtrl;
+//  public void setSelectedProduct(Product product) {
+//    poCtrl.setSelectedProduct(product);
+//  }
+
   public void setBinding(
     ObservableValue<String> details,
-    ObservableValue<String> imageUrl
+    ObservableValue<String> imageUrl,
+    ObservableValue<Product> selectedProduct
   ) {
     txtDetails.textProperty().bind(details);
     lblUrl.textProperty().bind(imageUrl);
+    poCtrl.bindSelectedProduct(selectedProduct);
   }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+
+    FXMLLoader loader = new FXMLLoader(
+      getClass().getResource("/ui/PlaceOrder.fxml"),
+      Global.AllRes
+    );
+
+    try {
+      VBox vbox = loader.load();
+      poCtrl = loader.getController();
+      vboxMainR.getChildren().add(vbox);
+    }
+    catch (IOException ex) {
+      throw new RuntimeException("Error loading ProductPlaceOrderTableCell", ex);
+    }
+
 
     lblUrl.textProperty().addListener(new ChangeListener<String>() {
       @Override

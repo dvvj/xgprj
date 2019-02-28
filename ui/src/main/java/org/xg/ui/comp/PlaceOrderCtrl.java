@@ -1,9 +1,6 @@
 package org.xg.ui.comp;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.ui.UiLoginController;
+import org.xg.ui.model.Product;
 import org.xg.ui.utils.Global;
 
 import java.io.IOException;
@@ -43,23 +41,38 @@ public class PlaceOrderCtrl implements Initializable {
 
   private BooleanProperty invalidNumber = new SimpleBooleanProperty();
 
+  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
+
+  public void bindSelectedProduct(ObservableValue<Product> product) {
+    selectedProduct.bind(product);
+  }
+
   @FXML
   private void handlePurchase(ActionEvent e) {
-    FXMLLoader loader = new FXMLLoader(
-      UiLoginController.class.getResource("/ui/AlipayWebview.fxml"),
-      Global.AllRes
-    );
+    if (selectedProduct.getValue() != null) {
+      FXMLLoader loader = new FXMLLoader(
+        UiLoginController.class.getResource("/ui/AlipayWebview.fxml"),
+        Global.AllRes
+      );
 
-    try {
-      HBox n = loader.load();
-      Scene scene = Global.sceneDefStyle(n);
-      Stage payStage = new Stage();
-      payStage.setScene(scene);
-      payStage.show();
+      try {
+        HBox n = loader.load();
+        AlipayWebviewCtrl ctrl = loader.getController();
+        ctrl.setAmountAndSendReq(selectedProduct.getValue(), txtQty.textProperty());
+        Scene scene = Global.sceneDefStyle(n);
+        Stage payStage = new Stage();
+        payStage.setScene(scene);
+        payStage.show();
+      }
+
+      catch (IOException ex) {
+        throw new RuntimeException("Error launching main window!", ex);
+      }
     }
-    catch (IOException ex) {
-      throw new RuntimeException("Error launching main window!", ex);
+    else {
+      System.out.println("Selected product is null");
     }
+
   }
 
   @FXML

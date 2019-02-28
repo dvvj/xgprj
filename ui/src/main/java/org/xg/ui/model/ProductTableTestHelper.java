@@ -1,5 +1,6 @@
 package org.xg.ui.model;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -41,10 +42,10 @@ public class ProductTableTestHelper {
     );
   }
 
-  public static TableColumn<Product, String> tableOpsColumn(String colName, int prefWidth) {
-    TableColumn<Product, String> col = new TableColumn<>(colName);
+  public static TableColumn<Product, Product> tableOpsColumn(String colName, int prefWidth) {
+    TableColumn<Product, Product> col = new TableColumn<>(colName);
     col.setPrefWidth(prefWidth);
-    //col.setCellValueFactory(new PropertyValueFactory<>(propName));
+    col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
     col.setCellFactory(c -> new ProductPlaceOrderTableCell());
     return col;
   }

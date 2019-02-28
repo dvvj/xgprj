@@ -11,6 +11,7 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.xg.ui.CustomerMainRCtrl"
+      fx:id="vboxMainR"
       prefWidth="300"
       spacing="10">
 
@@ -20,5 +21,5 @@
     </HBox>
 
     <TextArea fx:id="txtDetails" text="Product details" wrapText="true" ></TextArea>
-    <HBox fx:id="hbPlaceOrder"></HBox>
+
 </VBox>
