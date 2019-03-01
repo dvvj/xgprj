@@ -40,3 +40,20 @@ CREATE TABLE order_history (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE med_profs (
+  prof_id VARCHAR(255) NOT NULL,
+  name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  pass_hash BINARY(64) NOT NULL,
+  idcard_no VARCHAR(31) NOT NULL,
+  mobile VARCHAR(31) NOT NULL,
+  PRIMARY KEY (prof_id)
+);
+
+CREATE TABLE agency (
+  agency_id VARCHAR(255) NOT NULL,
+  name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  pass_hash BINARY(64) NOT NULL,
+  agency_no VARCHAR(31) NOT NULL,
+  mobile VARCHAR(31) NOT NULL,
+  PRIMARY KEY (agency_id)
+);

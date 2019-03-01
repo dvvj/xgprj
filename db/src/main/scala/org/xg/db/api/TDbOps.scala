@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.time.LocalDateTime
 
 import org.joda.time.DateTime
-import org.xg.db.model.{MCustomer, MOrder, MOrderHistory, MProduct}
+import org.xg.db.model._
 
 trait TDbOps {
   def addNewCustomer(uid:String, name:String, pass:String, idCardNo:String, mobile:String, postalAddr:String, ref_uid: String, bday:String):String
@@ -20,6 +20,10 @@ trait TDbOps {
 
   // product related
   def allProducts:Array[MProduct]
+
+  // profs related
+  def addNewMedProf(profId:String, name:String, pass:String, idCardNo:String, mobile:String):String
+  def allMedProfs:Array[MMedProf]
 
   // authentication related
   def getUserPassMap:Map[String, Array[Byte]]

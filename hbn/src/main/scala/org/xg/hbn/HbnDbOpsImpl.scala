@@ -4,7 +4,7 @@ import java.util
 
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
-import org.xg.db.model.{MCustomer, MOrder, MOrderHistory, MProduct}
+import org.xg.db.model._
 import org.xg.gnl.DataUtils
 import org.xg.hbn.ent.{Customer, Product}
 
@@ -49,6 +49,30 @@ object HbnDbOpsImpl {
 //      }
 //      true
 //    }
+
+    override def allMedProfs: Array[MMedProf] = {
+      runInTransaction { sess =>
+        val ql = s"Select mp from ${classOf[MedProf].getName} mp"
+
+        val q = sess.createQuery(ql)
+        val t = q.getResultList.asScala.map(_.asInstanceOf[MedProf])
+        //        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
+        val res = t.toArray.map(convertMedProf)
+        res
+      }
+    }
+
+    override def addNewMedProf(profId: String, name: String, pass: String, idCardNo: String, mobile: String): String = {
+      runInTransaction { sess =>
+        val passHash = AuthHelpers.sha512(pass)
+        val medProf = new MedProf(
+          profId, name, passHash,
+          idCardNo, mobile
+        )
+        sess.save(medProf)
+        profId
+      }
+    }
 
     override def testAllOrderHistory: Array[MOrderHistory] = {
       runInTransaction { sess =>

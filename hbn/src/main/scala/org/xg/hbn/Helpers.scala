@@ -51,6 +51,10 @@ object Helpers {
     MCustomer(c.getUid, c.getName, c.getIdCardNo, c.getMobile, c.getPostalAddr, c.getBday, c.getRefUid)
   }
 
+  def convertMedProf(mp:MedProf):MMedProf = {
+    MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile)
+  }
+
   import DataUtils._
   def convertOrder(o:Order):MOrder = {
     MOrder(
