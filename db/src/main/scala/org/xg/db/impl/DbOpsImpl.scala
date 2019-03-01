@@ -26,6 +26,7 @@ object DbOpsImpl {
     override def addNewMedProf(profId: String, name: String, pass: String, idCardNo: String, mobile: String): String = ???
     override def allMedProfs: Array[MMedProf] = ???
     override def getMedProfPassMap: Map[String, Array[Byte]] = ???
+    override def customersOf(profId: String): Array[MCustomer] = ???
 
     override def placeOrder(uid: String, productId: Int, qty: Double): Long = {
       try {

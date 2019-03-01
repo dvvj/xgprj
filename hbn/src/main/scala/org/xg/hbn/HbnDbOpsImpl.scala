@@ -200,6 +200,16 @@ object HbnDbOpsImpl {
         res
       }
     }
+
+    override def customersOf(profId: String): Array[MCustomer] = {
+      runInTransaction { sess =>
+        val ql = s"Select c from ${classOf[Customer].getName} c where c.refUid = '$profId'"
+        val q = sess.createQuery(ql)
+        val res = q.getResultList.asScala
+          .toArray.map(c => convertCustomer(c.asInstanceOf[Customer]))
+        res
+      }
+    }
   }
 
   val hbnOps:TDbOps = new OpsImpl

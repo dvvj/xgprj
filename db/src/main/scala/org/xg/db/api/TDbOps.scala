@@ -24,6 +24,7 @@ trait TDbOps {
   // profs related
   def addNewMedProf(profId:String, name:String, pass:String, idCardNo:String, mobile:String):String
   def allMedProfs:Array[MMedProf]
+  def customersOf(profId:String):Array[MCustomer]
 
   // authentication related
   def getUserPassMap:Map[String, Array[Byte]]
