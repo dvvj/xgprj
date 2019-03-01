@@ -38,6 +38,7 @@
         <mapping class="org.xg.hbn.ent.Order" />
         <mapping class="org.xg.hbn.ent.Asset" />
         <mapping class="org.xg.hbn.ent.OrderHistory" />
+        <mapping class="org.xg.hbn.ent.MedProf" />
 
     </session-factory>
 

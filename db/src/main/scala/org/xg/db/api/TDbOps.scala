@@ -27,8 +27,13 @@ trait TDbOps {
 
   // authentication related
   def getUserPassMap:Map[String, Array[Byte]]
+  def getMedProfPassMap: Map[String, Array[Byte]]
+
+  import collection.JavaConverters._
   def getUserPassMapJ:java.util.Map[String, Array[Byte]] = {
-    import collection.JavaConverters._
     getUserPassMap.asJava
+  }
+  def getMedProfPassMapJ:java.util.Map[String, Array[Byte]] = {
+    getMedProfPassMap.asJava
   }
 }

@@ -176,6 +176,21 @@ object HbnDbOpsImpl {
       }
     }
 
+    override def getMedProfPassMap: Map[String, Array[Byte]] = {
+      runInTransaction { sess =>
+        val ql = s"Select mp.profId, mp.passHash from ${classOf[MedProf].getName} mp"
+
+        val q = sess.createQuery(ql)
+        val t = q.getResultList.asScala.map { r =>
+          val objArr = r.asInstanceOf[Array[AnyRef]]
+          val uid = objArr(0).asInstanceOf[String]
+          val passHash = objArr(1).asInstanceOf[Array[Byte]]
+          uid -> passHash
+        }
+        t.toMap
+      }
+    }
+
     override def ordersOf(uid: String): Array[MOrder] = {
       runInTransaction { sess =>
         val ql = s"Select o from ${classOf[Order].getName} o where o.customerId = '$uid'"
