@@ -24,6 +24,8 @@ object DbOpsImpl {
 
     override def testAllOrderHistory: Array[MOrderHistory] = ???
 
+    override def lockOrders: Array[MOrder] = ???
+
     override def placeOrder(uid: String, productId: Int, qty: Double): Long = {
       try {
         val time = DataUtils.utcTimeNow

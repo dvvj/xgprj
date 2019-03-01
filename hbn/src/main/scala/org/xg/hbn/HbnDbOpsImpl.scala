@@ -15,6 +15,8 @@ object HbnDbOpsImpl {
   import collection.JavaConverters._
   import org.xg.hbn.ent._
 
+  import DataUtils._
+
   private class OpsImpl extends TDbOps {
     override def addNewCustomer(
                                  uid: String,
@@ -62,12 +64,34 @@ object HbnDbOpsImpl {
       runInTransaction { sess =>
         val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
         val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
-        val histEntry = new OrderHistory(order.getId, DataUtils.utcTimeNow, order.getQty)
-        order.setQty(newQty)
-        sess.update(order)
-        sess.save(histEntry)
-        true
+        val morder = convertOrder(order)
+        if (morder.canBeModified) {
+          val histEntry = new OrderHistory(order.getId, DataUtils.utcTimeNow, order.getQty)
+          order.setQty(newQty)
+          sess.update(order)
+          sess.save(histEntry)
+          true
+        }
+        else {
+          loggingTodo("Order locked (cannot be modified anymore)!")
+          false
+        }
       }
+    }
+
+    override def lockOrders: Array[MOrder] = {
+      val currTime = DataUtils.utcTimeNow
+      runInTransaction { sess =>
+        val orderQuery = s"Select o from ${classOf[Order].getName} o where o.procTime1 is null"
+        val orders = sess.createQuery(orderQuery).getResultList
+          .asScala.map(_.asInstanceOf[Order])
+        orders.foreach { o =>
+          o.setProcTime1(currTime)
+          sess.update(o)
+        }
+        orders.map(convertOrder).toArray
+      }
+
     }
 
     override def placeOrder(uid: String, productId: Int, qty: Double): Long = {

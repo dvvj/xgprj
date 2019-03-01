@@ -67,4 +67,8 @@ object Helpers {
       oh.getOrderId, zonedDateTime2Str(oh.getUpdateTime), oh.getOldQty
     )
   }
+
+  def loggingTodo(msg:String):Unit = {
+    println(msg)
+  }
 }

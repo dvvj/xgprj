@@ -16,6 +16,7 @@ trait TDbOps {
   def updateOrder(orderId:Long, newQty:Double):Boolean
 
   def testAllOrderHistory:Array[MOrderHistory]
+  def lockOrders:Array[MOrder]
 
   // product related
   def allProducts:Array[MProduct]
