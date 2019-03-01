@@ -31,3 +31,12 @@ CREATE TABLE orders (
   PRIMARY KEY (id)
 );
 
+
+CREATE TABLE order_history (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  order_id BIGINT NOT NULL,
+  update_time TIMESTAMP NOT NULL,
+  old_qty FLOAT NOT NULL,
+  PRIMARY KEY (id)
+);
+

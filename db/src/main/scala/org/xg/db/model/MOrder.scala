@@ -8,13 +8,15 @@ case class MOrder(
   productId:Int,
   qty:Double,
   creationTimeS:String,
-  procTime1S:String,
+  procTime1S:String, // time order being locked, i.e. cannot be modified
   procTime2S:String,
   procTime3S:String
 ) {
 //  def creationTime:ZonedDateTime = {
 //
 //  }
+
+  def canBeModified:Boolean = procTime1S == null || procTime1S.isEmpty
 }
 
 object MOrder {

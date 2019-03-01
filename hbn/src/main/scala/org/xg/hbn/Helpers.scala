@@ -1,7 +1,7 @@
 package org.xg.hbn
 
 import org.hibernate.Session
-import org.xg.db.model.{AssetCfg, MCustomer, MOrder, MProduct}
+import org.xg.db.model._
 import org.xg.gnl.DataUtils
 import org.xg.hbn.utils.HbnUtils
 
@@ -51,13 +51,20 @@ object Helpers {
     MCustomer(c.getUid, c.getName, c.getIdCardNo, c.getMobile, c.getPostalAddr, c.getBday, c.getRefUid)
   }
 
+  import DataUtils._
   def convertOrder(o:Order):MOrder = {
     MOrder(
       o.getId, o.getCustomerId, o.getProductId, o.getQty,
-      DataUtils.zonedDateTime2Str(o.getCreationTime),
-      DataUtils.zonedDateTime2Str(o.getProcTime1),
-      DataUtils.zonedDateTime2Str(o.getProcTime2),
-      DataUtils.zonedDateTime2Str(o.getProcTime3)
+      zonedDateTime2Str(o.getCreationTime),
+      zonedDateTime2Str(o.getProcTime1),
+      zonedDateTime2Str(o.getProcTime2),
+      zonedDateTime2Str(o.getProcTime3)
+    )
+  }
+
+  def convertOrderHistory(oh:OrderHistory):MOrderHistory = {
+    MOrderHistory(
+      oh.getOrderId, zonedDateTime2Str(oh.getUpdateTime), oh.getOldQty
     )
   }
 }

@@ -50,6 +50,9 @@ object PlaceOrderTests extends App {
   val orders3 = hbnOps.ordersOf(uid3)
   println(orders3.size)
 
+  val histories = hbnOps.testAllOrderHistory
+  println(histories.length)
+
   HbnUtils.shutdown()
 
 }

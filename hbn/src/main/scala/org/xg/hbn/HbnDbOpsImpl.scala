@@ -4,7 +4,7 @@ import java.util
 
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
-import org.xg.db.model.{MCustomer, MOrder, MProduct}
+import org.xg.db.model.{MCustomer, MOrder, MOrderHistory, MProduct}
 import org.xg.gnl.DataUtils
 import org.xg.hbn.ent.{Customer, Product}
 
@@ -47,6 +47,28 @@ object HbnDbOpsImpl {
 //      }
 //      true
 //    }
+
+    override def testAllOrderHistory: Array[MOrderHistory] = {
+      runInTransaction { sess =>
+        val orderQuery = s"Select oh from ${classOf[OrderHistory].getName} oh"
+        val orderHistories = sess.createQuery(orderQuery).getResultList
+          .asScala.map(_.asInstanceOf[OrderHistory])
+        orderHistories.map(convertOrderHistory).toArray
+      }
+    }
+
+    override def updateOrder(orderId: Long, newQty:Double): Boolean = {
+      val updateTime = DataUtils.utcTimeNow
+      runInTransaction { sess =>
+        val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
+        val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
+        val histEntry = new OrderHistory(order.getId, DataUtils.utcTimeNow, order.getQty)
+        order.setQty(newQty)
+        sess.update(order)
+        sess.save(histEntry)
+        true
+      }
+    }
 
     override def placeOrder(uid: String, productId: Int, qty: Double): Long = {
       val creationTime = DataUtils.utcTimeNow

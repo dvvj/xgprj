@@ -8,7 +8,7 @@ import java.util.Base64
 import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
-import org.xg.db.model.{AssetCfg, MCustomer, MOrder, MProduct}
+import org.xg.db.model._
 import org.xg.gnl.DataUtils
 
 import scala.collection.mutable.ListBuffer
@@ -19,6 +19,10 @@ object DbOpsImpl {
     private val _conn = conn
 
     import collection.mutable
+
+    override def updateOrder(orderId: Long, newQty:Double): Boolean = ???
+
+    override def testAllOrderHistory: Array[MOrderHistory] = ???
 
     override def placeOrder(uid: String, productId: Int, qty: Double): Long = {
       try {
