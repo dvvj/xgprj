@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.xg.ui.comp.ModifyOrderTableCell;
 import org.xg.ui.comp.ProductPlaceOrderTableCell;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public class ProductTableHelper {
     TableColumn<TO, T> col = new TableColumn<>(colName);
     col.setCellValueFactory(new PropertyValueFactory<>(propName));
     col.setPrefWidth(prefWidth);
-    col.setResizable(false);
+    //col.setResizable(false);
     return col;
   }
 
@@ -48,6 +49,14 @@ public class ProductTableHelper {
     col.setPrefWidth(prefWidth);
     col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
     col.setCellFactory(c -> new ProductPlaceOrderTableCell());
+    return col;
+  }
+
+  public static TableColumn<Order, Order> orderTableOpsColumn(String colName, int prefWidth) {
+    TableColumn<Order, Order> col = new TableColumn<>(colName);
+    col.setPrefWidth(prefWidth);
+    col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
+    col.setCellFactory(c -> new ModifyOrderTableCell());
     return col;
   }
 }

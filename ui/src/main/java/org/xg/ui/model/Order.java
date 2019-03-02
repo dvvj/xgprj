@@ -1,11 +1,13 @@
 package org.xg.ui.model;
 
+import javafx.beans.property.IntegerProperty;
 import org.xg.db.model.MOrder;
 import org.xg.gnl.DataUtils;
 import org.xg.ui.utils.Global;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Order {
@@ -15,7 +17,15 @@ public class Order {
   private String prodName;
   private Double qty;
   private ZonedDateTime creationTime;
-  private boolean locked;
+  private int status;
+
+  public String getStatusStr() {
+    return statusMap.get(status);
+  }
+
+  public boolean getCanBeModified() {
+    return status == OrderStatus_Created;
+  }
 
   public Order() {
 
@@ -26,13 +36,13 @@ public class Order {
     String prodName,
     Double qty,
     ZonedDateTime creationTime,
-    boolean locked
+    int status
   ) {
     this.id = id;
     this.prodName = prodName;
     this.qty = qty;
     this.creationTime = creationTime;
-    this.locked = locked;
+    this.status = status;
   }
 
   public Long getId() {
@@ -67,18 +77,29 @@ public class Order {
     this.prodName = prodName;
   }
 
-  public boolean isLocked() {
-    return locked;
+  public static int getOrderStatus(MOrder mo) {
+    if (mo.procTime1S() != null && !mo.procTime1S().isEmpty()) {
+      return OrderStatus_Locked;
+    }
+    else {
+      return OrderStatus_Created;
+    }
+  }
+  private final static int OrderStatus_Created = 1;
+  private final static int OrderStatus_Locked = 2;
+
+  private final static Map<Integer, String> statusMap;
+  static {
+    statusMap = new HashMap<>();
+    statusMap.put(OrderStatus_Created, Global.AllRes.getString("orderTable.status.orderCreated"));
+    statusMap.put(OrderStatus_Locked, Global.AllRes.getString("orderTable.status.orderLocked"));
   }
 
-  public void setLocked(boolean locked) {
-    this.locked = locked;
-  }
 
   public static Order fromMOrder(MOrder mo, Map<Integer, Product> productMap) {
     Product product = productMap.get(mo.productId());
     ZonedDateTime dt = LocalDateTime.parse(mo.creationTimeS()).atZone(DataUtils.UTC());
-    boolean blocked = mo.procTime1S() != null && !mo.procTime1S().isEmpty();
-    return new Order(mo.id(), product.getName(), mo.qty(), dt, blocked);
+    int status = getOrderStatus(mo);
+    return new Order(mo.id(), product.getName(), mo.qty(), dt, status);
   }
 }

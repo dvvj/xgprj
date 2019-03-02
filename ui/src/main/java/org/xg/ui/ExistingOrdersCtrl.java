@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static org.xg.ui.model.ProductTableHelper.tableColumnResBundle;
+import static org.xg.ui.model.ProductTableHelper.*;
 
 public class ExistingOrdersCtrl implements Initializable {
   @FXML
@@ -53,10 +53,14 @@ public class ExistingOrdersCtrl implements Initializable {
         200
       ),
       tableColumnResBundle(
-        "orderTable.locked",
+        "orderTable.status",
         resBundle,
-        "locked",
-        200
+        "statusStr",
+        80
+      ),
+      orderTableOpsColumn(
+        Global.AllRes.getString("orderTable.action"),
+        80
       )
     );
 

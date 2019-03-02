@@ -17,7 +17,7 @@ public class ProductPlaceOrderTableCell extends TableCell<Product, Product> {
   protected void updateItem(Product item, boolean empty) {
     super.updateItem(item, empty);
 
-    System.out.println("item: " + item);
+    //System.out.println("item: " + item);
 
     if (empty) {
       setText(null);
