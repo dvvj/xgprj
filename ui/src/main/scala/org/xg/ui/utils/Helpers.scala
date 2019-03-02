@@ -30,4 +30,9 @@ object Helpers {
       res
     }
   }
+
+  import collection.JavaConverters._
+  def productMapFromJ(products:Array[Product]):java.util.Map[Integer, Product] = {
+    products.map(p => p.getId -> p).toMap.asJava
+  }
 }

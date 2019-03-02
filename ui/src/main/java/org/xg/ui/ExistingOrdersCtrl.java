@@ -1,5 +1,7 @@
 package org.xg.ui;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,21 +19,46 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static org.xg.ui.model.ProductTableHelper.tableColumnResBundle;
+
 public class ExistingOrdersCtrl implements Initializable {
   @FXML
   private TableView<Order> tblOrders;
 
-  private ObservableList<Order> getOrders(Map<Integer, Product> productMap) {
-    GlobalCfg cfg = GlobalCfg.localTestCfg();
-
-    String j = SvcHelpers.get(cfg.currOrdersURL(), Global.getCurrToken());
-    MOrder[] morders = MOrder.fromJsons(j);
-    Order[] orders = Helpers.convOrders(morders, productMap);
-    return FXCollections.observableArrayList(orders);
-  }
+  private Property<ObservableList<Order>> ordersCache = new SimpleListProperty<>();
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public void initialize(URL location, ResourceBundle resBundle) {
+    ordersCache.setValue(Global.getAllOrders());
+
+    tblOrders.itemsProperty().bindBidirectional(ordersCache);
+
+    tblOrders.getColumns().addAll(
+      tableColumnResBundle(
+        "orderTable.prodName",
+        resBundle,
+        "prodName",
+        300
+      ),
+      tableColumnResBundle(
+        "orderTable.qty",
+        resBundle,
+        "qty",
+        100
+      ),
+      tableColumnResBundle(
+        "orderTable.creationTime",
+        resBundle,
+        "creationTime",
+        200
+      ),
+      tableColumnResBundle(
+        "orderTable.locked",
+        resBundle,
+        "locked",
+        200
+      )
+    );
 
   }
 }

@@ -22,15 +22,15 @@ public class ProductTableHelper {
 //      new Product(6, "prod6", 7.99, "detail 6", Arrays.asList("kw4", "kw5"))
 //    );
 
-  public static <T> TableColumn<Product, T> tableColumn(String colName, String propName, int prefWidth) {
-    TableColumn<Product, T> col = new TableColumn<>(colName);
+  public static <TO, T> TableColumn<TO, T> tableColumn(String colName, String propName, int prefWidth) {
+    TableColumn<TO, T> col = new TableColumn<>(colName);
     col.setCellValueFactory(new PropertyValueFactory<>(propName));
     col.setPrefWidth(prefWidth);
     col.setResizable(false);
     return col;
   }
 
-  public static <T> TableColumn<Product, T> tableColumnResBundle(
+  public static <TO, T> TableColumn<TO, T> tableColumnResBundle(
     String colNameKey,
     ResourceBundle resBundle,
     String propName,

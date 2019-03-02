@@ -63,10 +63,17 @@ public class UiLoginController {
     TableView tv = productLoader.load();
     productTableController = productLoader.getController();
 
-    leftSide.getChildren().addAll(greetings, tv);
+    URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
+    FXMLLoader orderLoader = new FXMLLoader(pathOrders, resBundle);
+    TableView orderTable = orderLoader.load();
+    orderController = orderLoader.getController();
+
+    leftSide.getChildren().addAll(greetings, tv, orderTable);
     return leftSide;
 
   }
+
+  private ExistingOrdersCtrl orderController;
 
   private ProductTableController productTableController;
 

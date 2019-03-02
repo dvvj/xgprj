@@ -8,12 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
+import org.xg.db.model.MOrder;
 import org.xg.db.model.MProduct;
 import org.xg.gnl.GlobalCfg;
+import org.xg.ui.model.Order;
 import org.xg.ui.model.Product;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Global {
   public final static Locale locale = new Locale("zh", "CN");
@@ -43,6 +46,10 @@ public class Global {
   }
 
   private static ObservableList<Product> allProducts = null;
+  private static Map<Integer, Product> productMap = null;
+  public static Map<Integer, Product> getProductMap() {
+    return productMap;
+  }
   public static ObservableList<Product> updateAllProducts() {
     try {
       GlobalCfg cfg = GlobalCfg.localTestCfg();
@@ -52,6 +59,7 @@ public class Global {
       );
       MProduct[] products = MProduct.fromJsons(j);
       Product[] prods = Helpers.convProducts(products);
+      productMap = Helpers.productMapFromJ(prods);
       return FXCollections.observableArrayList(prods);
     }
     catch (Exception ex) {
@@ -68,5 +76,22 @@ public class Global {
     }
 
     return allProducts;
+  }
+
+  private static ObservableList<Order> allOrders = null;
+  private static ObservableList<Order> updateAllOrders() {
+    GlobalCfg cfg = GlobalCfg.localTestCfg();
+
+    String j = SvcHelpers.get(cfg.currOrdersURL(), Global.getCurrToken());
+    MOrder[] morders = MOrder.fromJsons(j);
+    Order[] orders = Helpers.convOrders(morders, Global.getProductMap());
+    return FXCollections.observableArrayList(orders);
+  }
+  public static ObservableList<Order> getAllOrders() {
+    if (allOrders == null || allOrders.isEmpty()) {
+      allOrders = updateAllOrders();
+    }
+
+    return allOrders;
   }
 }
