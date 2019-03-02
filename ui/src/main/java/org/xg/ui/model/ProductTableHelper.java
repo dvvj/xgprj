@@ -10,7 +10,7 @@ import org.xg.ui.comp.ProductPlaceOrderTableCell;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class ProductTableTestHelper {
+public class ProductTableHelper {
 
 //  public final static ObservableList<Product> testProducts =
 //    FXCollections.<Product>observableArrayList(
@@ -26,6 +26,7 @@ public class ProductTableTestHelper {
     TableColumn<Product, T> col = new TableColumn<>(colName);
     col.setCellValueFactory(new PropertyValueFactory<>(propName));
     col.setPrefWidth(prefWidth);
+    col.setResizable(false);
     return col;
   }
 

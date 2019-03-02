@@ -5,12 +5,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
 import org.xg.auth.SvcHelpers;
 import org.xg.db.model.MProduct;
 import org.xg.gnl.GlobalCfg;
@@ -22,7 +23,7 @@ import org.xg.ui.utils.Helpers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static org.xg.ui.model.ProductTableTestHelper.*;
+import static org.xg.ui.model.ProductTableHelper.*;
 
 public class ProductTableController implements Initializable {
   @FXML
@@ -56,12 +57,12 @@ public class ProductTableController implements Initializable {
     );
   }
 
-  private ObservableList<Product> productsCache;
+  private Property<ObservableList<Product>> productsCache = new SimpleListProperty<>();
 
   @Override
   public void initialize(URL location, ResourceBundle resBundle) {
-    productsCache = updateAllProducts();
-    tblProducts.getItems().addAll(productsCache);
+    productsCache.setValue(updateAllProducts());
+    tblProducts.itemsProperty().bindBidirectional(productsCache);
 
     tblProducts.getColumns().addAll(
 //      tableColumnResBundle(
@@ -73,13 +74,13 @@ public class ProductTableController implements Initializable {
         "productTable.name",
         resBundle,
         "name",
-        80
+        300
       ),
       tableColumnResBundle(
         "productTable.price",
         resBundle,
         "price0",
-        80
+        100
       ),
 //      tableColumnResBundle("productTable.detailedInfo",
 //        resBundle,
@@ -89,7 +90,7 @@ public class ProductTableController implements Initializable {
       tableColumnResBundle("productTable.Keywords",
         resBundle,
         "keywords",
-        80
+        200
       ),
       tableOpsColumn(
         resBundle.getString("productTable.action"),
@@ -102,9 +103,16 @@ public class ProductTableController implements Initializable {
     tblProducts.setPlaceholder(new Label("No data/column"));
 
     tblProducts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+    tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache.getValue()));
 
-    if (productsCache.size() > 0) {
+//    tblProducts.onSortProperty().setValue(new EventHandler<SortEvent<TableView<Product>>>() {
+//      @Override
+//      public void handle(SortEvent<TableView<Product>> event) {
+//        System.out.println("sorted, first prod: " + productsCache.getValue().get(0).getName());
+//      }
+//    });
+
+    if (productsCache.getValue().size() > 0) {
       tblProducts.getSelectionModel().select(0);
     }
   }
