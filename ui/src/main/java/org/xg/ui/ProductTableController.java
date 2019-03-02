@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static org.xg.ui.model.ProductTableHelper.*;
+import static org.xg.ui.utils.Global.getAllProducts;
 
 public class ProductTableController implements Initializable {
   @FXML
@@ -44,24 +45,12 @@ public class ProductTableController implements Initializable {
 //    return selectedProductImg;
 //  }
 
-  private static ObservableList<Product> updateAllProducts() {
-    GlobalCfg cfg = GlobalCfg.localTestCfg();
-    String j = SvcHelpers.get(
-      cfg.allProductsURL(),
-      Global.getCurrToken()
-    );
-    MProduct[] products = MProduct.fromJsons(j);
-    Product[] prods = Helpers.convProducts(products);
-    return FXCollections.<Product>observableArrayList(
-      prods
-    );
-  }
 
   private Property<ObservableList<Product>> productsCache = new SimpleListProperty<>();
 
   @Override
   public void initialize(URL location, ResourceBundle resBundle) {
-    productsCache.setValue(updateAllProducts());
+    productsCache.setValue(getAllProducts());
     tblProducts.itemsProperty().bindBidirectional(productsCache);
 
     tblProducts.getColumns().addAll(

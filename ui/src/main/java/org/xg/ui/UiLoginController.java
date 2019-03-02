@@ -139,7 +139,7 @@ public class UiLoginController {
 //      pfPass.getText()
 //    );
 
-    Task<AuthResp> authTask = Helpers.<AuthResp>statusTaskJ(
+    Task<AuthResp> authTask = Helpers.statusTaskJ(
       () -> {
         AuthResp resp = SvcHelpers.authReq(authUrl, tfUid.getText(), pfPass.getText());
         if (resp.success()) {

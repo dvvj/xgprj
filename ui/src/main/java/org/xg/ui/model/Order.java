@@ -1,6 +1,12 @@
 package org.xg.ui.model;
 
+import org.xg.db.model.MOrder;
+import org.xg.gnl.DataUtils;
+import org.xg.ui.utils.Global;
+
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.Map;
 
 public class Order {
 
@@ -67,5 +73,12 @@ public class Order {
 
   public void setLocked(boolean locked) {
     this.locked = locked;
+  }
+
+  public static Order fromMOrder(MOrder mo, Map<Integer, Product> productMap) {
+    Product product = productMap.get(mo.productId());
+    ZonedDateTime dt = LocalDateTime.parse(mo.creationTimeS()).atZone(DataUtils.UTC());
+    boolean blocked = mo.procTime1S() != null && !mo.procTime1S().isEmpty();
+    return new Order(mo.id(), product.getName(), mo.qty(), dt, blocked);
   }
 }
