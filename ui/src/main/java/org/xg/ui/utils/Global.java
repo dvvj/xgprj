@@ -94,4 +94,7 @@ public class Global {
 
     return allOrders;
   }
+
+  private static ClientCfg clientCfg;
+
 }

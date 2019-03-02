@@ -35,6 +35,9 @@ public class UiLoginController {
   @FXML
   private Text txtStatus;
 
+  @FXML
+  private CheckBox chbRemember;
+
   private Stage stage;
   public void setStage(Stage stage) {
     this.stage = stage;

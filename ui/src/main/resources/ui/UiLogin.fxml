@@ -10,34 +10,32 @@
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="800.0"
       fx:controller="org.xg.ui.UiLoginController"
       xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox alignment="BASELINE_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-         <HBox.margin>
-             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </HBox.margin>
-         <children>
-            <Label text="%login.userId" />
-            <Label text="%login.userType" />
-            <Label text="%login.pass" />
-         </children>
-      </VBox>
-      <VBox alignment="BASELINE_LEFT" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
-         <HBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
-         </HBox.margin>
-         <children>
-            <TextField fx:id="tfUid" minWidth="250" text="customer1" />
-            <TextField fx:id="tfUType" text="todo" />
-            <PasswordField  fx:id="pfPass" prefWidth="200" text="123" />
-         </children>
-      </VBox>
-      <VBox alignment="BASELINE_RIGHT" prefHeight="200.0" prefWidth="200.0" spacing="30.0">
-         <HBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
-         </HBox.margin>
-         <Button fx:id="btnLogin" text="%login.doLogin" prefWidth="200.0" onAction="#onLogin" />
-         <Text fx:id="txtStatus" text="" />
-      </VBox>
-
-   </children>
+   <VBox alignment="BASELINE_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+      <HBox.margin>
+          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      </HBox.margin>
+      <children>
+         <Label text="%login.userId" />
+         <Label text="%login.userType" />
+         <Label text="%login.pass" />
+      </children>
+   </VBox>
+   <VBox alignment="BASELINE_LEFT" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+      <HBox.margin>
+         <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+      </HBox.margin>
+      <children>
+         <TextField fx:id="tfUid" minWidth="250" text="customer1" />
+         <TextField fx:id="tfUType" text="todo" />
+         <PasswordField  fx:id="pfPass" prefWidth="200" text="123" />
+      </children>
+   </VBox>
+   <VBox alignment="BASELINE_RIGHT" prefHeight="200.0" prefWidth="200.0" spacing="30.0">
+      <HBox.margin>
+         <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+      </HBox.margin>
+      <Button fx:id="btnLogin" text="%login.doLogin" prefWidth="200.0" onAction="#onLogin" />
+      <Text fx:id="txtStatus" text="" />
+      <CheckBox fx:id="chbRemember" text="%login.remember" />
+   </VBox>
 </HBox>
