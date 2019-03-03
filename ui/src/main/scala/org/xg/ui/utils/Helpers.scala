@@ -36,7 +36,7 @@ object Helpers {
           action()
         }
 //        println("waiting ...")
-        res = Await.result(f, 1 second)
+        res = Await.result(f, timeoutMs millis)
 //        println("done waiting")
         //msg = successMsg
       }
