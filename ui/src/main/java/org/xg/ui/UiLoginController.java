@@ -141,7 +141,7 @@ public class UiLoginController {
     //System.out.println("login button pressed");
     String authUrl = "https://localhost:8443/webapi/auth/userPass";
 
-    Global.setText(txtStatus, "login.loggingIn", Color.BLACK);
+    Global.setResText(txtStatus, "login.loggingIn", Color.BLACK);
 
 //    AuthResp resp = SvcHelpers.authReq(
 //      authUrl,
@@ -158,18 +158,28 @@ public class UiLoginController {
         }
         return resp;
       },
-      "done",
       resp -> {
-        if (resp.success()) {
-          Global.setText(txtStatus, "login.loginSuccess", Color.GREEN);
+        if (resp != null && resp.success()) {
+          //Global.setText(txtStatus, exMsg, Color.GREEN);
+          System.out.println("Login success!");
           launchMain(tfUid.getText());
           stage.close();
         }
         else {
-          Global.setText(txtStatus, "login.loginFailed", Color.RED);
+          String loginFailedMsg = Global.AllRes.getString("login.loginFailed");
+//          boolean hasExMsg = exMsg != null && !exMsg.isEmpty();
+//          String errMsg = String.format("%s: %s", loginFailedMsg,
+//            hasExMsg ? exMsg : Global.AllRes.getString("login.loginFailed.userNamePassError")
+//          );
+//          Global.setText(txtStatus, errMsg, Color.RED);
+          Global.setText(txtStatus, loginFailedMsg, Color.RED);
         }
         return null;
-      }
+      },
+      30000
+//      Global.AllRes.getString("login.loginSuccess"),
+//      Global.AllRes.getString("login.loginTimout"),
+//      Global.AllRes.getString("login.loginUnknownError")
     );
 
     new Thread(authTask).start();

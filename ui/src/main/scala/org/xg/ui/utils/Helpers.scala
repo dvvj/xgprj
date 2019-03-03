@@ -1,9 +1,13 @@
 package org.xg.ui.utils
 
+import java.util.concurrent.TimeoutException
+
 import javafx.application.Platform
 import javafx.concurrent.Task
 import org.xg.db.model.{MOrder, MProduct}
 import org.xg.ui.model.{Order, Product}
+
+import scala.concurrent.{Await, Future}
 
 object Helpers {
   def convProducts(mps:Array[MProduct]):Array[Product] = {
@@ -14,10 +18,43 @@ object Helpers {
     morders.map(mo => Order.fromMOrder(mo, prodMap))
   }
 
-  def statusTaskJ[T](action:() => T, successMsg:String, uiUpdater:T => Unit):Task[T] = new Task[T]() {
+  def statusTaskJ[T >: AnyRef](
+    action:() => T,
+    uiUpdater:T => Unit,
+    timeoutMs:Int // ms
+//    successMsg:String,
+//    timeoutMsg:String,
+//    unknownErrorMsg:String
+  ):Task[T] = new Task[T]() {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    import scala.concurrent.duration._
     override def call(): T = {
-      val res = action()
-      updateMessage(successMsg)
+      var res:T = null
+      //var msg:String = null
+      try {
+        val f = Future {
+          action()
+        }
+//        println("waiting ...")
+        res = Await.result(f, 1 second)
+//        println("done waiting")
+        //msg = successMsg
+      }
+      catch {
+        case to:TimeoutException => {
+          //msg = timeoutMsg
+          to.printStackTrace()
+          // todo: log
+          //throw new RuntimeException("error", to)
+        }
+        case t:Throwable => {
+          //msg = unknownErrorMsg
+          t.printStackTrace()
+          // todo: log
+          //throw new RuntimeException("error", t)
+        }
+      }
+
       if (uiUpdater != null) {
         val runnable = new Runnable {
           override def run(): Unit = {

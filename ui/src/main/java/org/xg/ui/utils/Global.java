@@ -31,8 +31,11 @@ public class Global {
     return scene;
   }
 
-  public static void setText(Text txt, String resName, Color color) {
-    txt.setText(Global.AllRes.getString(resName));
+  public static void setResText(Text txt, String resName, Color color) {
+    setText(txt, Global.AllRes.getString(resName), color);
+  }
+  public static void setText(Text txt, String msg, Color color) {
+    txt.setText(msg);
     txt.setStroke(color);
   }
 

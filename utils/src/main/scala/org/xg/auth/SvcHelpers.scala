@@ -20,6 +20,7 @@ object SvcHelpers {
       .method("POST")
       .header("content-type", "text/plain")
       .option(HttpOptions.allowUnsafeSSL)
+//      .timeout(10000, 10000)
       .asString
 
     if (res.code == 200) {
