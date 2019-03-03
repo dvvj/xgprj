@@ -51,8 +51,9 @@ public class UiLogin extends Application {
 //      getClass().getResource("/default.css").toExternalForm()
 //    );
 
+    stage.setResizable(false);
     stage.setScene(scene);
-    stage.setTitle("title");
+    stage.setTitle(Global.AllRes.getString("login.windowTitle"));
     stage.show();
 //    Label lblUid = new Label("用户 ID");
 //    Label lblUType = new Label("用户类型");
