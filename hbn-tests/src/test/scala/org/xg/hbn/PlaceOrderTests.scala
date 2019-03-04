@@ -1,5 +1,6 @@
 package org.xg.hbn
 
+import org.xg.db.model.MOrder
 import org.xg.hbn.utils.HbnUtils
 
 object PlaceOrderTests extends App {
@@ -11,44 +12,96 @@ object PlaceOrderTests extends App {
   val uid2 = "customer2"
   val uid3 = "customer3"
 
-  val uid1Orders = placeOrderSchedule(
-    Iterable(
-      (uid1, 1, 2.0),
-      (uid1, 2, 4.0),
-      (uid1, 3, 6.0),
-      (uid1, 4, 8.0)
+  val testData = Map(
+    uid1 -> Array(
+      Order4Test(uid1, 1, 2.0),
+      Order4Test(uid1, 2, 4.0),
+      Order4Test(uid1, 3, 6.0),
+      Order4Test(uid1, 4, 8.0)
+    ),
+    uid2 -> Array(
+      Order4Test(uid2, 1, 2.0),
+      Order4Test(uid2, 2, 4.0),
+      Order4Test(uid2, 3, 6.0),
+      Order4Test(uid2, 4, 8.0)
+    ),
+    uid3 -> Array(
+      Order4Test(uid3, 1, 3.0),
+      Order4Test(uid3, 2, 6.0),
+      Order4Test(uid3, 3, 9.0),
+      Order4Test(uid3, 4, 12.0)
     )
   )
 
-  val uid2Orders = placeOrderSchedule(
-    Iterable(
-      (uid2, 1, 2.0),
-      (uid2, 2, 4.0),
-      (uid2, 3, 6.0),
-      (uid2, 4, 8.0)
-    )
+  import collection.mutable
+  val allUsers = Seq(uid1, uid2, uid3)
+  var expResultOrders = mutable.Map[String, Array[Order4Test]]()
+
+  def ordersOf(users:Iterable[String]):Map[String, Array[Order4Test]] = {
+    users.map { uid =>
+      val orders = hbnOps.ordersOf(uid)
+      uid -> orders.map(o => Order4Test(o.uid, o.productId, o.qty))
+    }.toMap
+  }
+
+  testSchedules(
+    () => {
+      expResultOrders = mutable.Map[String, Array[Order4Test]]()
+      val existingOrders = ordersOf(allUsers)
+      //expResultOrders ++= existingOrders
+      allUsers.foreach { uid =>
+        val existing = existingOrders.getOrElse(uid, Array())
+        val added = testData.getOrElse(uid, Array())
+        expResultOrders += uid -> (existing ++ added)
+      }
+    },
+    () => {
+      val s1 = placeOrderSchedule(testData(uid1))
+      runSchedulesAndWait(
+        allUsers.map(uid => placeOrderSchedule(testData(uid))),
+        60
+      )
+    },
+    () => {
+      val currOrders = ordersOf(allUsers)
+      if (checkOrders(currOrders, expResultOrders.toMap)) {
+        println(s"Test passed")
+      }
+      else {
+        println(s"Test Failed")
+      }
+    }
   )
 
-  val uid3Orders = placeOrderSchedule(
-    Iterable(
-      (uid3, 1, 3.0),
-      (uid3, 2, 6.0),
-      (uid3, 3, 9.0),
-      (uid3, 4, 12.0)
-    )
-  )
+  def checkOrders(m1:Map[String, Array[Order4Test]], m2:Map[String, Array[Order4Test]]):Boolean = {
+    val usrs1 = m1.keySet
+    val usrs2 = m2.keySet
+    if (usrs1 != usrs2) {
+      println(s"Different user sets: [$usrs1] vs [$usrs2]")
+      false
+    }
+    else {
+      usrs1.forall { usr =>
+        val orders1 = m1(usr).toSeq.sortBy(o => o.prodId -> o.qty)
+        val orders2 = m2(usr).toSeq.sortBy(o => o.prodId -> o.qty)
+        println(s"Checking orders for [$usr] (${orders1.size}-${orders2.size}) ...")
+        if (orders1 != orders2) {
+          println(s"Orders for [$usr] differ")
+          false
+        }
+        else
+          true
+      }
+    }
+  }
 
-//  runSchedulesAndWait(
-//    Seq(uid1Orders, uid2Orders, uid3Orders),
-//    60
-//  )
-
-  val orders1 = hbnOps.ordersOf(uid1)
-  println(orders1.size)
-  val orders2 = hbnOps.ordersOf(uid2)
-  println(orders2.size)
-  val orders3 = hbnOps.ordersOf(uid3)
-  println(orders3.size)
+//
+//  val orders1 = hbnOps.ordersOf(uid1)
+//  println(orders1.length)
+//  val orders2 = hbnOps.ordersOf(uid2)
+//  println(orders2.length)
+//  val orders3 = hbnOps.ordersOf(uid3)
+//  println(orders3.length)
 
   val histories = hbnOps.testAllOrderHistory
   println(histories.length)

@@ -61,15 +61,34 @@ object TestUtils {
     Await.result(f, waitSecs seconds)
   }
 
-  private def orderData2Task0(d:(String, Int, Double)):Task0 = () => {
-    val (uid, prodId, qty) = d
+  private def orderData2Task0(d:Order4Test):Task0 = () => {
     randSleep(1000)
-    hbnOps.placeOrder(uid, prodId, qty)
+    hbnOps.placeOrder(d.uid, d.prodId, d.qty)
   }
 
+  case class Order4Test(
+                       uid:String,
+                       prodId:Int,
+                       qty:Double
+                       )
   def placeOrderSchedule(
-    orderData:Iterable[(String, Int, Double)]
+    orderData:Iterable[Order4Test]
   ):Schedule0 = {
     orderData.map(orderData2Task0)
+  }
+
+  type TestSchedule_InitSetup = () => Unit
+  type TestSchedule_Run = () => Unit
+  type TestSchedule_Verification = () => Unit
+  def testSchedules(
+                   initSetup:TestSchedule_InitSetup,
+                   runSchedule:TestSchedule_Run,
+                   verify:TestSchedule_Verification
+                   ):Unit = {
+    initSetup()
+
+    runSchedule()
+
+    verify()
   }
 }
