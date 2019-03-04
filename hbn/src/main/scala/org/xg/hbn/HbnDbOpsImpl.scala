@@ -115,6 +115,26 @@ object HbnDbOpsImpl {
         }
         orders.map(convertOrder).toArray
       }
+    }
+
+    override def setOrderPayTime(orderId: Long): Boolean = {
+      val payTime = DataUtils.utcTimeNow
+      runInTransaction { sess =>
+        val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
+        val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
+        val morder = convertOrder(order)
+        if (morder.canBeModified) {
+          val histEntry = new OrderHistory(order.getId, DataUtils.utcTimeNow, order.getQty)
+          order.setPayTime(payTime)
+          sess.update(order)
+          sess.save(histEntry)
+          true
+        }
+        else {
+          loggingTodo("Order locked (cannot be modified anymore)!")
+          false
+        }
+      }
 
     }
 

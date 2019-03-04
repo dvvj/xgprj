@@ -14,6 +14,7 @@ trait TDbOps {
   def ordersOf(uid:String):Array[MOrder]
   def placeOrder(uid:String, productId:Int, qty:Double):Long
   def updateOrder(orderId:Long, newQty:Double):Boolean
+  def setOrderPayTime(orderId:Long):Boolean
 
   def testAllOrderHistory:Array[MOrderHistory]
   def lockOrders:Array[MOrder]
