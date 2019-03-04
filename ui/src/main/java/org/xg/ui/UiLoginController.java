@@ -151,16 +151,17 @@ public class UiLoginController {
 
     Task<AuthResp> authTask = Helpers.statusTaskJ(
       () -> {
-        AuthResp resp = SvcHelpers.authReq(authUrl, tfUid.getText(), pfPass.getText());
+        String uid = tfUid.getText().trim();
+        AuthResp resp = SvcHelpers.authReq(authUrl, uid, pfPass.getText());
         if (resp.success()) {
           //System.out.println(resp.token());
-          Global.updateToken(resp.token());
+          Global.updateToken(uid, resp.token());
         }
         return resp;
       },
       resp -> {
         if (resp != null && resp.success()) {
-          //Global.setText(txtStatus, exMsg, Color.GREEN);
+          Global.setResText(txtStatus, "login.loginSuccess", Color.GREEN);
           System.out.println("Login success!");
           launchMain(tfUid.getText());
           stage.close();

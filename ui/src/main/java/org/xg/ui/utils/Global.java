@@ -40,12 +40,21 @@ public class Global {
   }
 
   private static String _currToken;
+  private static String _uid;
 
-  public static void updateToken(String token) {
+  public static void updateToken(String uid, String token) {
     _currToken = token;
+    _uid = uid;
   }
   public static String getCurrToken() {
     return _currToken;
+  }
+  public static String getCurrUid() {
+    return _uid;
+  }
+
+  public static void loggingTodo(String msg) {
+    System.out.println(msg);
   }
 
   private static ObservableList<Product> allProducts = null;

@@ -25,7 +25,11 @@ public class Order {
   }
 
   public boolean getCanBeModified() {
-    return status == OrderStatus_Created;
+    return status != OrderStatus_Locked;
+  }
+
+  public boolean getNotPayed() {
+    return status == OrderStatus_NotPayed;
   }
 
   public Order() {
@@ -81,20 +85,25 @@ public class Order {
   }
 
   public static int getOrderStatus(MOrder mo) {
-    if (mo.procTime1S() != null && !mo.procTime1S().isEmpty()) {
+    if (mo.procTime1S().nonEmpty()) {
       return OrderStatus_Locked;
     }
+    else if (mo.payTime().nonEmpty()) {
+      return OrderStatus_Payed;
+    }
     else {
-      return OrderStatus_Created;
+      return OrderStatus_NotPayed;
     }
   }
-  private final static int OrderStatus_Created = 1;
-  private final static int OrderStatus_Locked = 2;
+  private final static int OrderStatus_NotPayed = 1;
+  private final static int OrderStatus_Payed = 2;
+  private final static int OrderStatus_Locked = 3;
 
   private final static Map<Integer, String> statusMap;
   static {
     statusMap = new HashMap<>();
-    statusMap.put(OrderStatus_Created, Global.AllRes.getString("orderTable.status.orderCreated"));
+    statusMap.put(OrderStatus_NotPayed, Global.AllRes.getString("orderTable.status.orderNotPayed"));
+    statusMap.put(OrderStatus_Payed, Global.AllRes.getString("orderTable.status.orderPayed"));
     statusMap.put(OrderStatus_Locked, Global.AllRes.getString("orderTable.status.orderLocked"));
   }
 
@@ -102,7 +111,8 @@ public class Order {
   public static Order fromMOrder(MOrder mo, Map<Integer, Product> productMap) {
     Product product = productMap.get(mo.productId());
     ZonedDateTime dt = LocalDateTime.parse(mo.creationTimeS()).atZone(DataUtils.UTC());
-    ZonedDateTime pdt = LocalDateTime.parse(mo.payTime()).atZone(DataUtils.UTC());
+    ZonedDateTime pdt =
+      mo.payTime().nonEmpty() ? LocalDateTime.parse(mo.payTime().get()).atZone(DataUtils.UTC()) : null;
     int status = getOrderStatus(mo);
     return new Order(mo.id(), product.getName(), mo.qty(), dt, pdt, status);
   }

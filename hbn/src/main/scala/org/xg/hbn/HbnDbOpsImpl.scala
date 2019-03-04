@@ -146,11 +146,9 @@ object HbnDbOpsImpl {
           val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
           val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
           val morder = convertOrder(order)
-          if (morder.canBeModified) {
-            val histEntry = new OrderHistory(order.getId, DataUtils.utcTimeNow, order.getQty)
+          if (morder.canBePayed) {
             order.setPayTime(payTime)
             sess.update(order)
-            sess.save(histEntry)
             true
           }
           else {

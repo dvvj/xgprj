@@ -33,6 +33,7 @@ case class MOrder(
 //          ) = this(id, uid, productId, qty, creationTimeS, Option(payTime), None, None, None)
 
   def canBeModified:Boolean = procTime1S == null || procTime1S.isEmpty
+  def canBePayed:Boolean = payTime == null || payTime.isEmpty
 }
 
 object MOrder {

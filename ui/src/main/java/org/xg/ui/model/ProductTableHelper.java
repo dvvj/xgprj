@@ -1,14 +1,11 @@
 package org.xg.ui.model;
 
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.xg.ui.comp.ModifyOrderTableCell;
+import org.xg.ui.comp.PayOrderTableCell;
 import org.xg.ui.comp.ProductPlaceOrderTableCell;
 
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class ProductTableHelper {
@@ -56,7 +53,7 @@ public class ProductTableHelper {
     TableColumn<Order, Order> col = new TableColumn<>(colName);
     col.setPrefWidth(prefWidth);
     col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
-    col.setCellFactory(c -> new ModifyOrderTableCell());
+    col.setCellFactory(c -> new PayOrderTableCell());
     return col;
   }
 }

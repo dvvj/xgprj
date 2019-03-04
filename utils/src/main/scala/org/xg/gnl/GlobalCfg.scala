@@ -15,6 +15,7 @@ case class GlobalCfg(
   def allCustomersURL:String = s"$svcSvr/$ALLCUSTOMERS"
   def currOrdersURL:String = s"$svcSvr/$CURR_ORDERS"
   def placeOrderURL:String = s"$svcSvr/$PLACE_ORDER"
+  def payOrderURL:String = s"$svcSvr/$PAY_ORDER"
   def allProductsURL:String = s"$svcSvr/$ALLPRODUCTS"
   def imgAssetURL:String = s"$svcSvr/$IMAGE_ASSET"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
@@ -25,6 +26,7 @@ object GlobalCfg {
   private val ALLCUSTOMERS = "customer/testAll"
   private val CURR_ORDERS = "order/testCurrUser"
   private val PLACE_ORDER = "order/placeOrder"
+  private val PAY_ORDER = "order/payOrder"
   private val ALLPRODUCTS = "product/all"
   private val IMAGE_ASSET = "asset/img"
 

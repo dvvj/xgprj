@@ -6,6 +6,7 @@ import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
 import org.xg.db.model.MOrder;
 import org.xg.hbn.HbnDbOpsImpl;
+import org.xg.svc.PayOrder;
 import org.xg.svc.UserOrder;
 
 import javax.ws.rs.*;
@@ -42,7 +43,7 @@ public class OrderOps {
     }
     catch (Exception ex) {
       ex.printStackTrace();
-      throw new RuntimeException("Error", ex);
+      throw new WebApplicationException("Error", ex);
     }
   }
 
@@ -54,15 +55,12 @@ public class OrderOps {
   public Response placeOrder(String orderJson, @Context SecurityContext sc) {
     UserOrder userOrder = UserOrder.fromJson(orderJson);
     try {
-//      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
-//      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
       TDbOps dbOps = SvcUtils.getDbOps();
       String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
 
       Long orderId = dbOps.placeOrder(
         userOrder.uid(), userOrder.productId(), userOrder.qty()
       );
-//      conn.close();
 
       String msg = String.format("Created Order (id: %d)", orderId);
       logger.info(msg);
@@ -73,8 +71,35 @@ public class OrderOps {
     }
     catch (Exception ex) {
       ex.printStackTrace();
-      throw new RuntimeException("Error", ex);
+      throw new WebApplicationException("Error", ex);
     }
 
   }
+
+  @Secured
+  @POST
+  @Path("payOrder")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  public Response payOrder(String payOrderJson, @Context SecurityContext sc) {
+    PayOrder payOrder = PayOrder.fromJson(payOrderJson);
+    try {
+      TDbOps dbOps = SvcUtils.getDbOps();
+      //String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
+
+      dbOps.setOrderPayTime(payOrder.orderId());
+
+      String msg = String.format("Order (id: %d) payed", payOrder.orderId());
+      logger.info(msg);
+
+      return Response.ok(msg)
+        .build();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException("Error", ex);
+    }
+
+  }
+
 }

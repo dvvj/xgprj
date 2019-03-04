@@ -56,6 +56,7 @@ public class PlaceOrderCtrl implements Initializable {
       );
 
       try {
+
         HBox n = loader.load();
         AlipayWebviewCtrl ctrl = loader.getController();
         ctrl.setAmountAndSendReq(selectedProduct.getValue(), txtQty.textProperty());
