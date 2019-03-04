@@ -57,9 +57,10 @@ object Helpers {
 
   import DataUtils._
   def convertOrder(o:Order):MOrder = {
-    MOrder(
+    MOrder.createJ(
       o.getId, o.getCustomerId, o.getProductId, o.getQty,
       zonedDateTime2Str(o.getCreationTime),
+      zonedDateTime2Str(o.getPayTime),
       zonedDateTime2Str(o.getProcTime1),
       zonedDateTime2Str(o.getProcTime2),
       zonedDateTime2Str(o.getProcTime3)

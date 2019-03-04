@@ -17,6 +17,7 @@ public class Order {
   private String prodName;
   private Double qty;
   private ZonedDateTime creationTime;
+  private ZonedDateTime payTime;
   private int status;
 
   public String getStatusStr() {
@@ -36,12 +37,14 @@ public class Order {
     String prodName,
     Double qty,
     ZonedDateTime creationTime,
+    ZonedDateTime payTime,
     int status
   ) {
     this.id = id;
     this.prodName = prodName;
     this.qty = qty;
     this.creationTime = creationTime;
+    this.payTime = payTime;
     this.status = status;
   }
 
@@ -99,7 +102,8 @@ public class Order {
   public static Order fromMOrder(MOrder mo, Map<Integer, Product> productMap) {
     Product product = productMap.get(mo.productId());
     ZonedDateTime dt = LocalDateTime.parse(mo.creationTimeS()).atZone(DataUtils.UTC());
+    ZonedDateTime pdt = LocalDateTime.parse(mo.payTime()).atZone(DataUtils.UTC());
     int status = getOrderStatus(mo);
-    return new Order(mo.id(), product.getName(), mo.qty(), dt, status);
+    return new Order(mo.id(), product.getName(), mo.qty(), dt, pdt, status);
   }
 }

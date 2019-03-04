@@ -11,7 +11,7 @@ object DataUtils {
 
   private val EmptyDateString = ""
   def zonedDateTime2Str(zdt:ZonedDateTime):String = {
-    if (zdt == null) EmptyDateString
+    if (zdt == null) null
     else
       zdt.toLocalDateTime.format(
         DateTimeFormatter.ISO_LOCAL_DATE_TIME

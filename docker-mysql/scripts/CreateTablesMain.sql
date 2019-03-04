@@ -25,6 +25,7 @@ CREATE TABLE orders (
   product_id INT NOT NULL,
   qty FLOAT NOT NULL,
   creation_time TIMESTAMP NOT NULL,
+  pay_time TIMESTAMP,
   proc_time1 TIMESTAMP,
   proc_time2 TIMESTAMP,
   proc_time3 TIMESTAMP,

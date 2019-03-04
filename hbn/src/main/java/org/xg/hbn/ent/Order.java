@@ -23,6 +23,17 @@ public class Order {
   @Column(name="creation_time", nullable = false)
   private ZonedDateTime creationTime;
 
+  @Column(name="pay_time")
+  private ZonedDateTime payTime;
+
+  public ZonedDateTime getPayTime() {
+    return payTime;
+  }
+
+  public void setPayTime(ZonedDateTime payTime) {
+    this.payTime = payTime;
+  }
+
   @Column(name="proc_time1")
   private ZonedDateTime procTime1;
 

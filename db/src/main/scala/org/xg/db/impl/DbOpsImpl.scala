@@ -71,18 +71,20 @@ object DbOpsImpl {
           val orderId = res.getLong("id")
           val prodId = res.getInt("product_id")
           val timeStr = res.getString("creation_time")
+          val payTimeStr = res.getString("pay_time")
 //          val createTime = res.getTimestamp("creation_time")
 //          val zdt = DataUtils.timestamp2Zone(createTime)
           val qty = res.getFloat("qty")
-          orders += MOrder(
+          orders += MOrder.createJ(
             orderId,
             uid,
             prodId,
             qty,
-            timeStr,
-            null,
-            null,
-            null
+            payTimeStr,
+            res.getString("pay_time"),
+            res.getString("proc_time1"),
+            res.getString("proc_time2"),
+            res.getString("proc_time3")
           )
           //println(s"\t$orders")
         }
