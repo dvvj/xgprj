@@ -33,11 +33,11 @@ public final class CustomerDbAuthority {
 
   private static CustomerDbAuthority createInstasnce(GlobalCfg cfg) {
     try {
-      Logging.debug("Creating CustomerDbAuthority: connecting %s", cfg.infoDbConnStr());
+//      Logging.debug("Creating CustomerDbAuthority: connecting %s", cfg.infoDbConnStr());
 //      Connection conn = Utils.tryConnect(cfg.infoDbConnStr());
 //      Logging.debug("Connected!");
 
-      TDbOps dbOps = HbnDbOpsImpl.hbnOps(); //DbOpsImpl.jdbcImpl(conn);
+      TDbOps dbOps = SvcUtils.getDbOps(); //DbOpsImpl.jdbcImpl(conn);
       Map<String, byte[]> userPassMap = dbOps.getUserPassMapJ();
 //      conn.close();
       Logging.debug("userPassMap Size: %d", userPassMap.size());

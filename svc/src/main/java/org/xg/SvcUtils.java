@@ -1,6 +1,7 @@
 package org.xg;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.xg.db.api.TDbOps;
 import org.xg.gnl.GlobalCfg;
 
 import javax.ws.rs.core.MediaType;
@@ -24,6 +25,10 @@ public class SvcUtils {
 
   public static GlobalCfg getCfg() {
     return SvcContextListener.getCfg();
+  }
+
+  public static TDbOps getDbOps() {
+    return SvcContextListener.getDbOps();
   }
 //
 //  private final static GlobalCfg _cfg = loadCfg();

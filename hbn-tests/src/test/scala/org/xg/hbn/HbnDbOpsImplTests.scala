@@ -7,14 +7,14 @@ object HbnDbOpsImplTests extends App {
 
   import HbnDbOpsImpl._
 
-  hbnOps.getUserPassMap
+  testHbnOps.getUserPassMap
 
-  val prods = hbnOps.allProducts
+  val prods = testHbnOps.allProducts
   println(prods.length)
-  val customers = hbnOps.allCustomers
+  val customers = testHbnOps.allCustomers
   println(customers.length)
   val uid = "customer1"
-  val ordersOfC1 = hbnOps.ordersOf(uid)
+  val ordersOfC1 = testHbnOps.ordersOf(uid)
   println(ordersOfC1.length)
 
 //  val newOrderId = opsInstance.placeOrder(
@@ -25,5 +25,5 @@ object HbnDbOpsImplTests extends App {
 //  println(s"New order id: $newOrderId")
 //  val t = opsInstance.ordersOf(uid)
 //  println(t.length)
-  HbnUtils.shutdown()
+  HbnUtils.shutdownTest()
 }

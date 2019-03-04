@@ -1,14 +1,14 @@
 package org.xg.hbn
 
-import org.hibernate.Session
+import org.hibernate.{Session, SessionFactory}
 import org.xg.db.model._
 import org.xg.gnl.DataUtils
 import org.xg.hbn.utils.HbnUtils
 
 object Helpers {
 
-  def runInTransaction(action: Session => Unit):Unit = {
-    val sess = HbnUtils.sessFactory.getCurrentSession
+  def runInTransaction(sessFactory:SessionFactory, action: Session => Unit):Unit = {
+    val sess = sessFactory.getCurrentSession
     val tr = sess.beginTransaction()
     try {
       action(sess)
@@ -23,8 +23,8 @@ object Helpers {
     }
   }
 
-  def runInTransaction[T](f: Session => T):T = {
-    val sess = HbnUtils.sessFactory.getCurrentSession
+  def runInTransaction[T](sessFactory:SessionFactory, f: Session => T):T = {
+    val sess = sessFactory.getCurrentSession
     val tr = sess.beginTransaction()
     try {
       val res = f(sess)
@@ -38,6 +38,10 @@ object Helpers {
         throw t
       }
     }
+  }
+
+  def testRunInTransaction[T](f: Session => T):T = {
+    runInTransaction(HbnUtils.testSessFactory, f)
   }
 
   import org.xg.hbn.ent._

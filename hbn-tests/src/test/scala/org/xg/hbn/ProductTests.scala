@@ -5,9 +5,9 @@ import org.xg.hbn.utils.HbnUtils
 object ProductTests extends App {
   import HbnDbOpsImpl._
 
-  val products = hbnOps.allProducts
+  val products = testHbnOps.allProducts
 
   println(products.length)
 
-  HbnUtils.shutdown()
+  HbnUtils.shutdownTest()
 }

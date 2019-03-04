@@ -4,7 +4,7 @@ import java.sql.Timestamp
 import java.time.ZonedDateTime
 
 import org.xg.gnl.DataUtils
-import org.xg.hbn.HbnDbOpsImpl.hbnOps
+import org.xg.hbn.HbnDbOpsImpl.testHbnOps
 import org.xg.hbn.NewCustomerTests.{schedule1, schedule2, schedule3, schedule4}
 import org.xg.tests.ConcurrencyHelpers.{Schedule0, Task0}
 
@@ -29,7 +29,7 @@ object TestUtils {
 
   private def addNewCustomer(i:Int): Unit = {
     val params:Array[String] = customerInfo(i)
-    hbnOps.addNewCustomer(
+    testHbnOps.addNewCustomer(
       params(0),
       params(1),
       params(2),
@@ -63,7 +63,7 @@ object TestUtils {
 
   private def orderData2Task0(d:Order4Test):Task0 = () => {
     randSleep(1000)
-    hbnOps.placeOrder(d.uid, d.prodId, d.qty)
+    testHbnOps.placeOrder(d.uid, d.prodId, d.qty)
   }
 
   case class Order4Test(

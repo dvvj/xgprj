@@ -1,17 +1,25 @@
 package org.xg;
 
 import org.apache.commons.io.IOUtils;
+import org.hibernate.SessionFactory;
+import org.xg.db.api.TDbOps;
 import org.xg.gnl.GlobalCfg;
+import org.xg.hbn.HbnDbOpsImpl;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
 
 public class SvcContextListener implements ServletContextListener {
 
+  private final static Logger logger = Logger.getLogger(SvcContextListener.class.getName());
+
   private static GlobalCfg _cfg = null;
+  private static TDbOps _hbnOps = null;
   private static Object _lock = new Object();
 
   @Override
@@ -25,7 +33,11 @@ public class SvcContextListener implements ServletContextListener {
             StandardCharsets.UTF_8
           );
           _cfg = GlobalCfg.fromJson(cfgJson);
-          System.out.println("Configuration initialized!");
+          logger.info("Configuration initialized: " + _cfg);
+
+          String hbnCfgPath =  sce.getServletContext().getRealPath("/WEB-INF/hibernate.cfg.xml");
+          _hbnOps = HbnDbOpsImpl.hbnOps(hbnCfgPath);
+          logger.info("Hibernate session factory created!");
         }
         catch (Exception ex) {
           ex.printStackTrace();
@@ -37,6 +49,10 @@ public class SvcContextListener implements ServletContextListener {
 
   static GlobalCfg getCfg() {
     return _cfg;
+  }
+
+  static TDbOps getDbOps() {
+    return _hbnOps;
   }
 
 //  @Override

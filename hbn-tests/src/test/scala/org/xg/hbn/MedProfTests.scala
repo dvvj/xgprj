@@ -7,11 +7,11 @@ object MedProfTests extends App {
   import HbnDbOpsImpl._
 
   val profId = "medprof3"
-  hbnOps.addNewMedProf(
+  testHbnOps.addNewMedProf(
     profId, "微信", "456", "232312l2222", "322233211"
   )
 
-  val m = hbnOps.getMedProfPassMap
+  val m = testHbnOps.getMedProfPassMap
   println(m.size)
 
   val i = 10
@@ -25,7 +25,7 @@ object MedProfTests extends App {
     profId,
     "1991-10-02"
   )
-  hbnOps.addNewCustomer(
+  testHbnOps.addNewCustomer(
     params(0),
     params(1),
     params(2),
@@ -36,9 +36,9 @@ object MedProfTests extends App {
     params(7)
   )
 
-  val customers = hbnOps.customersOf(profId)
+  val customers = testHbnOps.customersOf(profId)
   println(customers.length)
 
-  HbnUtils.shutdown()
+  HbnUtils.shutdownTest()
 
 }

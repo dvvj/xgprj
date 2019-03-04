@@ -10,14 +10,14 @@ object OrderTests extends App {
 
   val uid1 = "customer1"
 
-  val orders1 = hbnOps.ordersOf(uid1)
+  val orders1 = testHbnOps.ordersOf(uid1)
 
   orders1.foreach { o =>
-    hbnOps.updateOrder(
+    testHbnOps.updateOrder(
       o.id,
       2000
     )
   }
 
-  HbnUtils.shutdown()
+  HbnUtils.shutdownTest()
 }

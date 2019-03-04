@@ -6,13 +6,13 @@ object PayOrderTests extends App {
 
   val uid = "customer1"
 
-  val orders = hbnOps.ordersOf(uid)
+  val orders = testHbnOps.ordersOf(uid)
 
   orders.foreach { o =>
-    hbnOps.setOrderPayTime(o.id)
+    testHbnOps.setOrderPayTime(o.id)
   }
 
-  val orders2 = hbnOps.ordersOf(uid)
+  val orders2 = testHbnOps.ordersOf(uid)
 
   println(orders2)
 

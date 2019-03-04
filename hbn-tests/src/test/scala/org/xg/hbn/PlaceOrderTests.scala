@@ -71,7 +71,7 @@ object PlaceOrderTests extends App {
 
     def ordersOf(users:Iterable[String]):Map[String, Array[Order4Test]] = {
       users.map { uid =>
-        val orders = hbnOps.ordersOf(uid)
+        val orders = testHbnOps.ordersOf(uid)
         uid -> orders.map(o => Order4Test(o.uid, o.productId, o.qty))
       }.toMap
     }
@@ -143,9 +143,9 @@ object PlaceOrderTests extends App {
 //  val orders3 = hbnOps.ordersOf(uid3)
 //  println(orders3.length)
 
-  val histories = hbnOps.testAllOrderHistory
+  val histories = testHbnOps.testAllOrderHistory
   println(histories.length)
 
-  HbnUtils.shutdown()
+  HbnUtils.shutdownTest()
 
 }

@@ -8,10 +8,10 @@ object LockOrderTests extends App {
 
   def updateOrders(uid:String, newQty:Double):Unit = {
 
-    val orders1 = hbnOps.ordersOf(uid)
+    val orders1 = testHbnOps.ordersOf(uid)
 
     orders1.foreach { o =>
-      val res = hbnOps.updateOrder(
+      val res = testHbnOps.updateOrder(
         o.id,
         newQty
       )
@@ -21,12 +21,12 @@ object LockOrderTests extends App {
 
   updateOrders("customer1", 111)
 
-  val orders = hbnOps.lockOrders
+  val orders = testHbnOps.lockOrders
 
   updateOrders("customer1", 112)
 
 
-  HbnUtils.shutdown()
+  HbnUtils.shutdownTest()
 
 
 }

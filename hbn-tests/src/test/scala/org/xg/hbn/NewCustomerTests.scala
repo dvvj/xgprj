@@ -38,8 +38,8 @@ object NewCustomerTests extends App {
     600
   )
 
-  val allCustomers = hbnOps.allCustomers
+  val allCustomers = testHbnOps.allCustomers
   println(s"All customer #: ${allCustomers.length}")
 
-  HbnUtils.shutdown()
+  HbnUtils.shutdownTest()
 }

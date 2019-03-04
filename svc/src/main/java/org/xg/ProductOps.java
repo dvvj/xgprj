@@ -23,7 +23,7 @@ public class ProductOps {
     try {
 //      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
 //      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      TDbOps dbOps = HbnDbOpsImpl.hbnOps();
+      TDbOps dbOps = SvcUtils.getDbOps();
       MProduct[] allProducts = dbOps.allProducts();
 //      conn.close();
       String res = MProduct.toJsons(allProducts);

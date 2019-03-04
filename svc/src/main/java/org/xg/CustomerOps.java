@@ -32,7 +32,7 @@ public class CustomerOps {
     try {
 //      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
 //      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      TDbOps dbOps = HbnDbOpsImpl.hbnOps();
+      TDbOps dbOps = SvcUtils.getDbOps();
       MCustomer[] customers = dbOps.allCustomers();
 //      conn.close();
       return Response.ok(

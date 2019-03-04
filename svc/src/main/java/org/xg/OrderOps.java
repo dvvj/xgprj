@@ -33,7 +33,7 @@ public class OrderOps {
       );
 //      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
 //      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      TDbOps dbOps = HbnDbOpsImpl.hbnOps();
+      TDbOps dbOps = SvcUtils.getDbOps();
       MOrder[] orders = dbOps.ordersOf(uid);
 //      conn.close();
       return Response.ok(
@@ -56,7 +56,7 @@ public class OrderOps {
     try {
 //      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
 //      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      TDbOps dbOps = HbnDbOpsImpl.hbnOps();
+      TDbOps dbOps = SvcUtils.getDbOps();
       String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
 
       Long orderId = dbOps.placeOrder(
