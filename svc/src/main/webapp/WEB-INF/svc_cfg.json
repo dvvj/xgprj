@@ -1,0 +1,5 @@
+{
+  "svcSvr": "https://localhost:8443/webapi",
+  "infoDbSvr": "jdbc:mysql://172.17.0.1:3306",
+  "assetLocalPath": "/appdata/product_assets"
+}
