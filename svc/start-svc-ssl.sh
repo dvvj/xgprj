@@ -7,4 +7,5 @@ docker run -it \
   -v $(pwd)/ssl/ssl.key:/usr/local/tomcat/conf/ssl.key \
   -v $(pwd)/ssl/server.xml:/usr/local/tomcat/conf/server.xml \
   -v $1:/appdata/product_assets \
+  -v $2:/usr/local/tomcat/logs \
   tomcat

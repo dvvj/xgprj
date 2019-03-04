@@ -24,8 +24,8 @@ object AuthTests extends App {
   val products = SvcHelpers.getDecArray(cfg.allProductsURL, resp.token, MProduct.fromJsons)
   println(s"products:\n${products.mkString("\n")}")
 
-  val customers1 = SvcHelpers.get(cfg.allCustomersURL)
-  println(s"customers: $customers1")
+//  val customers1 = SvcHelpers.get(cfg.allCustomersURL)
+//  println(s"customers: $customers1")
   val customers2 = SvcHelpers.getDecArray(cfg.allCustomersURL, resp.token, MCustomer.fromJsons)
   println(s"customers:\n${customers2.mkString("\n")}")
   val currOrders = SvcHelpers.getDecArray(cfg.currOrdersURL, resp.token, MOrder.fromJsons)

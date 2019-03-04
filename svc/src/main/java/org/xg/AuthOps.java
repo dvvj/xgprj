@@ -41,15 +41,16 @@ public class AuthOps {
         return Response.ok(AuthResp.toJson(resp)).build();
       }
       else {
+        logger.warning("====================== Failed to authenticate user: " );
         return Response.status(Response.Status.UNAUTHORIZED)
           .entity(String.format("user [%s] NOT authorized!", up.uid()))
           .build();
       }
     }
     catch (Exception ex) {
-      logger.warning("Failed to authenticate user");
+      logger.warning("Exception while authenticating user.");
       ex.printStackTrace();
-      throw new WebApplicationException("Failed to authenticate user", ex);
+      throw new WebApplicationException("====================== Failed to authenticate user", ex);
     }
   }
 }

@@ -12,8 +12,8 @@ public class App extends ResourceConfig {
     register(
       new LoggingFeature(
         Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME),
-        Level.WARNING,
-        LoggingFeature.Verbosity.HEADERS_ONLY,
+        Level.INFO,
+        LoggingFeature.Verbosity.PAYLOAD_TEXT,
         10000
       )
     );

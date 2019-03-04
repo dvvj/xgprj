@@ -1,5 +1,7 @@
 package org.xg.auth;
 
+import org.xg.AuthOps;
+
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -9,18 +11,20 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 @Secured
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthFilter implements ContainerRequestFilter {
   private static final String AUTH_SCHEME = "Bearer";
+  private final static Logger logger = Logger.getLogger(AuthFilter.class.getName());
 
   @Override
   public void filter(ContainerRequestContext reqContext) throws IOException {
 
     String authHeader = reqContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-    System.out.println("Auth header: " + authHeader);
+    logger.info("Auth header: " + authHeader);
 
     String token = SvcHelpers.decodeAuthHeader(authHeader);
 
