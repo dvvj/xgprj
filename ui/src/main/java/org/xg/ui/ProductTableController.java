@@ -59,6 +59,11 @@ public class ProductTableController implements Initializable {
 //        resBundle,
 //        "id"
 //      ),
+      tableOpsColumn(
+        resBundle.getString("productTable.action"),
+
+        260
+      ),
       tableColumnResBundle(
         "productTable.name",
         resBundle,
@@ -80,13 +85,11 @@ public class ProductTableController implements Initializable {
         resBundle,
         "keywords",
         200
-      ),
-      tableOpsColumn(
-        resBundle.getString("productTable.action"),
-
-        240
       )
     );
+
+    tblProducts.setMinWidth(850);
+    tblProducts.setMaxWidth(850);
 
     tblProducts.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     tblProducts.setPlaceholder(new Label("No data/column"));
@@ -104,6 +107,7 @@ public class ProductTableController implements Initializable {
     if (productsCache.getValue().size() > 0) {
       tblProducts.getSelectionModel().select(0);
     }
+
   }
 
   private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();

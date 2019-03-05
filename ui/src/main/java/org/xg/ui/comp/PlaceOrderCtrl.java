@@ -17,6 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.xg.auth.SvcHelpers;
+import org.xg.gnl.GlobalCfg;
+import org.xg.svc.UserOrder;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.model.Product;
 import org.xg.ui.utils.Global;
@@ -56,7 +59,23 @@ public class PlaceOrderCtrl implements Initializable {
       );
 
       try {
+        Double qty = Double.parseDouble(txtQty.getText());
+        UserOrder order = new UserOrder(Global.getCurrUid(), selectedProduct.getValue().getId(), qty);
+        String orderJson = UserOrder.toJson(order);
+        String resp = SvcHelpers.reqPut(
+          GlobalCfg.localTestCfg().placeOrderURL(),
+          Global.getCurrToken(),
+          orderJson
+        );
+        Global.loggingTodo(resp);
+        Global.updateAllOrders();
+      }
+      catch (Exception ex) {
+        Global.loggingTodo(ex.getMessage());
+        throw new RuntimeException("Error placing order!", ex);
+      }
 
+      try {
         HBox n = loader.load();
         AlipayWebviewCtrl ctrl = loader.getController();
         ctrl.setAmountAndSendReq(selectedProduct.getValue(), txtQty.textProperty());
@@ -67,6 +86,7 @@ public class PlaceOrderCtrl implements Initializable {
       }
 
       catch (IOException ex) {
+        Global.loggingTodo(ex.getMessage());
         throw new RuntimeException("Error launching main window!", ex);
       }
     }

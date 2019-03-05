@@ -1,19 +1,33 @@
 package org.xg.auth;
 
+import org.xg.SvcUtils;
+
 public class SessionManager {
 
-  private final static SessionMgr _mgr = new SessionMgr(30);
+  private static SessionMgr _mgr; // = new SessionMgr(30);
+
+  private final static Object _lock = new Object();
+  private static SessionMgr getMgr() {
+    if (_mgr == null) {
+      synchronized (_lock) {
+        if (_mgr == null) {
+          _mgr = new SessionMgr(SvcUtils.getCfg().timeOutMs());
+        }
+      }
+    }
+    return _mgr;
+  }
 
   public static void addSession(String uid, String token) {
-    _mgr.addSession(uid, token);
+    getMgr().addSession(uid, token);
   }
 
   public static boolean checkSession(String token) {
     String uid = findUid(token);
-    return _mgr.checkSession(uid, token).success();
+    return getMgr().checkSession(uid, token).success();
   }
 
   public static String findUid(String token) {
-    return _mgr.reverseLookup(token);
+    return getMgr().reverseLookup(token);
   }
 }

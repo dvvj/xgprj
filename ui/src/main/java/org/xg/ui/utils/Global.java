@@ -91,17 +91,22 @@ public class Global {
   }
 
   private static ObservableList<Order> allOrders = null;
-  private static ObservableList<Order> updateAllOrders() {
+  private static Order[] getAllOrders() {
     GlobalCfg cfg = GlobalCfg.localTestCfg();
 
     String j = SvcHelpers.get(cfg.currOrdersURL(), Global.getCurrToken());
     MOrder[] morders = MOrder.fromJsons(j);
     Order[] orders = Helpers.convOrders(morders, Global.getProductMap());
-    return FXCollections.observableArrayList(orders);
+    return orders; //FXCollections.observableArrayList(orders);
   }
-  public static ObservableList<Order> getAllOrders() {
+  public static ObservableList<Order> updateAllOrders() {
+    Order[] orders = getAllOrders();
     if (allOrders == null || allOrders.isEmpty()) {
-      allOrders = updateAllOrders();
+      allOrders = FXCollections.observableArrayList(orders);
+    }
+    else {
+      allOrders.clear();
+      allOrders.addAll(orders);
     }
 
     return allOrders;

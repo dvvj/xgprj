@@ -7,6 +7,7 @@ import org.json4s.DefaultFormats
 
 case class GlobalCfg(
   svcSvr:String,
+  timeOutMs:Int,
   infoDbSvr:String,
   assetLocalPath:String
 ) {

@@ -29,7 +29,7 @@ public class ExistingOrdersCtrl implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resBundle) {
-    ordersCache.setValue(Global.getAllOrders());
+    ordersCache.setValue(Global.updateAllOrders());
 
     tblOrders.itemsProperty().bindBidirectional(ordersCache);
 
