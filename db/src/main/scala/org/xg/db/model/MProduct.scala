@@ -9,6 +9,7 @@ case class MProduct(
   assets:AssetCfg
 ) {
   def keywordsArr:Array[String] = keywords.split(",").map(_.trim).filter(!_.isEmpty)
+  def prodDetail:MProdDetail = MProdDetail.fromJson(detailedInfo)
 }
 
 object MProduct {
