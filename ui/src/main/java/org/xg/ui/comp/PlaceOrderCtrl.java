@@ -63,7 +63,7 @@ public class PlaceOrderCtrl implements Initializable {
         UserOrder order = new UserOrder(Global.getCurrUid(), selectedProduct.getValue().getId(), qty);
         String orderJson = UserOrder.toJson(order);
         String resp = SvcHelpers.reqPut(
-          GlobalCfg.localTestCfg().placeOrderURL(),
+          Global.getServerCfg().placeOrderURL(),
           Global.getCurrToken(),
           orderJson
         );

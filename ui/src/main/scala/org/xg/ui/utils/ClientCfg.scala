@@ -9,7 +9,7 @@ import org.xg.json.CommonUtils
 
 case class UserCfg(
   uid:String,
-  utype:String,
+  utype:Integer,
   passHash:String
 )
 

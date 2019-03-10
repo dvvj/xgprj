@@ -34,7 +34,7 @@ public class PayOrderTableCell extends TableCell<Order, Order> {
         PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
         btnPayOrder.setOnAction(e -> {
           String resp = SvcHelpers.post(
-            GlobalCfg.localTestCfg().payOrderURL(),
+            Global.getServerCfg().payOrderURL(),
             Global.getCurrToken(),
             PayOrder.toJson(postData)
           );

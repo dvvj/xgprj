@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import org.xg.gnl.GlobalCfg;
 import org.xg.svc.ImageInfo;
 import org.xg.ui.model.Product;
+import org.xg.ui.utils.Global;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -124,7 +125,7 @@ public class ProductTableController implements Initializable {
         System.out.println("new selection: " + prod.getName());
         selectedProductDetail.setValue(prod.getDetailedInfo());
         ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
-        String url = imgInfo.getUrl(GlobalCfg.localTestCfg());
+        String url = imgInfo.getUrl(Global.getServerCfg());
         System.out.println("Getting image: " + url);
 //        Image img = new Image(url, true);
 //        img.progressProperty().addListener(new ChangeListener<Number>() {

@@ -61,7 +61,7 @@ public class Global {
   }
   public static ObservableList<Product> updateAllProducts() {
     try {
-      GlobalCfg cfg = GlobalCfg.localTestCfg();
+      GlobalCfg cfg = getServerCfg();
       String j = SvcHelpers.get(
         cfg.allProductsURL(),
         Global.getCurrToken()
@@ -89,7 +89,7 @@ public class Global {
 
   private static ObservableList<Order> allOrders = null;
   private static Order[] getAllOrders() {
-    GlobalCfg cfg = GlobalCfg.localTestCfg();
+    GlobalCfg cfg = getServerCfg();
 
     String j = SvcHelpers.get(cfg.currOrdersURL(), Global.getCurrToken());
     MOrder[] morders = MOrder.fromJsons(j);
@@ -109,6 +109,13 @@ public class Global {
     return allOrders;
   }
 
-  private static ClientCfg clientCfg;
+  //todo, customize cfg
+  private static ClientCfg clientCfg = new ClientCfg(
+    new UserCfg("customer1", 0, ""),
+    GlobalCfg.localTestCfg() //todo
+  );
 
+  public static GlobalCfg getServerCfg() {
+    return clientCfg.serverCfg();
+  }
 }
