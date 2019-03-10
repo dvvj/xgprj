@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.xg.ui.mainwnd.CustomerMain;
+import org.xg.ui.mainwnd.MedProfsMain;
 import org.xg.ui.model.UserType;
 import org.xg.ui.model.UserTypeHelpers;
 import org.xg.ui.utils.Global;
@@ -79,9 +80,14 @@ public class UiLoginController implements Initializable {
 
     loginSuccessActionMap = new HashMap<>();
     loginSuccessActionMap.put(
-      UserTypeHelpers.UT_CUSTOMER,
-      () -> {
+      UserTypeHelpers.UT_CUSTOMER, () -> {
         new CustomerMain().launch(tfUid.getText());
+        stage.close();
+      }
+    );
+    loginSuccessActionMap.put(
+      UserTypeHelpers.UT_MEDPROFS, () -> {
+        new MedProfsMain().launch(tfUid.getText());
         stage.close();
       }
     );
