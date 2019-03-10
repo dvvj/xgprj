@@ -4,6 +4,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,16 +14,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.xg.auth.AuthResp;
 import org.xg.auth.SvcHelpers;
+import org.xg.ui.model.UserType;
+import org.xg.ui.model.UserTypeHelpers;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-public class UiLoginController {
+public class UiLoginController implements Initializable {
   @FXML
   private TextField tfUid;
 
@@ -37,6 +42,48 @@ public class UiLoginController {
 
   @FXML
   private CheckBox chbRemember;
+
+  @FXML
+  private ComboBox<UserType> cmboUType;
+
+  private Map<Integer, UserType> userMap;
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+
+    userMap = UserTypeHelpers.createMap(resources);
+
+    cmboUType.getItems().addAll(
+      userMap.values()
+    );
+
+    cmboUType.setCellFactory(
+      new Callback<ListView<UserType>, ListCell<UserType>>() {
+        @Override
+        public ListCell<UserType> call(ListView<UserType> param) {
+          return new ListCell<UserType>() {
+            @Override
+            protected void updateItem(UserType item, boolean empty) {
+              super.updateItem(item, empty);
+
+              if (item == null || empty) {
+                setGraphic(null);
+              }
+              else {
+                Label lbl = new Label();
+                lbl.setText(item.getName());
+                setGraphic(lbl);
+              }
+            }
+          };
+        }
+      }
+    );
+
+    cmboUType.setValue(
+      userMap.get(UserTypeHelpers.UT_CUSTOMER)
+    );
+  }
 
   private Stage stage;
   public void setStage(Stage stage) {

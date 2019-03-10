@@ -26,7 +26,7 @@
       </HBox.margin>
 
       <TextField fx:id="tfUid" text="customer1" />
-      <TextField fx:id="tfUType" text="todo" />
+      <ComboBox fx:id="cmboUType" />
       <PasswordField  fx:id="pfPass" text="123" />
 
    </VBox>
