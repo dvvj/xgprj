@@ -1,6 +1,4 @@
-package org.xg.db.model
-
-import org.json4s.DefaultFormats
+package org.xg.dbModels
 
 case class MCustomer(
   uid:String,

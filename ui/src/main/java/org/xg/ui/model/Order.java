@@ -1,7 +1,6 @@
 package org.xg.ui.model;
 
-import javafx.beans.property.IntegerProperty;
-import org.xg.db.model.MOrder;
+import org.xg.dbModels.MOrder;
 import org.xg.gnl.DataUtils;
 import org.xg.ui.utils.Global;
 

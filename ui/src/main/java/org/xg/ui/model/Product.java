@@ -1,7 +1,6 @@
 package org.xg.ui.model;
 
-import org.xg.db.model.AssetItem;
-import org.xg.db.model.MProduct;
+import org.xg.dbModels.*;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,7 +1,7 @@
 package org.xg.srcTests
 
 import org.xg.auth.{AuthResp, SvcHelpers}
-import org.xg.db.model.{MCustomer, MOrder, MProduct}
+import org.xg.dbModels._
 import org.xg.gnl.GlobalCfg
 import org.xg.svc.UserOrder
 

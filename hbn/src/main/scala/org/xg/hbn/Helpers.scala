@@ -1,7 +1,7 @@
 package org.xg.hbn
 
 import org.hibernate.{Session, SessionFactory}
-import org.xg.db.model._
+import org.xg.dbModels._
 import org.xg.gnl.DataUtils
 import org.xg.hbn.utils.HbnUtils
 

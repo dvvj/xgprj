@@ -1,6 +1,4 @@
-package org.xg.db.model
-
-import java.time.ZonedDateTime
+package org.xg.dbModels
 
 case class MOrder(
   id:Long,

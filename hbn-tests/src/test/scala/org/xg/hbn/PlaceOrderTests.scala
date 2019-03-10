@@ -1,6 +1,6 @@
 package org.xg.hbn
 
-import org.xg.db.model.MOrder
+import org.xg.dbModels.MOrder
 import org.xg.hbn.utils.HbnUtils
 
 object PlaceOrderTests extends App {

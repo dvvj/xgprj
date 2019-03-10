@@ -5,5 +5,5 @@ case class PricePlanCfg(
   name:String,
   info:String,
   json:String,
-  ver:String
+  jsonVer:String
 )

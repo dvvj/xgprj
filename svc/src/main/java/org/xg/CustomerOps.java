@@ -2,20 +2,15 @@ package org.xg;
 
 import org.xg.auth.Secured;
 import org.xg.db.api.TDbOps;
-import org.xg.db.impl.DbOpsImpl;
-import org.xg.db.impl.Utils;
-import org.xg.db.model.MCustomer;
-import org.xg.hbn.HbnDbOpsImpl;
+import org.xg.dbModels.MCustomer;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.sql.Connection;
 import java.util.logging.Logger;
 
 @Path("customer")

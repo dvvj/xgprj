@@ -4,7 +4,8 @@ import java.util.concurrent.TimeoutException
 
 import javafx.application.Platform
 import javafx.concurrent.Task
-import org.xg.db.model.{MOrder, MProduct}
+import org.xg.dbModels.{MOrder, MProduct}
+import org.xg.dbModels.MProduct
 import org.xg.ui.model.{Order, Product}
 
 import scala.concurrent.{Await, Future}

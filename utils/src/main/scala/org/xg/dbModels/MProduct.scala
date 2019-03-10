@@ -1,4 +1,4 @@
-package org.xg.db.model
+package org.xg.dbModels
 
 case class MProduct(
   id:Int,

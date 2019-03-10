@@ -2,21 +2,18 @@ package org.xg.ui.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
-import org.xg.db.model.MOrder;
-import org.xg.db.model.MProduct;
+import org.xg.dbModels.MOrder;
+import org.xg.dbModels.MProduct;
 import org.xg.gnl.GlobalCfg;
 import org.xg.ui.model.Order;
 import org.xg.ui.model.Product;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Global {
   public final static Locale locale = new Locale("zh", "CN");

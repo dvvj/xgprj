@@ -1,7 +1,8 @@
 package org.xg.db
 
 import org.xg.db.InsertCustomersUtil.insertStatements
-import org.xg.db.model.{AssetCfg, MProdDetail, MProduct}
+import org.xg.dbModels.{MProdDetail, MProduct}
+import org.xg.dbModels.{AssetCfg, MProduct}
 
 import scala.collection.mutable.ListBuffer
 

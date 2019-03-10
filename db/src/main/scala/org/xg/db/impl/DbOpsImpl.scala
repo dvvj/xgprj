@@ -8,7 +8,7 @@ import java.util.Base64
 import org.joda.time.DateTime
 import org.xg.auth.AuthHelpers
 import org.xg.db.api.TDbOps
-import org.xg.db.model._
+import org.xg.dbModels._
 import org.xg.gnl.DataUtils
 
 import scala.collection.mutable.ListBuffer

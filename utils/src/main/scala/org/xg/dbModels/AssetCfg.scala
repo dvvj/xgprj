@@ -1,4 +1,4 @@
-package org.xg.db.model
+package org.xg.dbModels
 
 import AssetCfg._
 import org.json4s.DefaultFormats
@@ -15,8 +15,8 @@ case class AssetCfg(
 )
 
 object AssetCfg {
-  private[model] val TYP_IMG = "img"
-  private[model] val TYP_DOC = "doc"
+  private[dbModels] val TYP_IMG = "img"
+  private[dbModels] val TYP_DOC = "doc"
 
   def imageAsset(url:String, cat:String):AssetItem = {
     AssetItem(url, TYP_IMG, cat)

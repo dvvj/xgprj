@@ -1,7 +1,7 @@
 package org.xg.srcTests
 
 import org.xg.auth.SvcHelpers
-import org.xg.db.model.MOrder
+import org.xg.dbModels.MOrder
 import org.xg.gnl.GlobalCfg
 
 object OrderTests extends App {

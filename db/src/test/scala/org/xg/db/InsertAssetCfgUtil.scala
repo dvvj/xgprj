@@ -2,7 +2,7 @@ package org.xg.db
 
 object InsertAssetCfgUtil extends App {
 
-  import org.xg.db.model.AssetCfg._
+  import org.xg.dbModels.AssetCfg._
 
   val testAssets = Array(
     asset(

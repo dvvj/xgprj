@@ -2,10 +2,7 @@ package org.xg;
 
 import org.xg.auth.Secured;
 import org.xg.db.api.TDbOps;
-import org.xg.db.impl.DbOpsImpl;
-import org.xg.db.impl.Utils;
-import org.xg.db.model.MOrder;
-import org.xg.hbn.HbnDbOpsImpl;
+import org.xg.dbModels.MOrder;
 import org.xg.svc.PayOrder;
 import org.xg.svc.UserOrder;
 
@@ -14,7 +11,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.sql.Connection;
 import java.util.logging.Logger;
 
 @Path("order")

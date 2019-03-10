@@ -1,17 +1,12 @@
 package org.xg;
 
 import org.xg.db.api.TDbOps;
-import org.xg.db.impl.DbOpsImpl;
-import org.xg.db.impl.Utils;
-import org.xg.db.model.MProduct;
-import org.xg.hbn.HbnDbOpsImpl;
+import org.xg.dbModels.MProduct;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Connection;
 
 @Path("product")
 public class ProductOps {
