@@ -26,15 +26,12 @@ class V1PricePlanTests extends TestNGSuite with Matchers with TableDrivenPropert
     ( prodBasedPlan, 3, 10.0, 9.0 )
   )
 
-  private def checkDoubleEquals(d1:Double, d2:Double):Boolean = {
-    math.abs(d1 - d2) < 1e-8
-  }
-
+  import org.xg.TestUtils._
   @Test
   def testPrPls():Unit = {
     forAll(testData) { (plan, prodId, price0, expPrice) =>
       val actPrice = plan.adjust(prodId, price0)
-      checkDoubleEquals(actPrice, expPrice)
+      checkDoubleEquals(actPrice, expPrice) shouldBe true
     }
   }
 }
