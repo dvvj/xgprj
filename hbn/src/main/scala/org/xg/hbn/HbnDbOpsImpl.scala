@@ -44,17 +44,21 @@ object HbnDbOpsImpl {
         }
       )
     }
-//    {
-//      runInTransaction { sess =>
-//        val passHash = AuthHelpers.sha512(pass)
-//        val customers = new Customer(
-//          uid, name, passHash,
-//          idCardNo, mobile,
-//          postalAddr, bday, ref_uid
-//        )
-//      }
-//      true
-//    }
+
+    override def customersRefedBy(refUid: String): Array[MCustomer] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val ql = s"Select c from ${classOf[Customer].getName} c where c.refUid = '$refUid'"
+
+          val q = sess.createQuery(ql)
+          val t = q.getResultList.asScala.map(_.asInstanceOf[Customer])
+          //        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
+          val res = t.toArray.map(convertCustomer)
+          res
+        }
+      )
+    }
 
     override def allMedProfs: Array[MMedProf] = {
       runInTransaction(

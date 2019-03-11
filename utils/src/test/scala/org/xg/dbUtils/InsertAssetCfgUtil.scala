@@ -1,4 +1,4 @@
-package org.xg.db
+package org.xg.dbUtils
 
 object InsertAssetCfgUtil extends App {
 

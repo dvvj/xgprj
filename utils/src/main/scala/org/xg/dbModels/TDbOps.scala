@@ -1,8 +1,18 @@
 package org.xg.dbModels
 
 trait TDbOps {
-  def addNewCustomer(uid:String, name:String, pass:String, idCardNo:String, mobile:String, postalAddr:String, ref_uid: String, bday:String):String
+  def addNewCustomer(
+    uid:String,
+    name:String,
+    pass:String,
+    idCardNo:String,
+    mobile:String,
+    postalAddr:String,
+    refUid: String,
+    bday:String
+  ):String
   def allCustomers:Array[MCustomer]
+  def customersRefedBy(refUid:String):Array[MCustomer]
 
   // order related
   def ordersOf(uid:String):Array[MOrder]
@@ -17,7 +27,13 @@ trait TDbOps {
   def allProducts:Array[MProduct]
 
   // profs related
-  def addNewMedProf(profId:String, name:String, pass:String, idCardNo:String, mobile:String):String
+  def addNewMedProf(
+    profId:String,
+    name:String,
+    pass:String,
+    idCardNo:String,
+    mobile:String
+  ):String
   def allMedProfs:Array[MMedProf]
   def customersOf(profId:String):Array[MCustomer]
 

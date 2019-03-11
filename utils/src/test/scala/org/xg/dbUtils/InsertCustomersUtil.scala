@@ -1,4 +1,4 @@
-package org.xg.db
+package org.xg.dbUtils
 
 import org.xg.auth.AuthHelpers
 
