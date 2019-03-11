@@ -1,7 +1,7 @@
 package org.xg.auth;
 
 import org.xg.SvcUtils;
-import org.xg.db.api.TDbOps;
+import org.xg.dbModels.TDbOps;
 import org.xg.db.impl.DbOpsImpl;
 import org.xg.db.impl.Utils;
 import org.xg.gnl.GlobalCfg;

@@ -5,7 +5,7 @@ import java.util
 
 import org.hibernate.SessionFactory
 import org.xg.auth.AuthHelpers
-import org.xg.db.api.TDbOps
+import org.xg.dbModels.TDbOps
 import org.xg.dbModels._
 import org.xg.gnl.DataUtils
 import org.xg.hbn.ent.{Customer, Product}

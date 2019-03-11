@@ -1,7 +1,7 @@
 package org.xg;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.xg.db.api.TDbOps;
+import org.xg.dbModels.TDbOps;
 import org.xg.gnl.GlobalCfg;
 
 import javax.ws.rs.core.MediaType;

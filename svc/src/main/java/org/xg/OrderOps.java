@@ -1,7 +1,7 @@
 package org.xg;
 
 import org.xg.auth.Secured;
-import org.xg.db.api.TDbOps;
+import org.xg.dbModels.TDbOps;
 import org.xg.dbModels.MOrder;
 import org.xg.svc.PayOrder;
 import org.xg.svc.UserOrder;

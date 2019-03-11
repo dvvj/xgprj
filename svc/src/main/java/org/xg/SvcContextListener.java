@@ -2,7 +2,7 @@ package org.xg;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.SessionFactory;
-import org.xg.db.api.TDbOps;
+import org.xg.dbModels.TDbOps;
 import org.xg.gnl.GlobalCfg;
 import org.xg.hbn.HbnDbOpsImpl;
 

@@ -1,6 +1,6 @@
 package org.xg;
 
-import org.xg.db.api.TDbOps;
+import org.xg.dbModels.TDbOps;
 import org.xg.dbModels.MProduct;
 
 import javax.ws.rs.GET;

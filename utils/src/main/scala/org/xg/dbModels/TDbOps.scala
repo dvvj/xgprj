@@ -1,10 +1,4 @@
-package org.xg.db.api
-
-import java.sql.Connection
-import java.time.LocalDateTime
-
-import org.joda.time.DateTime
-import org.xg.dbModels._
+package org.xg.dbModels
 
 trait TDbOps {
   def addNewCustomer(uid:String, name:String, pass:String, idCardNo:String, mobile:String, postalAddr:String, ref_uid: String, bday:String):String
