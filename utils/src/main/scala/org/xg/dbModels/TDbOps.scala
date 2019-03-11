@@ -14,6 +14,8 @@ trait TDbOps {
   def allCustomers:Array[MCustomer]
   def customersRefedBy(refUid:String):Array[MCustomer]
 
+  def allPricePlans:Array[MPricePlan]
+
   // order related
   def ordersOf(uid:String):Array[MOrder]
   def placeOrder(uid:String, productId:Int, qty:Double):Long

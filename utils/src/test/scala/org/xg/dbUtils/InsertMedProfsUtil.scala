@@ -1,7 +1,7 @@
 package org.xg.dbUtils
 
 import org.xg.auth.AuthHelpers
-import org.xg.dbUtils.InsertCustomersUtil.testRefUid
+//import org.xg.dbUtils.InsertCustomersUtil.testRefUid
 
 object InsertMedProfsUtil extends App {
   val testProfs = Array(

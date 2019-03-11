@@ -45,6 +45,20 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def allPricePlans: Array[MPricePlan] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val ql = s"Select pp from ${classOf[PricePlan].getName} pp"
+          val q = sess.createQuery(ql)
+          val t = q.getResultList.asScala.map(_.asInstanceOf[PricePlan])
+          //        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
+          val res = t.toArray.map(convertPricePlan)
+          res
+        }
+      )
+    }
+
     override def customersRefedBy(refUid: String): Array[MCustomer] = {
       runInTransaction(
         sessFactory,

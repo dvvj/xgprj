@@ -17,3 +17,8 @@ INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, pro
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 3, 5.0, '2017-03-04 18:35:04', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 4, 2.0, '2017-02-11 19:30:44', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 1, 4.0, '2017-02-01 09:30:44', NULL, NULL, NULL);
+
+INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.8','Fixed Rate 80%','{"globalRate":0.8}','FixedRate');
+INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.9','Fixed Rate 90%','{"globalRate":0.9}','FixedRate');
+INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('ProdBased-Basic(0.9 ~ 0.8)','Producted Based Basic, range: 80% - 90%','{"globalRate":0.9,"prodRates":{"1":0.8,"2":0.85}}','ProductBasedRates');
+INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('ProdBased-Advanced(0.85 ~ 0.75)','Producted Based Advanced, range: 75% - 85%','{"globalRate":0.85,"prodRates":{"1":0.8,"2":0.75}}','ProductBasedRates');

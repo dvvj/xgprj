@@ -55,6 +55,10 @@ object Helpers {
     MCustomer(c.getUid, c.getName, c.getIdCardNo, c.getMobile, c.getPostalAddr, c.getBday, c.getRefUid)
   }
 
+  def convertPricePlan(pp:PricePlan):MPricePlan = {
+    MPricePlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag)
+  }
+
   def convertMedProf(mp:MedProf):MMedProf = {
     MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile)
   }
