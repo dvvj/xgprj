@@ -29,4 +29,6 @@ object DataUtils {
   }
 
   def timestampNow:Timestamp = Timestamp.valueOf(utcTimeNow.toLocalDateTime)
+
+  def noneIfNull(s:String):Option[String] = if (s == null) None else Option(s)
 }

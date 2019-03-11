@@ -20,5 +20,10 @@ INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, pro
 
 INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.8','Fixed Rate 80%','{"globalRate":0.8}','FixedRate');
 INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.9','Fixed Rate 90%','{"globalRate":0.9}','FixedRate');
-INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('ProdBased-Basic(0.9 ~ 0.8)','Producted Based Basic, range: 80% - 90%','{"globalRate":0.9,"prodRates":{"1":0.8,"2":0.85}}','ProductBasedRates');
-INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('ProdBased-Advanced(0.85 ~ 0.75)','Producted Based Advanced, range: 75% - 85%','{"globalRate":0.85,"prodRates":{"1":0.8,"2":0.75}}','ProductBasedRates');
+INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('ProdBased-Basic','Producted Based Basic, range: 80% - 90%','{"globalRate":0.9,"prodRates":{"1":0.8,"2":0.85}}','ProductBasedRates');
+INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('ProdBased-Advanced','Producted Based Advanced, range: 75% - 85%','{"globalRate":0.85,"prodRates":{"1":0.8,"2":0.75}}','ProductBasedRates');
+
+INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.9','2019-03-04T16:00:28.179');
+INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.8','2019-03-11T16:00:28.239');
+INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('prof2','ProdBased-Basic,Fixed-0.9','2019-03-11T16:00:28.239');
+INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('customer1','ProdBased-Advanced','2019-03-11T16:00:28.24');

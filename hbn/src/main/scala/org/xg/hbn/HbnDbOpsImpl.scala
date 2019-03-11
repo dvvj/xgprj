@@ -45,6 +45,20 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def pricePlansByUid(uid: String): Array[MPricePlanMap] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val ql = s"Select ppm from ${classOf[PricePlanMap].getName} ppm where uid = '$uid'"
+          val q = sess.createQuery(ql)
+          val t = q.getResultList.asScala.map(_.asInstanceOf[PricePlanMap])
+          //        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
+          val res = t.toArray.map(convertPricePlanMap)
+          res
+        }
+      )
+    }
+
     override def allPricePlans: Array[MPricePlan] = {
       runInTransaction(
         sessFactory,

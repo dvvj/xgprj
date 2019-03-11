@@ -66,3 +66,13 @@ CREATE TABLE price_plans (
   vtag VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (id)
 );
+
+
+CREATE TABLE price_plan_map (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  uid VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  plan_ids VARCHAR(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  start_time TIMESTAMP NOT NULL,
+  expire_time TIMESTAMP,
+  PRIMARY KEY (id)
+);

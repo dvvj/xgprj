@@ -36,6 +36,7 @@ case class MOrder(
 
 object MOrder {
   import org.xg.json.CommonUtils._
+  import org.xg.gnl.DataUtils._
   def toJsons(customers:Array[MOrder]):String = _toJsons(customers)
   def fromJsons(j:String):Array[MOrder] = _fromJsons(j)
 
@@ -46,7 +47,6 @@ object MOrder {
               creationTimeS:String
              ):MOrder = MOrder(id, uid, productId, qty, creationTimeS, None, None, None, None)
 
-  private def noneIfNull(s:String):Option[String] = if (s == null) None else Option(s)
   def createJ(id:Long,
               uid:String,
               productId:Int,

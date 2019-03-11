@@ -59,11 +59,18 @@ object Helpers {
     MPricePlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag)
   }
 
+  import DataUtils._
+  def convertPricePlanMap(ppm:PricePlanMap):MPricePlanMap = {
+    MPricePlanMap.createJ(ppm.getUid, ppm.getPlanIds,
+      zonedDateTime2Str(ppm.getStartTime),
+      zonedDateTime2Str(ppm.getExpireTime)
+    )
+  }
+
   def convertMedProf(mp:MedProf):MMedProf = {
     MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile)
   }
 
-  import DataUtils._
   def convertOrder(o:Order):MOrder = {
     MOrder.createJ(
       o.getId, o.getCustomerId, o.getProductId, o.getQty,
