@@ -106,12 +106,11 @@ public class Order {
     statusMap.put(OrderStatus_Locked, Global.AllRes.getString("orderTable.status.orderLocked"));
   }
 
-
   public static Order fromMOrder(MOrder mo, Map<Integer, Product> productMap) {
     Product product = productMap.get(mo.productId());
-    ZonedDateTime dt = LocalDateTime.parse(mo.creationTimeS()).atZone(DataUtils.UTC());
+    ZonedDateTime dt = DataUtils.utcTimeFromStr(mo.creationTimeS());
     ZonedDateTime pdt =
-      mo.payTime().nonEmpty() ? LocalDateTime.parse(mo.payTime().get()).atZone(DataUtils.UTC()) : null;
+      mo.payTime().nonEmpty() ? DataUtils.utcTimeFromStr(mo.payTime().get()) : null;
     int status = getOrderStatus(mo);
     return new Order(mo.id(), product.getName(), mo.qty(), dt, pdt, status);
   }

@@ -1,7 +1,7 @@
 package org.xg.gnl
 
 import java.sql.Timestamp
-import java.time.{ZoneId, ZonedDateTime}
+import java.time.{LocalDateTime, ZoneId, ZonedDateTime}
 import java.time.format.DateTimeFormatter
 
 object DataUtils {
@@ -28,7 +28,21 @@ object DataUtils {
     ts.toLocalDateTime.atZone(UTC)
   }
 
+  def zonedDateTime2Ms(zdt:ZonedDateTime):Long = {
+    zdt.toInstant.toEpochMilli
+  }
+
   def timestampNow:Timestamp = Timestamp.valueOf(utcTimeNow.toLocalDateTime)
 
   def noneIfNull(s:String):Option[String] = if (s == null) None else Option(s)
+
+  def utcTimeFromStr(s:String):ZonedDateTime = {
+    LocalDateTime.parse(s).atZone(UTC)
+  }
+  def utcTimeFromStrOpt(s:String):Option[ZonedDateTime] = {
+    if (s == null || s.isEmpty)
+      None
+    else
+      Option(utcTimeFromStr(s))
+  }
 }

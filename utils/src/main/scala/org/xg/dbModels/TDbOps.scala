@@ -1,5 +1,7 @@
 package org.xg.dbModels
 
+import org.xg.busiLogic.PricePlanLogics
+
 trait TDbOps {
   def addNewCustomer(
     uid:String,
@@ -11,12 +13,18 @@ trait TDbOps {
     refUid: String,
     bday:String
   ):String
+  import org.xg.gnl.DataUtils._
   def allCustomers:Array[MCustomer]
   def customersRefedBy(refUid:String):Array[MCustomer]
 
   def allPricePlans:Array[MPricePlan]
 
   def pricePlansByUid(uid:String):Array[MPricePlanMap]
+  def allPricePlanMaps:Array[MPricePlanMap]
+  def allActivePricePlans:Map[String, MPricePlanMap] = {
+    val all = allPricePlanMaps
+    PricePlanLogics.activePricePlans(all)
+  }
 
   // order related
   def ordersOf(uid:String):Array[MOrder]

@@ -3,13 +3,15 @@ package org.xg.hbn
 import java.io.File
 import java.util
 
-import org.hibernate.SessionFactory
+import org.hibernate.{Session, SessionFactory}
 import org.xg.auth.AuthHelpers
 import org.xg.dbModels.TDbOps
 import org.xg.dbModels._
 import org.xg.gnl.DataUtils
 import org.xg.hbn.ent.{Customer, Product}
 import org.xg.hbn.utils.HbnUtils
+
+import scala.reflect.ClassTag
 
 object HbnDbOpsImpl {
 
@@ -20,6 +22,14 @@ object HbnDbOpsImpl {
 
   import DataUtils._
 
+  private def queryAndConvert[TFrom : ClassTag, TTo : ClassTag](sess:Session, className:String, converter:TFrom => TTo):Array[TTo] = {
+    val ql = s"Select x from $className x"
+    val q = sess.createQuery(ql)
+    val t = q.getResultList.asScala.map(_.asInstanceOf[TFrom])
+    //        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
+    val res = t.map(converter).toArray
+    res
+  }
   private class OpsImpl(sessFactory:SessionFactory) extends TDbOps {
     override def addNewCustomer(
                                  uid: String,
@@ -41,6 +51,21 @@ object HbnDbOpsImpl {
           )
           sess.save(customer)
           customer.getUid
+        }
+      )
+    }
+
+    override def allPricePlanMaps: Array[MPricePlanMap] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          queryAndConvert(sess, classOf[PricePlanMap].getName, convertPricePlanMap)
+//          val ql = s"Select ppm from ${classOf[PricePlanMap].getName} ppm"
+//          val q = sess.createQuery(ql)
+//          val t = q.getResultList.asScala.map(_.asInstanceOf[PricePlanMap])
+//          //        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
+//          val res = t.toArray.map(convertPricePlanMap)
+//          res
         }
       )
     }
