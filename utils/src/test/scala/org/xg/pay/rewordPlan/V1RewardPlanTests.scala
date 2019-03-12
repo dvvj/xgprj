@@ -4,8 +4,8 @@ import org.scalatest.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.testng.TestNGSuite
 import org.testng.annotations.Test
-import org.xg.pay.pricePlan.v1.{PrPlFixedRate, PrPlProdBasedRates}
-import org.xg.pay.rewardPlan.v1.{RwPlFixedRate, RwPlProdBasedRates}
+import org.xg.pay.pricePlan.v1.{PrPlChained, PrPlFixedRate, PrPlProdBasedRates}
+import org.xg.pay.rewardPlan.v1.{RwPlChained, RwPlFixedRate, RwPlProdBasedRates}
 
 class V1RewardPlanTests extends TestNGSuite with Matchers with TableDrivenPropertyChecks {
   private val fixedPlan = RwPlFixedRate(0.01)
@@ -16,6 +16,10 @@ class V1RewardPlanTests extends TestNGSuite with Matchers with TableDrivenProper
       2 -> 0.03
     )
   )
+  private val chainedPlan = RwPlChained.create(
+    List(prodBasedPlan, RwPlFixedRate(1.5))
+  )
+
 
   private val ProductId_NA = -1
   private val testData = Table(
@@ -23,7 +27,10 @@ class V1RewardPlanTests extends TestNGSuite with Matchers with TableDrivenProper
     ( fixedPlan, ProductId_NA, 100.0, 1.0 ),
     ( prodBasedPlan, 1, 100.0, 2.0 ),
     ( prodBasedPlan, 2, 100.0, 3.0 ),
-    ( prodBasedPlan, 3, 100.0, 1.0 )
+    ( prodBasedPlan, 3, 100.0, 1.0 ),
+    ( chainedPlan, 1, 100.0, 3.0 ),
+    ( chainedPlan, 2, 100.0, 4.5 ),
+    ( chainedPlan, 3, 100.0, 1.5 )
   )
 
   import org.xg.TestUtils._

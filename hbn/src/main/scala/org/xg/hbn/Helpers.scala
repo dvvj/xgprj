@@ -59,6 +59,10 @@ object Helpers {
     MPricePlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag)
   }
 
+  def convertRewardPlan(pp:RewardPlan):MRewardPlan = {
+    MRewardPlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag)
+  }
+
   import DataUtils._
   def convertPricePlanMap(ppm:PricePlanMap):MPricePlanMap = {
     MPricePlanMap.createJ(ppm.getUid, ppm.getPlanIds,
@@ -66,7 +70,12 @@ object Helpers {
       zonedDateTime2Str(ppm.getExpireTime)
     )
   }
-
+  def convertRewardPlanMap(ppm:RewardPlanMap):MRewardPlanMap = {
+    MRewardPlanMap.createJ(ppm.getUid, ppm.getPlanIds,
+      zonedDateTime2Str(ppm.getStartTime),
+      zonedDateTime2Str(ppm.getExpireTime)
+    )
+  }
   def convertMedProf(mp:MedProf):MMedProf = {
     MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile)
   }

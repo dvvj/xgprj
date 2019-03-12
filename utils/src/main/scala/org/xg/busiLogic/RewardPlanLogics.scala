@@ -1,12 +1,12 @@
 package org.xg.busiLogic
 
-import org.xg.dbModels.{MCustomer, MPricePlan, MPricePlanMap}
+import org.xg.dbModels._
 import org.xg.gnl.DataUtils.{utcTimeNow, zonedDateTime2Ms}
-import org.xg.pay.pricePlan.TPricePlan
-import org.xg.pay.pricePlan.v1.PrPlChained
+import org.xg.pay.rewardPlan.TRewardPlan
+import org.xg.pay.rewardPlan.v1.RwPlChained
 
-object PricePlanLogics {
-  def activePricePlans(allPlans:Array[MPricePlanMap]):Map[String, MPricePlanMap] = {
+object RewardPlanLogics {
+  def activeRewardPlans(allPlans:Array[MRewardPlanMap]):Map[String, MRewardPlanMap] = {
     allPlans.groupBy(_.uid).flatMap { p =>
       val pps = p._2.filter { ppm =>
         if (ppm.getExpireTime.nonEmpty) {
@@ -23,10 +23,9 @@ object PricePlanLogics {
     }
   }
 
-  def pricePlanFor(customer:MCustomer, planMap:Map[String, MPricePlanMap], plans:Map[String, MPricePlan]):Option[TPricePlan] = {
+  def rewardPlanFor(uid:String, planMap:Map[String, MRewardPlanMap], plans:Map[String, MRewardPlan]):Option[TRewardPlan] = {
     val planIds =
-      if (planMap.contains(customer.uid)) planMap(customer.uid).getPlanIds
-      else if (planMap.contains(customer.refUid)) planMap(customer.refUid).getPlanIds
+      if (planMap.contains(uid)) planMap(uid).getPlanIds
       else Array[String]()
 
     if (planIds.nonEmpty) {
@@ -35,11 +34,12 @@ object PricePlanLogics {
           plans(planIds(0)).getPlan
         else {
           val chain = planIds.map(plans).map(_.getPlan).toList
-          PrPlChained.create(chain)
+          RwPlChained.create(chain)
         }
       Option(res)
     }
     else None
 
   }
+
 }

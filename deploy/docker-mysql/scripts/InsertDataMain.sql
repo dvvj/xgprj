@@ -27,3 +27,14 @@ INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0
 INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.8','2019-03-11T16:00:28.239');
 INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('prof2','ProdBased-Basic,Fixed-0.9','2019-03-11T16:00:28.239');
 INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('customer1','ProdBased-Advanced','2019-03-11T16:00:28.24');
+
+INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('Fixed-0.01','Fixed Rate 1%','{"globalRate":0.01}','FixedRate');
+INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('Fixed-0.02','Fixed Rate 2%','{"globalRate":0.02}','FixedRate');
+INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('Fixed-1.5','Fixed Rate x 1.5, used only in combination with other plans','{"globalRate":1.5}','FixedRate');
+INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('ProdBased-Basic','Producted Based Basic, range: 1% - 3%','{"globalRate":0.01,"prodRates":{"1":0.02,"2":0.03}}','ProductBasedRates');
+INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('ProdBased-Advanced','Producted Based Advanced, range: 2% - 5%','{"globalRate":0.02,"prodRates":{"1":0.03,"2":0.05}}','ProductBasedRates');
+
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.01','2019-03-05T08:18:27.597');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.02','2019-03-12T08:18:27.655');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof2','ProdBased-Basic,Fixed-1.5','2019-03-12T08:18:27.655');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('customer1','ProdBased-Advanced','2019-03-12T08:18:27.655');

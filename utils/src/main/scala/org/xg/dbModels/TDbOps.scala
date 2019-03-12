@@ -1,6 +1,6 @@
 package org.xg.dbModels
 
-import org.xg.busiLogic.PricePlanLogics
+import org.xg.busiLogic.{PricePlanLogics, RewardPlanLogics}
 
 trait TDbOps {
   def addNewCustomer(
@@ -18,12 +18,18 @@ trait TDbOps {
   def customersRefedBy(refUid:String):Array[MCustomer]
 
   def allPricePlans:Array[MPricePlan]
-
   def pricePlansByUid(uid:String):Array[MPricePlanMap]
   def allPricePlanMaps:Array[MPricePlanMap]
   def allActivePricePlans:Map[String, MPricePlanMap] = {
     val all = allPricePlanMaps
     PricePlanLogics.activePricePlans(all)
+  }
+
+  def allRewardPlans: Array[MRewardPlan]
+  def allRewardPlanMaps:Array[MRewardPlanMap]
+  def allActiveRewardPlans:Map[String, MRewardPlanMap] = {
+    val all = allRewardPlanMaps
+    RewardPlanLogics.activeRewardPlans(all)
   }
 
   // order related

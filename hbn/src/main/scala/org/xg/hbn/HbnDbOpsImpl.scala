@@ -55,6 +55,24 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def allRewardPlanMaps: Array[MRewardPlanMap] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          queryAndConvert(sess, classOf[RewardPlanMap].getName, convertRewardPlanMap)
+        }
+      )
+    }
+
+    override def allRewardPlans: Array[MRewardPlan] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          queryAndConvert(sess, classOf[RewardPlan].getName, convertRewardPlan)
+        }
+      )
+    }
+
     override def allPricePlanMaps: Array[MPricePlanMap] = {
       runInTransaction(
         sessFactory,
