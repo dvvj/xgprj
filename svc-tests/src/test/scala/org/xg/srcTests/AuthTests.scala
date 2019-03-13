@@ -33,8 +33,18 @@ object AuthTests extends App {
 
   val pricePlans = SvcHelpers.post(cfg.pricePlanURL, resp.token, uid)
   println(pricePlans)
-  val pricePlans2 = SvcHelpers.post(cfg.pricePlanURL, resp.token, "customer4")
+
+  val (uid2, pass2) = "customer4" -> "acf"
+  val resp2 = SvcHelpers.authReq(cfg.authURL, uid2, pass2)
+
+  val pricePlans2 = SvcHelpers.getPricePlan4User(cfg.pricePlanURL, uid2, resp2.token)
   println(pricePlans2)
+
+  (1 to 4).foreach { prodId =>
+    println(
+      pricePlans2.get.adjust(prodId, 100.0)
+    )
+  }
 
 //  val orderJson = UserOrder.toJson(
 //    UserOrder(
