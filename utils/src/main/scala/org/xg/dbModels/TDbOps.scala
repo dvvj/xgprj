@@ -14,15 +14,34 @@ trait TDbOps {
     bday:String
   ):String
   import org.xg.gnl.DataUtils._
+  import collection.JavaConverters._
+
   def allCustomers:Array[MCustomer]
+  def allCustomersToMap:Map[String, MCustomer] = {
+    val all = allCustomers
+    all.map(p => p.uid -> p).toMap
+  }
+  def allCustomersToMapJ:java.util.Map[String, MCustomer] = {
+    allCustomersToMap.asJava
+  }
   def customersRefedBy(refUid:String):Array[MCustomer]
 
   def allPricePlans:Array[MPricePlan]
+  def allPricePlansToMap:Map[String, MPricePlan] = {
+    val all = allPricePlans
+    all.map(p => p.id -> p).toMap
+  }
+  def allPricePlansToMapJ:java.util.Map[String, MPricePlan] = {
+    allPricePlansToMap.asJava
+  }
   def pricePlansByUid(uid:String):Array[MPricePlanMap]
   def allPricePlanMaps:Array[MPricePlanMap]
   def allActivePricePlans:Map[String, MPricePlanMap] = {
     val all = allPricePlanMaps
     PricePlanLogics.activePricePlans(all)
+  }
+  def allActivePricePlansJ:java.util.Map[String, MPricePlanMap] = {
+    allActivePricePlans.asJava
   }
 
   def allRewardPlans: Array[MRewardPlan]

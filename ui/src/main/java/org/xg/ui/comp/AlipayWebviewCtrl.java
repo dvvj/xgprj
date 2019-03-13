@@ -22,7 +22,7 @@ public class AlipayWebviewCtrl implements Initializable {
 
   public void setAmountAndSendReq(Product product, ObservableValue<String> qty) {
     amount.bind(qty);
-    this.unitPrice = product.getPrice0();
+    this.unitPrice = product.getActualPrice();
 
     String privateKeyPath = "/home/devvj/alipay-keys/rsa_private_key.raw";
     AlipayCfg cfg = AlipayHelpers.testLocalCfg(privateKeyPath);

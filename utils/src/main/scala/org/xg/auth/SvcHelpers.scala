@@ -4,12 +4,16 @@ import java.time.ZonedDateTime
 
 import org.xg.svc.UserPass
 import scalaj.http.{Http, HttpOptions}
-
 import java.util.function.{Function => JFunc}
+
+import org.xg.pay.pricePlan.TPricePlan
+import org.xg.pay.pricePlan.v1.PrPlFixedRate
 
 object SvcHelpers {
 
   import AuthResp._
+
+  def dbgGetPricePlanViaSvc = PrPlFixedRate(0.7)
 
   def authReq(url:String, uid:String, pass:String):AuthResp = {
     val up = UserPass.fromUserPass(uid, pass)

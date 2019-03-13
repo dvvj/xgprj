@@ -10,6 +10,8 @@ import org.xg.auth.SvcHelpers;
 import org.xg.dbModels.MOrder;
 import org.xg.dbModels.MProduct;
 import org.xg.gnl.GlobalCfg;
+import org.xg.pay.pricePlan.TPricePlan;
+import org.xg.pay.pricePlan.v1.PrPlFixedRate;
 import org.xg.ui.model.Order;
 import org.xg.ui.model.Product;
 
@@ -54,6 +56,14 @@ public class Global {
     System.out.println(msg);
   }
 
+  private static TPricePlan _pricePlan;
+  public static void setPricePlan(TPricePlan pricePlan) {
+    _pricePlan = pricePlan;
+  }
+  public static TPricePlan getPricePlan() {
+    return _pricePlan;
+  }
+
   private static ObservableList<Product> allProducts = null;
   private static Map<Integer, Product> productMap = null;
   public static Map<Integer, Product> getProductMap() {
@@ -67,7 +77,7 @@ public class Global {
         Global.getCurrToken()
       );
       MProduct[] products = MProduct.fromJsons(j);
-      Product[] prods = Helpers.convProducts(products);
+      Product[] prods = Helpers.convProducts(products, getPricePlan());
       productMap = Helpers.productMapFromJ(prods);
       return FXCollections.observableArrayList(prods);
     }

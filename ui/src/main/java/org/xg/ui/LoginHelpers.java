@@ -4,6 +4,7 @@ import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import org.xg.auth.AuthResp;
 import org.xg.auth.SvcHelpers;
+import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.ui.model.UserType;
 import org.xg.ui.model.UserTypeHelpers;
 import org.xg.ui.utils.Global;
@@ -29,6 +30,9 @@ public class LoginHelpers {
             //System.out.println(resp.token());
             Global.updateToken(userId, resp.token());
           }
+          //todo
+          TPricePlan pp = SvcHelpers.dbgGetPricePlanViaSvc();
+          Global.setPricePlan(pp);
           return resp;
         },
         resp -> {

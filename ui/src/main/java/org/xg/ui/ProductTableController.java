@@ -67,8 +67,8 @@ public class ProductTableController implements Initializable {
       tableColumnResBundle(
         "productTable.price",
         resBundle,
-        "price0",
-        100
+        "priceDetail",
+        150
       ),
 //      tableColumnResBundle("productTable.detailedInfo",
 //        resBundle,

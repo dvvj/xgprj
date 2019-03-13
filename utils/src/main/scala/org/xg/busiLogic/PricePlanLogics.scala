@@ -42,4 +42,10 @@ object PricePlanLogics {
     else None
 
   }
+
+  import collection.JavaConverters._
+  def pricePlanForJ(customer:MCustomer, planMap:java.util.Map[String, MPricePlanMap], plans:java.util.Map[String, MPricePlan]):TPricePlan = {
+    val res = pricePlanFor(customer, planMap.asScala.toMap, plans.asScala.toMap)
+    res.orNull
+  }
 }
