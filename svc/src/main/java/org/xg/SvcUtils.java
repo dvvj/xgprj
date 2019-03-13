@@ -1,10 +1,7 @@
 package org.xg;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.xg.dbModels.MCustomer;
-import org.xg.dbModels.MPricePlan;
-import org.xg.dbModels.MPricePlanMap;
-import org.xg.dbModels.TDbOps;
+import org.xg.dbModels.*;
 import org.xg.gnl.GlobalCfg;
 
 import javax.ws.rs.core.MediaType;
@@ -41,6 +38,8 @@ public class SvcUtils {
   private static Map<String, MPricePlanMap> _pricePlanMaps = null;
   private static Object _lockCustomers = new Object();
   private static Map<String, MCustomer> _customers = null;
+  private static Object _lockMedProfs = new Object();
+  private static Map<String, MMedProf> _medProfs = null;
 
   public static Map<String, MCustomer> getCustomers() {
     if (_customers == null) {
@@ -53,6 +52,16 @@ public class SvcUtils {
     return _customers;
   }
 
+  public static Map<String, MMedProf> getMedProfs() {
+    if (_medProfs == null) {
+      synchronized (_lockMedProfs) {
+        if (_medProfs == null) {
+          _medProfs = getDbOps().medProfsMapJ();
+        }
+      }
+    }
+    return _medProfs;
+  }
 
   public static Map<String, MPricePlanMap> getPricePlanMaps() {
     if (_pricePlanMaps == null) {
@@ -75,6 +84,33 @@ public class SvcUtils {
       }
     }
     return _pricePlans;
+  }
+
+  private static Object _lockRewardPlans = new Object();
+  private static Map<String, MRewardPlan> _rewardPlans = null;
+  private static Object _lockRewardPlanMaps = new Object();
+  private static Map<String, MRewardPlanMap> _rewardPlanMaps = null;
+
+  public static Map<String, MRewardPlan> getRewardPlans() {
+    if (_rewardPlans == null) {
+      synchronized (_lockRewardPlans) {
+        if (_rewardPlans == null) {
+          _rewardPlans = getDbOps().allRewardPlansToMapJ();
+        }
+      }
+    }
+    return _rewardPlans;
+  }
+
+  public static Map<String, MRewardPlanMap> getRewardPlanMaps() {
+    if (_rewardPlanMaps == null) {
+      synchronized (_lockRewardPlanMaps) {
+        if (_rewardPlanMaps == null) {
+          _rewardPlanMaps = getDbOps().allActiveRewardPlansJ();
+        }
+      }
+    }
+    return _rewardPlanMaps;
   }
 
 //

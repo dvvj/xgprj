@@ -45,12 +45,25 @@ trait TDbOps {
   }
 
   def allRewardPlans: Array[MRewardPlan]
+  def allRewardPlansToMap:Map[String, MRewardPlan] = {
+    val all = allRewardPlans
+    all.map(p => p.id -> p).toMap
+  }
+  def allRewardPlansToMapJ:java.util.Map[String, MRewardPlan] = {
+    allRewardPlansToMap.asJava
+  }
   def allRewardPlanMaps:Array[MRewardPlanMap]
   def allActiveRewardPlans:Map[String, MRewardPlanMap] = {
     val all = allRewardPlanMaps
     RewardPlanLogics.activeRewardPlans(all)
   }
-
+  def allActiveRewardPPlans:Map[String, MRewardPlanMap] = {
+    val all = allRewardPlanMaps
+    RewardPlanLogics.activeRewardPlans(all)
+  }
+  def allActiveRewardPlansJ:java.util.Map[String, MRewardPlanMap] = {
+    allActiveRewardPPlans.asJava
+  }
   // order related
   def ordersOf(uid:String):Array[MOrder]
   def placeOrder(uid:String, productId:Int, qty:Double):Long
@@ -72,6 +85,13 @@ trait TDbOps {
     mobile:String
   ):String
   def allMedProfs:Array[MMedProf]
+  def medProfsMap:Map[String, MMedProf] = {
+    val all = allMedProfs
+    all.map(p => p.profId -> p).toMap
+  }
+  def medProfsMapJ:java.util.Map[String, MMedProf] = {
+    medProfsMap.asJava
+  }
   def customersOf(profId:String):Array[MCustomer]
 
   // authentication related

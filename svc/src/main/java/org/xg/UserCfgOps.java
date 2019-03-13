@@ -2,7 +2,9 @@ package org.xg;
 
 import org.xg.auth.Secured;
 import org.xg.busiLogic.PricePlanLogics;
+import org.xg.busiLogic.RewardPlanLogics;
 import org.xg.dbModels.MCustomer;
+import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.TDbOps;
 import org.xg.pay.pricePlan.TPricePlan;
 
@@ -40,4 +42,31 @@ public class UserCfgOps {
       throw new WebApplicationException("Error", ex);
     }
   }
+
+  @Secured
+  @POST
+  @Path("rewardPlan")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  public Response getRewardPlan(String uid) {
+    try {
+      MMedProf prof = SvcUtils.getMedProfs().get(uid);
+      String plansJson = RewardPlanLogics.rewardPlanJsonForJ(
+        prof,
+        SvcUtils.getRewardPlanMaps(),
+        SvcUtils.getRewardPlans()
+      );
+
+//      if (pricePlan == null)
+//        logger.info(String.format("No price plan found for user [%s]", uid));
+
+      return Response.ok(plansJson)
+        .build();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException("Error", ex);
+    }
+  }
+
 }

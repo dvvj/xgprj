@@ -2,12 +2,13 @@ package org.xg.auth
 
 import java.time.ZonedDateTime
 
-import org.xg.svc.{UserPass, UserPricePlanUtils}
+import org.xg.svc.{SvcJsonUtils, UserPass}
 import scalaj.http.{Http, HttpOptions}
 import java.util.function.{Function => JFunc}
 
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.pricePlan.v1.PrPlFixedRate
+import org.xg.pay.rewardPlan.TRewardPlan
 
 object SvcHelpers {
 
@@ -16,10 +17,14 @@ object SvcHelpers {
   //def dbgGetPricePlanViaSvc = PrPlFixedRate(0.7)
   def getPricePlan4User(url:String, uid:String, token:String):Option[TPricePlan] = {
     val plansJson = post(url, token, uid)
-    UserPricePlanUtils.decodePricePlanJson(plansJson)
+    SvcJsonUtils.decodePricePlanJson(plansJson)
   }
   def getPricePlan4UserJ(url:String, uid:String, token:String):TPricePlan = {
     getPricePlan4User(url, uid, token).orNull
+  }
+  def getRewardPlan4User(url:String, uid:String, token:String):Option[TRewardPlan] = {
+    val plansJson = post(url, token, uid)
+    SvcJsonUtils.decodeRewardPlanJson(plansJson)
   }
 
   def authReq(url:String, uid:String, pass:String):AuthResp = {

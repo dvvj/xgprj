@@ -46,6 +46,15 @@ object AuthTests extends App {
     )
   }
 
+  val rewardPlan = SvcHelpers.getRewardPlan4User(cfg.rewardPlanURL, "prof2", resp2.token)
+  println(rewardPlan)
+
+  (1 to 4).foreach { prodId =>
+    println(
+      rewardPlan.get.reward(prodId, 100.0)
+    )
+  }
+
 //  val orderJson = UserOrder.toJson(
 //    UserOrder(
 //      uid, 1, 2.0

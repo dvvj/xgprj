@@ -1,11 +1,11 @@
 package org.xg.busiLogic
 
-import org.xg.dbModels.{MCustomer, MPricePlan, MPricePlanMap}
+import org.xg.dbModels.{MCustomer, MMedProf, MPricePlan, MPricePlanMap}
 import org.xg.gnl.DataUtils.{utcTimeNow, zonedDateTime2Ms}
 import org.xg.pay.pricePlan.PricePlanSettings.VTag.VTag
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.pricePlan.v1.PrPlChained
-import org.xg.svc.UserPricePlanUtils
+import org.xg.svc.SvcJsonUtils
 
 object PricePlanLogics {
   def activePricePlans(allPlans:Array[MPricePlanMap]):Map[String, MPricePlanMap] = {
@@ -78,7 +78,8 @@ object PricePlanLogics {
     plans:java.util.Map[String, MPricePlan]
   ):String = {
     val res = pricePlanJsonFor(customer, planMap.asScala.toMap, plans.asScala.toMap)
-    UserPricePlanUtils.convert2Json(res)
+    SvcJsonUtils.PricePlanJson.convert2Json(res)
   }
+
 
 }
