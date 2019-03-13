@@ -23,15 +23,16 @@ public class UserCfgOps {
   public Response getPricePlan(String uid) {
     try {
       MCustomer customer = SvcUtils.getCustomers().get(uid);
-      TPricePlan pricePlan = PricePlanLogics.pricePlanForJ(
+      String plansJson = PricePlanLogics.pricePlanJsonForJ(
         customer,
-        SvcUtils.getPricePlanMaps(), SvcUtils.getPricePlans()
+        SvcUtils.getPricePlanMaps(),
+        SvcUtils.getPricePlans()
       );
 
-      if (pricePlan == null)
-        logger.info(String.format("No price plan found for user [%s]", uid));
+//      if (pricePlan == null)
+//        logger.info(String.format("No price plan found for user [%s]", uid));
 
-      return Response.ok("todo")
+      return Response.ok(plansJson)
         .build();
     }
     catch (Exception ex) {

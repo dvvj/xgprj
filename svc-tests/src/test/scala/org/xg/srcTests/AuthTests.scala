@@ -31,6 +31,11 @@ object AuthTests extends App {
   val currOrders = SvcHelpers.getDecArray(cfg.currOrdersURL, resp.token, MOrder.fromJsons)
   println(s"currOrders:\n${currOrders.mkString("\n")}")
 
+  val pricePlans = SvcHelpers.post(cfg.pricePlanURL, resp.token, uid)
+  println(pricePlans)
+  val pricePlans2 = SvcHelpers.post(cfg.pricePlanURL, resp.token, "customer4")
+  println(pricePlans2)
+
 //  val orderJson = UserOrder.toJson(
 //    UserOrder(
 //      uid, 1, 2.0

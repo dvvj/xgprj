@@ -19,6 +19,7 @@ case class GlobalCfg(
   def payOrderURL:String = s"$svcSvr/$PAY_ORDER"
   def allProductsURL:String = s"$svcSvr/$ALLPRODUCTS"
   def imgAssetURL:String = s"$svcSvr/$IMAGE_ASSET"
+  def pricePlanURL:String = s"$svcSvr/$PRICE_PLAN"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
@@ -30,6 +31,7 @@ object GlobalCfg {
   private val PAY_ORDER = "order/payOrder"
   private val ALLPRODUCTS = "product/all"
   private val IMAGE_ASSET = "asset/img"
+  private val PRICE_PLAN = "user/pricePlan"
 
   def fromJson(j:String):GlobalCfg = {
     import org.json4s.jackson.JsonMethods._

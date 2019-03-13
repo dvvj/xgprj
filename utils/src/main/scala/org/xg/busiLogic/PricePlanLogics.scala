@@ -2,8 +2,10 @@ package org.xg.busiLogic
 
 import org.xg.dbModels.{MCustomer, MPricePlan, MPricePlanMap}
 import org.xg.gnl.DataUtils.{utcTimeNow, zonedDateTime2Ms}
+import org.xg.pay.pricePlan.PricePlanSettings.VTag.VTag
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.pricePlan.v1.PrPlChained
+import org.xg.svc.UserPricePlanUtils
 
 object PricePlanLogics {
   def activePricePlans(allPlans:Array[MPricePlanMap]):Map[String, MPricePlanMap] = {
@@ -40,12 +42,43 @@ object PricePlanLogics {
       Option(res)
     }
     else None
+  }
+
+  def pricePlanJsonFor(
+    customer:MCustomer,
+    planMap:Map[String,
+    MPricePlanMap],
+    plans:Map[String, MPricePlan]
+  ):Array[(VTag, String)] = {
+    val planIds =
+      if (planMap.contains(customer.uid)) planMap(customer.uid).getPlanIds
+      else if (planMap.contains(customer.refUid)) planMap(customer.refUid).getPlanIds
+      else Array[String]()
+
+    planIds.map(plans).map { p =>
+      p.getVTag -> p.defi
+    }
+//    if (planIds.nonEmpty) {
+//      val res =
+//        if (planIds.length == 1)
+//          Array(plans(planIds(0)).defi)
+//        else {
+//          planIds.map(plans).map(_.defi)
+//        }
+//      res
+//    }
+//    else None
 
   }
 
   import collection.JavaConverters._
-  def pricePlanForJ(customer:MCustomer, planMap:java.util.Map[String, MPricePlanMap], plans:java.util.Map[String, MPricePlan]):TPricePlan = {
-    val res = pricePlanFor(customer, planMap.asScala.toMap, plans.asScala.toMap)
-    res.orNull
+  def pricePlanJsonForJ(
+    customer:MCustomer,
+    planMap:java.util.Map[String, MPricePlanMap],
+    plans:java.util.Map[String, MPricePlan]
+  ):String = {
+    val res = pricePlanJsonFor(customer, planMap.asScala.toMap, plans.asScala.toMap)
+    UserPricePlanUtils.convert2Json(res)
   }
+
 }

@@ -13,7 +13,10 @@ object SvcHelpers {
 
   import AuthResp._
 
-  def dbgGetPricePlanViaSvc = PrPlFixedRate(0.7)
+  //def dbgGetPricePlanViaSvc = PrPlFixedRate(0.7)
+//  def getPricePlan4User(url:String, uid:String, token:String):String = {
+//    post(url, token, uid)
+//  }
 
   def authReq(url:String, uid:String, pass:String):AuthResp = {
     val up = UserPass.fromUserPass(uid, pass)
