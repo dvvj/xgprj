@@ -13,6 +13,9 @@ import io.jsonwebtoken.security.Keys;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -53,7 +56,20 @@ public class MyResource {
           "            'zh-cn': \"请输入用户名和电子邮件\"\n" +
           "          }\n" +
           "        }\n" +
-          "      }\n" +
+          "      },\n" +
+            "   authenticate: {\n" +
+            "     chat: {\n" +
+            "       jwtFn: function(callback) { \n" +
+            "          console.log('calling fetch ...');\n" +
+            "         fetch('token1111').then(function(res) {\n" +
+            "            res.text().then(function(jwt) {\n" +
+            "              console.log('got token: ' + jwt);\n" +
+            "             callback(jwt);\n" +
+            "            });\n" +
+            "          });\n" +
+            "        }\n" +
+            "      } \n" +
+            "    }\n" +
           "    }\n" +
           "  };\n" +
           "  zE(\n" +
@@ -67,7 +83,24 @@ public class MyResource {
           "  if (typeof user === 'undefined' || typeof email === 'undefined') {\n" +
           "  }\n" +
           "  else {\n" +
-          "  }\n" +
+          "  }\n\n" +
+//          "  zE(function(){\n" +
+//          "    console.log('calling $zopim ...');\n" +
+//          "    $zopim(function() {\n" +
+//          "      $zopim.livechat.authenticate({\n" +
+//          "        jwtFn: function(callback) {\n" +
+//          "          console.log('calling fetch ...');\n" +
+//          "          fetch('JWT_TOKEN_ENDPOINT').then(function(res) {\n" +
+//          "            console.log('got token, res: ' + res);\n" +
+//          "            res.text().then(function(jwt) {\n" +
+//          "              console.log('got token: ' + jwt);\n" +
+//          "              callback(jwt);\n" +
+//          "            });\n" +
+//          "          });\n" +
+//          "        }\n" +
+//          "      });\n" +
+//          "    })\n" +
+//          "  });\n" +
           "}\n" +
           "\n" +
           "//zendeskInit('', '');\n" +
@@ -79,14 +112,32 @@ public class MyResource {
         ).build();
     }
 
+    private static final String tokenPayloadTemplate = "{\n" +
+      "  \"name\": \"customerName\",\n" +
+      "  \"email\": \"customerEmail\",\n" +
+      "  \"external_id\": \"user-123456\",\n" +
+      "  \"iat\": %d,\n" +
+      "  \"exp\": %d\n" +
+      "}";
+
+
     @GET
     @Path("token")
     @Produces(MediaType.TEXT_PLAIN)
     public Response getToken() {
-        //byte[] keyBytes = "secret".getBytes(StandardCharsets.UTF_8);
-        //Key key = Keys.hmacShaKeyFor(keyBytes); //
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        String jws = Jwts.builder().setSubject("Joe").signWith(key).compact();
+        byte[] keyBytes = "C41A6FE6584A9FD510FF9E6FC36A113007766CE1832D82180EA1F9220F87921C".getBytes(StandardCharsets.UTF_8);
+        Key key = Keys.hmacShaKeyFor(keyBytes); //
+//        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        Long msNow = ZonedDateTime.now().toInstant().toEpochMilli() / 1000;
+        Long msExpire = ZonedDateTime.now().plusMinutes(2).toInstant().toEpochMilli() / 1000;
+        Map<String, Object> header = new HashMap<>();
+        header.put("typ", "JWT");
+        header.put("alg", "HS256");
+        String jws = Jwts.builder()
+          .setHeader(header)
+          .setPayload(
+          String.format(tokenPayloadTemplate, msNow, msExpire)
+        ).signWith(key).compact();
         return Response.ok(jws).build();
     }
 }
