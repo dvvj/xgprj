@@ -12,6 +12,7 @@
         <scala.minor.version>2.12</scala.minor.version>
         <amazonaws.version>1.11.99</amazonaws.version>
         <hibernate.version>5.3.8.Final</hibernate.version>
+        <jjwt.version>0.10.5</jjwt.version>
     </properties>
     <groupId>org.xg</groupId>
     <artifactId>xg-root</artifactId>
@@ -203,6 +204,23 @@
                 <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
