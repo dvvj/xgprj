@@ -1,9 +1,9 @@
 package org.xg.ui;
 
 import javafx.concurrent.Task;
-import javafx.scene.paint.Color;
 import org.xg.auth.AuthResp;
 import org.xg.auth.SvcHelpers;
+import org.xg.gnl.GlobalCfg;
 import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.ui.model.UserType;
 import org.xg.ui.model.UserTypeHelpers;
@@ -21,18 +21,21 @@ public class LoginHelpers {
   private final static ILoginAction customerLogin = new ILoginAction() {
     @Override
     public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-      String authUrl = Global.getServerCfg().authURL(); //"https://localhost:8443/webapi/auth/userPass";
 
       Task<AuthResp> authTask = Helpers.statusTaskJ(
         () -> {
+          GlobalCfg cfg = Global.getServerCfg();
+          String authUrl = cfg.authCustomerURL(); //"https://localhost:8443/webapi/auth/userPass";
+
           AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
           if (resp.success()) {
             //System.out.println(resp.token());
             Global.updateToken(userId, resp.token());
           }
           //todo
-          TPricePlan pp = SvcHelpers.dbgGetPricePlanViaSvc();
-          Global.setPricePlan(pp);
+          TPricePlan pp = SvcHelpers.getPricePlan4UserJ(cfg.pricePlanURL(), userId, resp.token());
+          if (pp != null)
+            Global.setPricePlan(pp);
           return resp;
         },
         resp -> {
@@ -55,7 +58,7 @@ public class LoginHelpers {
   private final static ILoginAction medProfsLogin = new ILoginAction() {
     @Override
     public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-      String authUrl = Global.getServerCfg().authURL(); //"https://localhost:8443/webapi/auth/userPass";
+      String authUrl = Global.getServerCfg().authProfURL(); //"https://localhost:8443/webapi/auth/userPass";
 
       Task<AuthResp> authTask = Helpers.statusTaskJ(
         () -> {

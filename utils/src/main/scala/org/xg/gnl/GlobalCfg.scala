@@ -12,7 +12,8 @@ case class GlobalCfg(
   assetLocalPath:String
 ) {
   import GlobalCfg._
-  def authURL:String = s"$svcSvr/$REQ_AUTH"
+  def authCustomerURL:String = s"$svcSvr/$AUTH_CUSTOMER"
+  def authProfURL:String = s"$svcSvr/$AUTH_MEDPROF"
   def allCustomersURL:String = s"$svcSvr/$ALLCUSTOMERS"
   def currOrdersURL:String = s"$svcSvr/$CURR_ORDERS"
   def placeOrderURL:String = s"$svcSvr/$PLACE_ORDER"
@@ -25,7 +26,8 @@ case class GlobalCfg(
 }
 
 object GlobalCfg {
-  private val REQ_AUTH = "auth/userPass"
+  private val AUTH_CUSTOMER = "auth/customerPass"
+  private val AUTH_MEDPROF = "auth/profPass"
   private val ALLCUSTOMERS = "customer/testAll"
   private val CURR_ORDERS = "order/testCurrUser"
   private val PLACE_ORDER = "order/placeOrder"

@@ -9,7 +9,7 @@ object OrderTests extends App {
   val cfg = GlobalCfg.localTestCfg
 
   def authUser(uid:String, pass:String):String = {
-    val resp = SvcHelpers.authReq(cfg.authURL, uid, pass)
+    val resp = SvcHelpers.authReq(cfg.authCustomerURL, uid, pass)
     if (!resp.success)
       throw new RuntimeException(s"Failed to authenticate with [$uid]-[$pass]")
 

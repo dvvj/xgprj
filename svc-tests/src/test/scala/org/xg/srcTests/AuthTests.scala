@@ -14,7 +14,7 @@ object AuthTests extends App {
 //   val (uid, pass) = "customer2" -> "456"
   //val (uid, pass) = "customer3" -> "abcdef"
   //val (uid, pass) = "customer4" -> "acf"
-  val resp = SvcHelpers.authReq(cfg.authURL, uid, pass)
+  val resp = SvcHelpers.authReq(cfg.authCustomerURL, uid, pass)
 
   if (resp.success)
     println(s"Success! Token: ${resp.token}")
@@ -35,7 +35,7 @@ object AuthTests extends App {
   println(pricePlans)
 
   val (uid2, pass2) = "customer4" -> "acf"
-  val resp2 = SvcHelpers.authReq(cfg.authURL, uid2, pass2)
+  val resp2 = SvcHelpers.authReq(cfg.authCustomerURL, uid2, pass2)
 
   val pricePlans2 = SvcHelpers.getPricePlan4User(cfg.pricePlanURL, uid2, resp2.token)
   println(pricePlans2)
