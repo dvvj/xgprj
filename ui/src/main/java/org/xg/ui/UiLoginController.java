@@ -75,7 +75,7 @@ public class UiLoginController implements Initializable {
     );
 
     cmboUType.setValue(
-      userMap.get(UserTypeHelpers.UT_CUSTOMER)
+      userMap.get(UserTypeHelpers.UT_MEDPROFS)
     );
 
     loginSuccessActionMap = new HashMap<>();

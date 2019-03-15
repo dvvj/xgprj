@@ -25,7 +25,8 @@
          <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
       </HBox.margin>
 
-      <TextField fx:id="tfUid" text="customer1" />
+      <!--<TextField fx:id="tfUid" text="customer1" />-->
+      <TextField fx:id="tfUid" text="prof1" />
       <ComboBox fx:id="cmboUType" />
       <PasswordField  fx:id="pfPass" text="123" />
 

@@ -1,9 +1,15 @@
 package org.xg.ui.mainwnd;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXRippler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.utils.Global;
@@ -24,6 +30,9 @@ public class MedProfsMain {
       FXMLLoader customerLoader = new FXMLLoader(path, Global.AllRes);
       //productLoader.setLocation(path);
       TableView tv = customerLoader.load();
+
+//      JFXButton jfoenixButton = new JFXButton("JFoenix Button");
+
       root.getChildren().addAll(tv);
 
       Scene scene = Global.sceneDefStyle(root);
