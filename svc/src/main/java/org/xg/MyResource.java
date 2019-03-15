@@ -57,7 +57,7 @@ public class MyResource {
           "          }\n" +
           "        }\n" +
           "      },\n" +
-            "   authenticate: {\n" +
+            "   authenticateCustomer: {\n" +
             "     chat: {\n" +
             "       jwtFn: function(callback) { \n" +
             "          console.log('calling fetch ...');\n" +
@@ -87,7 +87,7 @@ public class MyResource {
 //          "  zE(function(){\n" +
 //          "    console.log('calling $zopim ...');\n" +
 //          "    $zopim(function() {\n" +
-//          "      $zopim.livechat.authenticate({\n" +
+//          "      $zopim.livechat.authenticateCustomer({\n" +
 //          "        jwtFn: function(callback) {\n" +
 //          "          console.log('calling fetch ...');\n" +
 //          "          fetch('JWT_TOKEN_ENDPOINT').then(function(res) {\n" +

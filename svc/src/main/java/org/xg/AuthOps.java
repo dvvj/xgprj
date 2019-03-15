@@ -1,8 +1,7 @@
 package org.xg;
 
-import org.xg.auth.AuthHelpers;
 import org.xg.auth.AuthResp;
-import org.xg.auth.CustomerDbAuthority;
+import org.xg.auth.UserDbAuthority;
 import org.xg.auth.SessionManager;
 import org.xg.svc.UserPass;
 
@@ -12,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.time.ZonedDateTime;
 import java.util.logging.Logger;
 
 
@@ -30,7 +28,7 @@ public class AuthOps {
 
       logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
 
-      boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHashStr());
+      boolean authenticated = UserDbAuthority.authenticateCustomer(up.uid(), up.passHashStr());
 
       if (authenticated) {
         AuthResp resp = AuthResp.authSuccess(up);
@@ -41,7 +39,7 @@ public class AuthOps {
         return Response.ok(AuthResp.toJson(resp)).build();
       }
       else {
-        logger.warning("====================== Failed to authenticate user: " );
+        logger.warning("====================== Failed to authenticateCustomer user: " );
         return Response.status(Response.Status.UNAUTHORIZED)
           .entity(String.format("user [%s] NOT authorized!", up.uid()))
           .build();
@@ -50,7 +48,7 @@ public class AuthOps {
     catch (Exception ex) {
       logger.warning("Exception while authenticating user.");
       ex.printStackTrace();
-      throw new WebApplicationException("====================== Failed to authenticate user", ex);
+      throw new WebApplicationException("====================== Failed to authenticateCustomer user", ex);
     }
   }
 
@@ -63,7 +61,7 @@ public class AuthOps {
 
       logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
 
-      boolean authenticated = CustomerDbAuthority.authenticate(up.uid(), up.passHashStr());
+      boolean authenticated = UserDbAuthority.authenticateMedProfs(up.uid(), up.passHashStr());
 
       if (authenticated) {
         AuthResp resp = AuthResp.authSuccess(up);
@@ -74,7 +72,7 @@ public class AuthOps {
         return Response.ok(AuthResp.toJson(resp)).build();
       }
       else {
-        logger.warning("====================== Failed to authenticate user: " );
+        logger.warning("====================== Failed to authenticateCustomer user: " );
         return Response.status(Response.Status.UNAUTHORIZED)
           .entity(String.format("user [%s] NOT authorized!", up.uid()))
           .build();
@@ -83,7 +81,7 @@ public class AuthOps {
     catch (Exception ex) {
       logger.warning("Exception while authenticating user.");
       ex.printStackTrace();
-      throw new WebApplicationException("====================== Failed to authenticate user", ex);
+      throw new WebApplicationException("====================== Failed to authenticateCustomer user", ex);
     }
   }
 }
