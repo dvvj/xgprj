@@ -30,6 +30,12 @@ public class Global {
     return scene;
   }
 
+  public static void setSceneDefStyle(Parent root) {
+    root.getScene().getStylesheets().add(
+      Global.class.getResource("/default.css").toExternalForm()
+    );
+  }
+
   public static void setResText(Text txt, String resName, Color color) {
     setText(txt, Global.AllRes.getString(resName), color);
   }

@@ -3,12 +3,14 @@ package org.xg.ui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.xg.ui.mainwnd.CustomerMain;
+import org.xg.ui.mainwnd.MainFrame;
 import org.xg.ui.mainwnd.MedProfsMain;
 import org.xg.ui.model.UserType;
 import org.xg.ui.model.UserTypeHelpers;
@@ -87,7 +89,8 @@ public class UiLoginController implements Initializable {
     );
     loginSuccessActionMap.put(
       UserTypeHelpers.UT_MEDPROFS, () -> {
-        new MedProfsMain().launch(tfUid.getText());
+        //new MedProfsMain().launch(tfUid.getText());
+        new MainFrame().start(MedProfsMain.class);
         stage.close();
       }
     );

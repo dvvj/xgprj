@@ -1,6 +1,8 @@
 package org.xg.ui.mainwnd;
 
+import io.datafx.controller.ViewController;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
