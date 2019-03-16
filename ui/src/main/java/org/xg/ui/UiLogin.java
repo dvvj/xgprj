@@ -17,6 +17,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.log.Logging;
+import org.xg.ui.mainwnd.MainFrame;
+import org.xg.ui.mainwnd.MedProfsMain;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Utf8ResBundleCtrl;
 
@@ -31,61 +33,30 @@ public class UiLogin extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-
-    FXMLLoader loader = new FXMLLoader(
-      getClass().getResource("/ui/UiLogin.fxml"),
-      Global.AllRes
-    );
-    HBox root = loader.load();
-    UiLoginController controller = loader.getController();
-    controller.setStage(stage);
-
-//    Font font = Font.loadFont(
-//      getClass().getResourceAsStream("/NotoSansCJK-Medium.ttc"), 18
+    new MainFrame("login.main.title").start(stage, UiLoginController.class);
+//    FXMLLoader loader = new FXMLLoader(
+//      getClass().getResource("/ui/UiLogin.fxml"),
+//      Global.AllRes
 //    );
-//    Logging.debug("Font loaded: [%s]", font.getFamily());
-
-    Scene scene = Global.sceneDefStyle(root);
-    scene.setFill(Color.TRANSPARENT);
-//    scene.getStylesheets().add(
-//      getClass().getResource("/default.css").toExternalForm()
-//    );
-
-    stage.setResizable(false);
-    stage.setScene(scene);
-    stage.setTitle(Global.AllRes.getString("login.windowTitle"));
-    stage.show();
-//    Label lblUid = new Label("用户 ID");
-//    Label lblUType = new Label("用户类型");
-//    Label lblPass = new Label("登录密码");
-//    VBox vboxLabels = new VBox(lblUid, lblUType, lblPass);
-//    vboxLabels.setAlignment(Pos.BASELINE_RIGHT);
-//    vboxLabels.setLayoutX(20);
-//    vboxLabels.setLayoutY(20);
-//    vboxLabels.setSpacing(10);
+//    HBox root = loader.load();
+//    UiLoginController controller = loader.getController();
+//    controller.setStage(stage);
 //
-//    Text txtUid = new Text();
-//    Text txtUType = new Text("todo");
-//    PasswordField pass = new PasswordField();
-//    pass.setPromptText("您的密码");
+////    Font font = Font.loadFont(
+////      getClass().getResourceAsStream("/NotoSansCJK-Medium.ttc"), 18
+////    );
+////    Logging.debug("Font loaded: [%s]", font.getFamily());
 //
-//    VBox vboxInputs = new VBox(txtUid, txtUType, pass);
-//    vboxInputs.setSpacing(10);
-//
-//    HBox hboxAll = new HBox(vboxLabels, vboxInputs);
-//    hboxAll.setSpacing(20);
-//    hboxAll.setPadding(new Insets(40));
-//    hboxAll.setAlignment(Pos.CENTER);
-//
-//
-//    Scene scene = new Scene(hboxAll);
+//    Scene scene = Global.sceneDefStyle(root);
 //    scene.setFill(Color.TRANSPARENT);
-//    scene.getStylesheets().add(
-//      getClass().getResource("/default.css").toExternalForm()
-//    );
+////    scene.getStylesheets().add(
+////      getClass().getResource("/default.css").toExternalForm()
+////    );
 //
+//    stage.setResizable(false);
 //    stage.setScene(scene);
-//
+//    stage.setTitle(Global.AllRes.getString("login.windowTitle"));
 //    stage.show();
+
   }
 }

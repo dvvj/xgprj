@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-@ViewController(value = "/ui/MedProfsMain.fxml", title = "Material Design Example")
-public class MedProfsMain implements Initializable {
+@ViewController(value = "/ui/MedProfsMain.fxml")
+public class MedProfsMain {
 
   @FXML
   private HBox mainWnd;
@@ -32,8 +32,15 @@ public class MedProfsMain implements Initializable {
   @FXML
   private TableView tblCustomers;
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
+//  @Override
+//  public void initialize(URL location, ResourceBundle resources) {
+//
+//    //Global.setSceneDefStyle(mainWnd);
+//  }
+
+  @PostConstruct
+  public void launch() {
+    System.out.println("in launch");
     System.out.println("in init");
     tblCustomers.getColumns().addAll(
       ProductTableHelper.tableColumnResBundle(
@@ -55,40 +62,5 @@ public class MedProfsMain implements Initializable {
         100
       )
     );
-
-    //Global.setSceneDefStyle(mainWnd);
-  }
-
-  @PostConstruct
-  public void launch() {
-    System.out.println("in launch");
-//    try {
-//      FXMLLoader loader = new FXMLLoader(
-//        UiLoginController.class.getResource("/ui/MedProfsMain.fxml"),
-//        Global.AllRes
-//      );
-//      HBox root = loader.load();
-
-//      URL path = UiLoginController.class.getResource("/ui/CustomerTable.fxml");
-//      FXMLLoader customerLoader = new FXMLLoader(path, Global.AllRes);
-//      //productLoader.setLocation(path);
-//      TableView tv = customerLoader.load();
-
-//      JFXButton jfoenixButton = new JFXButton("JFoenix Button");
-
-//      mainWnd.getChildren().addAll(tv);
-
-//      Scene scene = Global.sceneDefStyle(mainWnd);
-//
-//      Stage mainStage = new Stage();
-//      mainStage.setScene(scene);
-//      mainStage.show();
-
-
-
-//    }
-//    catch (IOException ex) {
-//      throw new RuntimeException("Error launching main window!", ex);
-//    }
   }
 }

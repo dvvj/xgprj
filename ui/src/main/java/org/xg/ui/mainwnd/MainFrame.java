@@ -2,7 +2,9 @@ package org.xg.ui.mainwnd;
 
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.svg.SVGGlyph;
+import io.datafx.controller.ViewConfiguration;
 import io.datafx.controller.flow.Flow;
+import io.datafx.controller.flow.FlowHandler;
 import io.datafx.controller.flow.container.DefaultFlowContainer;
 import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.ViewFlowContext;
@@ -13,12 +15,23 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.xg.ui.utils.Global;
 
+import java.nio.charset.StandardCharsets;
+
 public class MainFrame {
 
   @FXMLViewFlowContext
   private ViewFlowContext flowContext;
 
   public void start(Class<?> clazz) {
+    start(null, clazz);
+  }
+
+  private final String titleResKey;
+  public MainFrame(String titleResKey) {
+    this.titleResKey = titleResKey;
+  }
+
+  public void start(Stage stage, Class<?> clazz) {
 //    new Thread(() -> {
 //      try {
 //        SVGGlyphLoader.loadGlyphsFont(MainDemo.class.getResourceAsStream("/fonts/icomoon.svg"),
@@ -28,18 +41,25 @@ public class MainFrame {
 //      }
 //    }).start();
     try {
-      Stage stage = new Stage();
-      Flow flow = new Flow(clazz);
+      if (stage == null)
+        stage = new Stage();
+      ViewConfiguration viewCfg = new ViewConfiguration();
+      viewCfg.setResources(Global.AllRes);
+      viewCfg.setCharset(StandardCharsets.UTF_8);
+      Flow flow = new Flow(clazz, viewCfg);
       DefaultFlowContainer container = new DefaultFlowContainer();
       flowContext = new ViewFlowContext();
       flowContext.register("Stage", stage);
-      flow.createHandler(flowContext).start(container);
+
+      FlowHandler flowHandler = new FlowHandler(flow, flowContext, viewCfg);
+      flowHandler.start(container);
+      //flow.createHandler(flowContext).start(container);
 
       JFXDecorator decorator = new JFXDecorator(stage, container.getView());
       decorator.setCustomMaximize(true);
       decorator.setGraphic(new SVGGlyph(""));
 
-      stage.setTitle(Global.AllRes.getString("medprofs.main.title"));
+      stage.setTitle(Global.AllRes.getString(titleResKey));
 
       double width = 800;
       double height = 600;

@@ -1,5 +1,6 @@
 package org.xg.ui;
 
+import io.datafx.controller.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+@ViewController(value = "/ui/UiLogin.fxml")
 public class UiLoginController implements Initializable {
   @FXML
   private TextField tfUid;
@@ -39,6 +41,12 @@ public class UiLoginController implements Initializable {
 
   @FXML
   private ComboBox<UserType> cmboUType;
+
+  @FXML
+  private void closeWindow() {
+    final Stage stage = (Stage)cmboUType.getScene().getWindow();
+    stage.close();
+  }
 
   private Map<Integer, UserType> userMap;
 
@@ -80,26 +88,28 @@ public class UiLoginController implements Initializable {
       userMap.get(UserTypeHelpers.UT_MEDPROFS)
     );
 
+
+
     loginSuccessActionMap = new HashMap<>();
     loginSuccessActionMap.put(
       UserTypeHelpers.UT_CUSTOMER, () -> {
         new CustomerMain().launch(tfUid.getText());
-        stage.close();
+        closeWindow();
       }
     );
     loginSuccessActionMap.put(
       UserTypeHelpers.UT_MEDPROFS, () -> {
         //new MedProfsMain().launch(tfUid.getText());
-        new MainFrame().start(MedProfsMain.class);
-        stage.close();
+        new MainFrame("medprofs.main.title").start(MedProfsMain.class);
+        closeWindow();
       }
     );
   }
 
-  private Stage stage;
-  public void setStage(Stage stage) {
-    this.stage = stage;
-  }
+//  private Stage stage;
+//  public void setStage(Stage stage) {
+//    this.stage = stage;
+//  }
 
   public void onLogin(ActionEvent e) {
     UserType selectedUt = cmboUType.getSelectionModel().getSelectedItem();
