@@ -88,7 +88,7 @@
                             <transformers>
                                 <!-- add Main-Class to manifest file -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.xg.ui.experiment.WvTest</mainClass>
+                                    <mainClass>org.xg.ui.UiLogin</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

@@ -55,21 +55,22 @@ public class MainFrame {
       flowHandler.start(container);
       //flow.createHandler(flowContext).start(container);
 
-      JFXDecorator decorator = new JFXDecorator(stage, container.getView());
-      decorator.setCustomMaximize(true);
+      JFXDecorator decorator = new JFXDecorator(stage, container.getView(), false, false, false);
+      decorator.setCustomMaximize(false);
       decorator.setGraphic(new SVGGlyph(""));
 
       stage.setTitle(Global.AllRes.getString(titleResKey));
 
-      double width = 800;
-      double height = 600;
-      try {
-        Rectangle2D bounds = Screen.getScreens().get(0).getBounds();
-        width = bounds.getWidth() / 2.5;
-        height = bounds.getHeight() / 1.35;
-      }catch (Exception e){ }
+//      double width = 800;
+//      double height = 600;
+//      try {
+//        Rectangle2D bounds = Screen.getScreens().get(0).getBounds();
+//        width = bounds.getWidth() / 2.5;
+//        height = bounds.getHeight() / 1.35;
+//      }catch (Exception e){ }
+//      Scene scene = new Scene(decorator, width, height);
 
-      Scene scene = new Scene(decorator, width, height);
+      Scene scene = new Scene(decorator);
 
       final ObservableList<String> stylesheets = scene.getStylesheets();
       stylesheets.addAll(

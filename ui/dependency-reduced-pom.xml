@@ -26,7 +26,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>org.xg.ui.experiment.WvTest</mainClass>
+                  <mainClass>org.xg.ui.UiLogin</mainClass>
                 </transformer>
               </transformers>
             </configuration>
