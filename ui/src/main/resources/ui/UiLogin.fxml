@@ -5,37 +5,35 @@
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
+<?import com.jfoenix.controls.*?>
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   spacing="20"
    xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <VBox alignment="BASELINE_RIGHT" spacing="30.0">
-      <HBox.margin>
-          <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
-      </HBox.margin>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
 
+   <VBox alignment="BASELINE_RIGHT" spacing="20.0">
+      <padding>
+         <Insets bottom="20.0" left="0.0" right="0.0" top="20.0" />
+      </padding>
       <Label text="%login.userId" />
       <Label text="%login.userType" />
       <Label text="%login.pass" />
-
    </VBox>
-   <VBox alignment="BASELINE_LEFT" spacing="15.0">
-      <HBox.margin>
-         <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
-      </HBox.margin>
 
+   <VBox alignment="BASELINE_LEFT" spacing="10.0">
       <!--<TextField fx:id="tfUid" text="customer1" />-->
-      <TextField fx:id="tfUid" text="prof1" />
-      <ComboBox fx:id="cmboUType" />
-      <PasswordField  fx:id="pfPass" text="123" />
-
+      <JFXTextField fx:id="tfUid" text="prof1" promptText="%login.userId.prompt"/>
+      <JFXComboBox fx:id="cmboUType" promptText="%login.userType" />
+      <JFXPasswordField fx:id="pfPass" text="123" promptText="%login.pass.prompt"/>
    </VBox>
-   <VBox alignment="BASELINE_RIGHT" spacing="30.0">
-      <HBox.margin>
-         <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
-      </HBox.margin>
-      <Button fx:id="btnLogin" text="%login.doLogin" onAction="#onLogin" />
+   <VBox alignment="BASELINE_RIGHT" spacing="25.0">
+
+      <JFXButton fx:id="btnLogin" text="%login.doLogin" onAction="#onLogin"
+                 styleClass="custom-jfx-button-raised" />
       <Text fx:id="txtStatus" text="" />
-      <CheckBox fx:id="chbRemember" text="%login.remember" />
+      <JFXCheckBox fx:id="chbRemember" text="%login.remember" />
    </VBox>
 </HBox>

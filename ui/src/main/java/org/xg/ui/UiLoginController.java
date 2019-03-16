@@ -89,7 +89,6 @@ public class UiLoginController implements Initializable {
     );
 
 
-
     loginSuccessActionMap = new HashMap<>();
     loginSuccessActionMap.put(
       UserTypeHelpers.UT_CUSTOMER, () -> {
@@ -105,11 +104,6 @@ public class UiLoginController implements Initializable {
       }
     );
   }
-
-//  private Stage stage;
-//  public void setStage(Stage stage) {
-//    this.stage = stage;
-//  }
 
   public void onLogin(ActionEvent e) {
     UserType selectedUt = cmboUType.getSelectionModel().getSelectedItem();
@@ -132,35 +126,6 @@ public class UiLoginController implements Initializable {
         Global.setText(txtStatus, loginFailedMsg, Color.RED);
       }
       );
-    //System.out.println("login button pressed");
-//    String authUrl = Global.getServerCfg().authURL(); //"https://localhost:8443/webapi/auth/userPass";
-//
-//    Task<AuthResp> authTask = Helpers.statusTaskJ(
-//      () -> {
-//        String uid = tfUid.getText().trim();
-//        AuthResp resp = SvcHelpers.authReq(authUrl, uid, pfPass.getText());
-//        if (resp.success()) {
-//          Global.updateToken(uid, resp.token());
-//        }
-//        return resp;
-//      },
-//      resp -> {
-//        if (resp != null && resp.success()) {
-//          Global.setResText(txtStatus, "login.loginSuccess", Color.GREEN);
-//          System.out.println("Login success!");
-//          launchMain(tfUid.getText());
-//          stage.close();
-//        }
-//        else {
-//          String loginFailedMsg = Global.AllRes.getString("login.loginFailed");
-//          Global.setText(txtStatus, loginFailedMsg, Color.RED);
-//        }
-//        return null;
-//      },
-//      30000
-//    );
-//
-//    new Thread(authTask).start();
 
   }
 }
