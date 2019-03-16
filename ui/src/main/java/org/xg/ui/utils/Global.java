@@ -14,6 +14,7 @@ import org.xg.gnl.GlobalCfg;
 import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.pay.pricePlan.v1.PrPlFixedRate;
 import org.xg.ui.model.Customer;
+import org.xg.ui.model.CustomerOrder;
 import org.xg.ui.model.Order;
 import org.xg.ui.model.Product;
 
@@ -74,7 +75,15 @@ public class Global {
 
   private static ObservableList<Product> allProducts = null;
   private static Map<Integer, Product> productMap = null;
+  private static Object _productLock = new Object();
   public static Map<Integer, Product> getProductMap() {
+    if (productMap == null) {
+      synchronized (_productLock) {
+        if (productMap == null) {
+          updateAllProducts();
+        }
+      }
+    }
     return productMap;
   }
   public static ObservableList<Product> updateAllProducts() {
@@ -160,4 +169,30 @@ public class Global {
       return FXCollections.observableArrayList();
     }
   }
+
+  public static ObservableList<CustomerOrder> updateAllOrdersOfRefedCustomers() {
+    try {
+      GlobalCfg cfg = getServerCfg();
+      String mordersJson = SvcHelpers.post(
+        cfg.refedCustomerOrdersURL(),
+        Global.getCurrToken(),
+        getCurrUid()
+      );
+
+      CustomerOrder[] corders = Helpers.convCustomerOrders(
+        MOrder.fromJsons(mordersJson),
+        Global.getProductMap() // todo: updated product map (e.g. newly-added / deleted product)
+      );
+      return FXCollections.observableArrayList(corders);
+    }
+    catch (Exception ex) {
+      //todo global status in ui
+      System.out.println(
+        String.format("Cannot retrieve customer for [%s]: %s", getCurrUid(), ex.getMessage())
+      );
+      ex.printStackTrace();
+      return FXCollections.observableArrayList();
+    }
+  }
+
 }

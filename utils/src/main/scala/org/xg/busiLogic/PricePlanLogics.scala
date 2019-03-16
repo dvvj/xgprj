@@ -5,7 +5,7 @@ import org.xg.gnl.DataUtils.{utcTimeNow, zonedDateTime2Ms}
 import org.xg.pay.pricePlan.PricePlanSettings.VTag.VTag
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.pricePlan.v1.PrPlChained
-import org.xg.svc.SvcJsonUtils
+import org.xg.svc.SvcCommonUtils
 
 object PricePlanLogics {
   def activePricePlans(allPlans:Array[MPricePlanMap]):Map[String, MPricePlanMap] = {
@@ -78,7 +78,7 @@ object PricePlanLogics {
     plans:java.util.Map[String, MPricePlan]
   ):String = {
     val res = pricePlanJsonFor(customer, planMap.asScala.toMap, plans.asScala.toMap)
-    SvcJsonUtils.PricePlanJson.convert2Json(res)
+    SvcCommonUtils.PricePlanJson.convert2Json(res)
   }
 
 

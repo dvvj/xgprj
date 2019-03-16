@@ -3,6 +3,7 @@ package org.xg;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.xg.dbModels.*;
 import org.xg.gnl.GlobalCfg;
+import org.xg.hbn.ent.Order;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
@@ -115,6 +116,15 @@ public class SvcUtils {
 
   public static MCustomer[] getCustomersRefedBy(String profId) {
     return getDbOps().customersRefedBy(profId);
+  }
+
+  public static MOrder[] getRefedCustomerOrders(String profId) {
+    MCustomer[] customers = getCustomersRefedBy(profId);
+    String[] customerIds = new String[customers.length];
+    for (int i = 0; i < customers.length; i++) {
+      customerIds[i] = customers[i].uid();
+    }
+    return getDbOps().ordersOfCustomers(customerIds);
   }
 
 //

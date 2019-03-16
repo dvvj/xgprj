@@ -6,7 +6,7 @@ import javafx.application.Platform
 import javafx.concurrent.Task
 import org.xg.dbModels.{MCustomer, MOrder, MProduct}
 import org.xg.pay.pricePlan.TPricePlan
-import org.xg.ui.model.{Customer, Order, Product}
+import org.xg.ui.model.{Customer, CustomerOrder, Order, Product}
 
 import scala.concurrent.{Await, Future}
 
@@ -21,6 +21,10 @@ object Helpers {
 
   def convOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[Order] = {
     morders.map(mo => Order.fromMOrder(mo, prodMap))
+  }
+
+  def convCustomerOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[CustomerOrder] = {
+    morders.map(mo => CustomerOrder.fromMOrder(mo))
   }
 
   def uiTaskJ[T >: AnyRef](

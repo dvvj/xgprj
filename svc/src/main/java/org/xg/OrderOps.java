@@ -1,6 +1,7 @@
 package org.xg;
 
 import org.xg.auth.Secured;
+import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.TDbOps;
 import org.xg.dbModels.MOrder;
 import org.xg.svc.PayOrder;
@@ -44,10 +45,31 @@ public class OrderOps {
   }
 
   @Secured
+  @POST
+  @Path("refedCustomerOrders")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response refedCustomerOrders(String profId, @Context SecurityContext sc) {
+    try {
+      MOrder[] orders = SvcUtils.getRefedCustomerOrders(profId);
+
+      return Response.ok(
+        MOrder.toJsons(orders)
+      ).build();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException("Error", ex);
+    }
+  }
+
+
+
+  @Secured
   @PUT
   @Path("placeOrder")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response placeOrder(String orderJson, @Context SecurityContext sc) {
     UserOrder userOrder = UserOrder.fromJson(orderJson);
     try {

@@ -5,7 +5,7 @@ import org.xg.gnl.DataUtils.{utcTimeNow, zonedDateTime2Ms}
 import org.xg.pay.rewardPlan.RewardPlanSettings.VTag.VTag
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.pay.rewardPlan.v1.RwPlChained
-import org.xg.svc.SvcJsonUtils
+import org.xg.svc.SvcCommonUtils
 
 object RewardPlanLogics {
   def activeRewardPlans(allPlans:Array[MRewardPlanMap]):Map[String, MRewardPlanMap] = {
@@ -64,6 +64,6 @@ object RewardPlanLogics {
                           plans:java.util.Map[String, MRewardPlan]
                         ):String = {
     val res = rewardPlanJsonFor(prof.profId, planMap.asScala.toMap, plans.asScala.toMap)
-    SvcJsonUtils.RewardPlanJson.convert2Json(res)
+    SvcCommonUtils.RewardPlanJson.convert2Json(res)
   }
 }

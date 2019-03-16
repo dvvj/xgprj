@@ -7,7 +7,7 @@ import org.xg.pay.rewardPlan.v1.RwPlChained
 import org.xg.pay.rewardPlan.{RewardPlanSettings, TRewardPlan}
 
 
-object SvcJsonUtils {
+object SvcCommonUtils {
 
   object PricePlanJson {
     import org.xg.pay.pricePlan.PricePlanSettings.VTag

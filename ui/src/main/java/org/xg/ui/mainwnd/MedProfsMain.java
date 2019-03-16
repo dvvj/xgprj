@@ -11,6 +11,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
 import org.xg.dbModels.MCustomer;
 import org.xg.ui.model.Customer;
+import org.xg.ui.model.CustomerOrder;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -25,9 +26,6 @@ public class MedProfsMain {
 
   @FXML
   private JFXTreeTableView tblCustomers;
-
-  @FXML
-  private JFXTreeTableView tblOrders;
 
   private ObservableList<Customer> customersCache;
 
@@ -68,7 +66,7 @@ public class MedProfsMain {
     Task<ObservableList<Customer>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {
         try {
-          Thread.sleep(5000);
+          // Thread.sleep(5000);
           return Global.updateAllCustomers();
         }
         catch (Exception ex) {
@@ -103,9 +101,82 @@ public class MedProfsMain {
 
   }
 
+  private ObservableList<CustomerOrder> customerOrdersCache;
+
+  @FXML
+  private JFXTreeTableView tblRefedCustomerOrders;
+
+  private void setupAndFetchCustomerOrderTable() {
+    tblRefedCustomerOrders.getColumns().addAll(
+      TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
+        "refedCustomerOrderTable.customerId",
+        Global.AllRes,
+        150,
+        CustomerOrder::getCustomerId
+      ),
+      TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
+        "refedCustomerOrderTable.productName",
+        Global.AllRes,
+        150,
+        (CustomerOrder co) -> co.getOrder().getProdName()
+      ),
+      TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
+        "refedCustomerOrderTable.productQty",
+        Global.AllRes,
+        150,
+        (CustomerOrder co) -> co.getOrder().getQty()
+      )
+    );
+
+    Label lblPlaceHolder = new Label();
+    lblPlaceHolder.setText(
+      Global.AllRes.getString("refedCustomerOrderTable.placeHolder")
+    );
+    tblRefedCustomerOrders.setPlaceholder(lblPlaceHolder);
+
+    Task<ObservableList<CustomerOrder>> fetchCustomersTask = Helpers.uiTaskJ(
+      () -> {
+        try {
+          // Thread.sleep(5000);
+          return Global.updateAllOrdersOfRefedCustomers();
+        }
+        catch (Exception ex) {
+          Global.loggingTodo(
+            String.format(
+              "Error fetching customer table for [%s]: %s", Global.getCurrUid(), ex.getMessage()
+            )
+          );
+          return null;
+        }
+      },
+      resp -> {
+        if (resp != null) {
+          customerOrdersCache = resp;
+          TreeItem<CustomerOrder> items = new RecursiveTreeItem<>(customerOrdersCache, RecursiveTreeObject::getChildren);
+          tblRefedCustomerOrders.setRoot(items);
+          tblRefedCustomerOrders.setShowRoot(false);
+
+          if (customerOrdersCache.size() > 0) {
+            tblRefedCustomerOrders.getSelectionModel().select(0);
+          }
+        }
+        else {
+          // todo: show error
+        }
+        return null;
+      },
+      30000
+    );
+
+    new Thread(fetchCustomersTask).start();
+  }
+
+
   @PostConstruct
   public void launch() {
     System.out.println("in @PostConstruct");
     setupAndFetchCustomerTable();
+
+    setupAndFetchCustomerOrderTable();
   }
 }

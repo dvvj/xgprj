@@ -12,7 +12,6 @@ import java.util.Map;
 public class Order {
 
   private Long id;
-
   private String prodName;
   private Double qty;
   private ZonedDateTime creationTime;
