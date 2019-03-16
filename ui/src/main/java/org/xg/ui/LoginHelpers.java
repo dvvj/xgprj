@@ -30,7 +30,7 @@ public class LoginHelpers {
           AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
           if (resp.success()) {
             //System.out.println(resp.token());
-            Global.updateToken(userId, resp.token());
+            Global.updateUidToken(userId, resp.token());
           }
           //todo
           TPricePlan pp = SvcHelpers.getPricePlan4UserJ(cfg.pricePlanURL(), userId, resp.token());
@@ -65,7 +65,7 @@ public class LoginHelpers {
           AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
           if (resp.success()) {
             //System.out.println(resp.token());
-            Global.updateToken(userId, resp.token());
+            Global.updateUidToken(userId, resp.token());
           }
           return resp;
         },

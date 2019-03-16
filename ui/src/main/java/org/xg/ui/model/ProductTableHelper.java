@@ -1,12 +1,18 @@
 package org.xg.ui.model;
 
+import com.jfoenix.controls.JFXTreeTableColumn;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import jdk.nashorn.internal.ir.FunctionCall;
 import org.xg.ui.comp.PayOrderTableCell;
 import org.xg.ui.comp.ProductPlaceOrderTableCell;
 
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 public class ProductTableHelper {
 
@@ -38,6 +44,36 @@ public class ProductTableHelper {
       resBundle.getString(colNameKey),
       propName,
       prefWidth
+    );
+  }
+
+  public static <TO, T> JFXTreeTableColumn<TO, T> jfxTableColumn(
+    String colName,
+    int prefWidth,
+    Function<TO, T> fProp
+    ) {
+    JFXTreeTableColumn<TO, T> col = new JFXTreeTableColumn<>(colName);
+    col.setCellValueFactory((TreeTableColumn.CellDataFeatures<TO, T> param) -> {
+      if (col.validateValue(param))
+        return new ReadOnlyObjectWrapper<T>(fProp.apply(param.getValue().getValue()));
+      else
+        return col.getComputedValue(param);
+    });
+    col.setPrefWidth(prefWidth);
+    //col.setResizable(false);
+    return col;
+  }
+
+  public static <TO, T> JFXTreeTableColumn<TO, T> jfxTableColumnResBundle(
+    String colNameKey,
+    ResourceBundle resBundle,
+    int prefWidth,
+    Function<TO, T> fProp
+  ) {
+    return jfxTableColumn(
+      resBundle.getString(colNameKey),
+      prefWidth,
+      fProp
     );
   }
 

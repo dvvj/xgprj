@@ -113,6 +113,10 @@ public class SvcUtils {
     return _rewardPlanMaps;
   }
 
+  public static MCustomer[] getCustomersRefedBy(String profId) {
+    return getDbOps().customersRefedBy(profId);
+  }
+
 //
 //  private final static GlobalCfg _cfg = loadCfg();
 //  public final static GlobalCfg getCfg() {

@@ -4,16 +4,19 @@ import java.util.concurrent.TimeoutException
 
 import javafx.application.Platform
 import javafx.concurrent.Task
-import org.xg.dbModels.{MOrder, MProduct}
-import org.xg.dbModels.MProduct
+import org.xg.dbModels.{MCustomer, MOrder, MProduct}
 import org.xg.pay.pricePlan.TPricePlan
-import org.xg.ui.model.{Order, Product}
+import org.xg.ui.model.{Customer, Order, Product}
 
 import scala.concurrent.{Await, Future}
 
 object Helpers {
   def convProducts(mps:Array[MProduct], pricePlan:TPricePlan):Array[Product] = {
     mps.map(mp => Product.fromMProduct(mp, pricePlan))
+  }
+
+  def convCustomers(mcs:Array[MCustomer]):Array[Customer] = {
+    mcs.map(Customer.fromMCustomer)
   }
 
   def convOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[Order] = {

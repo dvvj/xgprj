@@ -1,6 +1,10 @@
 package org.xg.ui.model;
 
-public class Customer {
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
+import org.xg.dbModels.MCustomer;
+
+public class Customer extends RecursiveTreeObject<Customer> {
   private String uid;
   private String name;
   private String mobile;
@@ -8,6 +12,18 @@ public class Customer {
 
   public String getUid() {
     return uid;
+  }
+
+  public Customer(
+    String uid,
+    String name,
+    String mobile,
+    String refUid
+  ) {
+    this.uid = uid;
+    this.name = name;
+    this.mobile = mobile;
+    this.refUid = refUid;
   }
 
   public void setUid(String uid) {
@@ -38,4 +54,7 @@ public class Customer {
     this.refUid = refUid;
   }
 
+  public static Customer fromMCustomer(MCustomer customer) {
+    return new Customer(customer.uid(), customer.name(), customer.mobile(), customer.refUid());
+  }
 }

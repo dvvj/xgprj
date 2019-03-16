@@ -1,5 +1,6 @@
 package org.xg.ui;
 
+import com.jfoenix.controls.JFXTreeTableView;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ObservableList;
@@ -16,30 +17,30 @@ import java.util.ResourceBundle;
 
 public class CustomerTableController implements Initializable {
   @FXML
-  private TableView<Customer> tblCustomers;
+  private JFXTreeTableView<Customer> tblCustomers;
 
   private Property<ObservableList<Customer>> customerCache = new SimpleListProperty<>();
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     tblCustomers.getColumns().addAll(
-      ProductTableHelper.tableColumnResBundle(
+      ProductTableHelper.jfxTableColumnResBundle(
         "customerTable.uid",
         resources,
-        "uid",
-        100
+        150,
+        Customer::getUid
       ),
-      ProductTableHelper.tableColumnResBundle(
+      ProductTableHelper.jfxTableColumnResBundle(
         "customerTable.name",
         resources,
-        "name",
-        100
+        150,
+        Customer::getName
       ),
-      ProductTableHelper.tableColumnResBundle(
+      ProductTableHelper.jfxTableColumnResBundle(
         "customerTable.mobile",
         resources,
-        "mobile",
-        100
+        150,
+        Customer::getMobile
       )
     );
   }

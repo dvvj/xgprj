@@ -76,10 +76,10 @@ object SvcHelpers {
     decoder(res)
   }
 
-  def getDecArrayJ[T](url:String, token:String, decoder:JFunc[String, Array[T]]):Array[T] = {
-    val res = get(url, token)
-    decoder(res)
-  }
+//  def getDecArrayJ[T](url:String, token:String, decoder:JFunc[String, Array[T]]):Array[T] = {
+//    val res = get(url, token)
+//    decoder(res)
+//  }
 
 
   def post(url:String, token:String, data:String):String = {
@@ -118,6 +118,10 @@ object SvcHelpers {
     val res = post(url, token, data)
     decoder(res)
   }
+//  def postDecArrayJ[T](url:String, token:String, data:String, decoder:JFunc[String, Array[T]]):Array[T] = {
+//    val res = post(url, token, data)
+//    decoder(res)
+//  }
 
   def reqPut(url:String, token:String, data:String):String = {
     val header = encodeAuthHeader(token)

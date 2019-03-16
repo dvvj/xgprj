@@ -32,7 +32,7 @@
    <VBox alignment="BASELINE_RIGHT" spacing="25.0">
 
       <JFXButton fx:id="btnLogin" text="%login.doLogin" onAction="#onLogin"
-                 styleClass="custom-jfx-button-raised" />
+                 styleClass="button-raised" />
       <Text fx:id="txtStatus" text="" />
       <JFXCheckBox fx:id="chbRemember" text="%login.remember" />
    </VBox>

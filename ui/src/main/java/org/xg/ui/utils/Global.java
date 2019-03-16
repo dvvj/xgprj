@@ -7,11 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
+import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
 import org.xg.dbModels.MProduct;
 import org.xg.gnl.GlobalCfg;
 import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.pay.pricePlan.v1.PrPlFixedRate;
+import org.xg.ui.model.Customer;
 import org.xg.ui.model.Order;
 import org.xg.ui.model.Product;
 
@@ -47,7 +49,7 @@ public class Global {
   private static String _currToken;
   private static String _uid;
 
-  public static void updateToken(String uid, String token) {
+  public static void updateUidToken(String uid, String token) {
     _currToken = token;
     _uid = uid;
   }
@@ -133,5 +135,29 @@ public class Global {
 
   public static GlobalCfg getServerCfg() {
     return clientCfg.serverCfg();
+  }
+
+  public static ObservableList<Customer> updateAllCustomers() {
+    try {
+      GlobalCfg cfg = getServerCfg();
+      String mcustomersJson = SvcHelpers.post(
+        cfg.customersRefedByURL(),
+        Global.getCurrToken(),
+        getCurrUid()
+      );
+
+      Customer[] customers = Helpers.convCustomers(
+        MCustomer.fromJsons(mcustomersJson)
+      );
+      return FXCollections.observableArrayList(customers);
+    }
+    catch (Exception ex) {
+      //todo global status in ui
+      System.out.println(
+        String.format("Cannot retrieve customer for [%s]: %s", getCurrUid(), ex.getMessage())
+      );
+      ex.printStackTrace();
+      return FXCollections.observableArrayList();
+    }
   }
 }
