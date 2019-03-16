@@ -30,7 +30,7 @@ object GlobalCfg {
   private val AUTH_CUSTOMER = "auth/customerPass"
   private val AUTH_MEDPROF = "auth/profPass"
   private val ALLCUSTOMERS = "customer/testAll"
-  private val CURR_ORDERS = "order/testCurrUser"
+  private val CURR_ORDERS = "order/currUser"
   private val PLACE_ORDER = "order/placeOrder"
   private val PAY_ORDER = "order/payOrder"
   private val ALLPRODUCTS = "product/all"

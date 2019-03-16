@@ -55,6 +55,19 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def ordersOfCustomers(customerIds: Array[String]): Array[MOrder] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+//          val param = "customerList"
+          val paramVal = customerIds.mkString("'", "','", "'")
+          val q = sess.createQuery(s"Select x from ${classOf[Order].getName} x where x.customerId in ($paramVal)")
+          val t = q.getResultList.asScala.map(_.asInstanceOf[Order])
+          t.map(convertOrder).toArray
+        }
+      )
+    }
+
     override def allRewardPlanMaps: Array[MRewardPlanMap] = {
       runInTransaction(
         sessFactory,

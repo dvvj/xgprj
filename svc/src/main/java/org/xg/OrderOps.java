@@ -20,7 +20,7 @@ public class OrderOps {
 
   @Secured
   @GET
-  @Path("testCurrUser")
+  @Path("currUser")
   @Produces(SvcUtils.MediaType_JSON_UTF8)
   public Response userOrders(@Context SecurityContext sc) {
     try {
