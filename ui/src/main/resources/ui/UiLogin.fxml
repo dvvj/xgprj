@@ -25,7 +25,7 @@
 
    <VBox alignment="BASELINE_LEFT" spacing="10.0">
       <!--<TextField fx:id="tfUid" text="customer1" />-->
-      <JFXTextField fx:id="tfUid" text="prof1" promptText="%login.userId.prompt"/>
+      <JFXTextField fx:id="tfUid" text="customer1" promptText="%login.userId.prompt"/>
       <JFXComboBox fx:id="cmboUType" promptText="%login.userType" />
       <JFXPasswordField fx:id="pfPass" text="123" promptText="%login.pass.prompt"/>
    </VBox>
