@@ -12,7 +12,7 @@ import org.xg.ui.utils.Global;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static org.xg.ui.model.ProductTableHelper.*;
+import static org.xg.ui.model.TableViewHelper.*;
 
 public class ExistingOrdersCtrl implements Initializable {
   @FXML

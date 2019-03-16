@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
-import org.xg.gnl.GlobalCfg;
 import org.xg.svc.ImageInfo;
 import org.xg.ui.model.Product;
 import org.xg.ui.utils.Global;
@@ -17,7 +16,7 @@ import org.xg.ui.utils.Global;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static org.xg.ui.model.ProductTableHelper.*;
+import static org.xg.ui.model.TableViewHelper.*;
 import static org.xg.ui.utils.Global.getAllProducts;
 
 public class ProductTableController implements Initializable {

@@ -14,7 +14,7 @@ import org.xg.ui.comp.ProductPlaceOrderTableCell;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
-public class ProductTableHelper {
+public class TableViewHelper {
 
 //  public final static ObservableList<Product> testProducts =
 //    FXCollections.<Product>observableArrayList(

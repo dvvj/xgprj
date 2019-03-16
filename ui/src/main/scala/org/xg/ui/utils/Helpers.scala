@@ -23,7 +23,7 @@ object Helpers {
     morders.map(mo => Order.fromMOrder(mo, prodMap))
   }
 
-  def statusTaskJ[T >: AnyRef](
+  def uiTaskJ[T >: AnyRef](
     action:() => T,
     uiUpdater:T => Unit,
     timeoutMs:Int // ms

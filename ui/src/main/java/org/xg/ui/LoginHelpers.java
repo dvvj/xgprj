@@ -22,7 +22,7 @@ public class LoginHelpers {
     @Override
     public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
 
-      Task<AuthResp> authTask = Helpers.statusTaskJ(
+      Task<AuthResp> authTask = Helpers.uiTaskJ(
         () -> {
           GlobalCfg cfg = Global.getServerCfg();
           String authUrl = cfg.authCustomerURL(); //"https://localhost:8443/webapi/auth/userPass";
@@ -60,7 +60,7 @@ public class LoginHelpers {
     public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
       String authUrl = Global.getServerCfg().authProfURL(); //"https://localhost:8443/webapi/auth/userPass";
 
-      Task<AuthResp> authTask = Helpers.statusTaskJ(
+      Task<AuthResp> authTask = Helpers.uiTaskJ(
         () -> {
           AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
           if (resp.success()) {
