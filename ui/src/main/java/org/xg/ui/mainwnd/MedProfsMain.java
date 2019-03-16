@@ -1,9 +1,7 @@
 package org.xg.ui.mainwnd;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXRippler;
+import com.jfoenix.controls.*;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import io.datafx.controller.ViewController;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleListProperty;
@@ -14,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -35,9 +34,10 @@ public class MedProfsMain {
   private HBox mainWnd;
 
   @FXML
-  private TableView tblCustomers;
+  private JFXTreeTableView tblCustomers;
 
-  private Property<ObservableList<Customer>> customersCache = new SimpleListProperty<>();
+  private ObservableList<Customer> customersCache;
+
 //  @Override
 //  public void initialize(URL location, ResourceBundle resources) {
 //
@@ -48,30 +48,32 @@ public class MedProfsMain {
   public void launch() {
     System.out.println("in @PostConstruct");
     tblCustomers.getColumns().addAll(
-      ProductTableHelper.tableColumnResBundle(
+      ProductTableHelper.jfxTableColumnResBundle(
         "customerTable.uid",
         Global.AllRes,
-        "uid",
-        100
+        150,
+        Customer::getUid
       ),
-      ProductTableHelper.tableColumnResBundle(
+      ProductTableHelper.jfxTableColumnResBundle(
         "customerTable.name",
         Global.AllRes,
-        "name",
-        100
+        150,
+        Customer::getName
       ),
-      ProductTableHelper.tableColumnResBundle(
+      ProductTableHelper.jfxTableColumnResBundle(
         "customerTable.mobile",
         Global.AllRes,
-        "mobile",
-        100
+        150,
+        Customer::getMobile
       )
     );
 
-    customersCache.setValue(Global.updateAllCustomers());
-    tblCustomers.itemsProperty().bindBidirectional(customersCache);
+    customersCache = Global.updateAllCustomers();
+    TreeItem<Customer> items = new RecursiveTreeItem<>(customersCache, RecursiveTreeObject::getChildren);
+    tblCustomers.setRoot(items);
+    tblCustomers.setShowRoot(false);
 
-    if (customersCache.getValue().size() > 0) {
+    if (customersCache.size() > 0) {
       tblCustomers.getSelectionModel().select(0);
     }
   }

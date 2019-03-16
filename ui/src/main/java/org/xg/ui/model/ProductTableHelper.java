@@ -54,7 +54,7 @@ public class ProductTableHelper {
     ) {
     JFXTreeTableColumn<TO, T> col = new JFXTreeTableColumn<>(colName);
     col.setCellValueFactory((TreeTableColumn.CellDataFeatures<TO, T> param) -> {
-      if (col.validateValue(param))
+      if (col.validateValue(param) && param.getValue().getValue() != null)
         return new ReadOnlyObjectWrapper<T>(fProp.apply(param.getValue().getValue()));
       else
         return col.getComputedValue(param);
