@@ -92,7 +92,8 @@ public class UiLoginController implements Initializable {
     loginSuccessActionMap = new HashMap<>();
     loginSuccessActionMap.put(
       UserTypeHelpers.UT_CUSTOMER, () -> {
-        new CustomerMain().launch(tfUid.getText());
+        //new CustomerMain().launch(tfUid.getText());
+        new MainFrame("customer.main.title").start(CustomerMain.class);
         closeWindow();
       }
     );

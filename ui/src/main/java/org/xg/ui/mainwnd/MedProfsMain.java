@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import org.xg.dbModels.MCustomer;
 import org.xg.ui.model.Customer;
 import org.xg.ui.model.CustomerOrder;
@@ -57,16 +58,12 @@ public class MedProfsMain {
       )
     );
 
-    Label lblPlaceHolder = new Label();
-    lblPlaceHolder.setText(
-      Global.AllRes.getString("customerTable.placeHolder")
-    );
-    tblCustomers.setPlaceholder(lblPlaceHolder);
+    setPlaceHolder(tblCustomers, "customerTable.placeHolder");
 
     Task<ObservableList<Customer>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {
         try {
-          // Thread.sleep(5000);
+          Thread.sleep(5000);
           return Global.updateAllCustomers();
         }
         catch (Exception ex) {
@@ -128,11 +125,7 @@ public class MedProfsMain {
       )
     );
 
-    Label lblPlaceHolder = new Label();
-    lblPlaceHolder.setText(
-      Global.AllRes.getString("refedCustomerOrderTable.placeHolder")
-    );
-    tblRefedCustomerOrders.setPlaceholder(lblPlaceHolder);
+    setPlaceHolder(tblRefedCustomerOrders, "refedCustomerOrderTable.placeHolder");
 
     Task<ObservableList<CustomerOrder>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {
@@ -169,6 +162,19 @@ public class MedProfsMain {
     );
 
     new Thread(fetchCustomersTask).start();
+  }
+
+  private static void setPlaceHolder(JFXTreeTableView table, String resKey) {
+    Label lblPlaceHolder = new Label();
+    lblPlaceHolder.setText(
+      Global.AllRes.getString(resKey)
+    );
+    JFXSpinner spinner = new JFXSpinner();
+    spinner.getStyleClass().add("blue-spinner");
+    spinner.setRadius(20.0);
+    StackPane p = new StackPane();
+    p.getChildren().addAll(lblPlaceHolder, spinner);
+    table.setPlaceholder(p);
   }
 
 

@@ -1,6 +1,7 @@
 package org.xg.ui.mainwnd;
 
 import io.datafx.controller.ViewController;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -15,11 +16,16 @@ import javafx.stage.Stage;
 import org.xg.ui.*;
 import org.xg.ui.utils.Global;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@ViewController(value = "/ui/CustomerMain.fxml")
 public class CustomerMain {
+  @FXML
+  private HBox mainWnd;
+
   private CustomerMainRCtrl rightSideController;
   private ExistingOrdersCtrl orderController;
   private ProductTableController productTableController;
@@ -71,19 +77,12 @@ public class CustomerMain {
     return rightSide;
   }
 
-  public void launch(String userInfo) {
+  @PostConstruct
+  public void launch() {
     try {
 
-      FXMLLoader loader = new FXMLLoader(
-        UiLoginController.class.getResource("/ui/CustomerMain.fxml"),
-        Global.AllRes
-      );
-
-      HBox root = loader.load();
-      CustomerMainController controller = loader.getController();
-
-      root.getChildren().addAll(
-        loadLeftSide(userInfo, Global.AllRes),
+      mainWnd.getChildren().addAll(
+        loadLeftSide(Global.getCurrUid(), Global.AllRes),
         loadRightSide("prod", Global.AllRes)
       );
 
@@ -93,11 +92,11 @@ public class CustomerMain {
         productTableController.getSelectedProduct()
       );
 
-      Scene scene = Global.sceneDefStyle(root);
-
-      Stage mainStage = new Stage();
-      mainStage.setScene(scene);
-      mainStage.show();
+//      Scene scene = Global.sceneDefStyle(root);
+//
+//      Stage mainStage = new Stage();
+//      mainStage.setScene(scene);
+//      mainStage.show();
     }
     catch (IOException ex) {
       throw new RuntimeException("Error launching main window!", ex);
