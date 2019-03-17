@@ -53,6 +53,7 @@
           <groupId>de.jensd</groupId>
           <artifactId>fontawesomefx-fontawesome</artifactId>
       </dependency>
+
       <dependency>
           <groupId>de.jensd</groupId>
           <artifactId>fontawesomefx-commons</artifactId>
