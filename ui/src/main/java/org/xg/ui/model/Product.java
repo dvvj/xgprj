@@ -2,6 +2,7 @@ package org.xg.ui.model;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.*;
+import org.xg.json.CommonUtils;
 import org.xg.pay.pricePlan.TPricePlan;
 
 import java.util.Arrays;
@@ -86,12 +87,14 @@ public class Product extends RecursiveTreeObject<Product> {
     int id, String name, double price0,
     TPricePlan pricePlan,
     String detailedInfo,
+    Detail detail,
     List<String> keywords, List<AssetItem> assets) {
     this.id = id;
     this.name = name;
     this.price0 = price0;
     this.pricePlan = pricePlan;
     this.detailedInfo = detailedInfo;
+    this.detail = detail;
     this.keywords = keywords;
     this.assets = assets;
   }
@@ -104,8 +107,50 @@ public class Product extends RecursiveTreeObject<Product> {
       roundPrice,
       pricePlan,
       mp.detailedInfo(),
+      Detail.from(mp.prodDetail()),
       Arrays.asList(mp.keywordsArr()),
       Arrays.asList(mp.assets().assets())
     );
   }
+
+  public static class Detail {
+    private String srcCountry;
+    private String desc;
+
+    public Detail(String srcCountry, String desc) {
+      this.srcCountry = srcCountry;
+      this.desc = desc;
+    }
+
+    public String getSrcCountry() {
+      return srcCountry;
+    }
+
+    public void setSrcCountry(String srcCountry) {
+      this.srcCountry = srcCountry;
+    }
+
+    public String getDesc() {
+      return desc;
+    }
+
+    public void setDesc(String desc) {
+      this.desc = desc;
+    }
+
+    public static Detail from(MProdDetail mpd) {
+      return new Detail(mpd.srcCountry(), mpd.desc());
+    }
+  }
+
+  private Detail detail;
+
+  public Detail getDetail() {
+    return detail;
+  }
+
+  public void setDetail(Detail detail) {
+    this.detail = detail;
+  }
+
 }

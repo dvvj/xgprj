@@ -81,4 +81,15 @@ object Helpers {
   def productMapFromJ(products:Array[Product]):java.util.Map[Integer, Product] = {
     products.map(p => p.getId -> p).toMap.asJava
   }
+
+  private val countryCode2ResName = Map(
+    "SV" -> "srcCountry.Sweden",
+    "US" -> "srcCountry.US",
+    "CA" -> "srcCountry.Canada",
+    "BR" -> "srcCountry.Britain",
+    "AU" -> "srcCountry.Australia",
+    "NZ" -> "srcCountry.NewZealand",
+  )
+
+  def srcCountryResKey(countryCode:String):String = countryCode2ResName(countryCode)
 }

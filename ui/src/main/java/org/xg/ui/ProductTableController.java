@@ -69,9 +69,24 @@ public class ProductTableController implements Initializable {
         Product::getName
       ),
       TableViewHelper.<Product, String>jfxTableColumnResBundle(
+        "productTable.srcCountry",
+        resBundle,
+        100,
+        p -> {
+          String resKey = Helpers.srcCountryResKey(p.getDetail().getSrcCountry());
+          return Global.AllRes.getString(resKey);
+        }
+      ),
+      TableViewHelper.<Product, Double>jfxTableColumnResBundle(
+        "productTable.price0",
+        resBundle,
+        120,
+        Product::getPrice0
+      ),
+      TableViewHelper.<Product, String>jfxTableColumnResBundle(
         "productTable.price",
         resBundle,
-        150,
+        120,
         Product::getPriceDetail
       ),
 //      tableColumnResBundle("productTable.detailedInfo",
@@ -113,10 +128,13 @@ public class ProductTableController implements Initializable {
           productsCache = resp;
           UIHelpers.setRoot4TreeView(tblProducts, productsCache);
           Global.loggingTodo(String.format("found %d products", productsCache.size()));
-          tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+          //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+          tblProducts.getSelectionModel().selectedItemProperty().addListener(
+            new ItemSelectChangeListener()
+          );
 
           if (productsCache.size() > 0) {
-            tblProducts.getSelectionModel().select(0);
+            tblProducts.getSelectionModel().select(tblProducts.getTreeItem(0));
           }
         }
         else {
@@ -155,6 +173,39 @@ public class ProductTableController implements Initializable {
     return selectedProduct;
   }
 
+  private class ItemSelectChangeListener<T extends TreeItem<Product>> implements ChangeListener<T> {
+//    private final ObservableList<Product> products;
+    ItemSelectChangeListener() { }
+    @Override
+    public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
+
+      boolean hasUpdate = newValue != null && oldValue != null && !oldValue.getValue().getId().equals(newValue.getValue().getId());
+
+      if (hasUpdate) {
+        Product prod = newValue.getValue();
+        System.out.println("new selection: " + prod.getName());
+        selectedProductDetail.setValue(prod.getDetail().getDesc());
+        ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
+        String url = imgInfo.getUrl(Global.getServerCfg());
+        System.out.println("Getting image: " + url);
+//        Image img = new Image(url, true);
+//        img.progressProperty().addListener(new ChangeListener<Number>() {
+//          @Override
+//          public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//            if (newValue.doubleValue() >= 1.0) {
+//              System.out.println("load complete!");
+//              selectedProductImg.set(img);
+//            }
+//          }
+//        });
+        selectedProduct.setValue(prod);
+
+        selectedProductImageUrl.setValue(url);
+      }
+
+    }
+  }
+
   private class RowSelectChangeListener implements ChangeListener<Number> {
     private final ObservableList<Product> products;
     RowSelectChangeListener(ObservableList<Product> products) {
@@ -169,7 +220,7 @@ public class ProductTableController implements Initializable {
       if (nv >= 0 && nv < products.size() && hasUpdate) {
         Product prod = products.get(nv);
         System.out.println("new selection: " + prod.getName());
-        selectedProductDetail.setValue(prod.getDetailedInfo());
+        selectedProductDetail.setValue(prod.getDetail().getDesc());
         ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
         String url = imgInfo.getUrl(Global.getServerCfg());
         System.out.println("Getting image: " + url);
