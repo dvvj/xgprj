@@ -134,7 +134,9 @@ public class ProductTableController implements Initializable {
           );
 
           if (productsCache.size() > 0) {
-            tblProducts.getSelectionModel().select(tblProducts.getTreeItem(0));
+            TreeItem<Product> first =  tblProducts.getTreeItem(0);
+            tblProducts.getSelectionModel().select(first);
+            updateSelection(first.getValue());
           }
         }
         else {
@@ -184,26 +186,35 @@ public class ProductTableController implements Initializable {
       if (hasUpdate) {
         Product prod = newValue.getValue();
         System.out.println("new selection: " + prod.getName());
-        selectedProductDetail.setValue(prod.getDetail().getDesc());
-        ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
-        String url = imgInfo.getUrl(Global.getServerCfg());
-        System.out.println("Getting image: " + url);
-//        Image img = new Image(url, true);
-//        img.progressProperty().addListener(new ChangeListener<Number>() {
-//          @Override
-//          public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//            if (newValue.doubleValue() >= 1.0) {
-//              System.out.println("load complete!");
-//              selectedProductImg.set(img);
-//            }
-//          }
-//        });
-        selectedProduct.setValue(prod);
-
-        selectedProductImageUrl.setValue(url);
+        updateSelection(prod);
+//        selectedProductDetail.setValue(prod.getDetail().getDesc());
+//        ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
+//        String url = imgInfo.getUrl(Global.getServerCfg());
+//        System.out.println("Getting image: " + url);
+////        Image img = new Image(url, true);
+////        img.progressProperty().addListener(new ChangeListener<Number>() {
+////          @Override
+////          public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+////            if (newValue.doubleValue() >= 1.0) {
+////              System.out.println("load complete!");
+////              selectedProductImg.set(img);
+////            }
+////          }
+////        });
+//        selectedProduct.setValue(prod);
+//
+//        selectedProductImageUrl.setValue(url);
       }
 
     }
+  }
+
+  private void updateSelection(Product prod) {
+    selectedProductDetail.setValue(prod.getDetail().getDesc());
+    ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
+    String url = imgInfo.getUrl(Global.getServerCfg());
+    selectedProduct.setValue(prod);
+    selectedProductImageUrl.setValue(url);
   }
 
   private class RowSelectChangeListener implements ChangeListener<Number> {
