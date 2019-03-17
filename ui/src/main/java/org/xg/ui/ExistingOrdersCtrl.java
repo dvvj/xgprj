@@ -6,19 +6,25 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableView;
 import org.xg.ui.model.Order;
+import org.xg.ui.model.Product;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.Helpers;
+import org.xg.ui.utils.UIHelpers;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 import static org.xg.ui.model.TableViewHelper.*;
+import static org.xg.ui.utils.Global.getAllProducts;
 
 public class ExistingOrdersCtrl implements Initializable {
   @FXML
@@ -26,15 +32,7 @@ public class ExistingOrdersCtrl implements Initializable {
 
   private ObservableList<Order> ordersCache;
 
-  @Override
-  public void initialize(URL location, ResourceBundle resBundle) {
-    ordersCache = Global.updateAllOrders();
-    TreeItem<Order> root = new RecursiveTreeItem<>(ordersCache, RecursiveTreeObject::getChildren);
-
-    //tblOrders.itemsProperty().bindBidirectional(ordersCache);
-    tblOrders.setRoot(root);
-    tblOrders.setShowRoot(false);
-
+  private void setupAndFetchExistingOrderTable(ResourceBundle resBundle) {
     tblOrders.getColumns().addAll(
       TableViewHelper.<Order, String>jfxTableColumnResBundle(
         "orderTable.prodName",
@@ -66,5 +64,47 @@ public class ExistingOrdersCtrl implements Initializable {
       )
     );
 
+    tblOrders.setColumnResizePolicy(TreeTableView.UNCONSTRAINED_RESIZE_POLICY);
+    UIHelpers.setPlaceHolder4TreeView(tblOrders, "orderTable.placeHolder");
+
+    Task<ObservableList<Order>> fetchProductsTask = Helpers.uiTaskJ(
+      () -> {
+        try {
+          Thread.sleep(1000);
+          return Global.updateAllOrders();
+        }
+        catch (Exception ex) {
+          Global.loggingTodo(
+            String.format(
+              "Error fetching customer table for [%s]: %s", Global.getCurrUid(), ex.getMessage()
+            )
+          );
+          return null;
+        }
+      },
+      resp -> {
+        if (resp != null) {
+          ordersCache = resp;
+          TreeItem<Order> root = new RecursiveTreeItem<>(ordersCache, RecursiveTreeObject::getChildren);
+
+          //tblOrders.itemsProperty().bindBidirectional(ordersCache);
+          tblOrders.setRoot(root);
+          tblOrders.setShowRoot(false);
+        }
+        else {
+          // todo: show error
+        }
+        return null;
+      },
+      30000
+    );
+
+    new Thread(fetchProductsTask).start();
+
+  }
+
+  @Override
+  public void initialize(URL location, ResourceBundle resBundle) {
+    setupAndFetchExistingOrderTable(resBundle);
   }
 }

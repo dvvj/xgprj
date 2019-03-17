@@ -8,15 +8,16 @@
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.xg.ui.comp.PlaceOrderCtrl"
-      spacing="5">
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.xg.ui.comp.PlaceOrderCtrl"
+    minWidth="300" maxWidth="300"
+    spacing="5">
     <HBox spacing="5">
         <JFXButton text="-" fx:id="btnMinus" onAction="#handleMinus1" styleClass="button-raised" maxWidth="30" minWidth="30" />
         <JFXTextField fx:id="txtQty" text="1.00" />
         <JFXButton text="+" fx:id="btnPlus" onAction="#handlePlus1" styleClass="button-raised" maxWidth="30" minWidth="30" />
         <JFXButton text="%placeOrder.buyNow"
-                   minWidth="100"
+                   maxWidth="100" minWidth="100"
                    fx:id="btnBuyNow" onAction="#handlePurchase" styleClass="button-raised"/>
     </HBox>
     <Text fx:id="txtInfo" textAlignment="RIGHT" />

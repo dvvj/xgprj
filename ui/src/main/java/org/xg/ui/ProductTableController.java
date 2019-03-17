@@ -53,11 +53,15 @@ public class ProductTableController implements Initializable {
 
   private void setupAndFetchProductTable(ResourceBundle resBundle) {
     tblProducts.getColumns().addAll(
-      jfxProdcutTableOpsColumn(
-        resBundle.getString("productTable.action"),
-
-        260
-      ),
+//      jfxProdcutTableOpsColumn(
+//        resBundle.getString("productTable.action"),
+//
+//        260
+//      ),
+//      jfxProdcutTableInfoColumn(
+//        "productTable.name",
+//        300
+//      ),
       TableViewHelper.<Product, String>jfxTableColumnResBundle(
         "productTable.name",
         resBundle,
