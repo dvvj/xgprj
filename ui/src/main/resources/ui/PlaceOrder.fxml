@@ -13,9 +13,11 @@
       spacing="5">
     <HBox spacing="5">
         <JFXButton text="-" fx:id="btnMinus" onAction="#handleMinus1" styleClass="button-raised" maxWidth="30" minWidth="30" />
-        <TextField fx:id="txtQty" text="1.00" maxWidth="100" minWidth="100" />
+        <JFXTextField fx:id="txtQty" text="1.00" />
         <JFXButton text="+" fx:id="btnPlus" onAction="#handlePlus1" styleClass="button-raised" maxWidth="30" minWidth="30" />
-        <JFXButton text="%placeOrder.buyNow" fx:id="btnBuyNow" onAction="#handlePurchase" styleClass="button-raised"/>
+        <JFXButton text="%placeOrder.buyNow"
+                   minWidth="100"
+                   fx:id="btnBuyNow" onAction="#handlePurchase" styleClass="button-raised"/>
     </HBox>
-    <Text fx:id="txtError" visible="false" stroke="Red" />
+    <Text fx:id="txtInfo" textAlignment="RIGHT" />
 </VBox>

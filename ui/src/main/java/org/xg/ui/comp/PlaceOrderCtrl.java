@@ -1,5 +1,6 @@
 package org.xg.ui.comp;
 
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.auth.SvcHelpers;
@@ -31,10 +33,10 @@ import java.util.ResourceBundle;
 public class PlaceOrderCtrl implements Initializable {
 
   @FXML
-  private TextField txtQty;
+  private JFXTextField txtQty;
 
   @FXML
-  private Text txtError;
+  private Text txtInfo;
 
 //  @FXML
 //  private Button btnMinus;
@@ -121,18 +123,40 @@ public class PlaceOrderCtrl implements Initializable {
       }
       else {
         invalidNumber.setValue(true);
-        txtError.setText(Global.AllRes.getString("placeOrder.numShouldGE0"));
+        errorInfo("placeOrder.numShouldGE0");
       }
     }
     catch (Exception ex) {
-      txtError.setText(Global.AllRes.getString("placeOrder.numFormatErr"));
+      System.out.println("error:" + value);
+      ex.printStackTrace();
+      errorInfo("placeOrder.numFormatErr");
       invalidNumber.setValue(true);
     }
   }
 
+  private void updateInfo(String resKey, Color color) {
+    updateInfoTxt(Global.AllRes.getString(resKey), color);
+  }
+  private void updateInfoTxt(String txt, Color color) {
+    txtInfo.setText(txt);
+    txtInfo.setFill(color);
+  }
+
+  private void errorInfo(String resKey) {
+    updateInfo(resKey, Color.RED);
+  }
+
+  private void costInfo(Double cost) {
+    String fmt = Global.AllRes.getString("placeOrder.costInfo");
+    String txt = String.format(fmt, cost);
+    updateInfoTxt(txt, Color.GREEN);
+  }
+
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    txtError.visibleProperty().bind(invalidNumber);
+    txtInfo.visibleProperty().bind(invalidNumber);
+    //handleValue(txtQty.getText(), 0.0);
 
     txtQty.textProperty().addListener(new ChangeListener<String>() {
       @Override

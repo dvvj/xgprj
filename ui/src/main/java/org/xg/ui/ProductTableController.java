@@ -92,7 +92,7 @@ public class ProductTableController implements Initializable {
     Task<ObservableList<Product>> fetchProductsTask = Helpers.uiTaskJ(
       () -> {
         try {
-          // Thread.sleep(5000);
+          Thread.sleep(1000);
           return getAllProducts();
         }
         catch (Exception ex) {
