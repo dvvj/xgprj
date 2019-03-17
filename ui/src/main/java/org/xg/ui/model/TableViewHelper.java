@@ -8,6 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import jdk.nashorn.internal.ir.FunctionCall;
+import org.xg.ui.comp.PayOrderJFXTableCell;
 import org.xg.ui.comp.PayOrderTableCell;
 import org.xg.ui.comp.ProductPlaceOrderTableCell;
 
@@ -82,6 +83,14 @@ public class TableViewHelper {
     col.setPrefWidth(prefWidth);
     col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
     col.setCellFactory(c -> new ProductPlaceOrderTableCell());
+    return col;
+  }
+
+  public static JFXTreeTableColumn<Order, Order> jfxOrderTableOpsColumn(String colName, int prefWidth) {
+    JFXTreeTableColumn<Order, Order> col = new JFXTreeTableColumn<>(colName);
+    col.setPrefWidth(prefWidth);
+    col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getValue()));
+    col.setCellFactory(c -> new PayOrderJFXTableCell());
     return col;
   }
 

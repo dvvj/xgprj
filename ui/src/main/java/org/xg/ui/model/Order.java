@@ -1,5 +1,6 @@
 package org.xg.ui.model;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.MOrder;
 import org.xg.gnl.DataUtils;
 import org.xg.ui.utils.Global;
@@ -9,7 +10,7 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Order {
+public class Order extends RecursiveTreeObject<Order> {
 
   private Long id;
   private String prodName;

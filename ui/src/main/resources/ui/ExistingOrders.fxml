@@ -6,10 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TableView xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:controller="org.xg.ui.ExistingOrdersCtrl"
-    fx:id="tblOrders"
-    prefHeight="200.0" prefWidth="850.0">
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<JFXTreeTableView xmlns="http://javafx.com/javafx"
+                  xmlns:fx="http://javafx.com/fxml"
+                  fx:controller="org.xg.ui.ExistingOrdersCtrl"
+                  fx:id="tblOrders"
+                  prefHeight="400.0" prefWidth="850.0">
 
-</TableView>
+</JFXTreeTableView>

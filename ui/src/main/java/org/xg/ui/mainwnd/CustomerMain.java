@@ -2,6 +2,7 @@ package org.xg.ui.mainwnd;
 
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
+import com.jfoenix.controls.JFXTreeTableView;
 import io.datafx.controller.ViewController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -41,13 +42,15 @@ public class CustomerMain {
   private ExistingOrdersCtrl orderController;
   private ProductTableController productTableController;
 
+  @FXML
+  private VBox leftSide;
   private Node loadLeftSide(String userInfo, ResourceBundle resBundle) throws IOException {
 
-    VBox leftSide = new VBox();
-    leftSide.setPadding(
-      new Insets(10)
-    );
-    leftSide.setSpacing(10);
+//    VBox leftSide = new VBox();
+//    leftSide.setPadding(
+//      new Insets(5)
+//    );
+//    leftSide.setSpacing(5);
 
 //    HBox greetings = new HBox();
 //    greetings.setSpacing(10);
@@ -68,7 +71,7 @@ public class CustomerMain {
 
     URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
     FXMLLoader orderLoader = new FXMLLoader(pathOrders, resBundle);
-    TableView orderTable = orderLoader.load();
+    JFXTreeTableView orderTable = orderLoader.load();
     orderController = orderLoader.getController();
 
     leftSide.getChildren().addAll(tv, orderTable);
@@ -83,9 +86,9 @@ public class CustomerMain {
       resBundle
     );
     VBox rightSide = rightSideLoader.load();
-    rightSide.setPadding(
-      new Insets(20)
-    );
+//    rightSide.setPadding(
+//      new Insets(20)
+//    );
     rightSideController = rightSideLoader.getController();
     return rightSide;
   }
@@ -96,8 +99,8 @@ public class CustomerMain {
   public void launch() {
     try {
 
+      loadLeftSide(Global.getCurrUid(), Global.AllRes);
       mainWnd.getChildren().addAll(
-        loadLeftSide(Global.getCurrUid(), Global.AllRes),
         loadRightSide("prod", Global.AllRes)
       );
 

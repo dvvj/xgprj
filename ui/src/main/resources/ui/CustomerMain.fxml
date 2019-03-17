@@ -13,17 +13,17 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      prefHeight="600.0" prefWidth="1200.0">
+      prefHeight="800.0" prefWidth="1200.0">
     <top>
         <JFXToolbar>
             <leftItems>
-                <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
-                    <StackPane fx:id="titleBurgerContainer">
-                        <JFXHamburger fx:id="titleBurger">
-                            <HamburgerBackArrowBasicTransition/>
-                        </JFXHamburger>
-                    </StackPane>
-                </JFXRippler>
+                <!--<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">-->
+                    <!--<StackPane fx:id="titleBurgerContainer">-->
+                        <!--<JFXHamburger fx:id="titleBurger">-->
+                            <!--<HamburgerBackArrowBasicTransition/>-->
+                        <!--</JFXHamburger>-->
+                    <!--</StackPane>-->
+                <!--</JFXRippler>-->
                 <Label fx:id="lblWelcome" text="%greeting.welcome"/>
                 <Text fx:id="txtUserName" />
             </leftItems>
@@ -39,8 +39,12 @@
         </JFXToolbar>
     </top>
     <center>
-        <HBox fx:id="mainWnd" spacing="20.0">
-
+        <HBox fx:id="mainWnd" spacing="5.0">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            <VBox fx:id="leftSide" spacing="5.0" />
+            <VBox fx:id="rightSide" spacing="5.0" />
         </HBox>
     </center>
 

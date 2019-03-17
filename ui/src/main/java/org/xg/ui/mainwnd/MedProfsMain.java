@@ -6,10 +6,12 @@ import io.datafx.controller.ViewController;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import org.xg.dbModels.MCustomer;
 import org.xg.ui.model.Customer;
 import org.xg.ui.model.CustomerOrder;
@@ -169,11 +171,15 @@ public class MedProfsMain {
     lblPlaceHolder.setText(
       Global.AllRes.getString(resKey)
     );
-    JFXSpinner spinner = new JFXSpinner();
-    spinner.getStyleClass().add("blue-spinner");
-    spinner.setRadius(20.0);
-    StackPane p = new StackPane();
-    p.getChildren().addAll(lblPlaceHolder, spinner);
+//    JFXSpinner spinner = new JFXSpinner();
+//    spinner.getStyleClass().add("blue-spinner");
+//    spinner.setRadius(20.0);
+    JFXProgressBar jfxBarInf = new JFXProgressBar();
+    jfxBarInf.setPrefWidth(100);
+    jfxBarInf.setProgress(-1.0f);
+    VBox p = new VBox();
+    p.setAlignment(Pos.CENTER);
+    p.getChildren().addAll(lblPlaceHolder, jfxBarInf);
     table.setPlaceholder(p);
   }
 

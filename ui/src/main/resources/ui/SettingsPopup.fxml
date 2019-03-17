@@ -18,7 +18,6 @@
         </graphic>
     </Label>
     <Label text="%popup.contactUs">
-        %popup.contactUs
         <graphic>
             <StackPane styleClass="custom-jfx-list-view-icon-container">
                 <FontAwesomeIconView glyphName="REPLY" size="1.5em"
