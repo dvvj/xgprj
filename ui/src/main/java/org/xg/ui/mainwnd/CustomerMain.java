@@ -1,14 +1,19 @@
 package org.xg.ui.mainwnd;
 
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXPopup;
 import io.datafx.controller.ViewController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -26,6 +31,12 @@ public class CustomerMain {
   @FXML
   private HBox mainWnd;
 
+  @FXML
+  private Text txtUserName;
+
+  @FXML
+  private StackPane optionsBurger;
+
   private CustomerMainRCtrl rightSideController;
   private ExistingOrdersCtrl orderController;
   private ProductTableController productTableController;
@@ -38,14 +49,16 @@ public class CustomerMain {
     );
     leftSide.setSpacing(10);
 
-    HBox greetings = new HBox();
-    greetings.setSpacing(10);
-    Text txtWelcome = new Text();
-    txtWelcome.setText(resBundle.getString("greeting.welcome"));
-    Text txtUserInfo = new Text();
-    txtUserInfo.setText(userInfo);
-    txtUserInfo.setStroke(Color.GREEN);
-    greetings.getChildren().addAll(txtWelcome, txtUserInfo);
+//    HBox greetings = new HBox();
+//    greetings.setSpacing(10);
+//    Text txtWelcome = new Text();
+//    txtWelcome.setText(resBundle.getString("greeting.welcome"));
+//    Text txtUserInfo = new Text();
+//    txtUserInfo.setText(userInfo);
+//    txtUserInfo.setStroke(Color.GREEN);
+//    greetings.getChildren().addAll(txtWelcome, txtUserInfo);
+    txtUserName.setText(Global.getCurrUid()); // todo use name instead
+    txtUserName.setFill(Color.WHEAT);
 
     URL path = UiLoginController.class.getResource("/ui/ProductTable.fxml");
     FXMLLoader productLoader = new FXMLLoader(path, resBundle);
@@ -58,7 +71,7 @@ public class CustomerMain {
     TableView orderTable = orderLoader.load();
     orderController = orderLoader.getController();
 
-    leftSide.getChildren().addAll(greetings, tv, orderTable);
+    leftSide.getChildren().addAll(tv, orderTable);
     return leftSide;
 
   }
@@ -77,6 +90,8 @@ public class CustomerMain {
     return rightSide;
   }
 
+  private JFXPopup toolbarPopup;
+
   @PostConstruct
   public void launch() {
     try {
@@ -85,6 +100,18 @@ public class CustomerMain {
         loadLeftSide(Global.getCurrUid(), Global.AllRes),
         loadRightSide("prod", Global.AllRes)
       );
+
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/SettingsPopup.fxml"), Global.AllRes);
+      loader.setController(new SettingsController());
+      toolbarPopup = new JFXPopup(loader.load());
+
+      optionsBurger.setOnMouseClicked(e -> {
+        toolbarPopup.show(
+          optionsBurger,
+          JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,
+          0, 0
+        );
+      });
 
       rightSideController.setBinding(
         productTableController.getSelectedProductDetail(),
@@ -103,5 +130,16 @@ public class CustomerMain {
     }
   }
 
+  public static final class SettingsController {
+    @FXML
+    private JFXListView<?> toolbarPopupList;
 
+    // close application
+    @FXML
+    private void submit() {
+      if (toolbarPopupList.getSelectionModel().getSelectedIndex() == 1) {
+        Platform.exit();
+      }
+    }
+  }
 }

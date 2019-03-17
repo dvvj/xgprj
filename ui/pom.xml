@@ -43,6 +43,20 @@
           <groupId>io.datafx</groupId>
           <artifactId>flow</artifactId>
       </dependency>
+
+      <dependency>
+          <groupId>de.jensd</groupId>
+          <artifactId>fontawesomefx</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>de.jensd</groupId>
+          <artifactId>fontawesomefx-fontawesome</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>de.jensd</groupId>
+          <artifactId>fontawesomefx-commons</artifactId>
+      </dependency>
   </dependencies>
 
 

@@ -8,11 +8,40 @@
 
 <?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
-<HBox xmlns="http://javafx.com/javafx"
+<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:id="mainWnd"
       prefHeight="600.0" prefWidth="1200.0">
-    <HBox.margin>
-        <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
-    </HBox.margin>
-</HBox>
+    <top>
+        <JFXToolbar>
+            <leftItems>
+                <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
+                    <StackPane fx:id="titleBurgerContainer">
+                        <JFXHamburger fx:id="titleBurger">
+                            <HamburgerBackArrowBasicTransition/>
+                        </JFXHamburger>
+                    </StackPane>
+                </JFXRippler>
+                <Label fx:id="lblWelcome" text="%greeting.welcome"/>
+                <Text fx:id="txtUserName" />
+            </leftItems>
+            <rightItems>
+                <JFXRippler fx:id="optionsRippler" maskType="CIRCLE"
+                            style="-fx-ripple-color:WHITE;">
+                    <StackPane fx:id="optionsBurger">
+                        <JFXHamburger styleClass="jfx-options-burger">
+                        </JFXHamburger>
+                    </StackPane>
+                </JFXRippler>
+            </rightItems>
+        </JFXToolbar>
+    </top>
+    <center>
+        <HBox fx:id="mainWnd" spacing="20.0">
+
+        </HBox>
+    </center>
+
+</BorderPane>

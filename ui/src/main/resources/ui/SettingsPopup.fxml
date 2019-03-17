@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<JFXListView xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    onMouseClicked="#submit" fx:id="toolbarPopupList" styleClass="option-list-view"
+    prefHeight="400.0" prefWidth="600.0">
+    <Label text="%popup.userSettings">
+        <graphic>
+            <StackPane styleClass="custom-jfx-list-view-icon-container">
+                <FontAwesomeIconView glyphName="FILE" size="1.5em"
+                                     styleClass="option-jfx-list-view-icon"/>
+            </StackPane>
+        </graphic>
+    </Label>
+    <Label text="%popup.contactUs">
+        %popup.contactUs
+        <graphic>
+            <StackPane styleClass="custom-jfx-list-view-icon-container">
+                <FontAwesomeIconView glyphName="REPLY" size="1.5em"
+                                     styleClass="option-jfx-list-view-icon"/>
+            </StackPane>
+        </graphic>
+    </Label>
+
+</JFXListView>
