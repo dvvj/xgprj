@@ -1,19 +1,29 @@
 package org.xg.ui;
 
+import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import org.xg.svc.ImageInfo;
+import org.xg.ui.model.CustomerOrder;
 import org.xg.ui.model.Product;
+import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.Helpers;
+import org.xg.ui.utils.UIHelpers;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static org.xg.ui.model.TableViewHelper.*;
@@ -21,7 +31,7 @@ import static org.xg.ui.utils.Global.getAllProducts;
 
 public class ProductTableController implements Initializable {
   @FXML
-  private TableView<Product> tblProducts;
+  private JFXTreeTableView<Product> tblProducts;
 
   private StringProperty selectedProductDetail = new SimpleStringProperty();
   public StringProperty getSelectedProductDetail() {
@@ -39,56 +49,92 @@ public class ProductTableController implements Initializable {
 //  }
 
 
-  private Property<ObservableList<Product>> productsCache = new SimpleListProperty<>();
+  private ObservableList<Product> productsCache;
 
-  @Override
-  public void initialize(URL location, ResourceBundle resBundle) {
-    productsCache.setValue(getAllProducts());
-    tblProducts.itemsProperty().bindBidirectional(productsCache);
-
+  private void setupAndFetchProductTable(ResourceBundle resBundle) {
     tblProducts.getColumns().addAll(
-//      tableColumnResBundle(
-//        "productTable.id",
-//        resBundle,
-//        "id"
-//      ),
-      tableOpsColumn(
+      jfxProdcutTableOpsColumn(
         resBundle.getString("productTable.action"),
 
         260
       ),
-      tableColumnResBundle(
+      TableViewHelper.<Product, String>jfxTableColumnResBundle(
         "productTable.name",
         resBundle,
-        "name",
-        300
+        300,
+        Product::getName
       ),
-      tableColumnResBundle(
+      TableViewHelper.<Product, String>jfxTableColumnResBundle(
         "productTable.price",
         resBundle,
-        "priceDetail",
-        150
+        150,
+        Product::getPriceDetail
       ),
 //      tableColumnResBundle("productTable.detailedInfo",
 //        resBundle,
 //        "detailedInfo",
 //        80
 //      ),
-      tableColumnResBundle("productTable.Keywords",
+      TableViewHelper.<Product, List<String>>jfxTableColumnResBundle(
+        "productTable.Keywords",
         resBundle,
-        "keywords",
-        200
+        200,
+        Product::getKeywords
       )
     );
 
-    tblProducts.setMinWidth(850);
-    tblProducts.setMaxWidth(850);
-
-    tblProducts.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-    tblProducts.setPlaceholder(new Label("No data/column"));
-
     tblProducts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache.getValue()));
+
+    UIHelpers.setPlaceHolder4TreeView(tblProducts, "productTable.placeHolder");
+
+    tblProducts.setColumnResizePolicy(TreeTableView.UNCONSTRAINED_RESIZE_POLICY);
+
+    Task<ObservableList<Product>> fetchProductsTask = Helpers.uiTaskJ(
+      () -> {
+        try {
+          // Thread.sleep(5000);
+          return getAllProducts();
+        }
+        catch (Exception ex) {
+          Global.loggingTodo(
+            String.format(
+              "Error fetching customer table for [%s]: %s", Global.getCurrUid(), ex.getMessage()
+            )
+          );
+          return null;
+        }
+      },
+      resp -> {
+        if (resp != null) {
+          productsCache = resp;
+          UIHelpers.setRoot4TreeView(tblProducts, productsCache);
+          Global.loggingTodo(String.format("found %d products", productsCache.size()));
+          tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+
+          if (productsCache.size() > 0) {
+            tblProducts.getSelectionModel().select(0);
+          }
+        }
+        else {
+          // todo: show error
+        }
+        return null;
+      },
+      30000
+    );
+
+    new Thread(fetchProductsTask).start();
+  }
+
+
+  @Override
+  public void initialize(URL location, ResourceBundle resBundle) {
+    //tblProducts.itemsProperty().bindBidirectional(productsCache);
+
+
+    //tblProducts.setColumnResizePolicy(TreeTableView.UNCONSTRAINED_RESIZE_POLICY);
+    setupAndFetchProductTable(resBundle);
+
 
 //    tblProducts.onSortProperty().setValue(new EventHandler<SortEvent<TableView<Product>>>() {
 //      @Override
@@ -97,9 +143,6 @@ public class ProductTableController implements Initializable {
 //      }
 //    });
 
-    if (productsCache.getValue().size() > 0) {
-      tblProducts.getSelectionModel().select(0);
-    }
 
   }
 

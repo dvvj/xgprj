@@ -18,6 +18,7 @@ import org.xg.ui.model.CustomerOrder;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
+import org.xg.ui.utils.UIHelpers;
 
 import javax.annotation.PostConstruct;
 
@@ -60,7 +61,7 @@ public class MedProfsMain {
       )
     );
 
-    setPlaceHolder(tblCustomers, "customerTable.placeHolder");
+    UIHelpers.setPlaceHolder4TreeView(tblCustomers, "customerTable.placeHolder");
 
     Task<ObservableList<Customer>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {
@@ -80,9 +81,7 @@ public class MedProfsMain {
       resp -> {
         if (resp != null) {
           customersCache = resp;
-          TreeItem<Customer> items = new RecursiveTreeItem<>(customersCache, RecursiveTreeObject::getChildren);
-          tblCustomers.setRoot(items);
-          tblCustomers.setShowRoot(false);
+          UIHelpers.setRoot4TreeView(tblCustomers, customersCache);
 
           if (customersCache.size() > 0) {
             tblCustomers.getSelectionModel().select(0);
@@ -127,7 +126,7 @@ public class MedProfsMain {
       )
     );
 
-    setPlaceHolder(tblRefedCustomerOrders, "refedCustomerOrderTable.placeHolder");
+    UIHelpers.setPlaceHolder4TreeView(tblRefedCustomerOrders, "refedCustomerOrderTable.placeHolder");
 
     Task<ObservableList<CustomerOrder>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {
@@ -147,9 +146,7 @@ public class MedProfsMain {
       resp -> {
         if (resp != null) {
           customerOrdersCache = resp;
-          TreeItem<CustomerOrder> items = new RecursiveTreeItem<>(customerOrdersCache, RecursiveTreeObject::getChildren);
-          tblRefedCustomerOrders.setRoot(items);
-          tblRefedCustomerOrders.setShowRoot(false);
+          UIHelpers.setRoot4TreeView(tblRefedCustomerOrders, customerOrdersCache);
 
           if (customerOrdersCache.size() > 0) {
             tblRefedCustomerOrders.getSelectionModel().select(0);
@@ -165,24 +162,6 @@ public class MedProfsMain {
 
     new Thread(fetchCustomersTask).start();
   }
-
-  private static void setPlaceHolder(JFXTreeTableView table, String resKey) {
-    Label lblPlaceHolder = new Label();
-    lblPlaceHolder.setText(
-      Global.AllRes.getString(resKey)
-    );
-//    JFXSpinner spinner = new JFXSpinner();
-//    spinner.getStyleClass().add("blue-spinner");
-//    spinner.setRadius(20.0);
-    JFXProgressBar jfxBarInf = new JFXProgressBar();
-    jfxBarInf.setPrefWidth(100);
-    jfxBarInf.setProgress(-1.0f);
-    VBox p = new VBox();
-    p.setAlignment(Pos.CENTER);
-    p.getChildren().addAll(lblPlaceHolder, jfxBarInf);
-    table.setPlaceholder(p);
-  }
-
 
   @PostConstruct
   public void launch() {

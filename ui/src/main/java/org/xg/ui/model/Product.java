@@ -1,12 +1,13 @@
 package org.xg.ui.model;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.*;
 import org.xg.pay.pricePlan.TPricePlan;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Product {
+public class Product extends RecursiveTreeObject<Product> {
   private Integer id;
   private String name;
   private Double price0; //todo

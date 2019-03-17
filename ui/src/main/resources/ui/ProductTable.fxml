@@ -6,9 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TableView fx:id="tblProducts"
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<JFXTreeTableView fx:id="tblProducts"
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="org.xg.ui.ProductTableController"
-    prefHeight="400.0" prefWidth="850.0">
-</TableView>
+    prefHeight="400.0" maxWidth="850.0" minWidth="850.0"
+    >
+</JFXTreeTableView>

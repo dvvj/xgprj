@@ -66,7 +66,7 @@ public class CustomerMain {
     URL path = UiLoginController.class.getResource("/ui/ProductTable.fxml");
     FXMLLoader productLoader = new FXMLLoader(path, resBundle);
     //productLoader.setLocation(path);
-    TableView tv = productLoader.load();
+    JFXTreeTableView tv = productLoader.load();
     productTableController = productLoader.getController();
 
     URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");

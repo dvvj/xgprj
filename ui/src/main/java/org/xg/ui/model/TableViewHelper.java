@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import jdk.nashorn.internal.ir.FunctionCall;
 import org.xg.ui.comp.PayOrderJFXTableCell;
 import org.xg.ui.comp.PayOrderTableCell;
+import org.xg.ui.comp.ProductPlaceOrderJFXTableCell;
 import org.xg.ui.comp.ProductPlaceOrderTableCell;
 
 import java.util.ResourceBundle;
@@ -86,6 +87,14 @@ public class TableViewHelper {
     return col;
   }
 
+  public static JFXTreeTableColumn<Product, Product> jfxProdcutTableOpsColumn(String colName, int prefWidth) {
+    JFXTreeTableColumn<Product, Product> col = new JFXTreeTableColumn<>(colName);
+    col.setPrefWidth(prefWidth);
+    col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getValue()));
+    col.setCellFactory(c -> new ProductPlaceOrderJFXTableCell());
+    return col;
+  }
+
   public static JFXTreeTableColumn<Order, Order> jfxOrderTableOpsColumn(String colName, int prefWidth) {
     JFXTreeTableColumn<Order, Order> col = new JFXTreeTableColumn<>(colName);
     col.setPrefWidth(prefWidth);
@@ -94,11 +103,11 @@ public class TableViewHelper {
     return col;
   }
 
-  public static TableColumn<Order, Order> orderTableOpsColumn(String colName, int prefWidth) {
-    TableColumn<Order, Order> col = new TableColumn<>(colName);
-    col.setPrefWidth(prefWidth);
-    col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
-    col.setCellFactory(c -> new PayOrderTableCell());
-    return col;
-  }
+//  public static TableColumn<Order, Order> orderTableOpsColumn(String colName, int prefWidth) {
+//    TableColumn<Order, Order> col = new TableColumn<>(colName);
+//    col.setPrefWidth(prefWidth);
+//    col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue()));
+//    col.setCellFactory(c -> new PayOrderTableCell());
+//    return col;
+//  }
 }
