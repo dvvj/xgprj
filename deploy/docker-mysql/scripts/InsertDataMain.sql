@@ -12,19 +12,19 @@ INSERT INTO customers (uid, name, idcard_no, mobile, postal_addr, bday, ref_uid,
 INSERT INTO customers (uid, name, idcard_no, mobile, postal_addr, bday, ref_uid, pass_hash)  VALUES ('customer3','晓东','3102036666666666','1386666666','邮寄地址3','1983-12-03','prof1',X'e32ef19623e8ed9d267f657a81944b3d07adbb768518068e88435745564e8d4150a0a703be2a7d88b61e3d390c2bb97e2d4c311fdc69d6b1267f05f59aa920e7');
 INSERT INTO customers (uid, name, idcard_no, mobile, postal_addr, bday, ref_uid, pass_hash)  VALUES ('customer4','王丽','3102033333333333','13833333333','邮寄地址4','1983-12-03','prof2',X'79681fe463f8f34fda5d8bebb59e61b6099c031cf2aa251116cd4bedbec59430f82a02868807315f66a75e408f4f106f65394dfa792413620f9f79ce3a2baef6');
 
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer3', 1, 1.0, '2018-02-11 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 2, 3.0, '2018-02-11 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 3, 5.0, '2017-03-04 18:35:04', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 4, 2.0, '2017-02-11 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 1, 4.0, '2017-02-01 09:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 2, 10.0, '2018-12-01 09:30:44', '2018-12-01 09:32:44', NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2018-09-01 09:30:44', '2018-09-02 09:30:44', NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 1.0, '2019-01-17 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-02-19 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-02-28 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-03-01 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 3.0, '2019-03-12 19:30:44', NULL, NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 4.0, '2019-03-17 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer3', 1, 1.0, '2018-02-11 19:30:44', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 2, 3.0, '2018-02-11 19:30:44', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 3, 5.0, '2017-03-04 18:35:04', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 4, 2.0, '2017-02-11 19:30:44', '2017-02-11 19:40:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 1, 4.0, '2017-02-01 09:30:44', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 2, 10.0, '2018-12-01 09:30:44', '2018-12-01 09:31:44', '2018-12-01 09:33:44', NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2018-09-01 09:30:44', '2018-09-02 09:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 1.0, '2019-01-17 19:30:44', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-02-19 19:30:44', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-02-28 19:30:44', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-03-01 19:30:44', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 3.0, '2019-03-12 19:30:44', NULL, NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, pay_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 4.0, '2019-03-17 19:30:44', NULL, NULL, NULL, NULL);
 
 INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.8','Fixed Rate 80%','{"globalRate":0.8}','FixedRate');
 INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.9','Fixed Rate 90%','{"globalRate":0.9}','FixedRate');

@@ -74,6 +74,8 @@ trait TDbOps {
   }
   // order related
   def ordersOf(uid:String):Array[MOrder]
+  def ordersOf_Unpaid(uid:String):Array[MOrder]
+
   def ordersOf_CreationTimeWithin(uid:String, days:Int):Array[MOrder]
   def ordersOf_CreatedThisMonth(uid:String):Array[MOrder] = {
     val days = DataUtils.utcTimeNow.getDayOfMonth - 1
@@ -81,7 +83,6 @@ trait TDbOps {
   }
   def ordersOf_CreatedLastMonth(uid:String):Array[MOrder] = {
     val lastMonthNextDay = DataUtils.utcTimeNow.minusMonths(1).plusDays(1)
-//    val unit = new ChronoUnit
     val days = Period.between(lastMonthNextDay.toLocalDate, DataUtils.utcTimeNow.toLocalDate)
       .getDays
     ordersOf_CreationTimeWithin(uid, days)
