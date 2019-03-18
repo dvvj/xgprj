@@ -12,12 +12,12 @@ public class UserTypeHelpers {
   private static String getResName(ResourceBundle resBundle, String t) {
     return resBundle.getString("login.userType." + t);
   }
-  public static Map<Integer, UserType> createMap(ResourceBundle resBundle) {
-    Map<Integer, UserType> res = new LinkedHashMap<>();
-    res.put(UT_CUSTOMER, new UserType(UT_CUSTOMER, getResName(resBundle, "customer")));
-    res.put(UT_MEDPROFS, new UserType(UT_MEDPROFS, getResName(resBundle, "medprofs")));
-    res.put(UT_PHARMA, new UserType(UT_PHARMA, getResName(resBundle, "pharma")));
-    res.put(UT_AGENCY, new UserType(UT_AGENCY, getResName(resBundle, "agency")));
+  public static Map<Integer, ComboOptionData> createMap(ResourceBundle resBundle) {
+    Map<Integer, ComboOptionData> res = new LinkedHashMap<>();
+    res.put(UT_CUSTOMER, new ComboOptionData(UT_CUSTOMER, getResName(resBundle, "customer")));
+    res.put(UT_MEDPROFS, new ComboOptionData(UT_MEDPROFS, getResName(resBundle, "medprofs")));
+    res.put(UT_PHARMA, new ComboOptionData(UT_PHARMA, getResName(resBundle, "pharma")));
+    res.put(UT_AGENCY, new ComboOptionData(UT_AGENCY, getResName(resBundle, "agency")));
     return res;
   }
 

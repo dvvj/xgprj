@@ -4,7 +4,6 @@ import io.datafx.controller.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -13,7 +12,7 @@ import javafx.util.Callback;
 import org.xg.ui.mainwnd.CustomerMain;
 import org.xg.ui.mainwnd.MainFrame;
 import org.xg.ui.mainwnd.MedProfsMain;
-import org.xg.ui.model.UserType;
+import org.xg.ui.model.ComboOptionData;
 import org.xg.ui.model.UserTypeHelpers;
 import org.xg.ui.utils.Global;
 
@@ -40,7 +39,7 @@ public class UiLoginController implements Initializable {
   private CheckBox chbRemember;
 
   @FXML
-  private ComboBox<UserType> cmboUType;
+  private ComboBox<ComboOptionData> cmboUType;
 
   @FXML
   private void closeWindow() {
@@ -48,7 +47,7 @@ public class UiLoginController implements Initializable {
     stage.close();
   }
 
-  private Map<Integer, UserType> userMap;
+  private Map<Integer, ComboOptionData> userMap;
 
   private Map<Integer, Runnable> loginSuccessActionMap;
 
@@ -62,12 +61,12 @@ public class UiLoginController implements Initializable {
     );
 
     cmboUType.setCellFactory(
-      new Callback<ListView<UserType>, ListCell<UserType>>() {
+      new Callback<ListView<ComboOptionData>, ListCell<ComboOptionData>>() {
         @Override
-        public ListCell<UserType> call(ListView<UserType> param) {
-          return new ListCell<UserType>() {
+        public ListCell<ComboOptionData> call(ListView<ComboOptionData> param) {
+          return new ListCell<ComboOptionData>() {
             @Override
-            protected void updateItem(UserType item, boolean empty) {
+            protected void updateItem(ComboOptionData item, boolean empty) {
               super.updateItem(item, empty);
 
               if (item == null || empty) {
@@ -107,7 +106,7 @@ public class UiLoginController implements Initializable {
   }
 
   public void onLogin(ActionEvent e) {
-    UserType selectedUt = cmboUType.getSelectionModel().getSelectedItem();
+    ComboOptionData selectedUt = cmboUType.getSelectionModel().getSelectedItem();
     System.out.println("Selected user type: " + selectedUt.toString());
 
     Global.setResText(txtStatus, "login.loggingIn", Color.BLACK);

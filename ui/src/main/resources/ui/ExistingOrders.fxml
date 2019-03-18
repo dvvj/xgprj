@@ -7,10 +7,21 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.jfoenix.controls.JFXTreeTableView?>
-<JFXTreeTableView xmlns="http://javafx.com/javafx"
-                  xmlns:fx="http://javafx.com/fxml"
-                  fx:controller="org.xg.ui.ExistingOrdersCtrl"
-                  fx:id="tblOrders"
-                  prefHeight="400.0" prefWidth="850.0">
+<?import com.jfoenix.controls.JFXToolbar?>
 
-</JFXTreeTableView>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.xg.ui.ExistingOrdersCtrl">
+    <ToolBar>
+        <Text text="%orderTable.toolbar.heading" />
+        <Separator />
+        <Separator />
+        <JFXComboBox fx:id="cmboFilter" promptText="%orderTable.toolbar.filter" />
+        <Separator />
+        <JFXButton text="test button 2" />
+    </ToolBar>
+    <JFXTreeTableView fx:id="tblOrders" prefHeight="400.0" prefWidth="850.0" />
+</VBox>

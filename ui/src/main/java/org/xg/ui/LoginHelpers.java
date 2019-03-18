@@ -5,7 +5,7 @@ import org.xg.auth.AuthResp;
 import org.xg.auth.SvcHelpers;
 import org.xg.gnl.GlobalCfg;
 import org.xg.pay.pricePlan.TPricePlan;
-import org.xg.ui.model.UserType;
+import org.xg.ui.model.ComboOptionData;
 import org.xg.ui.model.UserTypeHelpers;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -95,7 +95,7 @@ public class LoginHelpers {
   }
   private static final Map<Integer, ILoginAction> loginActionMap = createLoginActionMap();
 
-  public static void onLogin(UserType ut, String uid, String pass, Runnable onSuccess, Runnable onFailure) {
+  public static void onLogin(ComboOptionData ut, String uid, String pass, Runnable onSuccess, Runnable onFailure) {
     loginActionMap.get(ut.getCode()).run(
       uid, pass, onSuccess, onFailure
     );

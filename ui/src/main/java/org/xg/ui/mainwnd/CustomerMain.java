@@ -71,10 +71,10 @@ public class CustomerMain {
 
     URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
     FXMLLoader orderLoader = new FXMLLoader(pathOrders, resBundle);
-    JFXTreeTableView orderTable = orderLoader.load();
+    VBox orderCtrl = orderLoader.load();
     orderController = orderLoader.getController();
 
-    leftSide.getChildren().addAll(tv, orderTable);
+    leftSide.getChildren().addAll(tv, orderCtrl);
     return leftSide;
 
   }

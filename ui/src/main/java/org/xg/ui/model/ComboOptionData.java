@@ -1,10 +1,6 @@
 package org.xg.ui.model;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-
-public class UserType {
+public class ComboOptionData {
   private final String name;
 
   public Integer getCode() {
@@ -13,7 +9,7 @@ public class UserType {
 
   private final Integer code;
 
-  public UserType(Integer code, String name) {
+  public ComboOptionData(Integer code, String name) {
     this.code = code;
     this.name = name;
   }
@@ -29,8 +25,8 @@ public class UserType {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof UserType) {
-      UserType ut2 = (UserType)obj;
+    if (obj instanceof ComboOptionData) {
+      ComboOptionData ut2 = (ComboOptionData)obj;
       return ut2.code.equals(code);
     }
     return false;

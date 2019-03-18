@@ -1,5 +1,6 @@
 package org.xg.ui;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -12,15 +13,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
-import org.xg.ui.model.Order;
-import org.xg.ui.model.Product;
-import org.xg.ui.model.TableViewHelper;
+import org.xg.ui.model.*;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import static org.xg.ui.model.TableViewHelper.*;
@@ -103,8 +103,17 @@ public class ExistingOrdersCtrl implements Initializable {
 
   }
 
+  @FXML
+  private JFXComboBox<ComboOptionData> cmboFilter;
+
+  private Map<Integer, ComboOptionData> filterOptions;
+
   @Override
   public void initialize(URL location, ResourceBundle resBundle) {
     setupAndFetchExistingOrderTable(resBundle);
+
+    filterOptions = OrderFilterHelpers.createMap(resBundle);
+    cmboFilter.getItems().addAll(filterOptions.values());
+    cmboFilter.setValue(filterOptions.get(OrderFilterHelpers.OF_UNPAID));
   }
 }
