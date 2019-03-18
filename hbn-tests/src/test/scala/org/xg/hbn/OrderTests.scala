@@ -36,10 +36,15 @@ object OrderTests extends App {
 //    )
 //  }
 
-  val orders = testHbnOps.ordersOfCustomers(
+  var orders = testHbnOps.ordersOfCustomers(
     Array("customer1", "customer2")
   )
   println(orders.length)
+
+  orders2 = testHbnOps.ordersOfCustomers_Unpaid(
+    Array("customer1", "customer2")
+  )
+  println(orders2.length)
 
   HbnUtils.shutdownTest()
 }

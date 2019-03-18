@@ -71,19 +71,6 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def ordersOfCustomers(customerIds: Array[String]): Array[MOrder] = {
-      runInTransaction(
-        sessFactory,
-        { sess =>
-//          val param = "customerList"
-          val paramVal = customerIds.mkString("'", "','", "'")
-          val q = sess.createQuery(s"Select x from ${classOf[Order].getName} x where x.customerId in ($paramVal)")
-          val t = q.getResultList.asScala.map(_.asInstanceOf[Order])
-          t.map(convertOrder).toArray
-        }
-      )
-    }
-
     override def allRewardPlanMaps: Array[MRewardPlanMap] = {
       runInTransaction(
         sessFactory,
@@ -395,6 +382,52 @@ object HbnDbOpsImpl {
       //val ZonedDateTime.from(creationDate0.toInstant)
 
     }
+
+
+    override def ordersOfCustomers(customerIds: Array[String]): Array[MOrder] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          //          val param = "customerList"
+          val paramVal = customerIds.mkString("'", "','", "'")
+          val q = sess.createQuery(s"Select x from ${classOf[Order].getName} x where x.customerId in ($paramVal)")
+          val t = q.getResultList.asScala.map(_.asInstanceOf[Order])
+          t.map(convertOrder).toArray
+        }
+      )
+    }
+
+    override def ordersOfCustomers_Unpaid(customerIds: Array[String]): Array[MOrder] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          //          val param = "customerList"
+          val paramVal = customerIds.mkString("'", "','", "'")
+          val q = sess.createQuery(s"Select x from ${classOf[Order].getName} x where x.customerId in ($paramVal) and x.payTime is null")
+          val t = q.getResultList.asScala.map(_.asInstanceOf[Order])
+          t.map(convertOrder).toArray
+        }
+      )
+    }
+
+    override def ordersOfCustomers_CreationTimeWithin(customerIds: Array[String], days: Int): Array[MOrder] = {
+      val zdtNow = DataUtils.utcTimeNow
+      val creationDate0 = Date.from(zdtNow.minusDays(days).toInstant)
+      val paramCreationDate = "creationDate"
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          //          val param = "customerList"
+          val paramVal = customerIds.mkString("'", "','", "'")
+          val q = sess.createQuery(s"Select x from ${classOf[Order].getName} x where x.customerId in ($paramVal) and o.creationTime >= :$paramCreationDate")
+          q.setParameter(paramCreationDate, creationDate0, TemporalType.DATE)
+          val t = q.getResultList.asScala.map(_.asInstanceOf[Order])
+          t.map(convertOrder).toArray
+        }
+      )
+
+    }
+
 
     override def customersOf(profId: String): Array[MCustomer] = {
       runInTransaction(

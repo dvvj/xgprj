@@ -87,8 +87,22 @@ trait TDbOps {
       .getDays
     ordersOf_CreationTimeWithin(uid, days)
   }
+
   def ordersOfCustomers(customerIds:Array[String]):Array[MOrder]
-//  def ordersOfCustomers_CreationTimeWithin(customerIds:Array[String], days:Int):Array[MOrder]
+  def ordersOfCustomers_CreationTimeWithin(customerIds:Array[String], days:Int):Array[MOrder]
+  def ordersOfCustomers_CreatedThisMonth(customerIds:Array[String]):Array[MOrder] = {
+    val days = DataUtils.utcTimeNow.getDayOfMonth - 1
+    ordersOfCustomers_CreationTimeWithin(customerIds, days)
+  }
+  def ordersOfCustomers_CreatedLastMonth(customerIds:Array[String]):Array[MOrder] = {
+    val lastMonthNextDay = DataUtils.utcTimeNow.minusMonths(1).plusDays(1)
+    val days = Period.between(lastMonthNextDay.toLocalDate, DataUtils.utcTimeNow.toLocalDate)
+      .getDays
+    ordersOfCustomers_CreationTimeWithin(customerIds, days)
+  }
+  def ordersOfCustomers_Unpaid(customerIds:Array[String]):Array[MOrder]
+
+  //  def ordersOfCustomers_CreationTimeWithin(customerIds:Array[String], days:Int):Array[MOrder]
   def placeOrder(uid:String, productId:Int, qty:Double):Long
   def updateOrder(orderId:Long, newQty:Double):Boolean
   def setOrderPayTime(orderId:Long):Boolean
