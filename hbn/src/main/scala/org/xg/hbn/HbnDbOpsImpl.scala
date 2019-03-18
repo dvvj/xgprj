@@ -1,8 +1,11 @@
 package org.xg.hbn
 
 import java.io.File
+import java.time.ZonedDateTime
 import java.util
+import java.util.Date
 
+import javax.persistence.TemporalType
 import org.hibernate.{Session, SessionFactory}
 import org.xg.auth.AuthHelpers
 import org.xg.dbModels.TDbOps
@@ -30,6 +33,9 @@ object HbnDbOpsImpl {
     val res = t.map(converter).toArray
     res
   }
+
+  import org.xg.dbModels.TDbOps._
+  private val Unfiltered:OrderFilter = _ => true
   private class OpsImpl(sessFactory:SessionFactory) extends TDbOps {
     override def addNewCustomer(
                                  uid: String,
@@ -355,6 +361,25 @@ object HbnDbOpsImpl {
           res
         }
       )
+    }
+
+    override def ordersOf_CreationTimeWithin(uid: String, days: Int): Array[MOrder] = {
+      val zdtNow = DataUtils.utcTimeNow
+      val creationDate0 = Date.from(zdtNow.minusDays(days).toInstant)
+      val paramCreationDate = "creationDate"
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val ql = s"Select o from ${classOf[Order].getName} o where o.customerId = '$uid' and o.creationTime >= :$paramCreationDate"
+          val q = sess.createQuery(ql)
+          q.setParameter(paramCreationDate, creationDate0, TemporalType.DATE)
+          val res = q.getResultList.asScala
+            .toArray.map(c => convertOrder(c.asInstanceOf[Order]))
+          res
+        }
+      )
+      //val ZonedDateTime.from(creationDate0.toInstant)
+
     }
 
     override def customersOf(profId: String): Array[MCustomer] = {

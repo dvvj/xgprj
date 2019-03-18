@@ -19,7 +19,10 @@ INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, pro
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 1, 4.0, '2017-02-01 09:30:44', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 2, 10.0, '2018-12-01 09:30:44', '2018-12-01 09:32:44', NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2018-09-01 09:30:44', '2018-09-02 09:30:44', NULL, NULL);
-INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 3.0, '2019-03-17 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 1.0, '2019-01-17 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-02-19 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 3.0, '2019-03-12 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 4.0, '2019-03-17 19:30:44', NULL, NULL, NULL);
 
 INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.8','Fixed Rate 80%','{"globalRate":0.8}','FixedRate');
 INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.9','Fixed Rate 90%','{"globalRate":0.9}','FixedRate');

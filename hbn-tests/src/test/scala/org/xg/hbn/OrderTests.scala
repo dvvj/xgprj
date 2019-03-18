@@ -12,6 +12,13 @@ object OrderTests extends App {
 
   val orders1 = testHbnOps.ordersOf(uid1)
 
+  var orders2 = testHbnOps.ordersOf_CreationTimeWithin(uid1, 6)
+  println(orders2.length)
+  orders2 = testHbnOps.ordersOf_CreationTimeWithin(uid1, 5)
+  println(orders2.length)
+  orders2 = testHbnOps.ordersOf_CreationTimeWithin(uid1, 30)
+  println(orders2.length)
+
 //  orders1.foreach { o =>
 //    testHbnOps.updateOrder(
 //      o.id,

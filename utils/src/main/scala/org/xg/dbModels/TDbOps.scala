@@ -1,8 +1,15 @@
 package org.xg.dbModels
 
+import java.time.ZonedDateTime
+
 import org.xg.busiLogic.{PricePlanLogics, RewardPlanLogics}
+import org.xg.gnl.DataUtils
 
 trait TDbOps {
+  import TDbOps._
+//  def filterOrders(orders:Array[MOrder], filter:OrderFilter) =
+//    orders.filter(filter)
+
   def addNewCustomer(
     uid:String,
     name:String,
@@ -66,7 +73,9 @@ trait TDbOps {
   }
   // order related
   def ordersOf(uid:String):Array[MOrder]
+  def ordersOf_CreationTimeWithin(uid:String, days:Int):Array[MOrder]
   def ordersOfCustomers(customerIds:Array[String]):Array[MOrder]
+//  def ordersOfCustomers_CreationTimeWithin(customerIds:Array[String], days:Int):Array[MOrder]
   def placeOrder(uid:String, productId:Int, qty:Double):Long
   def updateOrder(orderId:Long, newQty:Double):Boolean
   def setOrderPayTime(orderId:Long):Boolean
@@ -109,11 +118,20 @@ trait TDbOps {
   def getUserPassMap:Map[String, Array[Byte]]
   def getMedProfPassMap: Map[String, Array[Byte]]
 
-  import collection.JavaConverters._
   def getUserPassMapJ:java.util.Map[String, Array[Byte]] = {
     getUserPassMap.asJava
   }
   def getMedProfPassMapJ:java.util.Map[String, Array[Byte]] = {
     getMedProfPassMap.asJava
+  }
+}
+
+object TDbOps {
+  type OrderFilter = MOrder => Boolean
+
+  private val OrderFilter_CreatedThisMonth:OrderFilter = mo => {
+    val zdt = DataUtils.utcTimeFromStr(mo.creationTimeS)
+    val zdtNow = DataUtils.utcTimeNow
+    zdt.getYear == zdtNow.getYear && zdt.getMonthValue == zdtNow.getMonthValue
   }
 }
