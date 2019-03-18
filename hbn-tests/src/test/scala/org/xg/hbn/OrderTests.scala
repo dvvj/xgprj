@@ -19,6 +19,13 @@ object OrderTests extends App {
   orders2 = testHbnOps.ordersOf_CreationTimeWithin(uid1, 30)
   println(orders2.length)
 
+  orders2 = testHbnOps.ordersOf_CreationTimeWithin(uid1, 18)
+  println(orders2.length)
+  orders2 = testHbnOps.ordersOf_CreatedThisMonth(uid1)
+  println(orders2.length)
+  orders2 = testHbnOps.ordersOf_CreatedLastMonth(uid1)
+  println(orders2.length)
+
 //  orders1.foreach { o =>
 //    testHbnOps.updateOrder(
 //      o.id,

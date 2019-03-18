@@ -1,6 +1,7 @@
 package org.xg.dbModels
 
-import java.time.ZonedDateTime
+import java.time.{Period, ZonedDateTime}
+import java.time.temporal.ChronoUnit
 
 import org.xg.busiLogic.{PricePlanLogics, RewardPlanLogics}
 import org.xg.gnl.DataUtils
@@ -74,6 +75,17 @@ trait TDbOps {
   // order related
   def ordersOf(uid:String):Array[MOrder]
   def ordersOf_CreationTimeWithin(uid:String, days:Int):Array[MOrder]
+  def ordersOf_CreatedThisMonth(uid:String):Array[MOrder] = {
+    val days = DataUtils.utcTimeNow.getDayOfMonth - 1
+    ordersOf_CreationTimeWithin(uid, days)
+  }
+  def ordersOf_CreatedLastMonth(uid:String):Array[MOrder] = {
+    val lastMonthNextDay = DataUtils.utcTimeNow.minusMonths(1).plusDays(1)
+//    val unit = new ChronoUnit
+    val days = Period.between(lastMonthNextDay.toLocalDate, DataUtils.utcTimeNow.toLocalDate)
+      .getDays
+    ordersOf_CreationTimeWithin(uid, days)
+  }
   def ordersOfCustomers(customerIds:Array[String]):Array[MOrder]
 //  def ordersOfCustomers_CreationTimeWithin(customerIds:Array[String], days:Int):Array[MOrder]
   def placeOrder(uid:String, productId:Int, qty:Double):Long
@@ -129,9 +141,9 @@ trait TDbOps {
 object TDbOps {
   type OrderFilter = MOrder => Boolean
 
-  private val OrderFilter_CreatedThisMonth:OrderFilter = mo => {
-    val zdt = DataUtils.utcTimeFromStr(mo.creationTimeS)
-    val zdtNow = DataUtils.utcTimeNow
-    zdt.getYear == zdtNow.getYear && zdt.getMonthValue == zdtNow.getMonthValue
-  }
+//  private val OrderFilter_CreatedThisMonth:OrderFilter = mo => {
+//    val zdt = DataUtils.utcTimeFromStr(mo.creationTimeS)
+//    val zdtNow = DataUtils.utcTimeNow
+//    zdt.getYear == zdtNow.getYear && zdt.getMonthValue == zdtNow.getMonthValue
+//  }
 }

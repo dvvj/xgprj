@@ -21,6 +21,8 @@ INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, pro
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2018-09-01 09:30:44', '2018-09-02 09:30:44', NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 1.0, '2019-01-17 19:30:44', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-02-19 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-02-28 19:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2019-03-01 19:30:44', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 3.0, '2019-03-12 19:30:44', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 4.0, '2019-03-17 19:30:44', NULL, NULL, NULL);
 
