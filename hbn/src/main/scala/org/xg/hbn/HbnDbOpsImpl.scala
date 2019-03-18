@@ -55,6 +55,16 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def allProfOrgs: Array[MProfOrg] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          //          val param = "customerList"
+          queryAndConvert(sess, classOf[ProfOrg].getName, convertProfOrg)
+        }
+      )
+    }
+
     override def ordersOfCustomers(customerIds: Array[String]): Array[MOrder] = {
       runInTransaction(
         sessFactory,

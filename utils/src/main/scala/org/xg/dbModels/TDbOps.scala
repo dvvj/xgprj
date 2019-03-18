@@ -95,6 +95,16 @@ trait TDbOps {
   }
   def customersOf(profId:String):Array[MCustomer]
 
+  def allProfOrgs:Array[MProfOrg]
+
+  def profOrgMap:Map[String, MProfOrg] = {
+    allProfOrgs.map(po => po.orgId -> po).toMap
+  }
+
+  def profOrgMapJ:java.util.Map[String, MProfOrg] = {
+    profOrgMap.asJava
+  }
+
   // authentication related
   def getUserPassMap:Map[String, Array[Byte]]
   def getMedProfPassMap: Map[String, Array[Byte]]

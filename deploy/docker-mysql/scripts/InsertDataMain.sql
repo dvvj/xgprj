@@ -17,6 +17,9 @@ INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, pro
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 3, 5.0, '2017-03-04 18:35:04', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 4, 2.0, '2017-02-11 19:30:44', NULL, NULL, NULL);
 INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer2', 1, 4.0, '2017-02-01 09:30:44', NULL, NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 2, 10.0, '2018-12-01 09:30:44', '2018-12-01 09:32:44', NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 2.0, '2018-09-01 09:30:44', '2018-09-02 09:30:44', NULL, NULL);
+INSERT INTO orders (customer_id, product_id, qty, creation_time, proc_time1, proc_time2, proc_time3) VALUES ('customer1', 3, 3.0, '2019-03-17 19:30:44', NULL, NULL, NULL);
 
 INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.8','Fixed Rate 80%','{"globalRate":0.8}','FixedRate');
 INSERT INTO price_plans (id, info, defi, vtag)  VALUES ('Fixed-0.9','Fixed Rate 90%','{"globalRate":0.9}','FixedRate');
@@ -38,3 +41,6 @@ INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-
 INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.02','2019-03-12T08:18:27.655');
 INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof2','ProdBased-Basic,Fixed-1.5','2019-03-12T08:18:27.655');
 INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('customer1','ProdBased-Advanced','2019-03-12T08:18:27.655');
+
+INSERT INTO prof_orgs (org_id, name, info, org_no, phone, join_date, pass_hash)  VALUES ('prof_org1','医药公司1','医药公司1 info','org_no1','13792929133','2018-03-04T16:00:28.179',X'3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2');
+INSERT INTO prof_orgs (org_id, name, info, org_no, phone, join_date, pass_hash)  VALUES ('prof_org2','医药公司2','医药公司2 info','org_no2','1375555555','2019-08-04T16:00:28.179',X'f6b07b6c1340e947b861def5f8b092d8ee710826dc56bd175bdc8f3a16b0b8acf853c64786a710dedf9d1524d61e32504e27d60de159af110bc3941490731578');

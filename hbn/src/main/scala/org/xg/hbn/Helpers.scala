@@ -80,6 +80,17 @@ object Helpers {
     MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile)
   }
 
+  def convertProfOrg(po:ProfOrg):MProfOrg = {
+    MProfOrg(
+      po.getOrgId,
+      po.getName,
+      po.getInfo,
+      po.getOrgNo,
+      po.getPhone,
+      po.getJoinDate
+    )
+  }
+
   def convertOrder(o:Order):MOrder = {
     MOrder.createJ(
       o.getId, o.getCustomerId, o.getProductId, o.getQty,

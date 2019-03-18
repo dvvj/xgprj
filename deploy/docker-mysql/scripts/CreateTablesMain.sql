@@ -32,7 +32,6 @@ CREATE TABLE orders (
   PRIMARY KEY (id)
 );
 
-
 CREATE TABLE order_history (
   id BIGINT NOT NULL AUTO_INCREMENT,
   order_id BIGINT NOT NULL,
@@ -48,6 +47,17 @@ CREATE TABLE med_profs (
   idcard_no VARCHAR(31) NOT NULL,
   mobile VARCHAR(31) NOT NULL,
   PRIMARY KEY (prof_id)
+);
+
+CREATE TABLE prof_orgs (
+  org_id VARCHAR(255) NOT NULL,
+  name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  pass_hash BINARY(64) NOT NULL,
+  info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  org_no VARCHAR(255) NOT NULL,
+  phone VARCHAR(31) NOT NULL,
+  join_date TIMESTAMP NOT NULL,
+  PRIMARY KEY (org_id)
 );
 
 CREATE TABLE agency (
