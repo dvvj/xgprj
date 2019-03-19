@@ -5,6 +5,7 @@ import org.xg.dbModels.MOrder;
 import org.xg.gnl.DataUtils;
 import org.xg.ui.utils.Global;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -69,6 +70,16 @@ public class Order extends RecursiveTreeObject<Order> {
 
   public ZonedDateTime getCreationTime() {
     return creationTime;
+  }
+
+  public boolean isCreatedThisMonth() {
+    ZonedDateTime zdtNow = DataUtils.utcTimeNow();
+    return zdtNow.getYear() == creationTime.getYear() && zdtNow.getMonthValue() == creationTime.getMonthValue();
+  }
+
+  public boolean isCreatedLastMonth() {
+    ZonedDateTime zdtLastMonthStart = DataUtils.utcTimeNow().minusMonths(1).plusDays(1);
+    return zdtLastMonthStart.compareTo(creationTime) <= 0;
   }
 
   public void setCreationTime(ZonedDateTime creationTime) {
