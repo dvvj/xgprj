@@ -18,8 +18,8 @@
     <ToolBar>
         <Text text="%orderTable.toolbar.heading" />
         <Separator />
-        <Separator />
-        <JFXComboBox fx:id="cmboFilter" promptText="%orderTable.toolbar.filter" />
+        <Text text="%orderTable.toolbar.filter" />
+        <JFXComboBox fx:id="cmboFilter" />
         <Separator />
         <JFXButton text="test button 2" />
     </ToolBar>

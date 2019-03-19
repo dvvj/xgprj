@@ -32,7 +32,8 @@
    <VBox alignment="BASELINE_RIGHT" spacing="25.0">
 
       <JFXButton fx:id="btnLogin" text="%login.doLogin" onAction="#onLogin"
-                 styleClass="button-raised" />
+           maxWidth="125" minWidth="125"
+           styleClass="button-raised" />
       <Text fx:id="txtStatus" text="" />
       <JFXCheckBox fx:id="chbRemember" text="%login.remember" />
    </VBox>

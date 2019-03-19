@@ -7,10 +7,23 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.jfoenix.controls.JFXTreeTableView?>
-<JFXTreeTableView fx:id="tblProducts"
-    xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:controller="org.xg.ui.ProductTableController"
-    prefHeight="400.0" maxWidth="850.0" minWidth="850.0"
+<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.xg.ui.ProductTableController"
+      prefHeight="400.0" maxWidth="850.0" minWidth="850.0"
     >
-</JFXTreeTableView>
+    <ToolBar>
+        <Text text="%productTable.toolbar.heading" />
+        <Separator />
+        <JFXTextField promptText="%productTable.toolbar.searchPrompt" />
+        <JFXButton text="%productTable.toolbar.search"
+                   maxWidth="125" minWidth="125"
+                   styleClass="button-raised" />
+    </ToolBar>
+
+    <JFXTreeTableView fx:id="tblProducts"/>
+</VBox>
