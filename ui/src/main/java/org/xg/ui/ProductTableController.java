@@ -1,9 +1,6 @@
 package org.xg.ui;
 
-import com.jfoenix.controls.JFXProgressBar;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.jfoenix.utils.JFXHighlighter;
 import javafx.beans.property.*;
@@ -27,6 +24,7 @@ import org.xg.ui.utils.UIHelpers;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 import static org.xg.ui.model.TableViewHelper.*;
 import static org.xg.ui.utils.Global.getAllProducts;
@@ -52,6 +50,7 @@ public class ProductTableController implements Initializable {
   private JFXHighlighter highlighter = new JFXHighlighter();
 
   private ObservableList<Product> productsCache;
+  private ObservableList<Product> activeProducts;
 
   private void setupAndFetchProductTable(ResourceBundle resBundle) {
     tblProducts.getColumns().addAll(
@@ -127,19 +126,22 @@ public class ProductTableController implements Initializable {
       },
       resp -> {
         if (resp != null) {
+//          productsCache = resp;
+//          UIHelpers.setRoot4TreeView(tblProducts, productsCache);
+//          Global.loggingTodo(String.format("found %d products", productsCache.size()));
+//          //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+//          if (productsCache.size() > 0) {
+//            TreeItem<Product> first =  tblProducts.getTreeItem(0);
+//            tblProducts.getSelectionModel().select(first);
+//            updateSelection(first.getValue());
+//          }
           productsCache = resp;
-          UIHelpers.setRoot4TreeView(tblProducts, productsCache);
-          Global.loggingTodo(String.format("found %d products", productsCache.size()));
-          //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+          filterAndUpdateProductTable1(p -> true); // show all
+
           tblProducts.getSelectionModel().selectedItemProperty().addListener(
             new ItemSelectChangeListener()
           );
 
-          if (productsCache.size() > 0) {
-            TreeItem<Product> first =  tblProducts.getTreeItem(0);
-            tblProducts.getSelectionModel().select(first);
-            updateSelection(first.getValue());
-          }
         }
         else {
           // todo: show error
@@ -152,8 +154,53 @@ public class ProductTableController implements Initializable {
     new Thread(fetchProductsTask).start();
   }
 
+  private void filterAndUpdateProductTable1(Predicate<Product> filter) {
+    if (productsCache != null && productsCache.size() > 0) {
+      activeProducts = productsCache.filtered(filter);
+
+      UIHelpers.setRoot4TreeView(tblProducts, activeProducts);
+      Global.loggingTodo(String.format("found %d products", activeProducts.size()));
+      //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+      if (activeProducts.size() > 0) {
+        TreeItem<Product> first =  tblProducts.getTreeItem(0);
+        tblProducts.getSelectionModel().select(first);
+        updateSelection(first.getValue());
+      }
+      else {
+        UIHelpers.setPlaceHolder4EmptyTreeView(tblProducts, "productTable.emptyPlaceHolder");
+      }
+    }
+  }
+  private void filterAndUpdateProductTable2(Predicate<Product> filter) {
+    Task<Integer> task = Helpers.uiTaskJ(
+      () -> {
+        return 0;
+      },
+      resp -> {
+        filterAndUpdateProductTable1(filter);
+        return null;
+      },
+      1000
+    );
+    new Thread(task).start();
+//    if (productsCache != null && productsCache.size() > 0) {
+//      activeProducts = productsCache.filtered(filter);
+//
+//      UIHelpers.setRoot4TreeView(tblProducts, activeProducts);
+//      Global.loggingTodo(String.format("found %d products", activeProducts.size()));
+//      //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+//      if (activeProducts.size() > 0) {
+//        TreeItem<Product> first =  tblProducts.getTreeItem(0);
+//        tblProducts.getSelectionModel().select(first);
+//        updateSelection(first.getValue());
+//      }
+//    }
+  }
+
   @FXML
   JFXTextField txtSearch;
+  @FXML
+  JFXButton btnFilter;
 
 
   @Override
@@ -166,6 +213,12 @@ public class ProductTableController implements Initializable {
 
     txtSearch.setOnKeyReleased(e -> highlighter.highlight(tblProducts, txtSearch.getText()));
 
+    btnFilter.setOnAction(e -> filterAndUpdateProductTable2(
+      p -> {
+        System.out.println(p.getName() + ":" + txtSearch.getText());
+        return p.getName().toLowerCase().contains(txtSearch.getText().toLowerCase());
+      }
+    ));
 
 //    tblProducts.onSortProperty().setValue(new EventHandler<SortEvent<TableView<Product>>>() {
 //      @Override

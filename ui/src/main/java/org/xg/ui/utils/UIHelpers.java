@@ -35,4 +35,19 @@ public class UIHelpers {
     table.setRoot(items);
     table.setShowRoot(false);
   }
+
+  public static void setPlaceHolder4EmptyTreeView(JFXTreeTableView table, String resKey) {
+    Label lblPlaceHolder = new Label();
+    lblPlaceHolder.setText(
+      Global.AllRes.getString(resKey)
+    );
+//    JFXSpinner spinner = new JFXSpinner();
+//    spinner.getStyleClass().add("blue-spinner");
+//    spinner.setRadius(20.0);
+    VBox p = new VBox();
+    p.setAlignment(Pos.CENTER);
+    p.getChildren().addAll(lblPlaceHolder);
+    table.setPlaceholder(p);
+  }
+
 }

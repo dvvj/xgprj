@@ -14,15 +14,20 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.xg.ui.ProductTableController"
-      prefHeight="400.0" maxWidth="850.0" minWidth="850.0"
+      prefHeight="500.0" maxWidth="850.0" minWidth="850.0"
     >
     <ToolBar>
         <Text text="%productTable.toolbar.heading" />
+        <JFXButton text="%productTable.toolbar.refresh"
+                   fx:id="btnRefresh"
+                   maxWidth="50" minWidth="50"
+                   styleClass="button-raised" />
         <Separator />
         <JFXTextField fx:id="txtSearch" promptText="%productTable.toolbar.searchPrompt" />
-        <JFXButton text="%productTable.toolbar.search"
-                   maxWidth="125" minWidth="125"
-                   styleClass="button-raised" />
+        <JFXButton text="%productTable.toolbar.filter"
+            fx:id="btnFilter"
+            maxWidth="125" minWidth="125"
+            styleClass="button-raised" />
     </ToolBar>
 
     <JFXTreeTableView fx:id="tblProducts"/>
