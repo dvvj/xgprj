@@ -19,7 +19,7 @@
     <ToolBar>
         <Text text="%productTable.toolbar.heading" />
         <Separator />
-        <JFXTextField promptText="%productTable.toolbar.searchPrompt" />
+        <JFXTextField fx:id="txtSearch" promptText="%productTable.toolbar.searchPrompt" />
         <JFXButton text="%productTable.toolbar.search"
                    maxWidth="125" minWidth="125"
                    styleClass="button-raised" />

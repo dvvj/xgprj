@@ -1,9 +1,11 @@
 package org.xg.ui;
 
 import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import com.jfoenix.utils.JFXHighlighter;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -47,7 +49,7 @@ public class ProductTableController implements Initializable {
 //  public ObjectProperty<Image> getSelectedProductImg() {
 //    return selectedProductImg;
 //  }
-
+  private JFXHighlighter highlighter = new JFXHighlighter();
 
   private ObservableList<Product> productsCache;
 
@@ -150,6 +152,9 @@ public class ProductTableController implements Initializable {
     new Thread(fetchProductsTask).start();
   }
 
+  @FXML
+  JFXTextField txtSearch;
+
 
   @Override
   public void initialize(URL location, ResourceBundle resBundle) {
@@ -158,6 +163,8 @@ public class ProductTableController implements Initializable {
 
     //tblProducts.setColumnResizePolicy(TreeTableView.UNCONSTRAINED_RESIZE_POLICY);
     setupAndFetchProductTable(resBundle);
+
+    txtSearch.setOnKeyReleased(e -> highlighter.highlight(tblProducts, txtSearch.getText()));
 
 
 //    tblProducts.onSortProperty().setValue(new EventHandler<SortEvent<TableView<Product>>>() {
