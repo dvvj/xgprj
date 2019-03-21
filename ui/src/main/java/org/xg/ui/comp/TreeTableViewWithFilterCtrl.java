@@ -10,13 +10,10 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.text.Text;
-import org.xg.ui.model.Customer;
-import org.xg.ui.model.Product;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 
-import javax.annotation.PostConstruct;
 import java.util.Set;
 import java.util.function.*;
 
@@ -41,15 +38,14 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     btnFilter.setText(Global.AllRes.getString(filterRes));
 
     txtSearch.setOnKeyReleased(e -> {
-      highlighter.highlight(theTable, txtSearch.getText());
-      filterAndUpdateProductTable2(
+      filterAndUpdateTable2(
         t -> {
           Set<String> strs = searchStringCollector.apply((T)t);
           return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
         }
       );
     });
-//    btnFilter.setOnAction(e -> filterAndUpdateProductTable2(
+//    btnFilter.setOnAction(e -> filterAndUpdateTable2(
 //      t -> {
 //        Set<String> strs = searchStringCollector.apply((T)t);
 //        return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
@@ -57,13 +53,14 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 //    ));
   }
 
-  private void filterAndUpdateProductTable2(Predicate<T> filter) {
+  private void filterAndUpdateTable2(Predicate<T> filter) {
     Task<Integer> task = Helpers.uiTaskJ(
       () -> {
         return 0;
       },
       resp -> {
         filterAndUpdateTable(filter);
+        highlighter.highlight(theTable, txtSearch.getText());
         return null;
       },
       1000
