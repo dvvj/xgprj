@@ -42,6 +42,9 @@ public class Global {
   public static void setResText(Text txt, String resName, Color color) {
     setText(txt, Global.AllRes.getString(resName), color);
   }
+  public static void setResText(Text txt, String resName) {
+    setText(txt, Global.AllRes.getString(resName), Color.BLACK);
+  }
   public static void setText(Text txt, String msg, Color color) {
     txt.setText(msg);
     txt.setStroke(color);

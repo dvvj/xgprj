@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<VBox xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
+    <ToolBar>
+        <Text fx:id="txtHeading" />
+        <JFXButton fx:id="btnRefresh"
+            maxWidth="50" minWidth="50"
+            styleClass="button-raised" />
+        <Separator />
+        <JFXTextField fx:id="txtSearch" />
+        <JFXButton fx:id="btnFilter"
+            maxWidth="100" minWidth="100"
+            styleClass="button-raised" />
+    </ToolBar>
+
+    <JFXTreeTableView fx:id="theTable"/>
+</VBox>
