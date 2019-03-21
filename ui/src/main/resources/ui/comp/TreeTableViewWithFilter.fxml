@@ -13,16 +13,21 @@
 <VBox xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
-    <ToolBar>
+    <ToolBar maxWidth="600">
         <Text fx:id="txtHeading" />
         <JFXButton fx:id="btnRefresh"
             maxWidth="50" minWidth="50"
             styleClass="button-raised" />
         <Separator />
-        <JFXTextField fx:id="txtSearch" />
-        <JFXButton fx:id="btnFilter"
-            maxWidth="100" minWidth="100"
-            styleClass="button-raised" />
+        <StackPane alignment="CENTER_RIGHT">
+            <StackPane maxWidth="200">
+                <JFXTextField fx:id="txtSearch" />
+            </StackPane>
+        </StackPane>
+
+        <!--<JFXButton fx:id="btnFilter"-->
+            <!--maxWidth="80" minWidth="80"-->
+            <!--styleClass="button-raised" />-->
     </ToolBar>
 
     <JFXTreeTableView fx:id="theTable"/>

@@ -1,6 +1,7 @@
 package org.xg.ui.utils
 
 import java.util.concurrent.TimeoutException
+import java.util.function.Supplier
 
 import javafx.application.Platform
 import javafx.concurrent.Task
@@ -23,8 +24,12 @@ object Helpers {
     morders.map(mo => Order.fromMOrder(mo, prodMap))
   }
 
-  def convCustomerOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[CustomerOrder] = {
-    morders.map(mo => CustomerOrder.fromMOrder(mo))
+  def convCustomerOrders(
+                          morders:Array[MOrder],
+                          customerMap: java.util.Map[String, Customer],
+                          prodMap: java.util.Map[Integer, Product]
+                        ):Array[CustomerOrder] = {
+    morders.map(mo => CustomerOrder.fromMOrder(mo, customerMap))
   }
 
   def uiTaskJ[T >: AnyRef](
@@ -74,6 +79,37 @@ object Helpers {
       }
 
       res
+    }
+  }
+
+  type TaskAction = () => Any
+  def paraActions(
+    suppliers:Array[Supplier[Any]],
+    timeoutMs:Int // ms
+  ):Array[Any] = {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    import scala.concurrent.duration._
+    try {
+      val fs = suppliers.map(supplier => Future { supplier.get() })
+      val futureAll = Future.sequence(fs.toSeq)
+      //        println("waiting ...")
+      Await.result(futureAll, timeoutMs millis).toArray
+      //        println("done waiting")
+      //msg = successMsg
+    }
+    catch {
+      case to:TimeoutException => {
+        //msg = timeoutMsg
+        to.printStackTrace()
+        // todo: log
+        throw new RuntimeException("Timeout", to)
+      }
+      case t:Throwable => {
+        //msg = unknownErrorMsg
+        t.printStackTrace()
+        // todo: log
+        throw new RuntimeException("Other error", t)
+      }
     }
   }
 

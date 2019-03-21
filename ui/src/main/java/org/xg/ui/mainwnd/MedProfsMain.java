@@ -2,16 +2,20 @@ package org.xg.ui.mainwnd;
 
 import com.jfoenix.controls.*;
 import io.datafx.controller.ViewController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.xg.dbModels.MCustomer;
+import org.xg.dbModels.MOrder;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.ui.model.Customer;
 import org.xg.ui.model.CustomerOrder;
+import org.xg.ui.model.MedProfsDataModel;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -22,6 +26,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Supplier;
 
 @ViewController(value = "/ui/MedProfsMain.fxml")
 public class MedProfsMain {
@@ -29,140 +34,24 @@ public class MedProfsMain {
   @FXML
   private HBox mainWnd;
 
-//  @FXML
-//  private JFXTreeTableView tblCustomers;
-//
-//  private ObservableList<Customer> customersCache;
+  private MedProfsDataModel dataModel = null;
 
-//  @Override
-//  public void initialize(URL location, ResourceBundle resources) {
-//
-//    //Global.setSceneDefStyle(mainWnd);
-//  }
+  private void loadDataModel() {
+    Object[] raw = Helpers.paraActions(
+      new Supplier[]{
+        () -> Global.updateAllRefedCustomers(),
+        () -> Global.updateAllOrdersOfRefedCustomers()
+      },
+      30000
+    );
 
-//  private void setupAndFetchCustomerTable() {
-//    tblCustomers.getColumns().addAll(
-//      TableViewHelper.jfxTableColumnResBundle(
-//        "customerTable.uid",
-//        Global.AllRes,
-//        150,
-//        Customer::getUid
-//      ),
-//      TableViewHelper.jfxTableColumnResBundle(
-//        "customerTable.name",
-//        Global.AllRes,
-//        150,
-//        Customer::getName
-//      ),
-//      TableViewHelper.jfxTableColumnResBundle(
-//        "customerTable.mobile",
-//        Global.AllRes,
-//        150,
-//        Customer::getMobile
-//      )
-//    );
-//
-//    UIHelpers.setPlaceHolder4TreeView(tblCustomers, "customerTable.placeHolder");
-//
-//    Task<ObservableList<Customer>> fetchCustomersTask = Helpers.uiTaskJ(
-//      () -> {
-//        try {
-//          Thread.sleep(3000);
-//          return Global.updateAllCustomers();
-//        }
-//        catch (Exception ex) {
-//          Global.loggingTodo(
-//            String.format(
-//              "Error fetching customer table for [%s]: %s", Global.getCurrUid(), ex.getMessage()
-//            )
-//          );
-//          return null;
-//        }
-//      },
-//      resp -> {
-//        if (resp != null) {
-//          customersCache = resp;
-//          UIHelpers.setRoot4TreeView(tblCustomers, customersCache);
-//
-//          if (customersCache.size() > 0) {
-//            tblCustomers.getSelectionModel().select(0);
-//          }
-//        }
-//        else {
-//          // todo: show error
-//        }
-//        return null;
-//      },
-//      30000
-//    );
-//
-//    new Thread(fetchCustomersTask).start();
-//
-//  }
+    dataModel = new MedProfsDataModel(
+      (MCustomer[])raw[0],
+      (MOrder[])raw[1],
+      Global.getProductMap()
+    );
 
-//  private ObservableList<CustomerOrder> customerOrdersCache;
-//
-//  @FXML
-//  private JFXTreeTableView tblRefedCustomerOrders;
-
-//  private void setupAndFetchCustomerOrderTable() {
-//    tblRefedCustomerOrders.getColumns().addAll(
-//      TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
-//        "refedCustomerOrderTable.customerId",
-//        Global.AllRes,
-//        150,
-//        CustomerOrder::getCustomerId
-//      ),
-//      TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
-//        "refedCustomerOrderTable.productName",
-//        Global.AllRes,
-//        150,
-//        (CustomerOrder co) -> co.getOrder().getProdName()
-//      ),
-//      TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
-//        "refedCustomerOrderTable.productQty",
-//        Global.AllRes,
-//        150,
-//        (CustomerOrder co) -> co.getOrder().getQty()
-//      )
-//    );
-//
-//    UIHelpers.setPlaceHolder4TreeView(tblRefedCustomerOrders, "refedCustomerOrderTable.placeHolder");
-//
-//    Task<ObservableList<CustomerOrder>> fetchCustomersTask = Helpers.uiTaskJ(
-//      () -> {
-//        try {
-//          // Thread.sleep(5000);
-//          return Global.updateAllOrdersOfRefedCustomers();
-//        }
-//        catch (Exception ex) {
-//          Global.loggingTodo(
-//            String.format(
-//              "Error fetching customer table for [%s]: %s", Global.getCurrUid(), ex.getMessage()
-//            )
-//          );
-//          return null;
-//        }
-//      },
-//      resp -> {
-//        if (resp != null) {
-//          customerOrdersCache = resp;
-//          UIHelpers.setRoot4TreeView(tblRefedCustomerOrders, customerOrdersCache);
-//
-//          if (customerOrdersCache.size() > 0) {
-//            tblRefedCustomerOrders.getSelectionModel().select(0);
-//          }
-//        }
-//        else {
-//          // todo: show error
-//        }
-//        return null;
-//      },
-//      30000
-//    );
-//
-//    new Thread(fetchCustomersTask).start();
-//  }
+  }
 
   private void loadCustomerTable() {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
@@ -197,13 +86,13 @@ public class MedProfsMain {
             TableViewHelper.jfxTableColumnResBundle(
               "customerTable.uid",
               Global.AllRes,
-              150,
+              100,
               Customer::getUid
             ),
             TableViewHelper.jfxTableColumnResBundle(
               "customerTable.name",
               Global.AllRes,
-              150,
+              100,
               Customer::getName
             ),
             TableViewHelper.jfxTableColumnResBundle(
@@ -217,7 +106,7 @@ public class MedProfsMain {
           UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
 
         },
-        () -> Global.updateAllCustomers()
+        () -> dataModel.getCustomers()
       );
 
       mainWnd.getChildren().addAll(table);
@@ -261,18 +150,18 @@ public class MedProfsMain {
               "refedCustomerOrderTable.customerId",
               Global.AllRes,
               150,
-              CustomerOrder::getCustomerId
+              CustomerOrder::getCustomerName
             ),
             TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
               "refedCustomerOrderTable.productName",
               Global.AllRes,
-              150,
+              320,
               (CustomerOrder co) -> co.getOrder().getProdName()
             ),
             TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
               "refedCustomerOrderTable.productQty",
               Global.AllRes,
-              150,
+              80,
               (CustomerOrder co) -> co.getOrder().getQty()
             )
           );
@@ -280,7 +169,7 @@ public class MedProfsMain {
           UIHelpers.setPlaceHolder4TreeView(theTable, "refedCustomerOrderTable.placeHolder");
 
         },
-        () -> Global.updateAllOrdersOfRefedCustomers()
+        () -> dataModel.getCustomerOrders()
       );
 
       mainWnd.getChildren().addAll(table);
@@ -297,8 +186,9 @@ public class MedProfsMain {
     //setupAndFetchCustomerTable();
 
     //setupAndFetchCustomerOrderTable();
-    loadCustomerTable();
+    loadDataModel();
     loadCustomerOrderTable();
+    loadCustomerTable();
 
   }
 }

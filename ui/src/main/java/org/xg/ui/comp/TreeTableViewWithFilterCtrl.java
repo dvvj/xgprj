@@ -35,7 +35,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     Global.setResText(txtHeading, headingRes);
     txtSearch.setPromptText(Global.AllRes.getString(searchRes));
     btnRefresh.setText(Global.AllRes.getString(refreshRes));
-    btnFilter.setText(Global.AllRes.getString(filterRes));
+//    btnFilter.setText(Global.AllRes.getString(filterRes));
 
     txtSearch.setOnKeyReleased(e -> {
       filterAndUpdateTable2(
@@ -60,7 +60,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
       },
       resp -> {
         filterAndUpdateTable(filter);
-        highlighter.highlight(theTable, txtSearch.getText());
+        //highlighter.highlight(theTable, txtSearch.getText());
         return null;
       },
       1000
@@ -93,7 +93,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     Task<ObservableList<T>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {
         try {
-          Thread.sleep(3000);
+          //Thread.sleep(1000);
           return dataRetriever.get();
         }
         catch (Exception ex) {
@@ -128,6 +128,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 
   private void filterAndUpdateTable(Predicate<T> filter) {
     if (dataCache != null && dataCache.size() > 0) {
+      highlighter.clear();
       activeDataCache = dataCache.filtered(filter);
 
       UIHelpers.setRoot4TreeView(theTable, activeDataCache);
@@ -141,6 +142,13 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
       else {
         UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
       }
+
+      if (!txtSearch.getText().isEmpty()) {
+        System.out.println("highlighting..." + txtSearch.getText());
+        highlighter.highlight(theTable, txtSearch.getText());
+      }
+
+      //theTable.group(theTable.getColumns().get(0));
     }
     else {
       UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
@@ -153,8 +161,8 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
   private JFXButton btnRefresh;
   @FXML
   private JFXTextField txtSearch;
-  @FXML
-  private JFXButton btnFilter;
+//  @FXML
+//  private JFXButton btnFilter;
   @FXML
   private JFXTreeTableView<T> theTable;
 

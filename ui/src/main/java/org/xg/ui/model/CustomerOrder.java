@@ -4,6 +4,8 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.MOrder;
 import org.xg.ui.utils.Global;
 
+import java.util.Map;
+
 public class CustomerOrder extends RecursiveTreeObject<CustomerOrder> {
   private String customerId;
   private String customerName;
@@ -44,10 +46,10 @@ public class CustomerOrder extends RecursiveTreeObject<CustomerOrder> {
     this.order = order;
   }
 
-  public static CustomerOrder fromMOrder(MOrder order) {
+  public static CustomerOrder fromMOrder(MOrder order, Map<String, Customer> customerMap) {
     return new CustomerOrder(
       order.uid(),
-      "todo",
+      customerMap.get(order.uid()).getName(),
       Order.fromMOrder(order, Global.getProductMap())
     );
   }

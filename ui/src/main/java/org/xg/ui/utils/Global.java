@@ -149,7 +149,7 @@ public class Global {
     return clientCfg.serverCfg();
   }
 
-  public static ObservableList<Customer> updateAllCustomers() {
+  public static MCustomer[] updateAllRefedCustomers() {
     try {
       GlobalCfg cfg = getServerCfg();
       String mcustomersJson = SvcHelpers.post(
@@ -158,10 +158,10 @@ public class Global {
         getCurrUid()
       );
 
-      Customer[] customers = Helpers.convCustomers(
-        MCustomer.fromJsons(mcustomersJson)
-      );
-      return FXCollections.observableArrayList(customers);
+//      Customer[] customers = Helpers.convCustomers(
+//        MCustomer.fromJsons(mcustomersJson)
+//      );
+      return MCustomer.fromJsons(mcustomersJson);
     }
     catch (Exception ex) {
       //todo global status in ui
@@ -169,11 +169,11 @@ public class Global {
         String.format("Cannot retrieve customer for [%s]: %s", getCurrUid(), ex.getMessage())
       );
       ex.printStackTrace();
-      return FXCollections.observableArrayList();
+      return new MCustomer[0];
     }
   }
 
-  public static ObservableList<CustomerOrder> updateAllOrdersOfRefedCustomers() {
+  public static MOrder[] updateAllOrdersOfRefedCustomers() {
     try {
       GlobalCfg cfg = getServerCfg();
       String mordersJson = SvcHelpers.post(
@@ -182,11 +182,11 @@ public class Global {
         getCurrUid()
       );
 
-      CustomerOrder[] corders = Helpers.convCustomerOrders(
-        MOrder.fromJsons(mordersJson),
-        Global.getProductMap() // todo: updated product map (e.g. newly-added / deleted product)
-      );
-      return FXCollections.observableArrayList(corders);
+//      CustomerOrder[] corders = Helpers.convCustomerOrders(
+//        ,
+//        Global.getProductMap() // todo: updated product map (e.g. newly-added / deleted product)
+//      );
+      return MOrder.fromJsons(mordersJson);
     }
     catch (Exception ex) {
       //todo global status in ui
@@ -194,7 +194,7 @@ public class Global {
         String.format("Cannot retrieve customer for [%s]: %s", getCurrUid(), ex.getMessage())
       );
       ex.printStackTrace();
-      return FXCollections.observableArrayList();
+      return new MOrder[0];
     }
   }
 
