@@ -162,14 +162,15 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def addNewMedProf(profId: String, name: String, pass: String, idCardNo: String, mobile: String): String = {
+    override def addNewMedProf(profId: String, name: String, pass: String, idCardNo: String, mobile: String, orgId:String): String = {
       runInTransaction(
         sessFactory,
         { sess =>
           val passHash = AuthHelpers.sha512(pass)
           val medProf = new MedProf(
             profId, name, passHash,
-            idCardNo, mobile
+            idCardNo, mobile,
+            orgId
           )
           sess.save(medProf)
           profId

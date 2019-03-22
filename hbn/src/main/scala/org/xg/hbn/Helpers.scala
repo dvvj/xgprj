@@ -77,7 +77,7 @@ object Helpers {
     )
   }
   def convertMedProf(mp:MedProf):MMedProf = {
-    MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile)
+    MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile, mp.getOrgId)
   }
 
   def convertProfOrg(po:ProfOrg):MProfOrg = {

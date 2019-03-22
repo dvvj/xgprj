@@ -119,7 +119,8 @@ trait TDbOps {
     name:String,
     pass:String,
     idCardNo:String,
-    mobile:String
+    mobile:String,
+    orgId:String
   ):String
   def allMedProfs:Array[MMedProf]
   def medProfsMap:Map[String, MMedProf] = {

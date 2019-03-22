@@ -4,5 +4,6 @@ case class MMedProf(
   profId:String,
   name:String,
   idCardNo:String,
-  mobile:String
+  mobile:String,
+  orgId:String
 )

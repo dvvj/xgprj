@@ -28,6 +28,7 @@ public class MedProfsOps {
       ex.printStackTrace();
       throw new WebApplicationException("Error", ex);
     }
-
   }
+
+
 }

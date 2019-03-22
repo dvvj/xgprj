@@ -21,6 +21,9 @@ public class MedProf {
   @Column(name="mobile", length = 31, nullable = false)
   private String mobile;
 
+  @Column(name="org_id", length = 31, nullable = false)
+  private String orgId;
+
   public MedProf() { }
 
   public MedProf(
@@ -28,13 +31,15 @@ public class MedProf {
     String name,
     byte[] passHash,
     String idCardNo,
-    String mobile
+    String mobile,
+    String orgId
   ) {
     this.profId = profId;
     this.name = name;
     this.passHash = passHash;
     this.idCardNo = idCardNo;
     this.mobile = mobile;
+    this.orgId = orgId;
   }
 
   public String getProfId() {
@@ -75,5 +80,13 @@ public class MedProf {
 
   public void setMobile(String mobile) {
     this.mobile = mobile;
+  }
+
+  public String getOrgId() {
+    return orgId;
+  }
+
+  public void setOrgId(String orgId) {
+    this.orgId = orgId;
   }
 }

@@ -9,7 +9,7 @@ object MedProfTests extends App {
   private def testRefId():Unit = {
     val profId = "profxxx"
     testHbnOps.addNewMedProf(
-      profId, "微信", "456", "232312l2222", "322233211"
+      profId, "微信", "456", "232312l2222", "322233211", "prof_org2"
     )
 
     val m = testHbnOps.getMedProfPassMap
