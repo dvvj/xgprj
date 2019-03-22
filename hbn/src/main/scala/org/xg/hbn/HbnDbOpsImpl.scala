@@ -33,6 +33,19 @@ object HbnDbOpsImpl {
     val res = t.map(converter).toArray
     res
   }
+  private def queryWhereAndConvert[TFrom : ClassTag, TTo : ClassTag](
+                                                                      sess:Session,
+                                                                      className:String,
+                                                                      whereClause:String,
+                                                                      converter:TFrom => TTo
+                                                                    ):Array[TTo] = {
+    val ql = s"Select x from $className x where $whereClause"
+    val q = sess.createQuery(ql)
+    val t = q.getResultList.asScala.map(_.asInstanceOf[TFrom])
+    //        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
+    val res = t.map(converter).toArray
+    res
+  }
 
   import org.xg.dbModels.TDbOps._
   private val Unfiltered:OrderFilter = _ => true
@@ -440,6 +453,19 @@ object HbnDbOpsImpl {
           val res = q.getResultList.asScala
             .toArray.map(c => convertCustomer(c.asInstanceOf[Customer]))
           res
+        }
+      )
+    }
+
+    override def profsOf(profOrgId: String): Array[MMedProf] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          queryWhereAndConvert(sess,
+            classOf[MedProf].getName,
+            s"x.orgId = '$profOrgId'",
+            convertMedProf
+          )
         }
       )
     }

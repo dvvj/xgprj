@@ -127,6 +127,25 @@ public class SvcUtils {
     return getDbOps().ordersOfCustomers(customerIds);
   }
 
+  private static Object _lockProfOrgs = new Object();
+  private static Map<String, MProfOrg> _profOrgs = null;
+  public static Map<String, MProfOrg> getProfOrgMaps() {
+    if (_profOrgs == null) {
+      synchronized (_lockProfOrgs) {
+        if (_profOrgs == null) {
+          _profOrgs = getDbOps().profOrgMapJ();
+        }
+      }
+    }
+    return _profOrgs;
+  }
+
+  public static MProfOrg getMedProfOrg(String profId) {
+    MMedProf prof = getMedProfs().get(profId);
+    MProfOrg profOrg = getProfOrgMaps().get(prof.orgId());
+    return profOrg;
+  }
+
 //
 //  private final static GlobalCfg _cfg = loadCfg();
 //  public final static GlobalCfg getCfg() {
