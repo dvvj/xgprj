@@ -9,6 +9,7 @@ import org.xg.ui.model.ComboOptionData;
 import org.xg.ui.model.UserTypeHelpers;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
+import org.xg.ui.utils.UISvcHelpers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class LoginHelpers {
 
       Task<AuthResp> authTask = Helpers.uiTaskJ(
         () -> {
-          GlobalCfg cfg = Global.getServerCfg();
+          GlobalCfg cfg = UISvcHelpers.serverCfg();
           String authUrl = cfg.authCustomerURL(); //"https://localhost:8443/webapi/auth/userPass";
 
           AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
@@ -58,7 +59,7 @@ public class LoginHelpers {
   private final static ILoginAction medProfsLogin = new ILoginAction() {
     @Override
     public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-      String authUrl = Global.getServerCfg().authProfURL(); //"https://localhost:8443/webapi/auth/userPass";
+      String authUrl = UISvcHelpers.serverCfg().authProfURL(); //"https://localhost:8443/webapi/auth/userPass";
 
       Task<AuthResp> authTask = Helpers.uiTaskJ(
         () -> {

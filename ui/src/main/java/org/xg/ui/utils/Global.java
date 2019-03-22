@@ -91,7 +91,7 @@ public class Global {
   }
   public static ObservableList<Product> updateAllProducts() {
     try {
-      GlobalCfg cfg = getServerCfg();
+      GlobalCfg cfg = UISvcHelpers.serverCfg();
       String j = SvcHelpers.get(
         cfg.allProductsURL(),
         Global.getCurrToken()
@@ -119,7 +119,7 @@ public class Global {
 
   private static ObservableList<Order> allOrders = null;
   private static Order[] getAllOrders() {
-    GlobalCfg cfg = getServerCfg();
+    GlobalCfg cfg = UISvcHelpers.serverCfg();
 
     String j = SvcHelpers.get(cfg.currOrdersURL(), Global.getCurrToken());
     MOrder[] morders = MOrder.fromJsons(j);
@@ -139,63 +139,63 @@ public class Global {
     return allOrders;
   }
 
-  //todo, customize cfg
-  private static ClientCfg clientCfg = new ClientCfg(
-    new UserCfg("customer1", 0, ""),
-    GlobalCfg.localTestCfg() //todo
-  );
+//  //todo, customize cfg
+//  private static ClientCfg clientCfg = new ClientCfg(
+//    new UserCfg("customer1", 0, ""),
+//    GlobalCfg.localTestCfg() //todo
+//  );
+//
+//  public static GlobalCfg getServerCfg() {
+//    return clientCfg.serverCfg();
+//  }
 
-  public static GlobalCfg getServerCfg() {
-    return clientCfg.serverCfg();
-  }
-
-  public static MCustomer[] updateAllRefedCustomers() {
-    try {
-      GlobalCfg cfg = getServerCfg();
-      String mcustomersJson = SvcHelpers.post(
-        cfg.customersRefedByURL(),
-        Global.getCurrToken(),
-        getCurrUid()
-      );
-
-//      Customer[] customers = Helpers.convCustomers(
-//        MCustomer.fromJsons(mcustomersJson)
+//  public static MCustomer[] updateAllRefedCustomers() {
+//    try {
+//      GlobalCfg cfg = getServerCfg();
+//      String mcustomersJson = SvcHelpers.post(
+//        cfg.customersRefedByURL(),
+//        Global.getCurrToken(),
+//        getCurrUid()
 //      );
-      return MCustomer.fromJsons(mcustomersJson);
-    }
-    catch (Exception ex) {
-      //todo global status in ui
-      System.out.println(
-        String.format("Cannot retrieve customer for [%s]: %s", getCurrUid(), ex.getMessage())
-      );
-      ex.printStackTrace();
-      return new MCustomer[0];
-    }
-  }
-
-  public static MOrder[] updateAllOrdersOfRefedCustomers() {
-    try {
-      GlobalCfg cfg = getServerCfg();
-      String mordersJson = SvcHelpers.post(
-        cfg.refedCustomerOrdersURL(),
-        Global.getCurrToken(),
-        getCurrUid()
-      );
-
-//      CustomerOrder[] corders = Helpers.convCustomerOrders(
-//        ,
-//        Global.getProductMap() // todo: updated product map (e.g. newly-added / deleted product)
+//
+////      Customer[] customers = Helpers.convCustomers(
+////        MCustomer.fromJsons(mcustomersJson)
+////      );
+//      return MCustomer.fromJsons(mcustomersJson);
+//    }
+//    catch (Exception ex) {
+//      //todo global status in ui
+//      System.out.println(
+//        String.format("Cannot retrieve customer for [%s]: %s", getCurrUid(), ex.getMessage())
 //      );
-      return MOrder.fromJsons(mordersJson);
-    }
-    catch (Exception ex) {
-      //todo global status in ui
-      System.out.println(
-        String.format("Cannot retrieve customer for [%s]: %s", getCurrUid(), ex.getMessage())
-      );
-      ex.printStackTrace();
-      return new MOrder[0];
-    }
-  }
+//      ex.printStackTrace();
+//      return new MCustomer[0];
+//    }
+//  }
+
+//  public static MOrder[] updateAllOrdersOfRefedCustomers() {
+//    try {
+//      GlobalCfg cfg = getServerCfg();
+//      String mordersJson = SvcHelpers.post(
+//        cfg.refedCustomerOrdersURL(),
+//        Global.getCurrToken(),
+//        getCurrUid()
+//      );
+//
+////      CustomerOrder[] corders = Helpers.convCustomerOrders(
+////        ,
+////        Global.getProductMap() // todo: updated product map (e.g. newly-added / deleted product)
+////      );
+//      return MOrder.fromJsons(mordersJson);
+//    }
+//    catch (Exception ex) {
+//      //todo global status in ui
+//      System.out.println(
+//        String.format("Cannot retrieve customer for [%s]: %s", getCurrUid(), ex.getMessage())
+//      );
+//      ex.printStackTrace();
+//      return new MOrder[0];
+//    }
+//  }
 
 }

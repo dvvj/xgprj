@@ -20,6 +20,7 @@ import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
+import org.xg.ui.utils.UISvcHelpers;
 
 import java.net.URL;
 import java.util.List;
@@ -272,7 +273,7 @@ public class ProductTableController implements Initializable {
   private void updateSelection(Product prod) {
     selectedProductDetail.setValue(prod.getDetail().getDesc());
     ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
-    String url = imgInfo.getUrl(Global.getServerCfg());
+    String url = imgInfo.getUrl(UISvcHelpers.serverCfg());
     selectedProduct.setValue(prod);
     selectedProductImageUrl.setValue(url);
   }
@@ -293,7 +294,7 @@ public class ProductTableController implements Initializable {
         System.out.println("new selection: " + prod.getName());
         selectedProductDetail.setValue(prod.getDetail().getDesc());
         ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
-        String url = imgInfo.getUrl(Global.getServerCfg());
+        String url = imgInfo.getUrl(UISvcHelpers.serverCfg());
         System.out.println("Getting image: " + url);
 //        Image img = new Image(url, true);
 //        img.progressProperty().addListener(new ChangeListener<Number>() {

@@ -20,6 +20,7 @@ import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
+import org.xg.ui.utils.UISvcHelpers;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -37,10 +38,12 @@ public class MedProfsMain {
   private MedProfsDataModel dataModel = null;
 
   private void loadDataModel() {
+    String profId = Global.getCurrUid();
+    String token = Global.getCurrToken();
     Object[] raw = Helpers.paraActions(
       new Supplier[]{
-        () -> Global.updateAllRefedCustomers(),
-        () -> Global.updateAllOrdersOfRefedCustomers()
+        () -> UISvcHelpers.updateAllRefedCustomers(profId, token),
+        () -> UISvcHelpers.updateAllOrdersOfRefedCustomers(profId, token)
       },
       30000
     );

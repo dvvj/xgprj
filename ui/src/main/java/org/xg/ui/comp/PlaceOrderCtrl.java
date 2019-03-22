@@ -25,6 +25,7 @@ import org.xg.svc.UserOrder;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.model.Product;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.UISvcHelpers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,7 +66,7 @@ public class PlaceOrderCtrl implements Initializable {
         UserOrder order = new UserOrder(Global.getCurrUid(), selectedProduct.getValue().getId(), qty);
         String orderJson = UserOrder.toJson(order);
         String resp = SvcHelpers.reqPut(
-          Global.getServerCfg().placeOrderURL(),
+          UISvcHelpers.serverCfg().placeOrderURL(),
           Global.getCurrToken(),
           orderJson
         );

@@ -10,6 +10,7 @@ import org.xg.auth.SvcHelpers;
 import org.xg.svc.PayOrder;
 import org.xg.ui.model.Order;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.UISvcHelpers;
 
 public class PayOrderJFXTableCell extends TreeTableCell<Order, Order> {
   private ObjectProperty<Order> selectedOrder = new SimpleObjectProperty<>();
@@ -34,7 +35,7 @@ public class PayOrderJFXTableCell extends TreeTableCell<Order, Order> {
         PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
         btnPayOrder.setOnAction(e -> {
           String resp = SvcHelpers.post(
-            Global.getServerCfg().payOrderURL(),
+            UISvcHelpers.serverCfg().payOrderURL(),
             Global.getCurrToken(),
             PayOrder.toJson(postData)
           );
