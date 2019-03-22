@@ -3,6 +3,7 @@ package org.xg.ui.utils
 import org.xg.auth.SvcHelpers
 import org.xg.dbModels.{MCustomer, MOrder}
 import org.xg.gnl.GlobalCfg
+import org.xg.pay.rewardPlan.TRewardPlan
 
 object UISvcHelpers {
 
@@ -33,4 +34,6 @@ object UISvcHelpers {
     MOrder.fromJsons(j)
   }
 
+  def updateRewardPlans(profId:String, userToken:String):TRewardPlan =
+    SvcHelpers.getRewardPlan4UserJ(serverCfg.rewardPlanURL, profId, userToken)
 }

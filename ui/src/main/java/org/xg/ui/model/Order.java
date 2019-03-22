@@ -14,6 +14,7 @@ import java.util.Map;
 public class Order extends RecursiveTreeObject<Order> {
 
   private Long id;
+  private Integer prodId;
   private String prodName;
   private Double qty;
   private ZonedDateTime creationTime;
@@ -38,6 +39,7 @@ public class Order extends RecursiveTreeObject<Order> {
 
   public Order(
     Long id,
+    Integer prodId,
     String prodName,
     Double qty,
     ZonedDateTime creationTime,
@@ -45,6 +47,7 @@ public class Order extends RecursiveTreeObject<Order> {
     int status
   ) {
     this.id = id;
+    this.prodId = prodId;
     this.prodName = prodName;
     this.qty = qty;
     this.creationTime = creationTime;
@@ -123,6 +126,10 @@ public class Order extends RecursiveTreeObject<Order> {
     ZonedDateTime pdt =
       mo.payTime().nonEmpty() ? DataUtils.utcTimeFromStr(mo.payTime().get()) : null;
     int status = getOrderStatus(mo);
-    return new Order(mo.id(), product.getName(), mo.qty(), dt, pdt, status);
+    return new Order(mo.id(), mo.productId(), product.getName(), mo.qty(), dt, pdt, status);
+  }
+
+  public Integer getProdId() {
+    return prodId;
   }
 }

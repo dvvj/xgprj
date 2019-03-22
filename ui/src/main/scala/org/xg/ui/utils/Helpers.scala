@@ -7,6 +7,7 @@ import javafx.application.Platform
 import javafx.concurrent.Task
 import org.xg.dbModels.{MCustomer, MOrder, MProduct}
 import org.xg.pay.pricePlan.TPricePlan
+import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.ui.model.{Customer, CustomerOrder, Order, Product}
 
 import scala.concurrent.{Await, Future}
@@ -128,4 +129,13 @@ object Helpers {
   )
 
   def srcCountryResKey(countryCode:String):String = countryCode2ResName(countryCode)
+
+  def calcReward(rewardPlan:TRewardPlan, order: CustomerOrder, prodPrice0:Double): Double = {
+    rewardPlan.reward(order.getOrder.getProdId, prodPrice0)
+  }
+
+  def calcRewards(rewardPlan:TRewardPlan, orders: Array[CustomerOrder], prodMap:java.util.Map[Integer, Product]): Double = {
+    orders.map(order => calcReward(rewardPlan, order, prodMap.get(order.getOrder.getProdId).getPrice0)).sum
+  }
+
 }

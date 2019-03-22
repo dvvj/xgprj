@@ -26,6 +26,9 @@ object SvcHelpers {
     val plansJson = post(url, token, uid)
     SvcCommonUtils.decodeRewardPlanJson(plansJson)
   }
+  def getRewardPlan4UserJ(url:String, uid:String, token:String):TRewardPlan = {
+    getRewardPlan4User(url, uid, token).orNull
+  }
 
   def authReq(url:String, uid:String, pass:String):AuthResp = {
     val up = UserPass.fromUserPass(uid, pass)

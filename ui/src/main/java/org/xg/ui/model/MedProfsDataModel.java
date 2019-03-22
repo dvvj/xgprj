@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
+import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Helpers;
 
 import java.util.Map;
@@ -13,22 +14,27 @@ import java.util.stream.Collectors;
 public class MedProfsDataModel {
 
   private final ObservableList<Customer> customers;
+  private final CustomerOrder[] rawOrders;
   private final ObservableList<CustomerOrder> customerOrders;
+  private final TRewardPlan rewardPlan;
 
   private final Map<String, Customer> customerMap;
+  private final Map<Integer, Product> prodMap;
 
   public MedProfsDataModel(
     MCustomer[] customers,
     MOrder[] customerOrders,
-    Map<Integer, Product> prodMap
+    Map<Integer, Product> prodMap,
+    TRewardPlan rewardPlan
   ) {
     this.customers = FXCollections.observableArrayList(
       Helpers.convCustomers(customers)
     );
     customerMap = this.customers.stream().collect(Collectors.toMap(Customer::getUid, Function.identity()));
-    this.customerOrders = FXCollections.observableArrayList(
-      Helpers.convCustomerOrders(customerOrders, customerMap, prodMap)
-    );
+    rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap);
+    this.customerOrders = FXCollections.observableArrayList(rawOrders);
+    this.prodMap = prodMap;
+    this.rewardPlan = rewardPlan;
   }
 
   public ObservableList<Customer> getCustomers() {
@@ -41,5 +47,12 @@ public class MedProfsDataModel {
 
   public Customer customerById(String customerId) {
     return customerMap.get(customerId);
+  }
+
+  public double calcTotalReward() {
+    if (rewardPlan != null)
+      return Helpers.calcRewards(rewardPlan, rawOrders, prodMap);
+    else
+      return 0.0;
   }
 }

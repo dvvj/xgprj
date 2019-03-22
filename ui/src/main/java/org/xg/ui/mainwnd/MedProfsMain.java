@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
+import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.ui.model.Customer;
@@ -43,7 +44,8 @@ public class MedProfsMain {
     Object[] raw = Helpers.paraActions(
       new Supplier[]{
         () -> UISvcHelpers.updateAllRefedCustomers(profId, token),
-        () -> UISvcHelpers.updateAllOrdersOfRefedCustomers(profId, token)
+        () -> UISvcHelpers.updateAllOrdersOfRefedCustomers(profId, token),
+        () -> UISvcHelpers.updateRewardPlans(profId, token)
       },
       30000
     );
@@ -51,9 +53,12 @@ public class MedProfsMain {
     dataModel = new MedProfsDataModel(
       (MCustomer[])raw[0],
       (MOrder[])raw[1],
-      Global.getProductMap()
+      Global.getProductMap(),
+      (TRewardPlan)raw[2]
     );
 
+    double totalReward = dataModel.calcTotalReward();
+    System.out.println("Total reward: " + totalReward);
   }
 
   private void loadCustomerTable() {
