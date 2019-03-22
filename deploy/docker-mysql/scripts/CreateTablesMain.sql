@@ -105,3 +105,16 @@ CREATE TABLE reward_plan_map (
   expire_time TIMESTAMP,
   PRIMARY KEY (id)
 );
+
+CREATE TABLE org_order_stats (
+  org_id VARCHAR(255) NOT NULL,
+  agent_id VARCHAR(255) NOT NULL,
+  order_id BIGINT NOT NULL,
+  product_id INT NOT NULL,
+  qty FLOAT NOT NULL,
+  actual_cost FLOAT NOT NULL,
+  creation_time TIMESTAMP NOT NULL,
+  status INT NOT NULL,
+  PRIMARY KEY (order_id),
+  INDEX(org_id)
+);

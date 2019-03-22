@@ -56,6 +56,16 @@ object MOrder {
               qty:Double,
               actualCost:Double,
               creationTimeS:String,
+              payTime:String
+             ):MOrder =
+    MOrder(id, uid, productId, qty, actualCost, creationTimeS, Option(payTime), None, None, None)
+
+  def createJ(id:Long,
+              uid:String,
+              productId:Int,
+              qty:Double,
+              actualCost:Double,
+              creationTimeS:String,
               payTime:String,
               procTime1:String,
               procTime2:String,
