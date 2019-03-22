@@ -10,25 +10,24 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXToolbar?>
 <VBox xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
-    <ToolBar maxWidth="600">
-        <Text fx:id="txtHeading" />
-        <JFXButton fx:id="btnRefresh"
-            maxWidth="50" minWidth="50"
-            styleClass="button-raised" />
-        <Separator />
-        <StackPane alignment="CENTER_RIGHT">
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
+    <JFXToolbar maxWidth="600" styleClass="jfx-tool-bar2">
+        <leftItems>
+            <Text fx:id="txtHeading" />
+            <JFXButton fx:id="btnRefresh"
+                       maxWidth="50" minWidth="50"
+                       styleClass="button-raised" />
+            <Separator orientation="VERTICAL" />
+        </leftItems>
+        <rightItems>
             <StackPane maxWidth="200">
                 <JFXTextField fx:id="txtSearch" />
             </StackPane>
-        </StackPane>
+        </rightItems>
+    </JFXToolbar>
 
-        <!--<JFXButton fx:id="btnFilter"-->
-            <!--maxWidth="80" minWidth="80"-->
-            <!--styleClass="button-raised" />-->
-    </ToolBar>
-
-    <JFXTreeTableView fx:id="theTable"/>
+    <JFXTreeTableView fx:id="theTable" maxWidth="600"/>
 </VBox>

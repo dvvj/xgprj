@@ -12,8 +12,8 @@
 <?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      prefHeight="800.0" prefWidth="1200.0">
+    xmlns:fx="http://javafx.com/fxml"
+    prefHeight="800.0" prefWidth="1200.0">
     <top>
         <JFXToolbar>
             <leftItems>

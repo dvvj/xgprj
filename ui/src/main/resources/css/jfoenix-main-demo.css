@@ -181,6 +181,13 @@
     -fx-pref-height: 64.0px;
 }
 
+.jfx-tool-bar2 {
+    -fx-font-size: 16;
+    -fx-background-color: #EEEEEE;
+    -fx-pref-width: 100%;
+    -fx-pref-height: 52px;
+}
+
 .jfx-tool-bar HBox {
     -fx-alignment: center;
     -fx-spacing: 25.0;

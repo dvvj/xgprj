@@ -71,6 +71,7 @@ public class MainFrame {
 //      Scene scene = new Scene(decorator, width, height);
 
       Scene scene = new Scene(decorator);
+      stage.setResizable(false);
 
       final ObservableList<String> stylesheets = scene.getStylesheets();
       stylesheets.addAll(
