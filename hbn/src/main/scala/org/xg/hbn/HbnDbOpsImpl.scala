@@ -243,7 +243,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def setOrderPayTime(orderId: Long): Boolean = {
+    override def payOrder(orderId: Long): Boolean = {
       val payTime = DataUtils.utcTimeNow
       runInTransaction(
         sessFactory,
@@ -254,6 +254,10 @@ object HbnDbOpsImpl {
           if (morder.canBePayed) {
             order.setPayTime(payTime)
             sess.update(order)
+            val orgOrderStatQuery = s"Select o from ${classOf[OrgOrderStat].getName} o where o.orderId = $orderId"
+            val orderStat = sess.createQuery(orgOrderStatQuery).getResultList.get(0).asInstanceOf[OrgOrderStat]
+            orderStat.setStatus(MOrgOrderStat.Status_Paid)
+            sess.update(orderStat)
             true
           }
           else {
@@ -264,7 +268,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def placeOrder(uid: String, productId: Int, qty: Double, actualCost:Double): Long = {
+    override def placeOrder(uid: String, refUid:String, orgId:String, productId: Int, qty: Double, actualCost:Double): Long = {
       val creationTime = DataUtils.utcTimeNow
       runInTransaction(
         sessFactory,
@@ -276,7 +280,21 @@ object HbnDbOpsImpl {
             actualCost,
             creationTime
           )
-          val orderId = sess.save(order)
+          val orderId:java.lang.Long = sess.save(order).asInstanceOf[java.lang.Long]
+
+          val orgOrderStat = new OrgOrderStat(
+            orgId,
+            refUid,
+            orderId,
+            order.getProductId,
+            order.getQty,
+            order.getActualCost,
+            order.getCreationTime,
+            MOrgOrderStat.Status_Created
+          )
+
+          sess.save(orgOrderStat)
+
           orderId.asInstanceOf[Long]
         }
       )
@@ -468,6 +486,20 @@ object HbnDbOpsImpl {
           )
         }
       )
+    }
+
+    override def getOrderStat4Org(orgId: String): Array[MOrgOrderStat] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          queryWhereAndConvert(sess,
+            classOf[OrgOrderStat].getName,
+            s"x.orgId = '$orgId'",
+            convertOrgOrderStat
+          )
+        }
+      )
+
     }
   }
 

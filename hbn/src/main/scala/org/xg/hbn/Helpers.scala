@@ -80,6 +80,13 @@ object Helpers {
     MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile, mp.getOrgId)
   }
 
+  def convertOrgOrderStat(o:OrgOrderStat):MOrgOrderStat = {
+    MOrgOrderStat(
+      o.getOrgId, o.getAgentId, o.getOrderId, o.getProductId,
+      o.getQty, o.getActualCost, zonedDateTime2Str(o.getCreationTime), o.getStatus
+    )
+  }
+
   def convertProfOrg(po:ProfOrg):MProfOrg = {
     MProfOrg(
       po.getOrgId,

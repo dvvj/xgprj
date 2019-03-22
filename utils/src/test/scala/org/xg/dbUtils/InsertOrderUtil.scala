@@ -41,6 +41,14 @@ object InsertOrderUtil {
     MOrder.createJ(
       7L, customer2, 1, 2.0, 2499.99,
       "2019-03-02 19:30:44", "2019-03-02 19:35:44"
+    ),
+    MOrder.createJ(
+      8L, customer5, 3, 1.0, 4.99,
+      "2019-03-11 19:30:44"
+    ),
+    MOrder.createJ(
+      9L, customer4, 1, 10.0, 9999.99,
+      "2019-02-11 19:30:44"
     )
   )
   val insertStatementTemplate1 =

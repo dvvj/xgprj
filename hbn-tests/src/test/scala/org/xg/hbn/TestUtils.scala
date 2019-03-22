@@ -61,35 +61,61 @@ object TestUtils {
     Await.result(f, waitSecs seconds)
   }
 
-  private def orderData2Task0(d:Order4Test):Task0 = () => {
-    randSleep(1000)
-    testHbnOps.placeOrder(d.uid, d.prodId, d.qty, d.actualPrice)
-  }
+  val profId1 = "prof1"
+  val profId2 = "prof2"
+  val profId3 = "prof3"
 
-  case class Order4Test(
-                       uid:String,
-                       prodId:Int,
-                       qty:Double,
-                       actualPrice:Double
-                       )
-  def placeOrderSchedule(
-    orderData:Iterable[Order4Test]
-  ):Schedule0 = {
-    orderData.map(orderData2Task0)
-  }
+  val profOrgId1 = "prof_org1"
+  val profOrgId2 = "prof_org2"
 
-  type TestSchedule_InitSetup = () => Unit
-  type TestSchedule_Run = () => Unit
-  type TestSchedule_Verification = () => Unit
-  def testSchedules(
-                   initSetup:TestSchedule_InitSetup,
-                   runSchedule:TestSchedule_Run,
-                   verify:TestSchedule_Verification
-                   ):Unit = {
-    initSetup()
+  val prof2OrgMap:Map[String, String] = Map(
+    profId1 -> profOrgId1,
+    profId2 -> profOrgId1,
+    profId3 -> profOrgId2
+  )
 
-    runSchedule()
+  val customer1 = "customer1"
+  val customer2 = "customer2"
+  val customer3 = "customer3"
+  val customer4 = "customer4"
 
-    verify()
-  }
+  val customer2ProfMap = Map(
+    customer1 -> profId1,
+    customer2 -> profId1,
+    customer3 -> profId1,
+    customer4 -> profId2
+  )
+
+//  private def orderData2Task0(d:Order4Test):Task0 = () => {
+//    randSleep(1000)
+//    val profId =
+//    testHbnOps.placeOrder(d.uid, d.prodId, d.qty, d.actualPrice)
+//  }
+//
+//  case class Order4Test(
+//                       uid:String,
+//                       prodId:Int,
+//                       qty:Double,
+//                       actualPrice:Double
+//                       )
+//  def placeOrderSchedule(
+//    orderData:Iterable[Order4Test]
+//  ):Schedule0 = {
+//    orderData.map(orderData2Task0)
+//  }
+//
+//  type TestSchedule_InitSetup = () => Unit
+//  type TestSchedule_Run = () => Unit
+//  type TestSchedule_Verification = () => Unit
+//  def testSchedules(
+//                   initSetup:TestSchedule_InitSetup,
+//                   runSchedule:TestSchedule_Run,
+//                   verify:TestSchedule_Verification
+//                   ):Unit = {
+//    initSetup()
+//
+//    runSchedule()
+//
+//    verify()
+//  }
 }

@@ -2,6 +2,7 @@ package org.xg;
 
 import org.xg.auth.Secured;
 import org.xg.dbModels.MCustomer;
+import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.TDbOps;
 import org.xg.dbModels.MOrder;
 import org.xg.svc.PayOrder;
@@ -75,8 +76,12 @@ public class OrderOps {
     try {
       TDbOps dbOps = SvcUtils.getDbOps();
       String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
+      MCustomer customer = SvcUtils.getCustomers().get(userOrder.uid());
+      MMedProf prof = SvcUtils.getMedProfs().get(customer.refUid());
+      String profOrgId = SvcUtils.getMedProfOrg(prof.profId()).orgId();
 
       Long orderId = dbOps.placeOrder(
+        profOrgId, customer.refUid(),
         userOrder.uid(), userOrder.productId(), userOrder.qty(), userOrder.actualCost()
       );
 
@@ -105,7 +110,7 @@ public class OrderOps {
       TDbOps dbOps = SvcUtils.getDbOps();
       //String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
 
-      dbOps.setOrderPayTime(payOrder.orderId());
+      dbOps.payOrder(payOrder.orderId());
 
       String msg = String.format("Order (id: %d) payed", payOrder.orderId());
       logger.info(msg);
