@@ -77,7 +77,7 @@ public class OrderOps {
       String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
 
       Long orderId = dbOps.placeOrder(
-        userOrder.uid(), userOrder.productId(), userOrder.qty()
+        userOrder.uid(), userOrder.productId(), userOrder.qty(), userOrder.actualCost()
       );
 
       String msg = String.format("Created Order (id: %d)", orderId);

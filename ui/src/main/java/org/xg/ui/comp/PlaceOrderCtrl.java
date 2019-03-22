@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.auth.SvcHelpers;
 import org.xg.gnl.GlobalCfg;
+import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.svc.UserOrder;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.model.Product;
@@ -63,7 +64,10 @@ public class PlaceOrderCtrl implements Initializable {
 
       try {
         Double qty = Double.parseDouble(txtQty.getText());
-        UserOrder order = new UserOrder(Global.getCurrUid(), selectedProduct.getValue().getId(), qty);
+        TPricePlan pricePlan = Global.getPricePlan();
+        Product prod = selectedProduct.getValue();
+        Double actualCost = pricePlan != null ? pricePlan.adjust(prod.getId(), prod.getPrice0()) : prod.getPrice0();
+        UserOrder order = new UserOrder(Global.getCurrUid(), selectedProduct.getValue().getId(), qty, actualCost);
         String orderJson = UserOrder.toJson(order);
         String resp = SvcHelpers.reqPut(
           UISvcHelpers.serverCfg().placeOrderURL(),

@@ -93,7 +93,7 @@ object Helpers {
 
   def convertOrder(o:Order):MOrder = {
     MOrder.createJ(
-      o.getId, o.getCustomerId, o.getProductId, o.getQty,
+      o.getId, o.getCustomerId, o.getProductId, o.getQty, o.getActualCost,
       zonedDateTime2Str(o.getCreationTime),
       zonedDateTime2Str(o.getPayTime),
       zonedDateTime2Str(o.getProcTime1),

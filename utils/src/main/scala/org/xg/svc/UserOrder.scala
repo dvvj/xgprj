@@ -3,7 +3,7 @@ package org.xg.svc
 import org.json4s.DefaultFormats
 import org.xg.json.CommonUtils
 
-case class UserOrder(uid:String, productId:Int, qty:Double)
+case class UserOrder(uid:String, productId:Int, qty:Double, actualCost:Double)
 
 object UserOrder {
   def toJson(upp:UserOrder):String = {

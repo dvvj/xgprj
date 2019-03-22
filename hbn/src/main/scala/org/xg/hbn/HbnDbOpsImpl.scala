@@ -250,7 +250,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def placeOrder(uid: String, productId: Int, qty: Double): Long = {
+    override def placeOrder(uid: String, productId: Int, qty: Double, actualCost:Double): Long = {
       val creationTime = DataUtils.utcTimeNow
       runInTransaction(
         sessFactory,
@@ -259,6 +259,7 @@ object HbnDbOpsImpl {
             uid,
             productId,
             qty,
+            actualCost,
             creationTime
           )
           val orderId = sess.save(order)

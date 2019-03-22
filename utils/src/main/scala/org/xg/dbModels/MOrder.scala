@@ -5,6 +5,7 @@ case class MOrder(
   uid:String,
   productId:Int,
   qty:Double,
+  actualCost:Double,
   creationTimeS:String,
   payTime:Option[String],
   procTime1S:Option[String], // time order being locked, i.e. cannot be modified
@@ -44,13 +45,16 @@ object MOrder {
               uid:String,
               productId:Int,
               qty:Double,
+              actualCost:Double,
               creationTimeS:String
-             ):MOrder = MOrder(id, uid, productId, qty, creationTimeS, None, None, None, None)
+             ):MOrder =
+    MOrder(id, uid, productId, qty, actualCost, creationTimeS, None, None, None, None)
 
   def createJ(id:Long,
               uid:String,
               productId:Int,
               qty:Double,
+              actualCost:Double,
               creationTimeS:String,
               payTime:String,
               procTime1:String,
@@ -58,7 +62,8 @@ object MOrder {
               procTime3:String
              ):MOrder =
     MOrder(
-      id, uid, productId, qty, creationTimeS,
+      id, uid, productId, qty, actualCost,
+      creationTimeS,
       noneIfNull(payTime),
       noneIfNull(procTime1),
       noneIfNull(procTime2),

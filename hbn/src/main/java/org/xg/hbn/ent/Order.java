@@ -20,6 +20,9 @@ public class Order {
   @Column(name="qty", nullable = false)
   private double qty;
 
+  @Column(name="actual_cost", nullable = false)
+  private double actualCost;
+
   @Column(name="creation_time", nullable = false)
   private ZonedDateTime creationTime;
 
@@ -50,6 +53,7 @@ public class Order {
     String customerId,
     Integer productId,
     double qty,
+    double actualCost,
     ZonedDateTime creationTime,
     ZonedDateTime procTime1,
     ZonedDateTime procTime2,
@@ -59,6 +63,7 @@ public class Order {
     this.customerId = customerId;
     this.productId = productId;
     this.qty = qty;
+    this.actualCost = actualCost;
     this.creationTime = creationTime;
     this.procTime1 = procTime1;
     this.procTime2 = procTime2;
@@ -70,10 +75,11 @@ public class Order {
     String customerId,
     Integer productId,
     double qty,
+    double actualCost,
     ZonedDateTime creationTime
   ) {
     //this.id = id;
-    this(customerId, productId, qty, creationTime, null, null, null);
+    this(customerId, productId, qty, actualCost, creationTime, null, null, null);
   }
 
 
@@ -139,5 +145,13 @@ public class Order {
 
   public void setProcTime3(ZonedDateTime procTime3) {
     this.procTime3 = procTime3;
+  }
+
+  public double getActualCost() {
+    return actualCost;
+  }
+
+  public void setActualCost(double actualCost) {
+    this.actualCost = actualCost;
   }
 }

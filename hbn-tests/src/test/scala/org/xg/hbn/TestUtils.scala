@@ -63,13 +63,14 @@ object TestUtils {
 
   private def orderData2Task0(d:Order4Test):Task0 = () => {
     randSleep(1000)
-    testHbnOps.placeOrder(d.uid, d.prodId, d.qty)
+    testHbnOps.placeOrder(d.uid, d.prodId, d.qty, d.actualPrice)
   }
 
   case class Order4Test(
                        uid:String,
                        prodId:Int,
-                       qty:Double
+                       qty:Double,
+                       actualPrice:Double
                        )
   def placeOrderSchedule(
     orderData:Iterable[Order4Test]

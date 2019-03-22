@@ -103,7 +103,7 @@ trait TDbOps {
   def ordersOfCustomers_Unpaid(customerIds:Array[String]):Array[MOrder]
 
   //  def ordersOfCustomers_CreationTimeWithin(customerIds:Array[String], days:Int):Array[MOrder]
-  def placeOrder(uid:String, productId:Int, qty:Double):Long
+  def placeOrder(uid:String, productId:Int, qty:Double, actualCost:Double):Long
   def updateOrder(orderId:Long, newQty:Double):Boolean
   def setOrderPayTime(orderId:Long):Boolean
 
