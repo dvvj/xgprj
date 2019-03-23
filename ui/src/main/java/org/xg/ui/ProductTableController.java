@@ -214,12 +214,12 @@ public class ProductTableController implements Initializable {
 
     txtSearch.setOnKeyReleased(e -> highlighter.highlight(tblProducts, txtSearch.getText()));
 
-    btnFilter.setOnAction(e -> filterAndUpdateProductTable2(
-      p -> {
-        System.out.println(p.getName() + ":" + txtSearch.getText());
-        return p.getName().toLowerCase().contains(txtSearch.getText().toLowerCase());
-      }
-    ));
+//    btnFilter.setOnAction(e -> filterAndUpdateProductTable2(
+//      p -> {
+//        System.out.println(p.getName() + ":" + txtSearch.getText());
+//        return p.getName().toLowerCase().contains(txtSearch.getText().toLowerCase());
+//      }
+//    ));
 
 //    tblProducts.onSortProperty().setValue(new EventHandler<SortEvent<TableView<Product>>>() {
 //      @Override

@@ -29,14 +29,14 @@ import java.util.ResourceBundle;
 
 @ViewController(value = "/ui/CustomerMain.fxml")
 public class CustomerMain {
-  @FXML
-  private HBox mainWnd;
+//  @FXML
+//  private HBox mainWnd;
 
-  @FXML
-  private Text txtUserName;
-
-  @FXML
-  private StackPane optionsBurger;
+//  @FXML
+//  private Text txtUserName;
+//
+//  @FXML
+//  private StackPane optionsBurger;
 
   private CustomerMainRCtrl rightSideController;
   private ExistingOrdersCtrl orderController;
@@ -44,7 +44,7 @@ public class CustomerMain {
 
   @FXML
   private VBox leftSide;
-  private Node loadLeftSide(String userInfo, ResourceBundle resBundle) throws IOException {
+  private Node loadLeftSide() throws IOException {
 
 //    VBox leftSide = new VBox();
 //    leftSide.setPadding(
@@ -60,36 +60,51 @@ public class CustomerMain {
 //    txtUserInfo.setText(userInfo);
 //    txtUserInfo.setStroke(Color.GREEN);
 //    greetings.getChildren().addAll(txtWelcome, txtUserInfo);
-    txtUserName.setText(Global.getCurrUid()); // todo use name instead
-    txtUserName.setFill(Color.WHEAT);
+//    txtUserName.setText(Global.getCurrUid()); // todo use name instead
+//    txtUserName.setFill(Color.WHEAT);
 
     URL path = UiLoginController.class.getResource("/ui/ProductTable.fxml");
-    FXMLLoader productLoader = new FXMLLoader(path, resBundle);
+    FXMLLoader productLoader = new FXMLLoader(path, Global.AllRes);
     //productLoader.setLocation(path);
     VBox productTableCtrl = productLoader.load();
     productTableController = productLoader.getController();
 
-    URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
-    FXMLLoader orderLoader = new FXMLLoader(pathOrders, resBundle);
-    VBox orderCtrl = orderLoader.load();
-    orderController = orderLoader.getController();
-
-    leftSide.getChildren().addAll(productTableCtrl, orderCtrl);
+    leftSide.getChildren().addAll(productTableCtrl);
     return leftSide;
 
   }
+  @FXML
+  StackPane ordersTab;
+  private void loadOrdersTab() throws IOException {
+    URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
+    FXMLLoader orderLoader = new FXMLLoader(pathOrders, Global.AllRes);
+    VBox orderCtrl = orderLoader.load();
+    ordersTab.getChildren().addAll(orderCtrl);
 
-  private Node loadRightSide(String productName, ResourceBundle resBundle) throws IOException {
+    orderController = orderLoader.getController();
+
+  }
+
+  @FXML
+  VBox rightSide;
+  private Node loadRightSide() throws IOException {
 
     FXMLLoader rightSideLoader = new FXMLLoader(
       UiLoginController.class.getResource("/ui/CustomerMainR.fxml"),
-      resBundle
+      Global.AllRes
     );
-    VBox rightSide = rightSideLoader.load();
+    VBox r = rightSideLoader.load();
 //    rightSide.setPadding(
 //      new Insets(20)
 //    );
     rightSideController = rightSideLoader.getController();
+    rightSideController.setBinding(
+      productTableController.getSelectedProductDetail(),
+      productTableController.getSelectedProductImageUrl(),
+      productTableController.getSelectedProduct()
+    );
+
+    rightSide.getChildren().addAll(r);
     return rightSide;
   }
 
@@ -99,28 +114,27 @@ public class CustomerMain {
   public void launch() {
     try {
 
-      loadLeftSide(Global.getCurrUid(), Global.AllRes);
-      mainWnd.getChildren().addAll(
-        loadRightSide("prod", Global.AllRes)
-      );
+      loadLeftSide();
 
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/SettingsPopup.fxml"), Global.AllRes);
-      loader.setController(new SettingsController());
-      toolbarPopup = new JFXPopup(loader.load());
+//      mainWnd.getChildren().addAll(
+//        loadRightSide("prod", Global.AllRes)
+//      );
 
-      optionsBurger.setOnMouseClicked(e -> {
-        toolbarPopup.show(
-          optionsBurger,
-          JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,
-          0, 0
-        );
-      });
+//      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/SettingsPopup.fxml"), Global.AllRes);
+//      loader.setController(new SettingsController());
+//      toolbarPopup = new JFXPopup(loader.load());
 
-      rightSideController.setBinding(
-        productTableController.getSelectedProductDetail(),
-        productTableController.getSelectedProductImageUrl(),
-        productTableController.getSelectedProduct()
-      );
+//      optionsBurger.setOnMouseClicked(e -> {
+//        toolbarPopup.show(
+//          optionsBurger,
+//          JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,
+//          0, 0
+//        );
+//      });
+
+      loadRightSide();
+
+      loadOrdersTab();
 
 //      Scene scene = Global.sceneDefStyle(root);
 //

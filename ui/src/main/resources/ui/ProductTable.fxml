@@ -11,24 +11,29 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToolbar?>
 <VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.xg.ui.ProductTableController"
-      prefHeight="500.0" maxWidth="850.0" minWidth="850.0"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.xg.ui.ProductTableController"
+    minWidth="800" maxWidth="800"
     >
-    <ToolBar>
-        <Text text="%productTable.toolbar.heading" />
-        <JFXButton text="%productTable.toolbar.refresh"
-                   fx:id="btnRefresh"
-                   maxWidth="50" minWidth="50"
-                   styleClass="button-raised" />
-        <Separator />
-        <JFXTextField fx:id="txtSearch" promptText="%productTable.toolbar.searchPrompt" />
-        <JFXButton text="%productTable.toolbar.filter"
-            fx:id="btnFilter"
-            maxWidth="125" minWidth="125"
-            styleClass="button-raised" />
-    </ToolBar>
+    <JFXToolbar styleClass="jfx-tool-bar2">
+        <leftItems>
+            <JFXButton text="%productTable.toolbar.refresh"
+                       fx:id="btnRefresh"
+                       maxWidth="50" minWidth="50"
+                       styleClass="button-raised" />
+            <Separator orientation="VERTICAL" />
+            <!--<JFXButton text="%productTable.toolbar.filter"-->
+                       <!--fx:id="btnFilter"-->
+                       <!--maxWidth="125" minWidth="125"-->
+                       <!--styleClass="button-raised" />-->
+        </leftItems>
+        <rightItems>
+            <JFXTextField fx:id="txtSearch" promptText="%productTable.toolbar.searchPrompt" />
+        </rightItems>
 
-    <JFXTreeTableView fx:id="tblProducts"/>
+    </JFXToolbar>
+
+    <JFXTreeTableView fx:id="tblProducts" prefHeight="600"/>
 </VBox>
