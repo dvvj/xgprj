@@ -8,14 +8,49 @@
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.Insets?>
 
-<HBox xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:id="mainWnd"
-    spacing="10.0"
-    minHeight="600.0" minWidth="800.0">
-    <padding>
-        <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
-    </padding>
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml">
+    <!--<top>-->
+        <!--<JFXToolbar>-->
+            <!--<leftItems>-->
+                <!--&lt;!&ndash;<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">&ndash;&gt;-->
+                <!--&lt;!&ndash;<StackPane fx:id="titleBurgerContainer">&ndash;&gt;-->
+                <!--&lt;!&ndash;<JFXHamburger fx:id="titleBurger">&ndash;&gt;-->
+                <!--&lt;!&ndash;<HamburgerBackArrowBasicTransition/>&ndash;&gt;-->
+                <!--&lt;!&ndash;</JFXHamburger>&ndash;&gt;-->
+                <!--&lt;!&ndash;</StackPane>&ndash;&gt;-->
+                <!--&lt;!&ndash;</JFXRippler>&ndash;&gt;-->
+                <!--<Label fx:id="lblWelcome" text="%greeting.welcome"/>-->
+                <!--<Text fx:id="txtUserName" />-->
+            <!--</leftItems>-->
+            <!--<rightItems>-->
+                <!--<JFXRippler fx:id="optionsRippler" maskType="CIRCLE"-->
+                            <!--style="-fx-ripple-color:WHITE;">-->
+                    <!--<StackPane fx:id="optionsBurger">-->
+                        <!--<JFXHamburger styleClass="jfx-options-burger">-->
+                        <!--</JFXHamburger>-->
+                    <!--</StackPane>-->
+                <!--</JFXRippler>-->
+            <!--</rightItems>-->
+        <!--</JFXToolbar>-->
+    <!--</top>-->
+    <center>
+        <JFXTabPane minWidth="800.0">
+            <Tab text="%medprofs.tab.customerOrderTable.heading">
+                <StackPane fx:id="ordersTab">
+                </StackPane>
+            </Tab>
+            <Tab text="%medprofs.tab.customerTable.heading">
+                <StackPane fx:id="customersTab">
+                </StackPane>
+            </Tab>
+            <Tab text="%medprofs.tab.settings.heading">
+                <StackPane fx:id="settingsTab">
+                </StackPane>
+            </Tab>
+        </JFXTabPane>
+    </center>
     <!--<JFXTreeTableView fx:id="tblCustomers" minWidth="500" maxWidth="500" />-->
     <!--<JFXTreeTableView fx:id="tblRefedCustomerOrders" minWidth="500" maxWidth="500" />-->
-</HBox>
+</BorderPane>

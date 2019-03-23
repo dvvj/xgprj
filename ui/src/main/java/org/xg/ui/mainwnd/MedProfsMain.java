@@ -8,6 +8,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
@@ -34,7 +35,10 @@ import java.util.function.Supplier;
 public class MedProfsMain {
 
   @FXML
-  private HBox mainWnd;
+  private StackPane ordersTab;
+
+  @FXML
+  private StackPane customersTab;
 
   private MedProfsDataModel dataModel = null;
 
@@ -70,7 +74,7 @@ public class MedProfsMain {
       table = tableLoader.load();
       TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
       tblCtrl.setup(
-        "customerTable.toolbar.heading",
+//        "customerTable.toolbar.heading",
         "customerTable.toolbar.refresh",
         "customerTable.toolbar.searchPrompt",
         "customerTable.toolbar.filter",
@@ -91,12 +95,12 @@ public class MedProfsMain {
         tbl -> {
           JFXTreeTableView<Customer> theTable = (JFXTreeTableView<Customer>)tbl;
           theTable.getColumns().addAll(
-            TableViewHelper.jfxTableColumnResBundle(
-              "customerTable.uid",
-              Global.AllRes,
-              100,
-              Customer::getUid
-            ),
+//            TableViewHelper.jfxTableColumnResBundle(
+//              "customerTable.uid",
+//              Global.AllRes,
+//              100,
+//              Customer::getUid
+//            ),
             TableViewHelper.jfxTableColumnResBundle(
               "customerTable.name",
               Global.AllRes,
@@ -117,7 +121,7 @@ public class MedProfsMain {
         () -> dataModel.getCustomers()
       );
 
-      mainWnd.getChildren().addAll(table);
+      customersTab.getChildren().addAll(table);
     }
     catch (Exception ex) {
       throw new RuntimeException(ex);
@@ -134,7 +138,7 @@ public class MedProfsMain {
       table = tableLoader.load();
       TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
       tblCtrl.setup(
-        "customerOrderTable.toolbar.heading",
+//        "customerOrderTable.toolbar.heading",
         "customerOrderTable.toolbar.refresh",
         "customerOrderTable.toolbar.searchPrompt",
         "customerOrderTable.toolbar.filter",
@@ -180,7 +184,7 @@ public class MedProfsMain {
         () -> dataModel.getCustomerOrders()
       );
 
-      mainWnd.getChildren().addAll(table);
+      ordersTab.getChildren().addAll(table);
     }
     catch (Exception ex) {
       throw new RuntimeException(ex);

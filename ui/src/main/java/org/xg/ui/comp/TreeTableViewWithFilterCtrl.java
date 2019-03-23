@@ -24,7 +24,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
   private String emptyTableRes;
 
   public void setup(
-    String headingRes,
+//    String headingRes,
     String refreshRes,
     String searchRes,
     String filterRes,
@@ -32,7 +32,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     Function<T, Set<String>> searchStringCollector
   ) {
     this.emptyTableRes = emptyTableRes;
-    Global.setResText(txtHeading, headingRes);
+//    Global.setResText(txtHeading, headingRes);
     txtSearch.setPromptText(Global.AllRes.getString(searchRes));
     btnRefresh.setText(Global.AllRes.getString(refreshRes));
 //    btnFilter.setText(Global.AllRes.getString(filterRes));

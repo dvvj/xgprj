@@ -14,20 +14,20 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
-    <JFXToolbar maxWidth="600" styleClass="jfx-tool-bar2">
+    <JFXToolbar styleClass="jfx-tool-bar2">
         <leftItems>
-            <Text fx:id="txtHeading" />
+            <!--<Text fx:id="txtHeading" />-->
             <JFXButton fx:id="btnRefresh"
                        maxWidth="50" minWidth="50"
                        styleClass="button-raised" />
             <Separator orientation="VERTICAL" />
         </leftItems>
         <rightItems>
-            <StackPane maxWidth="200">
+            <StackPane maxWidth="100">
                 <JFXTextField fx:id="txtSearch" />
             </StackPane>
         </rightItems>
     </JFXToolbar>
 
-    <JFXTreeTableView fx:id="theTable" maxWidth="600"/>
+    <JFXTreeTableView fx:id="theTable"/>
 </VBox>

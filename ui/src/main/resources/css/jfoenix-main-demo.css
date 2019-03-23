@@ -9,6 +9,10 @@
 }
 */
 
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: #448;
+}
+
 .side-menu {
     -fx-padding: 20.0, 10.0;
     -fx-font-size: 15.0;
