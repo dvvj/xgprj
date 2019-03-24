@@ -175,6 +175,12 @@ public class MedProfsMain {
               Global.AllRes,
               80,
               (CustomerOrder co) -> co.getOrder().getQty()
+            ),
+            TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
+              "refedCustomerOrderTable.reward",
+              Global.AllRes,
+              80,
+              CustomerOrder::getReward
             )
           );
 

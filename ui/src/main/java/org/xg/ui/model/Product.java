@@ -2,7 +2,7 @@ package org.xg.ui.model;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.*;
-import org.xg.json.CommonUtils;
+import org.xg.gnl.DataUtils;
 import org.xg.pay.pricePlan.TPricePlan;
 
 import java.util.Arrays;
@@ -100,7 +100,7 @@ public class Product extends RecursiveTreeObject<Product> {
   }
 
   public static Product fromMProduct(MProduct mp, TPricePlan pricePlan) {
-    double roundPrice = Math.round(mp.price0() * 100) / 100.0;
+    double roundPrice = DataUtils.roundMoney(mp.price0()); //Math.round(mp.price0() * 100) / 100.0;
     return new Product(
       mp.id(),
       mp.name(),

@@ -31,7 +31,7 @@ public class MedProfsDataModel {
       Helpers.convCustomers(customers)
     );
     customerMap = this.customers.stream().collect(Collectors.toMap(Customer::getUid, Function.identity()));
-    rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap);
+    rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap, rewardPlan);
     this.customerOrders = FXCollections.observableArrayList(rawOrders);
     this.prodMap = prodMap;
     this.rewardPlan = rewardPlan;

@@ -12,7 +12,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.xg.ui.CustomerMainRCtrl"
       fx:id="vboxMainR"
-      prefWidth="300"
+      maxWidth="320" minWidth="320"
       spacing="10">
 
     <HBox fx:id="imgBox">
@@ -20,6 +20,6 @@
         <ImageView fx:id="img" />
     </HBox>
 
-    <TextArea fx:id="txtDetails" text="Product details" wrapText="true" ></TextArea>
+    <TextArea fx:id="txtDetails" text="Product details" wrapText="true" maxWidth="300"></TextArea>
 
 </VBox>

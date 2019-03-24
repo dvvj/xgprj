@@ -2,6 +2,8 @@ package org.xg.ui.model;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.MOrder;
+import org.xg.gnl.DataUtils;
+import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Global;
 
 import java.util.Map;
@@ -11,15 +13,18 @@ public class CustomerOrder extends RecursiveTreeObject<CustomerOrder> {
   private String customerName;
 
   private Order order;
+  private Double reward;
 
   public CustomerOrder(
     String customerId,
     String customerName,
-    Order order
+    Order order,
+    Double reward
   ) {
     this.customerId = customerId;
     this.customerName = customerName;
     this.order = order;
+    this.reward = DataUtils.roundMoney(reward);
   }
 
   public String getCustomerId() {
@@ -46,11 +51,23 @@ public class CustomerOrder extends RecursiveTreeObject<CustomerOrder> {
     this.order = order;
   }
 
-  public static CustomerOrder fromMOrder(MOrder order, Map<String, Customer> customerMap) {
+  public Double getReward() {
+    return reward;
+  }
+
+  public void setReward(Double reward) {
+    this.reward = reward;
+  }
+
+  public static CustomerOrder fromMOrder(MOrder order, Map<String, Customer> customerMap, TRewardPlan rewardPlan) {
+    Order o = Order.fromMOrder(order, Global.getProductMap());
+    Product prod = Global.getProductMap().get(o.getProdId());
+    Double reward = rewardPlan.reward(order.productId(), prod.getPrice0());
     return new CustomerOrder(
       order.uid(),
       customerMap.get(order.uid()).getName(),
-      Order.fromMOrder(order, Global.getProductMap())
+      o,
+      reward
     );
   }
 }

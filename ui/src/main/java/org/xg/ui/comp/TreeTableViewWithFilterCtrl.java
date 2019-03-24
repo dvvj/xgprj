@@ -2,13 +2,16 @@ package org.xg.ui.comp;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.jfoenix.utils.JFXHighlighter;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.text.Text;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -89,6 +92,8 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
   ) {
     //UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
     columnBuilder.accept(theTable);
+
+    theTable.reGroup();
 
     Task<ObservableList<T>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {

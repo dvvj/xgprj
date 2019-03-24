@@ -28,9 +28,10 @@ object Helpers {
   def convCustomerOrders(
                           morders:Array[MOrder],
                           customerMap: java.util.Map[String, Customer],
-                          prodMap: java.util.Map[Integer, Product]
+                          prodMap: java.util.Map[Integer, Product],
+                          rewardPlan:TRewardPlan
                         ):Array[CustomerOrder] = {
-    morders.map(mo => CustomerOrder.fromMOrder(mo, customerMap))
+    morders.map(mo => CustomerOrder.fromMOrder(mo, customerMap, rewardPlan))
   }
 
   def uiTaskJ[T >: AnyRef](

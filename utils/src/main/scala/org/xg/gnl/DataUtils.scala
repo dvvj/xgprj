@@ -45,4 +45,6 @@ object DataUtils {
     else
       Option(utcTimeFromStr(s))
   }
+
+  def roundMoney(price:Double):Double = math.round(price * 100) / 100.0
 }
