@@ -1,7 +1,7 @@
 package org.xg.ui.utils
 
 import org.xg.auth.SvcHelpers
-import org.xg.dbModels.{MCustomer, MOrder}
+import org.xg.dbModels.{MCustomer, MMedProf, MOrder}
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.rewardPlan.TRewardPlan
 
@@ -23,6 +23,17 @@ object UISvcHelpers {
 
     MCustomer.fromJsons(j)
   }
+
+  def updateMedProfsOf(orgId:String, userToken:String):Array[MMedProf] = {
+    val j = SvcHelpers.post(
+      serverCfg.medprofsOfURL,
+      userToken,
+      orgId
+    )
+
+    MMedProf.fromJsons(j)
+  }
+
 
   def updateAllOrdersOfRefedCustomers(profId:String, userToken:String):Array[MOrder] = {
     val j = SvcHelpers.post(

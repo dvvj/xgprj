@@ -12,11 +12,11 @@
     <center>
         <JFXTabPane minWidth="800.0">
             <Tab text="%proforgs.tab.customerOrderStatsTable.heading">
-                <StackPane fx:id="ordersTab">
+                <StackPane fx:id="orderStatsTab">
                 </StackPane>
             </Tab>
             <Tab text="%proforgs.tab.profsTable.heading">
-                <StackPane fx:id="customersTab">
+                <StackPane fx:id="profsTab">
                 </StackPane>
             </Tab>
             <Tab text="%proforgs.tab.settings.heading">

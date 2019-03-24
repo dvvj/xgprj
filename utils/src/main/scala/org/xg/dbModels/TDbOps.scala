@@ -143,6 +143,13 @@ trait TDbOps {
   }
 
   def profsOf(profOrgId:String):Array[MMedProf]
+  def profMapOf(profOrgId:String):Map[String, MMedProf] = {
+    profsOf(profOrgId).map(p => p.profId -> p).toMap
+  }
+  def profMapOfJ(profOrgId:String):java.util.Map[String, MMedProf] = {
+    profMapOf(profOrgId).asJava
+  }
+
 
   // authentication related
   def getUserPassMap:Map[String, Array[Byte]]

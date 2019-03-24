@@ -6,7 +6,9 @@ import org.xg.gnl.GlobalCfg;
 import org.xg.hbn.ent.Order;
 
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SvcUtils {
 
@@ -62,6 +64,13 @@ public class SvcUtils {
       }
     }
     return _medProfs;
+  }
+
+  public static MMedProf[] getMedProfsOf(String orgId) {
+    List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgId().equals(orgId))
+      .collect(Collectors.toList());
+    MMedProf[] res = new MMedProf[medprofs.size()];
+    return medprofs.toArray(res);
   }
 
   public static Map<String, MPricePlanMap> getPricePlanMaps() {

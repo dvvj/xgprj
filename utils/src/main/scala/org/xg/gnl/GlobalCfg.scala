@@ -25,6 +25,7 @@ case class GlobalCfg(
   def rewardPlanURL:String = s"$svcSvr/$REWARD_PLAN"
   def customersRefedByURL:String = s"$svcSvr/$CUSTOMERS_REFED_BY"
   def refedCustomerOrdersURL:String = s"$svcSvr/$ORDERS_BY_REFED_CUSTOMERS"
+  def medprofsOfURL:String = s"$svcSvr/$MEDPROFS_OF"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
@@ -42,6 +43,7 @@ object GlobalCfg {
   private val REWARD_PLAN = "user/rewardPlan"
   private val CUSTOMERS_REFED_BY = "prof/customers"
   private val ORDERS_BY_REFED_CUSTOMERS = "order/refedCustomerOrders"
+  private val MEDPROFS_OF = "profOrg/profs"
 
   def fromJson(j:String):GlobalCfg = {
     import org.json4s.jackson.JsonMethods._

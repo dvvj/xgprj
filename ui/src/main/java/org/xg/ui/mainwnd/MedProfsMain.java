@@ -46,7 +46,7 @@ public class MedProfsMain {
     String profId = Global.getCurrUid();
     String token = Global.getCurrToken();
     Object[] raw = Helpers.paraActions(
-      new Supplier[]{
+      new Supplier[] {
         () -> UISvcHelpers.updateAllRefedCustomers(profId, token),
         () -> UISvcHelpers.updateAllOrdersOfRefedCustomers(profId, token),
         () -> UISvcHelpers.updateRewardPlans(profId, token)

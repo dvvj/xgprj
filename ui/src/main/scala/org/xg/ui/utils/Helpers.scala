@@ -5,10 +5,10 @@ import java.util.function.Supplier
 
 import javafx.application.Platform
 import javafx.concurrent.Task
-import org.xg.dbModels.{MCustomer, MOrder, MProduct}
+import org.xg.dbModels.{MCustomer, MMedProf, MOrder, MProduct}
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
-import org.xg.ui.model.{Customer, CustomerOrder, Order, Product}
+import org.xg.ui.model._
 
 import scala.concurrent.{Await, Future}
 
@@ -19,6 +19,10 @@ object Helpers {
 
   def convCustomers(mcs:Array[MCustomer]):Array[Customer] = {
     mcs.map(Customer.fromMCustomer)
+  }
+
+  def convMedProfs(mcs:Array[MMedProf]):Array[MedProf] = {
+    mcs.map(MedProf.fromMMedProf)
   }
 
   def convOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[Order] = {
