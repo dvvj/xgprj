@@ -334,11 +334,11 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def getUserPassMap: Map[String, Array[Byte]] = {
+    private def getUidPassMap(uidField:String, className:String):Map[String, Array[Byte]] = {
       runInTransaction(
         sessFactory,
         { sess =>
-          val ql = s"Select c.uid, c.passHash from ${classOf[Customer].getName} c"
+          val ql = s"Select c.$uidField, c.passHash from $className c"
 
           val q = sess.createQuery(ql)
           val t = q.getResultList.asScala.map { r =>
@@ -352,22 +352,46 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def getMedProfPassMap: Map[String, Array[Byte]] = {
-      runInTransaction(
-        sessFactory,
-        { sess =>
-          val ql = s"Select mp.profId, mp.passHash from ${classOf[MedProf].getName} mp"
+    override def getUserPassMap: Map[String, Array[Byte]] = {
+      getUidPassMap("uid", classOf[Customer].getName)
+    }
 
-          val q = sess.createQuery(ql)
-          val t = q.getResultList.asScala.map { r =>
-            val objArr = r.asInstanceOf[Array[AnyRef]]
-            val uid = objArr(0).asInstanceOf[String]
-            val passHash = objArr(1).asInstanceOf[Array[Byte]]
-            uid -> passHash
-          }
-          t.toMap
-        }
-      )
+    override def getMedProfPassMap: Map[String, Array[Byte]] = {
+      getUidPassMap("profId", classOf[MedProf].getName)
+//      runInTransaction(
+//        sessFactory,
+//        { sess =>
+//          val ql = s"Select mp.profId, mp.passHash from ${classOf[MedProf].getName} mp"
+//
+//          val q = sess.createQuery(ql)
+//          val t = q.getResultList.asScala.map { r =>
+//            val objArr = r.asInstanceOf[Array[AnyRef]]
+//            val uid = objArr(0).asInstanceOf[String]
+//            val passHash = objArr(1).asInstanceOf[Array[Byte]]
+//            uid -> passHash
+//          }
+//          t.toMap
+//        }
+//      )
+    }
+
+    override def getProfOrgPassMap: Map[String, Array[Byte]] = {
+      getUidPassMap("orgId", classOf[ProfOrg].getName)
+//      runInTransaction(
+//        sessFactory,
+//        { sess =>
+//          val ql = s"Select mp.orgId, mp.passHash from ${classOf[ProfOrg].getName} mp"
+//
+//          val q = sess.createQuery(ql)
+//          val t = q.getResultList.asScala.map { r =>
+//            val objArr = r.asInstanceOf[Array[AnyRef]]
+//            val uid = objArr(0).asInstanceOf[String]
+//            val passHash = objArr(1).asInstanceOf[Array[Byte]]
+//            uid -> passHash
+//          }
+//          t.toMap
+//        }
+//      )
     }
 
     override def ordersOf(uid: String): Array[MOrder] = {

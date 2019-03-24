@@ -29,6 +29,10 @@ public final class UserDbAuthority {
     return medProfInstance._auth.isValidToken(token);
   }
 
+  public static boolean authenticateProfOrgs(String orgId, String passHashStr) {
+    String token = profOrgInstance._auth.authenticate(orgId, passHashStr);
+    return profOrgInstance._auth.isValidToken(token);
+  }
 
   private static UserDbAuthority createInstasnce(Map<String, byte[]> userPassMap) {
     try {
@@ -77,6 +81,12 @@ public final class UserDbAuthority {
   private final static UserDbAuthority medProfInstance =
     medProfDb.getInstance(
       SvcUtils.getDbOps().getMedProfPassMapJ()
+    );
+
+  private final static InstanceCreation profOrgDb = new InstanceCreation();
+  private final static UserDbAuthority profOrgInstance =
+    profOrgDb.getInstance(
+      SvcUtils.getDbOps().getProfOrgPassMapJ()
     );
 //  private static final String _InvalidToken = "";
 //

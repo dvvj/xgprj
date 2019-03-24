@@ -86,12 +86,42 @@ public class LoginHelpers {
 
     }
   };
+  private final static ILoginAction profOrgsLogin = new ILoginAction() {
+    @Override
+    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
+      String authUrl = UISvcHelpers.serverCfg().authOrgURL(); //"https://localhost:8443/webapi/auth/userPass";
 
+      Task<AuthResp> authTask = Helpers.uiTaskJ(
+        () -> {
+          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
+          if (resp.success()) {
+            //System.out.println(resp.token());
+            Global.updateUidToken(userId, resp.token());
+          }
+          return resp;
+        },
+        resp -> {
+          if (resp != null && resp.success()) {
+            onSuccess.run();
+          }
+          else {
+            onFailure.run();
+          }
+          return null;
+        },
+        30000
+      );
+
+      new Thread(authTask).start();
+
+    }
+  };
 
   private static Map<Integer, ILoginAction> createLoginActionMap() {
     Map<Integer, ILoginAction> res = new HashMap<>();
     res.put(UserTypeHelpers.UT_CUSTOMER, customerLogin);
     res.put(UserTypeHelpers.UT_MEDPROFS, medProfsLogin);
+    res.put(UserTypeHelpers.UT_PROFORG, profOrgsLogin);
     return res;
   }
   private static final Map<Integer, ILoginAction> loginActionMap = createLoginActionMap();

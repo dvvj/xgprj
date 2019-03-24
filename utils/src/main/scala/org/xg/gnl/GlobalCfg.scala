@@ -14,6 +14,7 @@ case class GlobalCfg(
   import GlobalCfg._
   def authCustomerURL:String = s"$svcSvr/$AUTH_CUSTOMER"
   def authProfURL:String = s"$svcSvr/$AUTH_MEDPROF"
+  def authOrgURL:String = s"$svcSvr/$AUTH_PROFORG"
   def allCustomersURL:String = s"$svcSvr/$ALLCUSTOMERS"
   def currOrdersURL:String = s"$svcSvr/$CURR_ORDERS"
   def placeOrderURL:String = s"$svcSvr/$PLACE_ORDER"
@@ -30,6 +31,7 @@ case class GlobalCfg(
 object GlobalCfg {
   private val AUTH_CUSTOMER = "auth/customerPass"
   private val AUTH_MEDPROF = "auth/profPass"
+  private val AUTH_PROFORG = "auth/orgsPass"
   private val ALLCUSTOMERS = "customer/testAll"
   private val CURR_ORDERS = "order/currUser"
   private val PLACE_ORDER = "order/placeOrder"

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml">
+    <center>
+        <JFXTabPane minWidth="800.0">
+            <Tab text="%proforgs.tab.customerOrderStatsTable.heading">
+                <StackPane fx:id="ordersTab">
+                </StackPane>
+            </Tab>
+            <Tab text="%proforgs.tab.profsTable.heading">
+                <StackPane fx:id="customersTab">
+                </StackPane>
+            </Tab>
+            <Tab text="%proforgs.tab.settings.heading">
+                <StackPane fx:id="settingsTab">
+                </StackPane>
+            </Tab>
+        </JFXTabPane>
+    </center>
+
+</BorderPane>

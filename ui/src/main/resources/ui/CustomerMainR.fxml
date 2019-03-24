@@ -12,14 +12,14 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.xg.ui.CustomerMainRCtrl"
       fx:id="vboxMainR"
-      maxWidth="320" minWidth="320"
-      spacing="10">
+      maxWidth="300" minWidth="300" spacing="5.0"
+      >
 
-    <HBox fx:id="imgBox">
+    <StackPane fx:id="imgBox">
         <Label fx:id="lblUrl" text="url" visible="false" />
         <ImageView fx:id="img" />
-    </HBox>
+    </StackPane>
 
-    <TextArea fx:id="txtDetails" text="Product details" wrapText="true" maxWidth="300"></TextArea>
+    <TextArea fx:id="txtDetails" text="Product details" wrapText="true" maxWidth="295"></TextArea>
 
 </VBox>

@@ -84,7 +84,7 @@ public class UiLoginController implements Initializable {
     );
 
     cmboUType.setValue(
-      userMap.get(UserTypeHelpers.UT_CUSTOMER)
+      userMap.get(UserTypeHelpers.UT_PROFORG)
     );
 
 
@@ -101,6 +101,13 @@ public class UiLoginController implements Initializable {
         //new MedProfsMain().launch(tfUid.getText());
         new MainFrame("medprofs.main.title").start(MedProfsMain.class);
         closeWindow();
+      }
+    );
+    loginSuccessActionMap.put(
+      UserTypeHelpers.UT_PROFORG, () -> {
+        //new MedProfsMain().launch(tfUid.getText());
+        //new MainFrame("proforgs.main.title").start(MedProfsMain.class);
+        //closeWindow();
       }
     );
   }

@@ -85,23 +85,6 @@ public class CustomerMainRCtrl implements Initializable {
 //          Image image = new Image()
           byte[] bytes = SvcHelpers.get4Bin(lblUrl.getText(), "");
           img.setImage(new Image(new ByteArrayInputStream(bytes), 300, 300, true, true));
-//
-//          System.out.println(
-//            String.format("setting image to [%s], progress [%.3f]", newValue, image.getProgress())
-//          );
-//          image.progressProperty().addListener(new ChangeListener<Number>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//              if (newValue.doubleValue() >= 1.0) {
-//                Platform.runLater(new Runnable() {
-//                  @Override
-//                  public void run() {
-//                    img.setImage(image);
-//                  }
-//                });
-//              }
-//            }
-//          });
 
         }
       }

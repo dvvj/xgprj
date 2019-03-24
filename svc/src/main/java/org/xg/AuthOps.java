@@ -72,7 +72,7 @@ public class AuthOps {
         return Response.ok(AuthResp.toJson(resp)).build();
       }
       else {
-        logger.warning("====================== Failed to authenticateCustomer user: " );
+        logger.warning("====================== Failed to authorizeProf user: " );
         return Response.status(Response.Status.UNAUTHORIZED)
           .entity(String.format("user [%s] NOT authorized!", up.uid()))
           .build();
@@ -81,7 +81,41 @@ public class AuthOps {
     catch (Exception ex) {
       logger.warning("Exception while authenticating user.");
       ex.printStackTrace();
-      throw new WebApplicationException("====================== Failed to authenticateCustomer user", ex);
+      throw new WebApplicationException("====================== Failed to authorizeProf user", ex);
     }
   }
+
+  @POST
+  @Path("orgsPass")
+  @Consumes(MediaType.TEXT_PLAIN)
+  public Response authorizeOrg(String userPassPostJson) {
+    try {
+      UserPass up = UserPass.fromJson(userPassPostJson);
+
+      logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
+
+      boolean authenticated = UserDbAuthority.authenticateProfOrgs(up.uid(), up.passHashStr());
+
+      if (authenticated) {
+        AuthResp resp = AuthResp.authSuccess(up);
+        SessionManager.addSession(up.uid(), resp.token());
+        logger.warning(
+          String.format("Session added: [%s]-[%s]", up.uid(), resp.token())
+        );
+        return Response.ok(AuthResp.toJson(resp)).build();
+      }
+      else {
+        logger.warning("====================== Failed to authenticateProfOrgs user: " );
+        return Response.status(Response.Status.UNAUTHORIZED)
+          .entity(String.format("user [%s] NOT authorized!", up.uid()))
+          .build();
+      }
+    }
+    catch (Exception ex) {
+      logger.warning("Exception while authenticating user.");
+      ex.printStackTrace();
+      throw new WebApplicationException("====================== Failed to authenticateProfOrgs user", ex);
+    }
+  }
+
 }
