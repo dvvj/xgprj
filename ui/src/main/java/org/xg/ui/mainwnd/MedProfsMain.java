@@ -4,8 +4,13 @@ import com.jfoenix.controls.*;
 import io.datafx.controller.ViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.xg.chart.ChartHelpers;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
 import org.xg.pay.rewardPlan.TRewardPlan;
@@ -34,7 +39,7 @@ public class MedProfsMain {
   private StackPane ordersTab;
 
   @FXML
-  private StackPane customersTab;
+  private HBox customersTab;
 
   private MedProfsDataModel dataModel = null;
 
@@ -117,7 +122,8 @@ public class MedProfsMain {
         () -> dataModel.getCustomers()
       );
 
-      customersTab.getChildren().addAll(table);
+      StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
+      customersTab.getChildren().addAll(table, barChart);
     }
     catch (Exception ex) {
       throw new RuntimeException(ex);

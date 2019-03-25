@@ -40,6 +40,10 @@ public class MedProfsDataModel {
     this.rewardPlan = rewardPlan;
   }
 
+  public CustomerOrder[] getOrderData() {
+    return rawOrders;
+  }
+
   public ObservableList<Customer> getCustomers() {
     return customers;
   }

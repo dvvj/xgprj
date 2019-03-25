@@ -42,8 +42,8 @@
                 </StackPane>
             </Tab>
             <Tab text="%medprofs.tab.customerTable.heading">
-                <StackPane fx:id="customersTab">
-                </StackPane>
+                <HBox fx:id="customersTab">
+                </HBox>
             </Tab>
             <Tab text="%medprofs.tab.settings.heading">
                 <StackPane fx:id="settingsTab">
