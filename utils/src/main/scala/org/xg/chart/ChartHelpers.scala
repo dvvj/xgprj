@@ -9,6 +9,8 @@ import org.xg.dbModels.MOrder
 import org.xg.gnl.DataUtils
 import org.xg.uiModels.CustomerOrder
 
+import scala.reflect.ClassTag
+
 object ChartHelpers {
 
   import java.lang.{Double => JavaDouble}
@@ -88,13 +90,113 @@ object ChartHelpers {
     data
   }
 
-  def createChart(orders:Array[CustomerOrder]): StackedBarChart[String, Number] = {
+
+  def createChart(data:ObservableList[XYChart.Series[String, Number]]): StackedBarChart[String, Number] = {
     val yAxis = new NumberAxis
     val sbc = new StackedBarChart[String, Number](new CategoryAxis, new NumberAxis)
-    sbc.setData(
-      barChartFromOrder(orders)
-    )
+    sbc.setData(data)
     sbc.setTitle("paid/unpaid")
     sbc
+  }
+
+  import java.lang.{Double => JavaDouble}
+
+  trait TBarChartDataByYearMonth[T] {
+    val rawData:Array[T]
+    val getYearMonth:T => (Int, Int)
+    def yearMonth2Str(yearMonth:(Int, Int)): String = {
+      s"${yearMonth._1}-${yearMonth._2}"
+    }
+    type CategoryFilter = T => Boolean
+    type ResultGetter = T => Double
+    val resultGetter:ResultGetter
+    def groupByCategory(categorizers:Map[String, CategoryFilter], data:IndexedSeq[T]):Map[String, Double] = {
+      categorizers.map(p => p._1 -> data.filter(p._2).map(resultGetter).sum)
+    }
+
+    private def step(curr:(Int, Int)):(Int, Int) = {
+      if (curr._2 < 12) (curr._1, curr._2+1)
+      else (curr._1+1, 1)
+    }
+
+    val categorizers:List[(String, CategoryFilter)]
+
+    def groupByCategoryAndYearMonth(
+                                   forceStart:Option[(Int, Int)]
+                                   ):ObservableList[XYChart.Series[String, Number]] = {
+      val res: ObservableList[XYChart.Series[String, Number]] = FXCollections.observableArrayList()
+      if (!rawData.isEmpty) {
+        val categorizerMap = categorizers.toMap
+        val catSeries = categorizerMap.keySet.map(k => k -> new XYChart.Series[String, Number]()).toMap
+
+        val groupedByYearMonth = rawData.map {d =>
+          getYearMonth(d) -> d
+        }.groupBy(_._1).mapValues(_.map(_._2).toIndexedSeq)
+        val start =
+          if (forceStart.nonEmpty) forceStart.get
+          else groupedByYearMonth.minBy(_._1)._1
+
+        println(s"start: $start")
+
+        val end = groupedByYearMonth.maxBy(_._1)._1
+        println(s"end: $end")
+
+        var curr = start
+        while (curr != end) {
+          val yearMonthStr = yearMonth2Str(curr)
+          if (groupedByYearMonth.contains(curr)) {
+            val currData = groupByCategory(categorizerMap, groupedByYearMonth(curr))
+            println(s"adding curr: $curr, $currData")
+            currData.foreach { cd =>
+              val ds = catSeries(cd._1).getData
+              val success = ds.add(new XYChart.Data[String, Number](yearMonthStr, new JavaDouble(cd._2)))
+              println(success)
+            }
+          }
+          else {
+            println(s"adding padding: $curr")
+            catSeries.foreach { cd =>
+              cd._2.getData.add(new XYChart.Data[String, Number](yearMonthStr, new JavaDouble(0.0)))
+            }
+          }
+          curr = step(curr)
+        }
+
+        // adding the last
+        val yearMonthStr = yearMonth2Str(curr)
+        val currData = groupByCategory(categorizerMap, groupedByYearMonth(curr))
+        currData.foreach { cd =>
+          catSeries(cd._1).getData.add(new XYChart.Data(yearMonthStr, cd._2))
+        }
+
+        categorizers.foreach { c =>
+          res.add(catSeries(c._1))
+        }
+
+      }
+      res
+    }
+
+    def groupByCategoryAndYearMonthJ:ObservableList[XYChart.Series[String, Number]] = groupByCategoryAndYearMonth(None)
+  }
+
+  private def customerOrderBarChartData(customerOrders:Array[CustomerOrder]):TBarChartDataByYearMonth[CustomerOrder] = new TBarChartDataByYearMonth[CustomerOrder] {
+    override val getYearMonth: CustomerOrder => (Int, Int) = co => {
+      co.getOrder.getCreationTime.getYear -> co.getOrder.getCreationTime.getMonthValue
+    }
+
+    override val rawData: Array[CustomerOrder] = customerOrders
+
+    override val resultGetter: ResultGetter = co => co.getReward
+    override val categorizers: List[(String, CategoryFilter)] = List(
+      "paid" -> (co => !co.getOrder.getNotPayed),
+      "unpaid" -> (co => co.getOrder.getNotPayed)
+    )
+  }
+
+  def createChartFromCustomerOrders(customerOrders:Array[CustomerOrder]):StackedBarChart[String, Number] = {
+    createChart(
+      customerOrderBarChartData(customerOrders).groupByCategoryAndYearMonth(None)
+    )
   }
 }

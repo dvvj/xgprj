@@ -122,7 +122,11 @@ public class MedProfsMain {
         () -> dataModel.getCustomers()
       );
 
-      StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
+      //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
+      System.out.println("data :" + dataModel.getOrderData().length);
+      StackedBarChart<String, Number> barChart = ChartHelpers.createChartFromCustomerOrders(
+        dataModel.getOrderData()
+      );
       customersTab.getChildren().addAll(table, barChart);
     }
     catch (Exception ex) {
