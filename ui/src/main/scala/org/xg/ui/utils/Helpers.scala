@@ -5,7 +5,7 @@ import java.util.function.Supplier
 
 import javafx.application.Platform
 import javafx.concurrent.Task
-import org.xg.dbModels.{MCustomer, MMedProf, MOrder, MProduct}
+import org.xg.dbModels._
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.ui.model._
@@ -25,6 +25,10 @@ object Helpers {
 
   def convMedProfs(mcs:Array[MMedProf]):Array[MedProf] = {
     mcs.map(MedProf.fromMMedProf)
+  }
+
+  def convOrgOrderStats(os:Array[MOrgOrderStat], profMap:java.util.Map[String, MedProf]):Array[OrgOrderStat] = {
+    os.map(o => OrgOrderStat.fromM(o, Global.getProductMap, profMap))
   }
 
   def convOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[Order] = {

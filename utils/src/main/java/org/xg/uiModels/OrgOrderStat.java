@@ -1,11 +1,18 @@
 package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import org.xg.dbModels.MOrgOrderStat;
+import org.xg.gnl.DataUtils;
+import org.xg.json.CommonUtils;
+
+import java.util.Map;
 
 public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
   private String orgId;
   private String profId;
-  private String productId;
+  private String profName;
+  private Integer productId;
+  private String prodName;
   private double qty;
   private double actualCost;
   private String creationTimeS;
@@ -15,16 +22,20 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
   public OrgOrderStat(
     String orgId,
     String profId,
-    String productId,
+    String profName,
+    Integer productId,
+    String prodName,
     double qty,
     double actualCost,
     String creationTimeS
   ) {
     this.orgId = orgId;
     this.profId = profId;
+    this.profName = profName;
     this.productId = productId;
+    this.prodName = prodName;
     this.qty = qty;
-    this.actualCost = actualCost;
+    this.actualCost = DataUtils.roundMoney(actualCost);
     this.creationTimeS = creationTimeS;
   }
 
@@ -44,11 +55,11 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
     this.profId = profId;
   }
 
-  public String getProductId() {
+  public Integer getProductId() {
     return productId;
   }
 
-  public void setProductId(String productId) {
+  public void setProductId(Integer productId) {
     this.productId = productId;
   }
 
@@ -74,5 +85,30 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
 
   public void setCreationTimeS(String creationTimeS) {
     this.creationTimeS = creationTimeS;
+  }
+
+  public String getProdName() {
+    return prodName;
+  }
+
+  public String getProfName() {
+    return profName;
+  }
+
+  public static OrgOrderStat fromM(
+    MOrgOrderStat os,
+    Map<Integer, Product> prodMap,
+    Map<String, MedProf> profMap
+  ) {
+    return new OrgOrderStat(
+      os.orgId(),
+      os.profId(),
+      profMap.get(os.profId()).getName(),
+      os.productId(),
+      prodMap.get(os.productId()).getName(),
+      os.qty(),
+      os.actualCost(),
+      os.creationTimeS()
+    );
   }
 }

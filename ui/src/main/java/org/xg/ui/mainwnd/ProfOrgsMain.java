@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.xg.dbModels.MMedProf;
+import org.xg.dbModels.MOrgOrderStat;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.uiModels.MedProf;
@@ -17,6 +18,7 @@ import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
+import org.xg.uiModels.OrgOrderStat;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -31,9 +33,78 @@ public class ProfOrgsMain {
   private StackPane orderStatsTab;
 
   private void loadOrderStatsTab() {
-    Text txtTmp = new Text();
-    txtTmp.setText("ok");
-    orderStatsTab.getChildren().add(txtTmp);
+    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
+    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
+    VBox table;
+    try {
+      //productLoader.setLocation(path);
+      table = tableLoader.load();
+      TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
+      tblCtrl.setup(
+//        "customerTable.toolbar.heading",
+        "orderStatsTable.toolbar.refresh",
+        "orderStatsTable.toolbar.searchPrompt",
+        "orderStatsTable.toolbar.filter",
+        "orderStatsTable.emptyPlaceHolder",
+        c -> {
+          OrgOrderStat orderStat = (OrgOrderStat) c;
+          Set<String> strs = new HashSet<>();
+          strs.addAll(Arrays.asList(
+            orderStat.getProfId(),
+            orderStat.getProdName()
+          ));
+          return strs;
+        }
+      );
+
+      tblCtrl.setupColumsAndLoadData(
+        tbl -> {
+          JFXTreeTableView<OrgOrderStat> theTable = (JFXTreeTableView<OrgOrderStat>)tbl;
+          theTable.getColumns().addAll(
+//            TableViewHelper.jfxTableColumnResBundle(
+//              "customerTable.uid",
+//              Global.AllRes,
+//              100,
+//              Customer::getUid
+//            ),
+            TableViewHelper.jfxTableColumnResBundle(
+              "orderStatsTable.prodName",
+              Global.AllRes,
+              150,
+              OrgOrderStat::getProdName
+            ),
+            TableViewHelper.jfxTableColumnResBundle(
+              "orderStatsTable.qty",
+              Global.AllRes,
+              100,
+              OrgOrderStat::getQty
+            ),
+            TableViewHelper.jfxTableColumnResBundle(
+              "orderStatsTable.actualCost",
+              Global.AllRes,
+              100,
+              OrgOrderStat::getActualCost
+            ),
+            TableViewHelper.jfxTableColumnResBundle(
+              "orderStatsTable.profName",
+              Global.AllRes,
+              100,
+              OrgOrderStat::getProfName
+            )
+          );
+
+          UIHelpers.setPlaceHolder4TreeView(theTable, "orderStatsTable.placeHolder");
+
+        },
+        () -> dataModel.getOrderStats()
+      );
+
+      orderStatsTab.getChildren().addAll(table);
+    }
+    catch (Exception ex) {
+      throw new RuntimeException(ex);
+    }
+
   }
 
   private void loadMedProfsTab() {
@@ -121,11 +192,16 @@ public class ProfOrgsMain {
     Object[] raw = Helpers.paraActions(
       new Supplier[] {
         () -> UISvcHelpers.updateMedProfsOf(orgId, token),
+        () -> UISvcHelpers.updateOrgOrderStats(orgId, token)
       },
       30000
     );
+
+    MMedProf[] profs = (MMedProf[])raw[0];
+    System.out.println("Profs found: " + profs.length);
     dataModel = new ProfOrgsDataModel(
-      (MMedProf[])raw[0]
+      profs,
+      (MOrgOrderStat[])raw[1]
     );
   }
 }

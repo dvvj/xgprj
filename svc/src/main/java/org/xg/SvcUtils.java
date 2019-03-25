@@ -155,6 +155,11 @@ public class SvcUtils {
     return profOrg;
   }
 
+//  private static Object _lockOrderStats = new Object();
+//  private static Map<String, MOrgOrderStat[]> _orgOrderStats = null;
+  public static MOrgOrderStat[] getOrgOrderStatsOf(String orgId) {
+    return getDbOps().getOrderStat4Org(orgId);
+  }
 //
 //  private final static GlobalCfg _cfg = loadCfg();
 //  public final static GlobalCfg getCfg() {
