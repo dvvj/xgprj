@@ -3,12 +3,12 @@ package org.xg.ui.model;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import jdk.nashorn.internal.ir.FunctionCall;
 import org.xg.ui.comp.*;
+import org.xg.uiModels.Order;
+import org.xg.uiModels.Product;
 
 import java.util.ResourceBundle;
 import java.util.function.Function;

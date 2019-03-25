@@ -1,12 +1,9 @@
-package org.xg.ui.model;
+package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.MOrder;
 import org.xg.gnl.DataUtils;
-import org.xg.ui.utils.Global;
 
-import javax.xml.crypto.Data;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +17,10 @@ public class Order extends RecursiveTreeObject<Order> {
   private ZonedDateTime creationTime;
   private ZonedDateTime payTime;
   private int status;
+  private String statusStr;
 
   public String getStatusStr() {
-    return statusMap.get(status);
+    return statusStr;
   }
 
   public boolean getCanBeModified() {
@@ -53,6 +51,7 @@ public class Order extends RecursiveTreeObject<Order> {
     this.creationTime = creationTime;
     this.payTime = payTime;
     this.status = status;
+//    this.statusStr = statusStr;
   }
 
   public Long getId() {
@@ -97,29 +96,6 @@ public class Order extends RecursiveTreeObject<Order> {
     this.prodName = prodName;
   }
 
-  public static int getOrderStatus(MOrder mo) {
-    if (mo.procTime1S().nonEmpty()) {
-      return OrderStatus_Locked;
-    }
-    else if (mo.payTime().nonEmpty()) {
-      return OrderStatus_Payed;
-    }
-    else {
-      return OrderStatus_NotPayed;
-    }
-  }
-  private final static int OrderStatus_NotPayed = 1;
-  private final static int OrderStatus_Payed = 2;
-  private final static int OrderStatus_Locked = 3;
-
-  private final static Map<Integer, String> statusMap;
-  static {
-    statusMap = new HashMap<>();
-    statusMap.put(OrderStatus_NotPayed, Global.AllRes.getString("orderTable.status.orderNotPayed"));
-    statusMap.put(OrderStatus_Payed, Global.AllRes.getString("orderTable.status.orderPayed"));
-    statusMap.put(OrderStatus_Locked, Global.AllRes.getString("orderTable.status.orderLocked"));
-  }
-
   public static Order fromMOrder(MOrder mo, Map<Integer, Product> productMap) {
     Product product = productMap.get(mo.productId());
     ZonedDateTime dt = DataUtils.utcTimeFromStr(mo.creationTimeS());
@@ -132,4 +108,19 @@ public class Order extends RecursiveTreeObject<Order> {
   public Integer getProdId() {
     return prodId;
   }
+
+  public static int getOrderStatus(MOrder mo) {
+    if (mo.procTime1S().nonEmpty()) {
+      return OrderStatus_Locked;
+    }
+    else if (mo.payTime().nonEmpty()) {
+      return OrderStatus_Payed;
+    }
+    else {
+      return OrderStatus_NotPayed;
+    }
+  }
+  public final static int OrderStatus_NotPayed = 1;
+  public final static int OrderStatus_Payed = 2;
+  public final static int OrderStatus_Locked = 3;
 }

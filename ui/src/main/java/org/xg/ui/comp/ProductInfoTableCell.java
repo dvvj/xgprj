@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.layout.VBox;
-import org.xg.ui.model.Product;
+import org.xg.uiModels.Product;
 import org.xg.ui.utils.Global;
 
 import java.io.IOException;

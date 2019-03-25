@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import org.xg.ui.model.Customer;
+import org.xg.uiModels.Customer;
 import org.xg.ui.model.TableViewHelper;
 
 import java.net.URL;

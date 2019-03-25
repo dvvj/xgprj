@@ -9,11 +9,13 @@ import org.xg.dbModels.{MCustomer, MMedProf, MOrder, MProduct}
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.ui.model._
+import org.xg.uiModels
+import org.xg.uiModels._
 
 import scala.concurrent.{Await, Future}
 
 object Helpers {
-  def convProducts(mps:Array[MProduct], pricePlan:TPricePlan):Array[Product] = {
+  def convProducts(mps:Array[MProduct], pricePlan:TPricePlan):Array[uiModels.Product] = {
     mps.map(mp => Product.fromMProduct(mp, pricePlan))
   }
 
@@ -35,7 +37,7 @@ object Helpers {
                           prodMap: java.util.Map[Integer, Product],
                           rewardPlan:TRewardPlan
                         ):Array[CustomerOrder] = {
-    morders.map(mo => CustomerOrder.fromMOrder(mo, customerMap, rewardPlan))
+    morders.map(mo => CustomerOrder.fromMOrder(mo, customerMap, Global.getProductMap, rewardPlan))
   }
 
   def uiTaskJ[T >: AnyRef](

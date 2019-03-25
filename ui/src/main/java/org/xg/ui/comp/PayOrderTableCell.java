@@ -1,15 +1,7 @@
 package org.xg.ui.comp;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
-import javafx.scene.text.Text;
-import org.xg.auth.SvcHelpers;
-import org.xg.gnl.GlobalCfg;
-import org.xg.svc.PayOrder;
-import org.xg.ui.model.Order;
-import org.xg.ui.utils.Global;
+import org.xg.uiModels.Order;
 
 public class PayOrderTableCell extends TableCell<Order, Order> {
 //  private ObjectProperty<Order> selectedOrder = new SimpleObjectProperty<>();

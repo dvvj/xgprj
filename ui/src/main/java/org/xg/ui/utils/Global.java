@@ -7,16 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
-import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
 import org.xg.dbModels.MProduct;
 import org.xg.gnl.GlobalCfg;
 import org.xg.pay.pricePlan.TPricePlan;
-import org.xg.pay.pricePlan.v1.PrPlFixedRate;
-import org.xg.ui.model.Customer;
-import org.xg.ui.model.CustomerOrder;
-import org.xg.ui.model.Order;
-import org.xg.ui.model.Product;
+import org.xg.uiModels.Order;
+import org.xg.uiModels.Product;
 
 import java.util.*;
 

@@ -6,6 +6,9 @@ import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Helpers;
+import org.xg.uiModels.Customer;
+import org.xg.uiModels.CustomerOrder;
+import org.xg.uiModels.Product;
 
 import java.util.Map;
 import java.util.function.Function;

@@ -1,7 +1,6 @@
 package org.xg.ui;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.jfoenix.utils.JFXHighlighter;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
@@ -10,12 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import org.xg.svc.ImageInfo;
-import org.xg.ui.model.CustomerOrder;
-import org.xg.ui.model.Product;
+import org.xg.uiModels.Product;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -27,7 +23,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-import static org.xg.ui.model.TableViewHelper.*;
 import static org.xg.ui.utils.Global.getAllProducts;
 
 public class ProductTableController implements Initializable {

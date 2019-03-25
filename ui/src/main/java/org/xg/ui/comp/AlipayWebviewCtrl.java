@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.web.WebView;
 import org.xg.pay.AlipayCfg;
 import org.xg.pay.AlipayHelpers;
-import org.xg.ui.model.Product;
+import org.xg.uiModels.Product;
 
 import java.net.URL;
 import java.util.ResourceBundle;

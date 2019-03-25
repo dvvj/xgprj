@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.xg.ui.model.Product;
+import org.xg.uiModels.Product;
 
 public class ProductInfoTableCellCtrl {
   @FXML

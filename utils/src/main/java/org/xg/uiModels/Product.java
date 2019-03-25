@@ -1,4 +1,4 @@
-package org.xg.ui.model;
+package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.*;

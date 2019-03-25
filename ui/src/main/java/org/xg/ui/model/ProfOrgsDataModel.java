@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.xg.dbModels.MMedProf;
 import org.xg.ui.utils.Helpers;
+import org.xg.uiModels.MedProf;
 
 public class ProfOrgsDataModel {
 

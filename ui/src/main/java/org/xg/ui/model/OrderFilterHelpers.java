@@ -1,6 +1,7 @@
 package org.xg.ui.model;
 
 import org.xg.ui.utils.Global;
+import org.xg.uiModels.Order;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

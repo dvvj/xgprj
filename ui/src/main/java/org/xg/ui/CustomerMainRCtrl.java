@@ -1,10 +1,5 @@
 package org.xg.ui;
 
-import javafx.application.Platform;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,12 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
 import org.xg.ui.comp.PlaceOrderCtrl;
-import org.xg.ui.model.Product;
+import org.xg.uiModels.Product;
 import org.xg.ui.utils.Global;
 
 import java.io.ByteArrayInputStream;

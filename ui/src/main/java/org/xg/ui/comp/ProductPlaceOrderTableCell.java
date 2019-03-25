@@ -1,15 +1,7 @@
 package org.xg.ui.comp;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableCell;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import org.xg.ui.model.Product;
-import org.xg.ui.utils.Global;
-
-import java.io.IOException;
+import org.xg.uiModels.Product;
 
 public class ProductPlaceOrderTableCell extends TableCell<Product, Product> {
 //  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
