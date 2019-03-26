@@ -2,11 +2,16 @@ package org.xg.ui.mainwnd;
 
 import com.jfoenix.controls.*;
 import io.datafx.controller.ViewController;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -27,9 +32,7 @@ import org.xg.ui.utils.UISvcHelpers;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 @ViewController(value = "/ui/MedProfsMain.fxml")
@@ -39,7 +42,7 @@ public class MedProfsMain {
   private StackPane ordersTab;
 
   @FXML
-  private HBox customersTab;
+  private StackPane customersTab;
 
   private MedProfsDataModel dataModel = null;
 
@@ -66,6 +69,10 @@ public class MedProfsMain {
     System.out.println("Total reward: " + totalReward);
   }
 
+  private TreeTableViewWithFilterCtrl<Customer> customerCtrl;
+
+  private ObjectProperty<Customer> selectedCustomer = new SimpleObjectProperty<>();
+
   private void loadCustomerTable() {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
     FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
@@ -73,6 +80,7 @@ public class MedProfsMain {
     try {
       //productLoader.setLocation(path);
       table = tableLoader.load();
+      customerCtrl = tableLoader.getController();
       TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
       tblCtrl.setup(
 //        "customerTable.toolbar.heading",
@@ -119,19 +127,95 @@ public class MedProfsMain {
           UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
 
         },
-        () -> dataModel.getCustomers()
+        () -> dataModel.getCustomers(),
+        () -> {
+          double m = createBarChartsAll();
+          maxChartValue.setValue(m);;
+          selectedCustomer.bind(customerCtrl.getSelected());
+        }
       );
 
+      selectedCustomer.addListener((observable, oldValue, newValue) -> {
+        if (newValue != null) {
+          String customerId = newValue.getUid();
+          createBarChartCurrCustomer(customerId, newValue.getName());
+        }
+      });
+
       //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
-      System.out.println("data :" + dataModel.getOrderData().length);
-      StackedBarChart<String, Number> barChart = ChartHelpers.createChartFromCustomerOrders(
-        dataModel.getOrderData()
-      );
-      customersTab.getChildren().addAll(table, barChart);
+      //System.out.println("data :" + dataModel.getOrderData().length);
+      customersTab.getChildren().addAll(table);
     }
     catch (Exception ex) {
       throw new RuntimeException(ex);
     }
+
+  }
+
+  @FXML
+  private VBox vboxChartAll;
+  @FXML
+  private VBox vboxChartCurrCustomer;
+
+  private DoubleProperty maxChartValue = new SimpleDoubleProperty();
+
+  private double createBarChartsAll() {
+    vboxChartAll.getChildren().clear();
+
+    StackedBarChart<String, Number> barChartAll = ChartHelpers.createChartFromCustomerOrders(
+      dataModel.getOrderData(),
+      new String[] {
+        Global.AllRes.getString("customerBarChart.category.paid"),
+        Global.AllRes.getString("customerBarChart.category.unpaid"),
+      },
+      Global.AllRes.getString("customerBarChart.title"),
+      null
+    );
+    barChartAll.setMaxHeight(350);
+
+    vboxChartAll.getChildren().addAll(barChartAll);
+
+    List<Double> sums = new ArrayList<>();
+    for (int i = 0; i < barChartAll.getData().size(); i++) {
+      XYChart.Series<String, Number> d = barChartAll.getData().get(i);
+      for (int j = 0; j < d.getData().size(); j++) {
+        double curr = d.getData().get(j).getYValue().doubleValue();
+        if (sums.size() <= j) {
+          sums.add(curr);
+        }
+        else {
+          sums.set(j, sums.get(j)+curr);
+        }
+      }
+    }
+    if (sums.size() > 0) {
+      double max = sums.stream().max(Double::compareTo).get();
+
+      return max;
+    }
+    else
+      return 0.0;
+  }
+
+  private void createBarChartCurrCustomer(String currCustomerId, String currCustomerName) {
+    vboxChartCurrCustomer.getChildren().clear();
+
+    CustomerOrder[] currCustomerOrders = Arrays.stream(dataModel.getOrderData())
+      .filter(o -> o.getCustomerId().equals(currCustomerId)).toArray(CustomerOrder[]::new);
+    StackedBarChart<String, Number> barChartCurrUser = ChartHelpers.createChartFromCustomerOrders(
+      currCustomerOrders,
+      new String[] {
+        Global.AllRes.getString("customerBarChart.category.paid"),
+        Global.AllRes.getString("customerBarChart.category.unpaid"),
+      },
+      String.format(
+        "%s(%s)", Global.AllRes.getString("customerBarChart.title"), currCustomerName
+      ),
+      maxChartValue.getValue()
+    );
+    barChartCurrUser.setMaxHeight(350);
+
+    vboxChartCurrCustomer.getChildren().addAll(barChartCurrUser);
 
   }
 

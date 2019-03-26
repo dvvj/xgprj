@@ -9,7 +9,7 @@
 <?import javafx.geometry.Insets?>
 
 <?import javafx.scene.text.Text?>
-<BorderPane xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml">
     <!--<top>-->
         <!--<JFXToolbar>-->
@@ -35,22 +35,30 @@
             <!--</rightItems>-->
         <!--</JFXToolbar>-->
     <!--</top>-->
-    <center>
+
         <JFXTabPane minWidth="800.0">
+            <Tab text="%medprofs.tab.customerTable.heading">
+                <HBox>
+                    <StackPane fx:id="customersTab">
+                    </StackPane>
+                    <VBox>
+                        <VBox fx:id="vboxChartCurrCustomer">
+
+                        </VBox>
+                        <VBox fx:id="vboxChartAll" />
+                    </VBox>
+                </HBox>
+            </Tab>
             <Tab text="%medprofs.tab.customerOrderTable.heading">
                 <StackPane fx:id="ordersTab">
                 </StackPane>
-            </Tab>
-            <Tab text="%medprofs.tab.customerTable.heading">
-                <HBox fx:id="customersTab">
-                </HBox>
             </Tab>
             <Tab text="%medprofs.tab.settings.heading">
                 <StackPane fx:id="settingsTab">
                 </StackPane>
             </Tab>
         </JFXTabPane>
-    </center>
+
     <!--<JFXTreeTableView fx:id="tblCustomers" minWidth="500" maxWidth="500" />-->
     <!--<JFXTreeTableView fx:id="tblRefedCustomerOrders" minWidth="500" maxWidth="500" />-->
-</BorderPane>
+</VBox>

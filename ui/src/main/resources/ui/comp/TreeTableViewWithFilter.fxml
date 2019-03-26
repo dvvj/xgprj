@@ -12,8 +12,8 @@
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import com.jfoenix.controls.JFXToolbar?>
 <VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
     <JFXToolbar styleClass="jfx-tool-bar2">
         <leftItems>
             <!--<Text fx:id="txtHeading" />-->
@@ -29,5 +29,5 @@
         </rightItems>
     </JFXToolbar>
 
-    <JFXTreeTableView fx:id="theTable"/>
+    <JFXTreeTableView fx:id="theTable" prefHeight="700" />
 </VBox>

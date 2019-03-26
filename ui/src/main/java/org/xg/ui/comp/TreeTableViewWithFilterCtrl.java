@@ -6,6 +6,9 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.jfoenix.utils.JFXHighlighter;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -25,6 +28,12 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
   private JFXHighlighter highlighter = new JFXHighlighter();
 
   private String emptyTableRes;
+
+  private ObjectProperty<T> selected = new SimpleObjectProperty<>();
+
+  public ObjectProperty<T> getSelected() {
+    return selected;
+  }
 
   public void setup(
 //    String headingRes,
@@ -90,6 +99,18 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     Consumer<JFXTreeTableView<T>> columnBuilder,
     Supplier<ObservableList<T>> dataRetriever
   ) {
+    setupColumsAndLoadData(
+      columnBuilder,
+      dataRetriever,
+      () -> { }
+    );
+  }
+
+  public void setupColumsAndLoadData(
+    Consumer<JFXTreeTableView<T>> columnBuilder,
+    Supplier<ObservableList<T>> dataRetriever,
+    Runnable uiUpdater
+  ) {
     //UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
     columnBuilder.accept(theTable);
 
@@ -119,6 +140,8 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 //            theTable.getSelectionModel().select(0);
 //          }
           filterAndUpdateTable(t -> true);
+
+          uiUpdater.run();
         }
         else {
           // todo: show error
@@ -130,7 +153,6 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 
     new Thread(fetchCustomersTask).start();
   }
-
   private void filterAndUpdateTable(Predicate<T> filter) {
     if (dataCache != null && dataCache.size() > 0) {
       highlighter.clear();
@@ -142,22 +164,31 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
       if (activeDataCache.size() > 0) {
         TreeItem<T> first =  theTable.getTreeItem(0);
         theTable.getSelectionModel().select(first);
+        selected.setValue(first.getValue());
         //updateSelection(first.getValue());
       }
       else {
         UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
+        selected.setValue(null);
       }
-
-      if (!txtSearch.getText().isEmpty()) {
-        System.out.println("highlighting..." + txtSearch.getText());
-        highlighter.highlight(theTable, txtSearch.getText());
-      }
+//
+//      if (!txtSearch.getText().isEmpty()) {
+//        System.out.println("highlighting..." + txtSearch.getText());
+//        highlighter.highlight(theTable, txtSearch.getText());
+//      }
 
       //theTable.group(theTable.getColumns().get(0));
     }
     else {
       UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
+      selected.setValue(null);
     }
+
+    theTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+      //System.out.println(newValue.getValue());
+      if (newValue != null)
+        selected.setValue(newValue.getValue());
+    });
   }
 
   @FXML
