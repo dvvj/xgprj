@@ -11,12 +11,19 @@
             xmlns:fx="http://javafx.com/fxml">
     <center>
         <JFXTabPane minWidth="800.0">
+            <Tab text="%proforgs.tab.profsTable.heading">
+                <HBox>
+                    <StackPane fx:id="profsTab">
+                    </StackPane>
+                    <VBox>
+                        <VBox fx:id="vboxChartCurrProf">
+
+                        </VBox>
+                        <VBox fx:id="vboxChartAll" />
+                    </VBox>
+                </HBox>            </Tab>
             <Tab text="%proforgs.tab.customerOrderStatsTable.heading">
                 <StackPane fx:id="orderStatsTab">
-                </StackPane>
-            </Tab>
-            <Tab text="%proforgs.tab.profsTable.heading">
-                <StackPane fx:id="profsTab">
                 </StackPane>
             </Tab>
             <Tab text="%proforgs.tab.settings.heading">

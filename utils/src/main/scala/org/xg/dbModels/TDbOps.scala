@@ -167,6 +167,10 @@ trait TDbOps {
   }
 
   def getOrderStat4Org(orgId:String):Array[MOrgOrderStat]
+//  def getOrderStat4Org_paid(orgId:String):Array[MOrgOrderStat] = {
+//
+//  }
+//  def getOrderStat4Org_unpaid(orgId:String):Array[MOrgOrderStat]
 }
 
 object TDbOps {

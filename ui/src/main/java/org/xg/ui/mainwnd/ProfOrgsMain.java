@@ -204,4 +204,10 @@ public class ProfOrgsMain {
       (MOrgOrderStat[])raw[1]
     );
   }
+  @FXML
+  private VBox vboxChartAll;
+  @FXML
+  private VBox vboxChartCurrProf;
+
+
 }
