@@ -26,8 +26,12 @@
                 <StackPane fx:id="orderStatsTab">
                 </StackPane>
             </Tab>
-            <Tab text="%proforgs.tab.settings.heading">
-                <VBox fx:id="settingsTab" spacing="20">
+            <Tab text="%proforgs.tab.addNewProfs.heading">
+                <VBox fx:id="addNewProfsTab" spacing="20">
+                </VBox>
+            </Tab>
+            <Tab text="%proforgs.tab.updatePassword.heading">
+                <VBox fx:id="updatePasswordTab" spacing="20">
                 </VBox>
             </Tab>
         </JFXTabPane>

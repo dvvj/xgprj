@@ -193,7 +193,8 @@ public class ProfOrgsMain {
       loadDataModel();
       loadOrderStatsTab();
       loadMedProfsTab();
-      loadSettingsTab();
+      loadAddNewProfsTab();
+      loadUpdatePasswordTab();
     }
     catch (Exception ex) {
       throw new RuntimeException(ex);
@@ -291,18 +292,24 @@ public class ProfOrgsMain {
   }
 
   @FXML
-  VBox settingsTab;
-  private void loadSettingsTab() throws Exception {
-    URL path = UiLoginController.class.getResource("/ui/comp/UpdatePassword.fxml");
-    FXMLLoader updatePassLoader = new FXMLLoader(path, Global.AllRes);
-    VBox updatePass = updatePassLoader.load();
-
-    path = UiLoginController.class.getResource("/ui/comp/AddNewMedProf.fxml");
+  VBox addNewProfsTab;
+  private void loadAddNewProfsTab() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/AddNewMedProf.fxml");
     FXMLLoader addNewProfLoader = new FXMLLoader(path, Global.AllRes);
     VBox addNewProf = addNewProfLoader.load();
 
 
-    settingsTab.getChildren().addAll(updatePass, addNewProf);
+    addNewProfsTab.getChildren().addAll(addNewProf);
+
+  }
+  @FXML
+  VBox updatePasswordTab;
+  private void loadUpdatePasswordTab() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/UpdatePassword.fxml");
+    FXMLLoader updatePassLoader = new FXMLLoader(path, Global.AllRes);
+    VBox updatePass = updatePassLoader.load();
+
+    updatePasswordTab.getChildren().addAll(updatePass);
 
   }
 }
