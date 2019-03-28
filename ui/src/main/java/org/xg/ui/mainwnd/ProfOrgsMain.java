@@ -40,153 +40,145 @@ public class ProfOrgsMain {
 
   private TreeTableViewWithFilterCtrl<MedProf> profCtrl;
 
-  private void loadOrderStatsTab() {
+  private void loadOrderStatsTab() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
     FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
     VBox table;
-    try {
-      //productLoader.setLocation(path);
-      table = tableLoader.load();
-      TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
-      tblCtrl.setup(
-//        "customerTable.toolbar.heading",
-        "orderStatsTable.toolbar.refresh",
-        "orderStatsTable.toolbar.searchPrompt",
-        "orderStatsTable.toolbar.filter",
-        "orderStatsTable.emptyPlaceHolder",
-        c -> {
-          OrgOrderStat orderStat = (OrgOrderStat) c;
-          Set<String> strs = new HashSet<>();
-          strs.addAll(Arrays.asList(
-            orderStat.getProfId(),
-            orderStat.getProdName()
-          ));
-          return strs;
-        }
-      );
 
-      tblCtrl.setupColumsAndLoadData(
-        tbl -> {
-          JFXTreeTableView<OrgOrderStat> theTable = (JFXTreeTableView<OrgOrderStat>)tbl;
-          theTable.getColumns().addAll(
+    //productLoader.setLocation(path);
+    table = tableLoader.load();
+    TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
+    tblCtrl.setup(
+//        "customerTable.toolbar.heading",
+      "orderStatsTable.toolbar.refresh",
+      "orderStatsTable.toolbar.searchPrompt",
+      "orderStatsTable.toolbar.filter",
+      "orderStatsTable.emptyPlaceHolder",
+      c -> {
+        OrgOrderStat orderStat = (OrgOrderStat) c;
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          orderStat.getProfId(),
+          orderStat.getProdName()
+        ));
+        return strs;
+      }
+    );
+
+    tblCtrl.setupColumsAndLoadData(
+      tbl -> {
+        JFXTreeTableView<OrgOrderStat> theTable = (JFXTreeTableView<OrgOrderStat>)tbl;
+        theTable.getColumns().addAll(
 //            TableViewHelper.jfxTableColumnResBundle(
 //              "customerTable.uid",
 //              Global.AllRes,
 //              100,
 //              Customer::getUid
 //            ),
-            TableViewHelper.jfxTableColumnResBundle(
-              "orderStatsTable.prodName",
-              Global.AllRes,
-              150,
-              OrgOrderStat::getProdName
-            ),
-            TableViewHelper.jfxTableColumnResBundle(
-              "orderStatsTable.qty",
-              Global.AllRes,
-              100,
-              OrgOrderStat::getQty
-            ),
-            TableViewHelper.jfxTableColumnResBundle(
-              "orderStatsTable.actualCost",
-              Global.AllRes,
-              100,
-              OrgOrderStat::getActualCost
-            ),
-            TableViewHelper.jfxTableColumnResBundle(
-              "orderStatsTable.profName",
-              Global.AllRes,
-              100,
-              OrgOrderStat::getProfName
-            )
-          );
+          TableViewHelper.jfxTableColumnResBundle(
+            "orderStatsTable.prodName",
+            Global.AllRes,
+            150,
+            OrgOrderStat::getProdName
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "orderStatsTable.qty",
+            Global.AllRes,
+            100,
+            OrgOrderStat::getQty
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "orderStatsTable.actualCost",
+            Global.AllRes,
+            100,
+            OrgOrderStat::getActualCost
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "orderStatsTable.profName",
+            Global.AllRes,
+            100,
+            OrgOrderStat::getProfName
+          )
+        );
 
-          UIHelpers.setPlaceHolder4TreeView(theTable, "orderStatsTable.placeHolder");
+        UIHelpers.setPlaceHolder4TreeView(theTable, "orderStatsTable.placeHolder");
 
-        },
-        () -> dataModel.getOrderStats(),
-        () -> {
-          double m = ((int)(createBarChartsAll() / 500)) * 500;
-          maxChartValue.setValue(m);
-          selectedProf.bind(profCtrl.getSelected());
-        }
-      );
-      selectedProf.addListener((observable, oldValue, newValue) -> {
-        if (newValue != null) {
-          String profId = newValue.getUid();
-          createBarChartCurrProf(profId, newValue.getName());
-        }
-      });
-      orderStatsTab.getChildren().addAll(table);
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
+      },
+      () -> dataModel.getOrderStats(),
+      () -> {
+        double m = ((int)(createBarChartsAll() / 500)) * 500;
+        maxChartValue.setValue(m);
+        selectedProf.bind(profCtrl.getSelected());
+      }
+    );
+    selectedProf.addListener((observable, oldValue, newValue) -> {
+      if (newValue != null) {
+        String profId = newValue.getUid();
+        createBarChartCurrProf(profId, newValue.getName());
+      }
+    });
+    orderStatsTab.getChildren().addAll(table);
 
   }
   private DoubleProperty maxChartValue = new SimpleDoubleProperty();
 
-  private void loadMedProfsTab() {
+  private void loadMedProfsTab() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
     FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
     VBox table;
-    try {
-      //productLoader.setLocation(path);
-      table = tableLoader.load();
-      profCtrl = tableLoader.getController();
-      profCtrl.setup(
-//        "customerTable.toolbar.heading",
-        "medprofsTable.toolbar.refresh",
-        "medprofsTable.toolbar.searchPrompt",
-        "medprofsTable.toolbar.filter",
-        "medprofsTable.emptyPlaceHolder",
-        c -> {
-          MedProf medProf = (MedProf) c;
-          Set<String> strs = new HashSet<>();
-          strs.addAll(Arrays.asList(
-            medProf.getName(),
-            medProf.getUid(),
-            medProf.getMobile()
-          ));
-          return strs;
-        }
-      );
 
-      profCtrl.setupColumsAndLoadData(
-        tbl -> {
-          JFXTreeTableView<MedProf> theTable = (JFXTreeTableView<MedProf>)tbl;
-          theTable.getColumns().addAll(
+    //productLoader.setLocation(path);
+    table = tableLoader.load();
+    profCtrl = tableLoader.getController();
+    profCtrl.setup(
+//        "customerTable.toolbar.heading",
+      "medprofsTable.toolbar.refresh",
+      "medprofsTable.toolbar.searchPrompt",
+      "medprofsTable.toolbar.filter",
+      "medprofsTable.emptyPlaceHolder",
+      c -> {
+        MedProf medProf = (MedProf) c;
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          medProf.getName(),
+          medProf.getUid(),
+          medProf.getMobile()
+        ));
+        return strs;
+      }
+    );
+
+    profCtrl.setupColumsAndLoadData(
+      tbl -> {
+        JFXTreeTableView<MedProf> theTable = (JFXTreeTableView<MedProf>)tbl;
+        theTable.getColumns().addAll(
 //            TableViewHelper.jfxTableColumnResBundle(
 //              "customerTable.uid",
 //              Global.AllRes,
 //              100,
 //              Customer::getUid
 //            ),
-            TableViewHelper.jfxTableColumnResBundle(
-              "medprofsTable.name",
-              Global.AllRes,
-              100,
-              MedProf::getName
-            ),
-            TableViewHelper.jfxTableColumnResBundle(
-              "medprofsTable.mobile",
-              Global.AllRes,
-              150,
-              MedProf::getMobile
-            )
-          );
+          TableViewHelper.jfxTableColumnResBundle(
+            "medprofsTable.name",
+            Global.AllRes,
+            100,
+            MedProf::getName
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "medprofsTable.mobile",
+            Global.AllRes,
+            150,
+            MedProf::getMobile
+          )
+        );
 
-          UIHelpers.setPlaceHolder4TreeView(theTable, "medprofsTable.placeHolder");
+        UIHelpers.setPlaceHolder4TreeView(theTable, "medprofsTable.placeHolder");
 
-        },
-        () -> dataModel.getMedProfs()
-      );
+      },
+      () -> dataModel.getMedProfs()
+    );
 
-      profsTab.getChildren().addAll(table);
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
+    profsTab.getChildren().addAll(table);
 
   }
 
@@ -196,10 +188,16 @@ public class ProfOrgsMain {
 
   @PostConstruct
   public void launch() {
-    System.out.println("in post construct");
-    loadDataModel();
-    loadOrderStatsTab();
-    loadMedProfsTab();
+    try {
+      System.out.println("in post construct");
+      loadDataModel();
+      loadOrderStatsTab();
+      loadMedProfsTab();
+      loadSettingsTab();
+    }
+    catch (Exception ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
   private ProfOrgsDataModel dataModel = null;
@@ -292,4 +290,13 @@ public class ProfOrgsMain {
 
   }
 
+  @FXML
+  VBox settingsTab;
+  private void loadSettingsTab() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/UpdatePassword.fxml");
+    FXMLLoader settingsLoader = new FXMLLoader(path, Global.AllRes);
+    VBox updatePass = settingsLoader.load();
+
+    settingsTab.getChildren().addAll(updatePass);
+  }
 }
