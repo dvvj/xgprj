@@ -294,9 +294,15 @@ public class ProfOrgsMain {
   VBox settingsTab;
   private void loadSettingsTab() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/UpdatePassword.fxml");
-    FXMLLoader settingsLoader = new FXMLLoader(path, Global.AllRes);
-    VBox updatePass = settingsLoader.load();
+    FXMLLoader updatePassLoader = new FXMLLoader(path, Global.AllRes);
+    VBox updatePass = updatePassLoader.load();
 
-    settingsTab.getChildren().addAll(updatePass);
+    path = UiLoginController.class.getResource("/ui/comp/AddNewMedProf.fxml");
+    FXMLLoader addNewProfLoader = new FXMLLoader(path, Global.AllRes);
+    VBox addNewProf = addNewProfLoader.load();
+
+
+    settingsTab.getChildren().addAll(updatePass, addNewProf);
+
   }
 }

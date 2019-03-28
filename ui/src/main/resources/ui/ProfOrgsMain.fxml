@@ -27,7 +27,7 @@
                 </StackPane>
             </Tab>
             <Tab text="%proforgs.tab.settings.heading">
-                <VBox fx:id="settingsTab">
+                <VBox fx:id="settingsTab" spacing="20">
                 </VBox>
             </Tab>
         </JFXTabPane>
