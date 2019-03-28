@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class ProfOrgsDataModel {
 
   private final ObservableList<MedProf> medProfs;
+  private final OrgOrderStat[] rawOrderStats;
   private final ObservableList<OrgOrderStat> orderStats;
   private final Map<String, MedProf> profMap;
 
@@ -30,7 +31,8 @@ public class ProfOrgsDataModel {
       )
     );
     this.medProfs = FXCollections.observableArrayList(profs);
-    this.orderStats = FXCollections.observableArrayList(Helpers.convOrgOrderStats(orderStats, profMap));
+    rawOrderStats = Helpers.convOrgOrderStats(orderStats, profMap);
+    this.orderStats = FXCollections.observableArrayList(rawOrderStats);
   }
 
   public ObservableList<MedProf> getMedProfs() {
@@ -39,5 +41,9 @@ public class ProfOrgsDataModel {
 
   public ObservableList<OrgOrderStat> getOrderStats() {
     return orderStats;
+  }
+
+  public OrgOrderStat[] getRawOrderStats() {
+    return rawOrderStats;
   }
 }

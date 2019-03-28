@@ -290,7 +290,7 @@ object HbnDbOpsImpl {
             order.getQty,
             order.getActualCost,
             order.getCreationTime,
-            MOrgOrderStat.Status_Created
+            MOrgOrderStat.Status_CreatedNotPaid
           )
 
           sess.save(orgOrderStat)

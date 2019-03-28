@@ -3,7 +3,6 @@ package org.xg.uiModels;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.MOrgOrderStat;
 import org.xg.gnl.DataUtils;
-import org.xg.json.CommonUtils;
 
 import java.util.Map;
 
@@ -16,6 +15,7 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
   private double qty;
   private double actualCost;
   private String creationTimeS;
+  private Integer status;
 
   public OrgOrderStat() { }
 
@@ -27,7 +27,8 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
     String prodName,
     double qty,
     double actualCost,
-    String creationTimeS
+    String creationTimeS,
+    Integer status
   ) {
     this.orgId = orgId;
     this.profId = profId;
@@ -37,6 +38,11 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
     this.qty = qty;
     this.actualCost = DataUtils.roundMoney(actualCost);
     this.creationTimeS = creationTimeS;
+    this.status = status;
+  }
+
+  public boolean getNotPayed() {
+    return status == MOrgOrderStat.Status_CreatedNotPaid();
   }
 
   public String getOrgId() {
@@ -108,7 +114,8 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
       prodMap.get(os.productId()).getName(),
       os.qty(),
       os.actualCost(),
-      os.creationTimeS()
+      os.creationTimeS(),
+      os.status()
     );
   }
 }

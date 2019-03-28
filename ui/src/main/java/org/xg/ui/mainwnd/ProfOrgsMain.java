@@ -2,11 +2,16 @@ package org.xg.ui.mainwnd;
 
 import com.jfoenix.controls.JFXTreeTableView;
 import io.datafx.controller.ViewController;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.xg.chart.ChartHelpers;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgOrderStat;
 import org.xg.ui.UiLoginController;
@@ -22,9 +27,7 @@ import org.xg.uiModels.OrgOrderStat;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 @ViewController(value = "/ui/ProfOrgsMain.fxml")
@@ -96,7 +99,12 @@ public class ProfOrgsMain {
           UIHelpers.setPlaceHolder4TreeView(theTable, "orderStatsTable.placeHolder");
 
         },
-        () -> dataModel.getOrderStats()
+        () -> dataModel.getOrderStats(),
+        () -> {
+          double m = createBarChartsAll();
+          maxChartValue.setValue(m);
+//          selectedCustomer.bind(customerCtrl.getSelected());
+        }
       );
 
       orderStatsTab.getChildren().addAll(table);
@@ -106,6 +114,7 @@ public class ProfOrgsMain {
     }
 
   }
+  private DoubleProperty maxChartValue = new SimpleDoubleProperty();
 
   private void loadMedProfsTab() {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
@@ -206,6 +215,45 @@ public class ProfOrgsMain {
   }
   @FXML
   private VBox vboxChartAll;
+
+  private double createBarChartsAll() {
+    vboxChartAll.getChildren().clear();
+
+    StackedBarChart<String, Number> barChartAll = ChartHelpers.createChartFromOrderStats(
+      dataModel.getRawOrderStats(),
+      new String[] {
+        Global.AllRes.getString("orderStatsBarChart.category.paid"),
+        Global.AllRes.getString("orderStatsBarChart.category.unpaid"),
+      },
+      Global.AllRes.getString("orderStatsBarChart.title"),
+      null
+    );
+    barChartAll.setMaxHeight(350);
+
+    vboxChartAll.getChildren().addAll(barChartAll);
+
+    List<Double> sums = new ArrayList<>();
+    for (int i = 0; i < barChartAll.getData().size(); i++) {
+      XYChart.Series<String, Number> d = barChartAll.getData().get(i);
+      for (int j = 0; j < d.getData().size(); j++) {
+        double curr = d.getData().get(j).getYValue().doubleValue();
+        if (sums.size() <= j) {
+          sums.add(curr);
+        }
+        else {
+          sums.set(j, sums.get(j)+curr);
+        }
+      }
+    }
+    if (sums.size() > 0) {
+      double max = sums.stream().max(Double::compareTo).get();
+
+      return max;
+    }
+    else
+      return 0.0;
+  }
+
   @FXML
   private VBox vboxChartCurrProf;
 

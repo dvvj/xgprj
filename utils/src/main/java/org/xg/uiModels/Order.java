@@ -2,10 +2,10 @@ package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.dbModels.MOrder;
+import org.xg.dbModels.MOrgOrderStat;
 import org.xg.gnl.DataUtils;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Order extends RecursiveTreeObject<Order> {
@@ -24,11 +24,11 @@ public class Order extends RecursiveTreeObject<Order> {
   }
 
   public boolean getCanBeModified() {
-    return status != OrderStatus_Locked;
+    return status != MOrgOrderStat.Status_Locked();
   }
 
   public boolean getNotPayed() {
-    return status == OrderStatus_NotPayed;
+    return status == MOrgOrderStat.Status_CreatedNotPaid();
   }
 
   public Order() {
@@ -111,16 +111,13 @@ public class Order extends RecursiveTreeObject<Order> {
 
   public static int getOrderStatus(MOrder mo) {
     if (mo.procTime1S().nonEmpty()) {
-      return OrderStatus_Locked;
+      return MOrgOrderStat.Status_Locked();
     }
     else if (mo.payTime().nonEmpty()) {
-      return OrderStatus_Payed;
+      return MOrgOrderStat.Status_Paid();
     }
     else {
-      return OrderStatus_NotPayed;
+      return MOrgOrderStat.Status_CreatedNotPaid();
     }
   }
-  public final static int OrderStatus_NotPayed = 1;
-  public final static int OrderStatus_Payed = 2;
-  public final static int OrderStatus_Locked = 3;
 }

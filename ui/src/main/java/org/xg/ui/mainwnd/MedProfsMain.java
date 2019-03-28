@@ -130,7 +130,7 @@ public class MedProfsMain {
         () -> dataModel.getCustomers(),
         () -> {
           double m = createBarChartsAll();
-          maxChartValue.setValue(m);;
+          maxChartValue.setValue(m);
           selectedCustomer.bind(customerCtrl.getSelected());
         }
       );
