@@ -3,7 +3,9 @@ package org.xg.ui.mainwnd;
 import com.jfoenix.controls.JFXTreeTableView;
 import io.datafx.controller.ViewController;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.StackedBarChart;
@@ -16,6 +18,7 @@ import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgOrderStat;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
+import org.xg.uiModels.Customer;
 import org.xg.uiModels.MedProf;
 import org.xg.ui.model.ProfOrgsDataModel;
 import org.xg.ui.model.TableViewHelper;
@@ -34,6 +37,8 @@ import java.util.function.Supplier;
 public class ProfOrgsMain {
   @FXML
   private StackPane orderStatsTab;
+
+  private TreeTableViewWithFilterCtrl<MedProf> profCtrl;
 
   private void loadOrderStatsTab() {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
@@ -101,12 +106,17 @@ public class ProfOrgsMain {
         },
         () -> dataModel.getOrderStats(),
         () -> {
-          double m = createBarChartsAll();
+          double m = ((int)(createBarChartsAll() / 500)) * 500;
           maxChartValue.setValue(m);
-//          selectedCustomer.bind(customerCtrl.getSelected());
+          selectedProf.bind(profCtrl.getSelected());
         }
       );
-
+      selectedProf.addListener((observable, oldValue, newValue) -> {
+        if (newValue != null) {
+          String profId = newValue.getUid();
+          createBarChartCurrProf(profId, newValue.getName());
+        }
+      });
       orderStatsTab.getChildren().addAll(table);
     }
     catch (Exception ex) {
@@ -123,8 +133,8 @@ public class ProfOrgsMain {
     try {
       //productLoader.setLocation(path);
       table = tableLoader.load();
-      TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
-      tblCtrl.setup(
+      profCtrl = tableLoader.getController();
+      profCtrl.setup(
 //        "customerTable.toolbar.heading",
         "medprofsTable.toolbar.refresh",
         "medprofsTable.toolbar.searchPrompt",
@@ -142,7 +152,7 @@ public class ProfOrgsMain {
         }
       );
 
-      tblCtrl.setupColumsAndLoadData(
+      profCtrl.setupColumsAndLoadData(
         tbl -> {
           JFXTreeTableView<MedProf> theTable = (JFXTreeTableView<MedProf>)tbl;
           theTable.getColumns().addAll(
@@ -257,5 +267,29 @@ public class ProfOrgsMain {
   @FXML
   private VBox vboxChartCurrProf;
 
+  private ObjectProperty<MedProf> selectedProf = new SimpleObjectProperty<>();
+
+
+  private void createBarChartCurrProf(String profId, String profName) {
+    vboxChartCurrProf.getChildren().clear();
+
+    OrgOrderStat[] orgOrderStats = Arrays.stream(dataModel.getRawOrderStats())
+      .filter(o -> o.getProfId().equals(profId)).toArray(OrgOrderStat[]::new);
+    StackedBarChart<String, Number> barChartCurrProf = ChartHelpers.createChartFromOrderStats(
+      orgOrderStats,
+      new String[] {
+        Global.AllRes.getString("orderStatsBarChart.category.paid"),
+        Global.AllRes.getString("orderStatsBarChart.category.unpaid"),
+      },
+      String.format(
+        "%s(%s)", Global.AllRes.getString("orderStatsBarChart.title"), profName
+      ),
+      maxChartValue.getValue()
+    );
+    barChartCurrProf.setMaxHeight(350);
+
+    vboxChartCurrProf.getChildren().addAll(barChartCurrProf);
+
+  }
 
 }
