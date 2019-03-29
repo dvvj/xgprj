@@ -4,17 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.xg.auth.UserDbAuthority;
 import org.xg.dbModels.*;
 import org.xg.gnl.GlobalCfg;
-import org.xg.hbn.ent.Order;
 import org.xg.svc.AddNewMedProf;
 
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class SvcUtils {
 
   private final static ObjectMapper ObjMapper = new ObjectMapper();
+
+  private final static Logger logger = Logger.getLogger(SvcUtils.class.getName());
 
   public static <T> T readObj(String json, Class<T> clz) {
     try {
@@ -68,13 +70,12 @@ public class SvcUtils {
     return _medProfs;
   }
 
-  public static void invalidateMedProfs() {
-    if (_medProfs != null) {
-      synchronized (_lockMedProfs) {
-        _medProfs = null;
-        UserDbAuthority.invalidateMedProfDb();
-      }
+  public static void updateMedProfs() {
+    synchronized (_lockMedProfs) {
+      _medProfs = null;
     }
+    UserDbAuthority.updateMedProfDb();
+    logger.info("updateMedProfs called, current _medProfs: " + _medProfs);
   }
 
   public static MMedProf[] getMedProfsOf(String orgId) {
@@ -183,7 +184,7 @@ public class SvcUtils {
       mmp.orgId()
     );
 
-    invalidateMedProfs();
+    updateMedProfs();
   }
 //
 //  private final static GlobalCfg _cfg = loadCfg();

@@ -3,12 +3,20 @@ package org.xg.auth;
 import org.xg.SvcUtils;
 import org.xg.gnl.GlobalCfg;
 import org.xg.log.Logging;
+import org.xg.svc.AuthResult;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public final class UserDbAuthority {
 
-  private final TAuthority<String> _auth;
+  private TAuthority _auth;
+
+  private void update(TAuthority auth) {
+    _auth = auth;
+  }
+
+  private final static Logger logger = Logger.getLogger(UserDbAuthority.class.getName());
 
   private UserDbAuthority(Map<String, byte[]> userPassMap) {
     _auth = AuthorityBasicImpl.instanceJ(userPassMap);
@@ -20,18 +28,23 @@ public final class UserDbAuthority {
 //  }
 
   public static boolean authenticateCustomer(String customerId, String passHashStr) {
-    String token = customerInstance._auth.authenticate(customerId, passHashStr);
-    return customerInstance._auth.isValidToken(token);
+    AuthResult token = customerInstance._auth.authenticate(customerId, passHashStr);
+    return token.result();
   }
 
   public static boolean authenticateMedProfs(String profId, String passHashStr) {
-    String token = medProfInstance._auth.authenticate(profId, passHashStr);
-    return medProfInstance._auth.isValidToken(token);
+    AuthResult res = medProfInstance._auth.authenticate(profId, passHashStr);
+    if (!res.result()) {
+      logger.info(
+        String.format("failed to authenticate [%s], reason: %s", profId, res.msg())
+      );
+    }
+    return res.result();
   }
 
   public static boolean authenticateProfOrgs(String orgId, String passHashStr) {
-    String token = profOrgInstance._auth.authenticate(orgId, passHashStr);
-    return profOrgInstance._auth.isValidToken(token);
+    AuthResult token = profOrgInstance._auth.authenticate(orgId, passHashStr);
+    return token.result();
   }
 
   private static UserDbAuthority createInstasnce(Map<String, byte[]> userPassMap) {
@@ -64,30 +77,43 @@ public final class UserDbAuthority {
         synchronized (_instanceLock) {
           if (instance == null) {
             instance = createInstasnce(userPassMap);
+//            logger.info(
+//              String.format("in getInstance, userPassMap size: %d, instance: %s", userPassMap.size(), instance)
+//            );
           }
         }
       }
       return instance;
     }
+
+    private UserDbAuthority update(Map<String, byte[]> userPassMap) {
+      synchronized (_instanceLock) {
+        return createInstasnce(userPassMap);
+      }
+    }
   }
 
   private final static InstanceCreation customerDb = new InstanceCreation();
-  private final static UserDbAuthority customerInstance =
+  private static UserDbAuthority customerInstance =
     customerDb.getInstance(
       SvcUtils.getDbOps().getUserPassMapJ()
     );
 
   private final static InstanceCreation medProfDb = new InstanceCreation();
-  private final static UserDbAuthority medProfInstance =
+  private static UserDbAuthority medProfInstance =
     medProfDb.getInstance(
       SvcUtils.getDbOps().getMedProfPassMapJ()
     );
-  public static void invalidateMedProfDb() {
-    medProfDb.instance = null;
+  public static void updateMedProfDb() {
+    Map<String, byte[]> profPassMap = SvcUtils.getDbOps().getMedProfPassMapJ();
+    synchronized (medProfDb._instanceLock) {
+      medProfInstance = createInstasnce(profPassMap);
+    }
+    logger.info("in updateMedProfDb, updated profPass map size: " + profPassMap.size());
   }
 
   private final static InstanceCreation profOrgDb = new InstanceCreation();
-  private final static UserDbAuthority profOrgInstance =
+  private static UserDbAuthority profOrgInstance =
     profOrgDb.getInstance(
       SvcUtils.getDbOps().getProfOrgPassMapJ()
     );
