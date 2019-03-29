@@ -10,16 +10,18 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml">
     <center>
-        <JFXTabPane minWidth="800.0">
+        <JFXTabPane minWidth="1000.0">
             <Tab text="%proforgs.tab.profsTable.heading">
                 <HBox>
                     <StackPane fx:id="profsTab">
                     </StackPane>
                     <VBox>
-                        <VBox fx:id="vboxChartCurrProf">
-
-                        </VBox>
-                        <VBox fx:id="vboxChartAll" />
+                        <VBox fx:id="vboxCostChartCurrProf" />
+                        <VBox fx:id="vboxCostChartAll" />
+                    </VBox>
+                    <VBox>
+                        <VBox fx:id="vboxRewardChartCurrProf" />
+                        <VBox fx:id="vboxRewardChartAll" />
                     </VBox>
                 </HBox>            </Tab>
             <Tab text="%proforgs.tab.customerOrderStatsTable.heading">

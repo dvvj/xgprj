@@ -230,7 +230,8 @@ object ChartHelpers {
 
   private def orgOrderStatsBarChartData(
                                          orderStats:Array[OrgOrderStat],
-                                         categoryNames:Array[String]
+                                         categoryNames:Array[String],
+                                         _resultGetter: OrgOrderStat => Double
                                        ):TBarChartDataByYearMonth[OrgOrderStat] = new TBarChartDataByYearMonth[OrgOrderStat] {
     override val getYearMonth: OrgOrderStat => (Int, Int) = os => {
       val zdt = DataUtils.utcTimeFromStrOpt(os.getCreationTimeS).get
@@ -239,7 +240,7 @@ object ChartHelpers {
 
     override val rawData: Array[OrgOrderStat] = orderStats
 
-    override val resultGetter: ResultGetter = os => os.getActualCost
+    override val resultGetter: ResultGetter = _resultGetter
     override val categorizers: List[(String, CategoryFilter)] = List(
       categoryNames(0) -> (os => !os.getNotPayed),
       categoryNames(1) -> (os => os.getNotPayed)
@@ -250,12 +251,17 @@ object ChartHelpers {
     customerOrders:Array[OrgOrderStat],
     categoryNames:Array[String], // localized paid/unpaid
     title:String,
-    maxY:java.lang.Double
+    maxY:JavaDouble,
+    _resultGetter: java.util.function.Function[OrgOrderStat, JavaDouble]
   ):StackedBarChart[String, Number] = {
     val today = DataUtils.utcTimeNow
     val start = (today.getYear-1) -> today.getMonthValue
     createChart(
-      orgOrderStatsBarChartData(customerOrders, categoryNames).groupByCategoryAndYearMonth(
+      orgOrderStatsBarChartData(
+        customerOrders,
+        categoryNames,
+        os => _resultGetter.apply(os)
+      ).groupByCategoryAndYearMonth(
         Option(start)
       ),
       title,

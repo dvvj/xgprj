@@ -32,6 +32,7 @@ import org.xg.uiModels.OrgOrderStat;
 import javax.annotation.PostConstruct;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @ViewController(value = "/ui/ProfOrgsMain.fxml")
@@ -107,21 +108,25 @@ public class ProfOrgsMain {
       },
       () -> dataModel.getOrderStats(),
       () -> {
-        double m = ((int)(createBarChartsAll() / 500)) * 500;
-        maxChartValue.setValue(m);
+        double m = ((int)(createCostBarChartsAll() / 500)) * 500;
+        maxCostChartValue.setValue(m);
+        m = ((int)(createRewardBarChartsAll() / 500)) * 500;
+        maxRewardChartValue.setValue(m);
         selectedProf.bind(profCtrl.getSelected());
       }
     );
     selectedProf.addListener((observable, oldValue, newValue) -> {
       if (newValue != null) {
         String profId = newValue.getUid();
-        createBarChartCurrProf(profId, newValue.getName());
+        createCostBarChartCurrProf(profId, newValue.getName());
+        createRewardBarChartCurrProf(profId, newValue.getName());
       }
     });
     orderStatsTab.getChildren().addAll(table);
 
   }
-  private DoubleProperty maxChartValue = new SimpleDoubleProperty();
+  private DoubleProperty maxCostChartValue = new SimpleDoubleProperty();
+  private DoubleProperty maxRewardChartValue = new SimpleDoubleProperty();
 
   private void loadMedProfsTab() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
@@ -230,10 +235,25 @@ public class ProfOrgsMain {
     System.out.println("Total reward: " + totalReward);
   }
   @FXML
-  private VBox vboxChartAll;
+  private VBox vboxCostChartAll;
 
-  private double createBarChartsAll() {
-    vboxChartAll.getChildren().clear();
+  private double createCostBarChartsAll() {
+    return createBarChartsAll(
+      vboxCostChartAll,
+      "orderStatsCostBarChart.title",
+      OrgOrderStat::getActualCost
+    );
+  }
+
+  @FXML
+  private VBox vboxRewardChartAll;
+
+  private double createBarChartsAll(
+    VBox barChartParent,
+    String titleRes,
+    Function<OrgOrderStat, Double> resultGetter
+  ) {
+    barChartParent.getChildren().clear();
 
     StackedBarChart<String, Number> barChartAll = ChartHelpers.createChartFromOrderStats(
       dataModel.getRawOrderStats(),
@@ -241,12 +261,13 @@ public class ProfOrgsMain {
         Global.AllRes.getString("orderStatsBarChart.category.paid"),
         Global.AllRes.getString("orderStatsBarChart.category.unpaid"),
       },
-      Global.AllRes.getString("orderStatsBarChart.title"),
-      null
+      Global.AllRes.getString(titleRes),
+      null,
+      resultGetter
     );
     barChartAll.setMaxHeight(350);
 
-    vboxChartAll.getChildren().addAll(barChartAll);
+    barChartParent.getChildren().addAll(barChartAll);
 
     List<Double> sums = new ArrayList<>();
     for (int i = 0; i < barChartAll.getData().size(); i++) {
@@ -270,14 +291,37 @@ public class ProfOrgsMain {
       return 0.0;
   }
 
+  private double createRewardBarChartsAll() {
+    return createBarChartsAll(
+      vboxRewardChartAll,
+      "orderStatsRewardBarChart.title",
+      OrgOrderStat::getReward
+    );
+  }
+
+
+
   @FXML
-  private VBox vboxChartCurrProf;
+  private VBox vboxCostChartCurrProf;
 
   private ObjectProperty<MedProf> selectedProf = new SimpleObjectProperty<>();
 
+  private void createCostBarChartCurrProf(String profId, String profName) {
+    updateBarChartCurrProf(
+      profId, profName,
+      vboxCostChartCurrProf,
+      "orderStatsCostBarChart.title",
+      OrgOrderStat::getActualCost
+    );
+  }
 
-  private void createBarChartCurrProf(String profId, String profName) {
-    vboxChartCurrProf.getChildren().clear();
+  private void updateBarChartCurrProf(
+    String profId, String profName,
+    VBox barChartParent,
+    String titleRes,
+    Function<OrgOrderStat, Double> resultGetter
+  ) {
+    barChartParent.getChildren().clear();
 
     OrgOrderStat[] orgOrderStats = Arrays.stream(dataModel.getRawOrderStats())
       .filter(o -> o.getProfId().equals(profId)).toArray(OrgOrderStat[]::new);
@@ -288,14 +332,26 @@ public class ProfOrgsMain {
         Global.AllRes.getString("orderStatsBarChart.category.unpaid"),
       },
       String.format(
-        "%s(%s)", Global.AllRes.getString("orderStatsBarChart.title"), profName
+        "%s(%s)", Global.AllRes.getString(titleRes), profName
       ),
-      maxChartValue.getValue()
+      maxCostChartValue.getValue(),
+      resultGetter
     );
     barChartCurrProf.setMaxHeight(350);
 
-    vboxChartCurrProf.getChildren().addAll(barChartCurrProf);
+    barChartParent.getChildren().addAll(barChartCurrProf);
+  }
 
+  @FXML
+  private VBox vboxRewardChartCurrProf;
+
+  private void createRewardBarChartCurrProf(String profId, String profName) {
+    updateBarChartCurrProf(
+      profId, profName,
+      vboxRewardChartCurrProf,
+      "orderStatsRewardBarChart.title",
+      OrgOrderStat::getReward
+    );
   }
 
   @FXML

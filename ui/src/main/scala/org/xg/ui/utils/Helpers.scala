@@ -27,8 +27,12 @@ object Helpers {
     mcs.map(MedProf.fromMMedProf)
   }
 
-  def convOrgOrderStats(os:Array[MOrgOrderStat], profMap:java.util.Map[String, MedProf]):Array[OrgOrderStat] = {
-    os.map(o => OrgOrderStat.fromM(o, Global.getProductMap, profMap))
+  def convOrgOrderStats(
+                         os:Array[MOrgOrderStat],
+                         profMap:java.util.Map[String, MedProf],
+                         rewardPlan: TRewardPlan
+                       ):Array[OrgOrderStat] = {
+    os.map(o => OrgOrderStat.fromM(o, Global.getProductMap, profMap, rewardPlan))
   }
 
   def convOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[Order] = {

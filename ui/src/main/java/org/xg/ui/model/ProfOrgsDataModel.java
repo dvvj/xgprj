@@ -38,7 +38,7 @@ public class ProfOrgsDataModel {
       )
     );
     this.medProfs = FXCollections.observableArrayList(profs);
-    rawOrderStats = Helpers.convOrgOrderStats(orderStats, profMap);
+    rawOrderStats = Helpers.convOrgOrderStats(orderStats, profMap, rewardPlan);
     this.orderStats = FXCollections.observableArrayList(rawOrderStats);
     this.rewardPlan = rewardPlan;
     this.prodMap = prodMap;
