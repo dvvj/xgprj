@@ -53,9 +53,13 @@
                 <StackPane fx:id="ordersTab">
                 </StackPane>
             </Tab>
-            <Tab text="%medprofs.tab.settings.heading">
-                <StackPane fx:id="settingsTab">
-                </StackPane>
+            <Tab text="%medprofs.tab.addNewCustomer.heading">
+                <VBox fx:id="addNewCustomerTab">
+                </VBox>
+            </Tab>
+            <Tab text="%medprofs.tab.updatePassword.heading">
+                <VBox fx:id="updatePasswordTab">
+                </VBox>
             </Tab>
         </JFXTabPane>
 

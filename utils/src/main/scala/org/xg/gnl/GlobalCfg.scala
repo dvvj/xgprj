@@ -28,6 +28,7 @@ case class GlobalCfg(
   def medprofsOfURL:String = s"$svcSvr/$MEDPROFS_OF"
   def orderStatsOfURL:String = s"$svcSvr/$ORDERSTATS_OF"
   def addNewMedProfURL:String = s"$svcSvr/$ADD_NEW_MEDPROF"
+  def addNewCustomerURL:String = s"$svcSvr/$ADD_NEW_CUSTOMER"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
@@ -48,6 +49,7 @@ object GlobalCfg {
   private val MEDPROFS_OF = "profOrg/profs"
   private val ORDERSTATS_OF = "profOrg/orderStats"
   private val ADD_NEW_MEDPROF = "profOrg/addNewMedProf"
+  private val ADD_NEW_CUSTOMER = "prof/newCustomer"
 
   def fromJson(j:String):GlobalCfg = {
     import org.json4s.jackson.JsonMethods._

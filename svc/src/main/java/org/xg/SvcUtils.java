@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.xg.auth.UserDbAuthority;
 import org.xg.dbModels.*;
 import org.xg.gnl.GlobalCfg;
+import org.xg.svc.AddNewCustomer;
 import org.xg.svc.AddNewMedProf;
 
 import javax.ws.rs.core.MediaType;
@@ -77,6 +78,15 @@ public class SvcUtils {
     UserDbAuthority.updateMedProfDb();
     logger.info("updateMedProfs called, current _medProfs: " + _medProfs);
   }
+
+  public static void updateCustomers() {
+    synchronized (_lockCustomers) {
+      _customers = null;
+    }
+    UserDbAuthority.updateCustomerDb();
+    logger.info("updateMedProfs called, current _medProfs: " + _customers);
+  }
+
 
   public static MMedProf[] getMedProfsOf(String orgId) {
     List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgId().equals(orgId))
@@ -186,6 +196,23 @@ public class SvcUtils {
 
     updateMedProfs();
   }
+
+  public static void addNewCustomer(AddNewCustomer nc) {
+    MCustomer mc = nc.customer();
+    getDbOps().addNewCustomer(
+      mc.uid(),
+      mc.name(),
+      nc.pass(),
+      mc.idCardNo(),
+      mc.mobile(),
+      mc.postalAddr(),
+      mc.refUid(),
+      mc.bday()
+    );
+
+    updateCustomers();
+  }
+
 //
 //  private final static GlobalCfg _cfg = loadCfg();
 //  public final static GlobalCfg getCfg() {

@@ -4,7 +4,7 @@ import org.xg.auth.SvcHelpers
 import org.xg.dbModels.{MCustomer, MMedProf, MOrder, MOrgOrderStat}
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.rewardPlan.TRewardPlan
-import org.xg.svc.AddNewMedProf
+import org.xg.svc.{AddNewCustomer, AddNewMedProf}
 
 object UISvcHelpers {
 
@@ -15,14 +15,11 @@ object UISvcHelpers {
 
   val serverCfg:GlobalCfg = clientCfg.serverCfg
 
-  def addNewMedProf(mp:AddNewMedProf):Boolean = {
+  def trySvcTF(
+            action:() => Boolean
+            ):Boolean = {
     try {
-      SvcHelpers.post(
-        serverCfg.addNewMedProfURL,
-        Global.getCurrToken,
-        AddNewMedProf.toJson(mp)
-      )
-      true
+      action()
     }
     catch {
       case t:Throwable => {
@@ -31,6 +28,29 @@ object UISvcHelpers {
       }
     }
   }
+
+  def addNewMedProf(mp:AddNewMedProf):Boolean = {
+    trySvcTF { () =>
+      SvcHelpers.post(
+        serverCfg.addNewMedProfURL,
+        Global.getCurrToken,
+        AddNewMedProf.toJson(mp)
+      )
+      true
+    }
+  }
+
+  def addNewCustomer(nc:AddNewCustomer):Boolean = {
+    trySvcTF { () =>
+      SvcHelpers.post(
+        serverCfg.addNewCustomerURL,
+        Global.getCurrToken,
+        AddNewCustomer.toJson(nc)
+      )
+      true
+    }
+  }
+
 
   def updateAllRefedCustomers(profId:String, userToken:String):Array[MCustomer] = {
     val j = SvcHelpers.post(

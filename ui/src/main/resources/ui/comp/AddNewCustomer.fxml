@@ -6,9 +6,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml"
-    fx:controller="org.xg.ui.comp.AddNewCustomerCtrl"
-    prefHeight="400.0" prefWidth="600.0">
-
-</HBox>
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXButton?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.xg.ui.comp.AddNewCustomerCtrl"
+      prefHeight="400.0" prefWidth="600.0">
+    <padding>
+        <Insets top="20" left="20" right="20" bottom="20" />
+    </padding>
+    <JFXTextField fx:id="tfUid" text="customer200" promptText="%addCustomer.uid.prompt"/>
+    <JFXTextField fx:id="tfName" text="test1" promptText="%addCustomer.name.prompt"/>
+    <JFXTextField fx:id="tfIdCardNo" text="cardno200" promptText="%addCustomer.idCardNo.prompt"/>
+    <JFXTextField fx:id="tfMobile" text="12342134" promptText="%addCustomer.mobile.prompt"/>
+    <JFXTextField fx:id="tfPostalAddr" text="addr1" promptText="%addCustomer.postalAddr.prompt"/>
+    <JFXTextField fx:id="tfBDay" text="bday1" promptText="%addCustomer.bDay.prompt"/>
+    <JFXPasswordField fx:id="pfNew" text="123" promptText="%addCustomer.newPassowrd.prompt" />
+    <HBox spacing="10">
+        <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addCustomer.repeatPassowrd.prompt" />
+        <JFXButton text="%addCustomer.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
+    </HBox>
+</VBox>

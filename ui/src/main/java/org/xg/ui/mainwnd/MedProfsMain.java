@@ -73,82 +73,79 @@ public class MedProfsMain {
 
   private ObjectProperty<Customer> selectedCustomer = new SimpleObjectProperty<>();
 
-  private void loadCustomerTable() {
+  private void loadCustomerTable() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
     FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
     VBox table;
-    try {
-      //productLoader.setLocation(path);
-      table = tableLoader.load();
-      customerCtrl = tableLoader.getController();
-      TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
-      tblCtrl.setup(
-//        "customerTable.toolbar.heading",
-        "customerTable.toolbar.refresh",
-        "customerTable.toolbar.searchPrompt",
-        "customerTable.toolbar.filter",
-        "customerTable.emptyPlaceHolder",
-        c -> {
-          Customer customer = (Customer)c;
-          Set<String> strs = new HashSet<>();
-          strs.addAll(Arrays.asList(
-            customer.getName(),
-            customer.getUid(),
-            customer.getMobile()
-          ));
-          return strs;
-        }
-      );
 
-      tblCtrl.setupColumsAndLoadData(
-        tbl -> {
-          JFXTreeTableView<Customer> theTable = (JFXTreeTableView<Customer>)tbl;
-          theTable.getColumns().addAll(
+    //productLoader.setLocation(path);
+    table = tableLoader.load();
+    customerCtrl = tableLoader.getController();
+    TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
+    tblCtrl.setup(
+//        "customerTable.toolbar.heading",
+      "customerTable.toolbar.refresh",
+      "customerTable.toolbar.searchPrompt",
+      "customerTable.toolbar.filter",
+      "customerTable.emptyPlaceHolder",
+      c -> {
+        Customer customer = (Customer)c;
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          customer.getName(),
+          customer.getUid(),
+          customer.getMobile()
+        ));
+        return strs;
+      }
+    );
+
+    tblCtrl.setupColumsAndLoadData(
+      tbl -> {
+        JFXTreeTableView<Customer> theTable = (JFXTreeTableView<Customer>)tbl;
+        theTable.getColumns().addAll(
 //            TableViewHelper.jfxTableColumnResBundle(
 //              "customerTable.uid",
 //              Global.AllRes,
 //              100,
 //              Customer::getUid
 //            ),
-            TableViewHelper.jfxTableColumnResBundle(
-              "customerTable.name",
-              Global.AllRes,
-              100,
-              Customer::getName
-            ),
-            TableViewHelper.jfxTableColumnResBundle(
-              "customerTable.mobile",
-              Global.AllRes,
-              150,
-              Customer::getMobile
-            )
-          );
+          TableViewHelper.jfxTableColumnResBundle(
+            "customerTable.name",
+            Global.AllRes,
+            100,
+            Customer::getName
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "customerTable.mobile",
+            Global.AllRes,
+            150,
+            Customer::getMobile
+          )
+        );
 
-          UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
+        UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
 
-        },
-        () -> dataModel.getCustomers(),
-        () -> {
-          double m = createBarChartsAll();
-          maxChartValue.setValue(m);
-          selectedCustomer.bind(customerCtrl.getSelected());
-        }
-      );
+      },
+      () -> dataModel.getCustomers(),
+      () -> {
+        double m = createBarChartsAll();
+        maxChartValue.setValue(m);
+        selectedCustomer.bind(customerCtrl.getSelected());
+      }
+    );
 
-      selectedCustomer.addListener((observable, oldValue, newValue) -> {
-        if (newValue != null) {
-          String customerId = newValue.getUid();
-          createBarChartCurrCustomer(customerId, newValue.getName());
-        }
-      });
+    selectedCustomer.addListener((observable, oldValue, newValue) -> {
+      if (newValue != null) {
+        String customerId = newValue.getUid();
+        createBarChartCurrCustomer(customerId, newValue.getName());
+      }
+    });
 
-      //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
-      //System.out.println("data :" + dataModel.getOrderData().length);
-      customersTab.getChildren().addAll(table);
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
+    //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
+    //System.out.println("data :" + dataModel.getOrderData().length);
+    customersTab.getChildren().addAll(table);
+
 
   }
 
@@ -219,72 +216,68 @@ public class MedProfsMain {
 
   }
 
-  private void loadCustomerOrderTable() {
+  private void loadCustomerOrderTable() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
     FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
     VBox table;
-    try {
-      //productLoader.setLocation(path);
-      table = tableLoader.load();
-      TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
-      tblCtrl.setup(
+
+    //productLoader.setLocation(path);
+    table = tableLoader.load();
+    TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
+    tblCtrl.setup(
 //        "customerOrderTable.toolbar.heading",
-        "customerOrderTable.toolbar.refresh",
-        "customerOrderTable.toolbar.searchPrompt",
-        "customerOrderTable.toolbar.filter",
-        "customerOrderTable.emptyPlaceHolder",
-        c -> {
-          CustomerOrder customerOrder = (CustomerOrder)c;
-          Set<String> strs = new HashSet<>();
-          strs.addAll(Arrays.asList(
-            customerOrder.getCustomerName(),
-            customerOrder.getOrder().getProdName()
-          ));
-          return strs;
-        }
-      );
+      "customerOrderTable.toolbar.refresh",
+      "customerOrderTable.toolbar.searchPrompt",
+      "customerOrderTable.toolbar.filter",
+      "customerOrderTable.emptyPlaceHolder",
+      c -> {
+        CustomerOrder customerOrder = (CustomerOrder)c;
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          customerOrder.getCustomerName(),
+          customerOrder.getOrder().getProdName()
+        ));
+        return strs;
+      }
+    );
 
-      tblCtrl.setupColumsAndLoadData(
-        tbl -> {
-          JFXTreeTableView<CustomerOrder> theTable = (JFXTreeTableView<CustomerOrder>)tbl;
-          theTable.getColumns().addAll(
-            TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
-              "refedCustomerOrderTable.customerId",
-              Global.AllRes,
-              150,
-              CustomerOrder::getCustomerName
-            ),
-            TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
-              "refedCustomerOrderTable.productName",
-              Global.AllRes,
-              320,
-              (CustomerOrder co) -> co.getOrder().getProdName()
-            ),
-            TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
-              "refedCustomerOrderTable.productQty",
-              Global.AllRes,
-              80,
-              (CustomerOrder co) -> co.getOrder().getQty()
-            ),
-            TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
-              "refedCustomerOrderTable.reward",
-              Global.AllRes,
-              80,
-              CustomerOrder::getReward
-            )
-          );
+    tblCtrl.setupColumsAndLoadData(
+      tbl -> {
+        JFXTreeTableView<CustomerOrder> theTable = (JFXTreeTableView<CustomerOrder>)tbl;
+        theTable.getColumns().addAll(
+          TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
+            "refedCustomerOrderTable.customerId",
+            Global.AllRes,
+            150,
+            CustomerOrder::getCustomerName
+          ),
+          TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
+            "refedCustomerOrderTable.productName",
+            Global.AllRes,
+            320,
+            (CustomerOrder co) -> co.getOrder().getProdName()
+          ),
+          TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
+            "refedCustomerOrderTable.productQty",
+            Global.AllRes,
+            80,
+            (CustomerOrder co) -> co.getOrder().getQty()
+          ),
+          TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
+            "refedCustomerOrderTable.reward",
+            Global.AllRes,
+            80,
+            CustomerOrder::getReward
+          )
+        );
 
-          UIHelpers.setPlaceHolder4TreeView(theTable, "refedCustomerOrderTable.placeHolder");
+        UIHelpers.setPlaceHolder4TreeView(theTable, "refedCustomerOrderTable.placeHolder");
 
-        },
-        () -> dataModel.getCustomerOrders()
-      );
+      },
+      () -> dataModel.getCustomerOrders()
+    );
 
-      ordersTab.getChildren().addAll(table);
-    }
-    catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
+    ordersTab.getChildren().addAll(table);
 
   }
 
@@ -294,9 +287,26 @@ public class MedProfsMain {
     //setupAndFetchCustomerTable();
 
     //setupAndFetchCustomerOrderTable();
-    loadDataModel();
-    loadCustomerOrderTable();
-    loadCustomerTable();
+    try {
+      loadDataModel();
+      loadCustomerOrderTable();
+      loadCustomerTable();
 
+      loadAddNewCustomerTab();
+    }
+    catch (Exception ex) {
+      throw new RuntimeException(ex);
+    }
+
+  }
+
+  @FXML
+  VBox addNewCustomerTab;
+  private void loadAddNewCustomerTab() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/AddNewCustomer.fxml");
+    FXMLLoader addNewCustomerLoader = new FXMLLoader(path, Global.AllRes);
+    VBox addNewProf = addNewCustomerLoader.load();
+
+    addNewCustomerTab.getChildren().add(addNewProf);
   }
 }

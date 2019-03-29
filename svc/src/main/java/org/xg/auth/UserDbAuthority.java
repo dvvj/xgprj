@@ -98,6 +98,13 @@ public final class UserDbAuthority {
     customerDb.getInstance(
       SvcUtils.getDbOps().getUserPassMapJ()
     );
+  public static void updateCustomerDb() {
+    Map<String, byte[]> customerPassMap = SvcUtils.getDbOps().getUserPassMapJ();
+    synchronized (customerDb._instanceLock) {
+      customerInstance = createInstasnce(customerPassMap);
+    }
+    logger.info("in updateMedProfDb, updated profPass map size: " + customerPassMap.size());
+  }
 
   private final static InstanceCreation medProfDb = new InstanceCreation();
   private static UserDbAuthority medProfInstance =
@@ -117,6 +124,13 @@ public final class UserDbAuthority {
     profOrgDb.getInstance(
       SvcUtils.getDbOps().getProfOrgPassMapJ()
     );
+  public static void updateProfOrgfDb() {
+    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getProfOrgPassMapJ();
+    synchronized (profOrgDb._instanceLock) {
+      profOrgInstance = createInstasnce(orgPassMap);
+    }
+    logger.info("in updateMedProfDb, updated profPass map size: " + orgPassMap.size());
+  }
 //  private static final String _InvalidToken = "";
 //
 //  @Override
