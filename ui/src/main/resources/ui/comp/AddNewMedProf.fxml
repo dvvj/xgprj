@@ -17,14 +17,14 @@
     <padding>
         <Insets top="20" left="20" right="20" bottom="20" />
     </padding>
-    <JFXTextField fx:id="tfUid" promptText="%addMedProf.uid.prompt"/>
-    <JFXTextField fx:id="tfName" promptText="%addMedProf.name.prompt"/>
-    <JFXTextField fx:id="tfIdCardNo" promptText="%addMedProf.idCardNo.prompt"/>
-    <JFXTextField fx:id="tfMobile" promptText="%addMedProf.mobile.prompt"/>
-    <JFXPasswordField fx:id="pfNew" promptText="%addMedProf.newPassowrd.prompt" />
+    <JFXTextField fx:id="tfUid" text="prof200" promptText="%addMedProf.uid.prompt"/>
+    <JFXTextField fx:id="tfName" text="test1" promptText="%addMedProf.name.prompt"/>
+    <JFXTextField fx:id="tfIdCardNo" text="cardno200" promptText="%addMedProf.idCardNo.prompt"/>
+    <JFXTextField fx:id="tfMobile" text="12342134" promptText="%addMedProf.mobile.prompt"/>
+    <JFXPasswordField fx:id="pfNew" text="123" promptText="%addMedProf.newPassowrd.prompt" />
     <HBox spacing="10">
-        <JFXPasswordField fx:id="pfNew2" promptText="%addMedProf.repeatPassowrd.prompt" />
-        <JFXButton text="%addMedProf.doAdd" fx:id="btnAdd" styleClass="button-raised" />
+        <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addMedProf.repeatPassowrd.prompt" />
+        <JFXButton text="%addMedProf.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
     </HBox>
 
 </VBox>

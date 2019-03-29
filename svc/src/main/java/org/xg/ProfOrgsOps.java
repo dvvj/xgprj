@@ -4,6 +4,7 @@ import org.xg.auth.Secured;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgOrderStat;
 import org.xg.json.CommonUtils;
+import org.xg.svc.AddNewMedProf;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -41,6 +42,26 @@ public class ProfOrgsOps {
       String j = MOrgOrderStat.toJsons(orderStats);
 
       return Response.ok(j)
+        .build();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException("Error", ex);
+    }
+  }
+
+  @Secured
+  @POST
+  @Path("addNewMedProf")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  public Response addNewMedProf(String addNewMedProfJson) {
+    try {
+      AddNewMedProf mp = AddNewMedProf.fromJson(addNewMedProfJson);
+
+      SvcUtils.addNewMedProf(mp);
+
+      return Response.status(Response.Status.CREATED)
         .build();
     }
     catch (Exception ex) {

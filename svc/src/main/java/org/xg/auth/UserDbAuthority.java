@@ -82,6 +82,9 @@ public final class UserDbAuthority {
     medProfDb.getInstance(
       SvcUtils.getDbOps().getMedProfPassMapJ()
     );
+  public static void invalidateMedProfDb() {
+    medProfDb.instance = null;
+  }
 
   private final static InstanceCreation profOrgDb = new InstanceCreation();
   private final static UserDbAuthority profOrgInstance =

@@ -1,9 +1,11 @@
 package org.xg;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.xg.auth.UserDbAuthority;
 import org.xg.dbModels.*;
 import org.xg.gnl.GlobalCfg;
 import org.xg.hbn.ent.Order;
+import org.xg.svc.AddNewMedProf;
 
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -64,6 +66,15 @@ public class SvcUtils {
       }
     }
     return _medProfs;
+  }
+
+  public static void invalidateMedProfs() {
+    if (_medProfs != null) {
+      synchronized (_lockMedProfs) {
+        _medProfs = null;
+        UserDbAuthority.invalidateMedProfDb();
+      }
+    }
   }
 
   public static MMedProf[] getMedProfsOf(String orgId) {
@@ -159,6 +170,20 @@ public class SvcUtils {
 //  private static Map<String, MOrgOrderStat[]> _orgOrderStats = null;
   public static MOrgOrderStat[] getOrgOrderStatsOf(String orgId) {
     return getDbOps().getOrderStat4Org(orgId);
+  }
+
+  public static void addNewMedProf(AddNewMedProf mp) {
+    MMedProf mmp = mp.medProf();
+    getDbOps().addNewMedProf(
+      mmp.profId(),
+      mmp.name(),
+      mp.pass(),
+      mmp.idCardNo(),
+      mmp.mobile(),
+      mmp.orgId()
+    );
+
+    invalidateMedProfs();
   }
 //
 //  private final static GlobalCfg _cfg = loadCfg();
