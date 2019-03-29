@@ -5,6 +5,8 @@ import org.xg.gnl.DataUtils
 object InsertRewardPlanMapUtil extends App {
   import InsertRewardPlanUtil._
   val rpmaps = Array(
+    ("prof_org1", PlanIdFixed020, 0),
+    ("prof_org2", PlanIdFixed020, 0),
     ("prof1", PlanIdFixed001, -7),
     ("prof1", PlanIdFixed002, 0),
     ("prof2", s"$PlanIdProdBasedBasic,$PlanIdFixed1_5", 0),

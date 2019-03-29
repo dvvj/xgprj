@@ -37,4 +37,19 @@ object RewardPlanBusiLogicTests extends App {
       println(s"No plan for med prof [${prof.profId}]")
     }
   }
+
+  val allOrgs = testHbnOps.allProfOrgs
+  allOrgs.foreach { org =>
+    val plan = getPlan4(org.orgId)
+    if (plan.nonEmpty) {
+      println(s"Plan found for med prof [${org.orgId}]")
+      testProds.foreach { prodId =>
+        val resPrice = plan.get.reward(prodId, 100.0)
+        println(s"\t100.0 -> $resPrice")
+      }
+    }
+    else {
+      println(s"No plan for med prof [${org.orgId}]")
+    }
+  }
 }

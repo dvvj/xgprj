@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import org.xg.chart.ChartHelpers;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgOrderStat;
+import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.uiModels.Customer;
@@ -210,7 +211,8 @@ public class ProfOrgsMain {
     Object[] raw = Helpers.paraActions(
       new Supplier[] {
         () -> UISvcHelpers.updateMedProfsOf(orgId, token),
-        () -> UISvcHelpers.updateOrgOrderStats(orgId, token)
+        () -> UISvcHelpers.updateOrgOrderStats(orgId, token),
+        () -> UISvcHelpers.updateRewardPlans(orgId, token)
       },
       30000
     );
@@ -219,8 +221,13 @@ public class ProfOrgsMain {
     System.out.println("Profs found: " + profs.length);
     dataModel = new ProfOrgsDataModel(
       profs,
-      (MOrgOrderStat[])raw[1]
+      (MOrgOrderStat[])raw[1],
+      Global.getProductMap(),
+      (TRewardPlan)raw[2]
     );
+
+    double totalReward = dataModel.calcTotalReward();
+    System.out.println("Total reward: " + totalReward);
   }
   @FXML
   private VBox vboxChartAll;

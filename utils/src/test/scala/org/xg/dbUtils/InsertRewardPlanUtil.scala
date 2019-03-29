@@ -8,6 +8,7 @@ object InsertRewardPlanUtil {
 
   val PlanIdFixed001:String = "Fixed-0.01"
   val PlanIdFixed002:String = "Fixed-0.02"
+  val PlanIdFixed020:String = "Fixed-0.20"
   val PlanIdFixed1_5:String = "Fixed-1.5"
   val PlanIdProdBasedBasic:String = "ProdBased-Basic"
   val PlanIdProdBasedAdvanced:String = "ProdBased-Advanced"
@@ -15,6 +16,7 @@ object InsertRewardPlanUtil {
   val plans = Array(
     (PlanIdFixed001, "Fixed Rate 1%", FixedRate, RwPlFixedRate(0.01)),
     (PlanIdFixed002, "Fixed Rate 2%", FixedRate, RwPlFixedRate(0.02)),
+    (PlanIdFixed020, "Fixed Rate 20%", FixedRate, RwPlFixedRate(0.2)),
     (PlanIdFixed1_5, "Fixed Rate x 1.5, used only in combination with other plans", FixedRate, RwPlFixedRate(1.5)),
     (PlanIdProdBasedBasic, "Producted Based Basic, range: 1% - 3%", ProductBasedRates,
       RwPlProdBasedRates(0.01, Map(1 -> 0.02, 2 -> 0.03))),

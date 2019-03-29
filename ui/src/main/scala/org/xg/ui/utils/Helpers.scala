@@ -141,12 +141,15 @@ object Helpers {
 
   def srcCountryResKey(countryCode:String):String = countryCode2ResName(countryCode)
 
-  def calcReward(rewardPlan:TRewardPlan, order: CustomerOrder, prodPrice0:Double): Double = {
-    rewardPlan.reward(order.getOrder.getProdId, prodPrice0)
+  def calcReward(rewardPlan:TRewardPlan, prodId:Integer, prodPrice0:Double): Double = {
+    rewardPlan.reward(prodId, prodPrice0)
   }
 
   def calcRewards(rewardPlan:TRewardPlan, orders: Array[CustomerOrder], prodMap:java.util.Map[Integer, Product]): Double = {
-    orders.map(order => calcReward(rewardPlan, order, prodMap.get(order.getOrder.getProdId).getPrice0)).sum
+    orders.map(order => calcReward(rewardPlan, order.getOrder.getProdId, prodMap.get(order.getOrder.getProdId).getPrice0)).sum
   }
 
+  def calcRewards(rewardPlan:TRewardPlan, orders: Array[OrgOrderStat], prodMap:java.util.Map[Integer, Product]): Double = {
+    orders.map(os => calcReward(rewardPlan, os.getProductId, prodMap.get(os.getProductId).getPrice0)).sum
+  }
 }

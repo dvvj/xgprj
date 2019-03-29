@@ -50,9 +50,9 @@ public class UserCfgOps {
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
   public Response getRewardPlan(String uid) {
     try {
-      MMedProf prof = SvcUtils.getMedProfs().get(uid);
+      //MMedProf prof = SvcUtils.getMedProfs().get(uid);
       String plansJson = RewardPlanLogics.rewardPlanJsonForJ(
-        prof,
+        uid,
         SvcUtils.getRewardPlanMaps(),
         SvcUtils.getRewardPlans()
       );

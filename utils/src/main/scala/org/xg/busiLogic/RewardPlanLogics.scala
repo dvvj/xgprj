@@ -59,11 +59,11 @@ object RewardPlanLogics {
 
   import collection.JavaConverters._
   def rewardPlanJsonForJ(
-                          prof:MMedProf,
+                          uid:String,
                           planMap:java.util.Map[String, MRewardPlanMap],
                           plans:java.util.Map[String, MRewardPlan]
                         ):String = {
-    val res = rewardPlanJsonFor(prof.profId, planMap.asScala.toMap, plans.asScala.toMap)
+    val res = rewardPlanJsonFor(uid, planMap.asScala.toMap, plans.asScala.toMap)
     SvcCommonUtils.RewardPlanJson.convert2Json(res)
   }
 }

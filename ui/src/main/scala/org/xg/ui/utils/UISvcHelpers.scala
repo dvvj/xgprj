@@ -93,6 +93,6 @@ object UISvcHelpers {
     MOrder.fromJsons(j)
   }
 
-  def updateRewardPlans(profId:String, userToken:String):TRewardPlan =
-    SvcHelpers.getRewardPlan4UserJ(serverCfg.rewardPlanURL, profId, userToken)
+  def updateRewardPlans(uid:String, userToken:String):TRewardPlan =
+    SvcHelpers.getRewardPlan4UserJ(serverCfg.rewardPlanURL, uid, userToken)
 }

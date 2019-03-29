@@ -64,14 +64,17 @@ INSERT INTO price_plan_map (uid, plan_ids, start_time)  VALUES ('customer1','Pro
 
 INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('Fixed-0.01','Fixed Rate 1%','{"globalRate":0.01}','FixedRate');
 INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('Fixed-0.02','Fixed Rate 2%','{"globalRate":0.02}','FixedRate');
+INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('Fixed-0.20','Fixed Rate 20%','{"globalRate":0.2}','FixedRate');
 INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('Fixed-1.5','Fixed Rate x 1.5, used only in combination with other plans','{"globalRate":1.5}','FixedRate');
 INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('ProdBased-Basic','Producted Based Basic, range: 1% - 3%','{"globalRate":0.01,"prodRates":{"1":0.02,"2":0.03}}','ProductBasedRates');
 INSERT INTO reward_plans (id, info, defi, vtag)  VALUES ('ProdBased-Advanced','Producted Based Advanced, range: 2% - 5%','{"globalRate":0.02,"prodRates":{"1":0.03,"2":0.05}}','ProductBasedRates');
 
-INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.01','2019-03-05T08:18:27.597');
-INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.02','2019-03-12T08:18:27.655');
-INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof2','ProdBased-Basic,Fixed-1.5','2019-03-12T08:18:27.655');
-INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('customer1','ProdBased-Advanced','2019-03-12T08:18:27.655');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof_org1','Fixed-0.20','2019-03-29T14:34:43.97');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof_org2','Fixed-0.20','2019-03-29T14:34:44.042');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.01','2019-03-22T14:34:44.042');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof1','Fixed-0.02','2019-03-29T14:34:44.043');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('prof2','ProdBased-Basic,Fixed-1.5','2019-03-29T14:34:44.044');
+INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('customer1','ProdBased-Advanced','2019-03-29T14:34:44.044');
 
 INSERT INTO prof_orgs (org_id, name, info, org_no, phone, join_date, pass_hash)  VALUES ('prof_org1','医药公司1','医药公司1 info','org_no1','13792929133','2018-03-04T16:00:28.179',X'3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2');
 INSERT INTO prof_orgs (org_id, name, info, org_no, phone, join_date, pass_hash)  VALUES ('prof_org2','医药公司2','医药公司2 info','org_no2','1375555555','2019-08-04T16:00:28.179',X'f6b07b6c1340e947b861def5f8b092d8ee710826dc56bd175bdc8f3a16b0b8acf853c64786a710dedf9d1524d61e32504e27d60de159af110bc3941490731578');
