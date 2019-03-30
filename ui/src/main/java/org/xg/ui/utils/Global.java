@@ -113,27 +113,16 @@ public class Global {
     return allProducts;
   }
 
-  private static ObservableList<Order> allOrders = null;
-  private static Order[] getAllOrders() {
-    GlobalCfg cfg = UISvcHelpers.serverCfg();
+//  private static ObservableList<Order> allOrders = null;
+//  private static Order[] getAllOrders() {
+//    GlobalCfg cfg = UISvcHelpers.serverCfg();
+//
+//    String j = SvcHelpers.get(cfg.currOrdersURL(), Global.getCurrToken());
+//    MOrder[] morders = MOrder.fromJsons(j);
+//    Order[] orders = Helpers.convOrders(morders, Global.getProductMap());
+//    return orders; //FXCollections.observableArrayList(orders);
+//  }
 
-    String j = SvcHelpers.get(cfg.currOrdersURL(), Global.getCurrToken());
-    MOrder[] morders = MOrder.fromJsons(j);
-    Order[] orders = Helpers.convOrders(morders, Global.getProductMap());
-    return orders; //FXCollections.observableArrayList(orders);
-  }
-  public static ObservableList<Order> updateAllOrders() {
-    Order[] orders = getAllOrders();
-    if (allOrders == null || allOrders.isEmpty()) {
-      allOrders = FXCollections.observableArrayList(orders);
-    }
-    else {
-      allOrders.clear();
-      allOrders.addAll(orders);
-    }
-
-    return allOrders;
-  }
 
 //  //todo, customize cfg
 //  private static ClientCfg clientCfg = new ClientCfg(

@@ -68,7 +68,7 @@ public class PlaceOrderCtrl implements Initializable {
           orderJson
         );
         Global.loggingTodo(resp);
-        Global.updateAllOrders();
+        //Global.updateAllOrders();
       }
       catch (Exception ex) {
         Global.loggingTodo(ex.getMessage());

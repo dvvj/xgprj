@@ -1,10 +1,12 @@
 package org.xg.ui.utils
 
+import javafx.collections.{FXCollections, ObservableList}
 import org.xg.auth.SvcHelpers
 import org.xg.dbModels.{MCustomer, MMedProf, MOrder, MOrgOrderStat}
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.svc.{AddNewCustomer, AddNewMedProf}
+import org.xg.uiModels.Order
 
 object UISvcHelpers {
 
@@ -96,6 +98,15 @@ object UISvcHelpers {
     )
 
     MOrder.fromJsons(j)
+  }
+
+  def updateAllOrders(token:String): Array[Order] = {
+    val cfg = UISvcHelpers.serverCfg
+
+    val j = SvcHelpers.get(cfg.currOrdersURL, token)
+    val morders = MOrder.fromJsons(j)
+    val orders = Helpers.convOrders(morders, Global.getProductMap)
+    orders
   }
 
   def updateRewardPlans(uid:String, userToken:String):TRewardPlan =

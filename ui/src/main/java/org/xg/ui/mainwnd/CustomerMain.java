@@ -20,27 +20,35 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.ui.*;
+import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
+import org.xg.ui.model.CustomerDataModel;
+import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.Helpers;
+import org.xg.ui.utils.UIHelpers;
+import org.xg.ui.utils.UISvcHelpers;
+import org.xg.uiModels.CustomerOrder;
+import org.xg.uiModels.Order;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.function.Supplier;
+
+import static org.xg.ui.model.TableViewHelper.jfxOrderTableOpsColumn;
 
 @ViewController(value = "/ui/CustomerMain.fxml")
 public class CustomerMain {
-//  @FXML
-//  private HBox mainWnd;
-
-//  @FXML
-//  private Text txtUserName;
-//
-//  @FXML
-//  private StackPane optionsBurger;
-
   private CustomerMainRCtrl rightSideController;
   private ExistingOrdersCtrl orderController;
   private ProductTableController productTableController;
+
+  private CustomerDataModel dataModel;
 
   @FXML
   private VBox leftSide;
@@ -75,13 +83,83 @@ public class CustomerMain {
   }
   @FXML
   StackPane ordersTab;
-  private void loadOrdersTab() throws IOException {
-    URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
-    FXMLLoader orderLoader = new FXMLLoader(pathOrders, Global.AllRes);
-    VBox orderCtrl = orderLoader.load();
-    ordersTab.getChildren().addAll(orderCtrl);
+//  private void loadOrdersTab() throws IOException {
+//    URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
+//    FXMLLoader orderLoader = new FXMLLoader(pathOrders, Global.AllRes);
+//    VBox orderCtrl = orderLoader.load();
+//    ordersTab.getChildren().addAll(orderCtrl);
+//
+//    orderController = orderLoader.getController();
+//
+//  }
 
-    orderController = orderLoader.getController();
+  private void loadOrdersTable() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
+    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
+    VBox table;
+
+    //productLoader.setLocation(path);
+    table = tableLoader.load();
+    TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
+    tblCtrl.setup(
+//        "customerOrderTable.toolbar.heading",
+      "orderTable.toolbar.refresh",
+      "orderTable.toolbar.searchPrompt",
+      "orderTable.toolbar.filter",
+      "orderTable.emptyPlaceHolder",
+      c -> {
+        Order order = (Order)c;
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          order.getProdName(),
+          order.getStatusStr()
+        ));
+        return strs;
+      }
+    );
+
+    tblCtrl.setupColumsAndLoadData(
+      tbl -> {
+        JFXTreeTableView<Order> theTable = (JFXTreeTableView<Order>)tbl;
+        theTable.getColumns().addAll(
+          TableViewHelper.jfxTableColumnResBundle(
+            "orderTable.prodName",
+            Global.AllRes,
+            300,
+            Order::getProdName
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "orderTable.qty",
+            Global.AllRes,
+            100,
+            Order::getQty
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "orderTable.creationTime",
+            Global.AllRes,
+            200,
+            Order::getCreationTime
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "orderTable.status",
+            Global.AllRes,
+            80,
+            Order::getStatusStr
+          ),
+          jfxOrderTableOpsColumn(
+            Global.AllRes.getString("orderTable.action"),
+            80
+          )
+
+        );
+
+        UIHelpers.setPlaceHolder4TreeView(theTable, "refedCustomerOrderTable.placeHolder");
+
+      },
+      () -> dataModel.getOrders()
+    );
+
+    ordersTab.getChildren().addAll(table);
 
   }
 
@@ -108,41 +186,30 @@ public class CustomerMain {
     return rightSide;
   }
 
-  private JFXPopup toolbarPopup;
+  private void loadDataModel() {
+    Object[] raw = Helpers.paraActions(
+      new Supplier[] {
+        () -> UISvcHelpers.updateAllOrders(Global.getCurrToken())
+      },
+      30000
+    );
+
+    dataModel = new CustomerDataModel(
+      (Order[])raw[0]
+    );
+  }
 
   @PostConstruct
   public void launch() {
     try {
 
+      loadDataModel();
       loadLeftSide();
-
-//      mainWnd.getChildren().addAll(
-//        loadRightSide("prod", Global.AllRes)
-//      );
-
-//      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/SettingsPopup.fxml"), Global.AllRes);
-//      loader.setController(new SettingsController());
-//      toolbarPopup = new JFXPopup(loader.load());
-
-//      optionsBurger.setOnMouseClicked(e -> {
-//        toolbarPopup.show(
-//          optionsBurger,
-//          JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT,
-//          0, 0
-//        );
-//      });
-
       loadRightSide();
+      loadOrdersTable();
 
-      loadOrdersTab();
-
-//      Scene scene = Global.sceneDefStyle(root);
-//
-//      Stage mainStage = new Stage();
-//      mainStage.setScene(scene);
-//      mainStage.show();
     }
-    catch (IOException ex) {
+    catch (Exception ex) {
       throw new RuntimeException("Error launching main window!", ex);
     }
   }
