@@ -20,6 +20,8 @@ import org.xg.log.Logging;
 import org.xg.ui.mainwnd.MainFrame;
 import org.xg.ui.mainwnd.MedProfsMain;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.UISvcHelpers;
+import org.xg.ui.utils.UserCfg;
 import org.xg.ui.utils.Utf8ResBundleCtrl;
 
 import java.util.Locale;
@@ -28,6 +30,8 @@ import java.util.ResourceBundle;
 public class UiLogin extends Application {
 
   public static void main(String[] args) {
+    String cfgType = args[0];
+    UISvcHelpers.setCfg(UserCfg.loadFromCurrDir(cfgType));
     launch(args);
   }
 

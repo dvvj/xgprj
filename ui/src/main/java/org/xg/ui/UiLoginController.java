@@ -88,7 +88,7 @@ public class UiLoginController implements Initializable {
     );
 
     cmboUType.setValue(
-      userMap.get(UserTypeHelpers.UT_PROFORG)
+      userMap.get(UserTypeHelpers.UT_CUSTOMER)
     );
 
 

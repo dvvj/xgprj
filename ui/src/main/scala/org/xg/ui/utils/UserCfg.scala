@@ -33,8 +33,15 @@ object UserCfg {
     os.close()
   }
 
-  def loadFromCurrDir():UserCfg = {
-    val cfgFile = new File(System.getProperty("user.dir"), "client.cfg")
+  def loadFromCurrDir(cfgType:String):UserCfg = {
+    val cfgFileName = cfgType match {
+      case "ec2" => "client.ec2.cfg"
+      case "local" => "client.cfg"
+      case _ => {
+        throw new IllegalArgumentException(s"Expecting ec2/local, but get [$cfgType]")
+      }
+    }
+    val cfgFile = new File(System.getProperty("user.dir"), cfgFileName)
     val strm = new FileInputStream(cfgFile)
     val j = IOUtils.toString(strm, StandardCharsets.UTF_8)
     strm.close()

@@ -8,9 +8,12 @@ import org.xg.svc.{AddNewCustomer, AddNewMedProf}
 
 object UISvcHelpers {
 
-  val userCfg:UserCfg = UserCfg.loadFromCurrDir()
+  var userCfg:UserCfg = null
+  def setCfg(cfg:UserCfg):Unit = {
+    userCfg = cfg
+  }
 
-  val serverCfg:GlobalCfg = GlobalCfg(
+  def serverCfg:GlobalCfg = GlobalCfg(
     userCfg.svcSvr,
     userCfg.timeOutMs,
     "N/A",
