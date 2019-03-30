@@ -1,5 +1,6 @@
 package org.xg.ui.mainwnd;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -21,7 +22,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.ui.*;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
+import org.xg.ui.model.ComboOptionData;
 import org.xg.ui.model.CustomerDataModel;
+import org.xg.ui.model.OrderFilterHelpers;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -92,6 +95,7 @@ public class CustomerMain {
 //    orderController = orderLoader.getController();
 //
 //  }
+  private TreeTableViewWithFilterCtrl<Order> orderTableCtrl;
 
   private void loadOrdersTable() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
@@ -100,8 +104,8 @@ public class CustomerMain {
 
     //productLoader.setLocation(path);
     table = tableLoader.load();
-    TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
-    tblCtrl.setup(
+    orderTableCtrl = tableLoader.getController();
+    orderTableCtrl.setup(
 //        "customerOrderTable.toolbar.heading",
       "orderTable.toolbar.refresh",
       "orderTable.toolbar.searchPrompt",
@@ -118,7 +122,7 @@ public class CustomerMain {
       }
     );
 
-    tblCtrl.setupColumsAndLoadData(
+    orderTableCtrl.setupColumsAndLoadData(
       tbl -> {
         JFXTreeTableView<Order> theTable = (JFXTreeTableView<Order>)tbl;
         theTable.getColumns().addAll(
@@ -159,8 +163,34 @@ public class CustomerMain {
       () -> dataModel.getOrders()
     );
 
+    orderTableCtrl.addExtraComponents(createOrderFilterCombo());
+
     ordersTab.getChildren().addAll(table);
 
+  }
+
+  private Node createOrderFilterCombo() {
+    Integer filterCode = OrderFilterHelpers.OF_UNPAID;
+    JFXComboBox<ComboOptionData> cmboFilter = new JFXComboBox<>();
+    cmboFilter.getItems().addAll(OrderFilterHelpers.FilterOptionsMap.values());
+//    dataModel.bindFilterOption();
+    cmboFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+      boolean hasUpdate = newValue != null &&
+        (oldValue == null || !oldValue.getCode().equals(newValue.getCode()));
+
+      if (hasUpdate) {
+        int newVal = newValue.getCode();
+//        System.out.println("New selection: " + newVal);
+        //dataModel.setFilterOptionCode(newVal);
+        orderTableCtrl.filterAndUpdateTable2(
+          CustomerDataModel.filterMap.get(newVal)
+        );
+        //refreshOrderList(newVal);
+      }
+    });
+    cmboFilter.setValue(OrderFilterHelpers.FilterOptionsMap.get(filterCode));
+
+    return cmboFilter;
   }
 
   @FXML
@@ -214,16 +244,16 @@ public class CustomerMain {
     }
   }
 
-  public static final class SettingsController {
-    @FXML
-    private JFXListView<?> toolbarPopupList;
-
-    // close application
-    @FXML
-    private void submit() {
-      if (toolbarPopupList.getSelectionModel().getSelectedIndex() == 1) {
-        Platform.exit();
-      }
-    }
-  }
+//  public static final class SettingsController {
+//    @FXML
+//    private JFXListView<?> toolbarPopupList;
+//
+//    // close application
+//    @FXML
+//    private void submit() {
+//      if (toolbarPopupList.getSelectionModel().getSelectedIndex() == 1) {
+//        Platform.exit();
+//      }
+//    }
+//  }
 }

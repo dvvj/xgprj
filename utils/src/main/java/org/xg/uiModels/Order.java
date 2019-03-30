@@ -23,6 +23,14 @@ public class Order extends RecursiveTreeObject<Order> {
     return statusStr;
   }
 
+  public void setStatusStr(String statusStr) {
+    this.statusStr = statusStr;
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
   public boolean getCanBeModified() {
     return status != MOrgOrderStat.Status_Locked();
   }

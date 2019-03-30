@@ -13,8 +13,10 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -65,7 +67,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 //    ));
   }
 
-  private void filterAndUpdateTable2(Predicate<T> filter) {
+  public void filterAndUpdateTable2(Predicate<T> filter) {
     Task<Integer> task = Helpers.uiTaskJ(
       () -> {
         return 0;
@@ -201,5 +203,11 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 //  private JFXButton btnFilter;
   @FXML
   private JFXTreeTableView<T> theTable;
+
+  @FXML
+  private HBox exComps;
+  public void addExtraComponents(Node... components) {
+    exComps.getChildren().addAll(components);
+  }
 
 }
