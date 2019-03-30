@@ -47,4 +47,6 @@ object DataUtils {
   }
 
   def roundMoney(price:Double):Double = math.round(price * 100) / 100.0
+
+  def chartMaxY(valueMax:Double, roundTo:Int):Double = ((valueMax-1).toInt/roundTo + 1) * roundTo
 }

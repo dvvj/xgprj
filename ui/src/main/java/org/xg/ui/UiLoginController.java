@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.xg.gnl.GlobalCfg;
 import org.xg.ui.mainwnd.CustomerMain;
 import org.xg.ui.mainwnd.MainFrame;
 import org.xg.ui.mainwnd.MedProfsMain;
@@ -56,6 +57,8 @@ public class UiLoginController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
 
     userMap = UserTypeHelpers.createMap(resources);
+
+    //txtStatus.setText(GlobalCfg.currentDir());
 
     cmboUType.getItems().addAll(
       userMap.values()

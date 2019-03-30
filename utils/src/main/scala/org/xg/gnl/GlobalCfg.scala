@@ -63,4 +63,5 @@ object GlobalCfg {
     strm.close()
     fromJson(j)
   }
+
 }

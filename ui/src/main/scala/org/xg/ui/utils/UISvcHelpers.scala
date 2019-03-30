@@ -8,12 +8,14 @@ import org.xg.svc.{AddNewCustomer, AddNewMedProf}
 
 object UISvcHelpers {
 
-  val clientCfg = ClientCfg(
-    UserCfg("customer1", 0, ""),
-    GlobalCfg.localTestCfg // todo
-  )
+  val userCfg:UserCfg = UserCfg.loadFromCurrDir()
 
-  val serverCfg:GlobalCfg = clientCfg.serverCfg
+  val serverCfg:GlobalCfg = GlobalCfg(
+    userCfg.svcSvr,
+    userCfg.timeOutMs,
+    "N/A",
+    "N/A"
+  )
 
   def trySvcTF(
             action:() => Boolean

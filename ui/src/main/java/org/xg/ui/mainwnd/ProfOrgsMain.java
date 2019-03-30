@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import org.xg.chart.ChartHelpers;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgOrderStat;
+import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
@@ -108,9 +109,9 @@ public class ProfOrgsMain {
       },
       () -> dataModel.getOrderStats(),
       () -> {
-        double m = ((int)(createCostBarChartsAll() / 500)) * 500;
+        double m = DataUtils.chartMaxY(createCostBarChartsAll(), 500);
         maxCostChartValue.setValue(m);
-        m = ((int)(createRewardBarChartsAll() / 500)) * 500;
+        m = DataUtils.chartMaxY(createRewardBarChartsAll(), 200);
         maxRewardChartValue.setValue(m);
         selectedProf.bind(profCtrl.getSelected());
       }
@@ -311,7 +312,8 @@ public class ProfOrgsMain {
       profId, profName,
       vboxCostChartCurrProf,
       "orderStatsCostBarChart.title",
-      OrgOrderStat::getActualCost
+      OrgOrderStat::getActualCost,
+      maxCostChartValue.getValue()
     );
   }
 
@@ -319,7 +321,8 @@ public class ProfOrgsMain {
     String profId, String profName,
     VBox barChartParent,
     String titleRes,
-    Function<OrgOrderStat, Double> resultGetter
+    Function<OrgOrderStat, Double> resultGetter,
+    double maxValue
   ) {
     barChartParent.getChildren().clear();
 
@@ -334,10 +337,10 @@ public class ProfOrgsMain {
       String.format(
         "%s(%s)", Global.AllRes.getString(titleRes), profName
       ),
-      maxCostChartValue.getValue(),
+      maxValue,
       resultGetter
     );
-    barChartCurrProf.setMaxHeight(350);
+    //barChartCurrProf.setMaxHeight(350);
 
     barChartParent.getChildren().addAll(barChartCurrProf);
   }
@@ -350,7 +353,8 @@ public class ProfOrgsMain {
       profId, profName,
       vboxRewardChartCurrProf,
       "orderStatsRewardBarChart.title",
-      OrgOrderStat::getReward
+      OrgOrderStat::getReward,
+      maxRewardChartValue.getValue()
     );
   }
 
