@@ -51,15 +51,14 @@ CREATE TABLE med_profs (
   PRIMARY KEY (prof_id)
 );
 
-CREATE TABLE prof_orgs (
-  org_id VARCHAR(255) NOT NULL,
+CREATE TABLE prof_org_agents (
+  agent_id VARCHAR(255) NOT NULL,
   name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   pass_hash BINARY(64) NOT NULL,
   info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  org_no VARCHAR(255) NOT NULL,
   phone VARCHAR(31) NOT NULL,
   join_date TIMESTAMP NOT NULL,
-  PRIMARY KEY (org_id)
+  PRIMARY KEY (agent_id)
 );
 
 CREATE TABLE agency (
@@ -106,9 +105,9 @@ CREATE TABLE reward_plan_map (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE org_order_stats (
-  org_id VARCHAR(255) NOT NULL,
-  agent_id VARCHAR(255) NOT NULL,
+CREATE TABLE org_agent_order_stats (
+  org_agent_id VARCHAR(255) NOT NULL,
+  prof_id VARCHAR(255) NOT NULL,
   order_id BIGINT NOT NULL,
   product_id INT NOT NULL,
   qty FLOAT NOT NULL,
@@ -116,5 +115,5 @@ CREATE TABLE org_order_stats (
   creation_time TIMESTAMP NOT NULL,
   status INT NOT NULL,
   PRIMARY KEY (order_id),
-  INDEX(org_id)
+  INDEX(org_agent_id)
 );

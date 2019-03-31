@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name="prof_orgs", uniqueConstraints = {@UniqueConstraint(columnNames = {"org_no"})})
-public class ProfOrg {
+@Table(name="prof_org_agents", uniqueConstraints = {@UniqueConstraint(columnNames = {"org_no"})})
+public class ProfOrgAgent {
   @Id
-  @Column(name="org_id", length = 255, nullable = false)
-  private String orgId;
+  @Column(name="agent_id", length = 255, nullable = false)
+  private String orgAgentId;
 
   @Column(name="name", length = 31, nullable = false)
   private String name;
@@ -28,10 +28,10 @@ public class ProfOrg {
   @Column(name="join_date", nullable = false)
   private ZonedDateTime joinDate;
 
-  public ProfOrg() { }
+  public ProfOrgAgent() { }
 
-  public ProfOrg(
-    String orgId,
+  public ProfOrgAgent(
+    String orgAgentId,
     String name,
     byte[] passHash,
     String info,
@@ -39,7 +39,7 @@ public class ProfOrg {
     String phone,
     ZonedDateTime joinDate
   ) {
-    this.orgId = orgId;
+    this.orgAgentId = orgAgentId;
     this.name = name;
     this.passHash = passHash;
     this.info = info;
@@ -48,12 +48,12 @@ public class ProfOrg {
     this.joinDate = joinDate;
   }
 
-  public String getOrgId() {
-    return orgId;
+  public String getOrgAgentId() {
+    return orgAgentId;
   }
 
-  public void setOrgId(String orgId) {
-    this.orgId = orgId;
+  public void setOrgAgentId(String orgAgentId) {
+    this.orgAgentId = orgAgentId;
   }
 
   public String getName() {

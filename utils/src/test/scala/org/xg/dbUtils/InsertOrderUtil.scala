@@ -95,7 +95,7 @@ object InsertOrderUtil {
     "INSERT INTO orders (id, customer_id, product_id, qty, actual_cost, creation_time, pay_time, proc_time1, proc_time2, proc_time3)" +
       "  VALUES (%s);"
   val insertStatementTemplate2 =
-    "INSERT INTO org_order_stats (org_id, agent_id, order_id, product_id, qty, actual_cost, creation_time, status)" +
+    "INSERT INTO org_agent_order_stats (org_agent_id, prof_id, order_id, product_id, qty, actual_cost, creation_time, status)" +
       "  VALUES (%s);"
 
   val NULL = "NULL"

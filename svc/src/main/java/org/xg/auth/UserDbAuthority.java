@@ -28,8 +28,15 @@ public final class UserDbAuthority {
 //  }
 
   public static boolean authenticateCustomer(String customerId, String passHashStr) {
-    AuthResult token = customerInstance._auth.authenticate(customerId, passHashStr);
-    return token.result();
+    logger.warning("fucku");
+    AuthResult res = customerInstance._auth.authenticate(customerId, passHashStr);
+    logger.warning("fucku2");
+    if (!res.result()) {
+      logger.info(
+        String.format("failed to authenticate [%s], reason: %s", customerId, res.msg())
+      );
+    }
+    return res.result();
   }
 
   public static boolean authenticateMedProfs(String profId, String passHashStr) {
@@ -42,9 +49,14 @@ public final class UserDbAuthority {
     return res.result();
   }
 
-  public static boolean authenticateProfOrgs(String orgId, String passHashStr) {
-    AuthResult token = profOrgInstance._auth.authenticate(orgId, passHashStr);
-    return token.result();
+  public static boolean authenticateProfOrgAgent(String orgAgentId, String passHashStr) {
+    AuthResult res = profOrgInstance._auth.authenticate(orgAgentId, passHashStr);
+    if (!res.result()) {
+      logger.info(
+        String.format("failed to authenticate [%s], reason: %s", orgAgentId, res.msg())
+      );
+    }
+    return res.result();
   }
 
   private static UserDbAuthority createInstasnce(Map<String, byte[]> userPassMap) {

@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name="org_order_stats")
-public class OrgOrderStat {
+@Table(name="org_agent_order_stats")
+public class OrgAgentOrderStat {
 
-  @Column(name="org_id", length = 255, nullable = false)
-  private String orgId;
+  @Column(name="org_agent_id", length = 255, nullable = false)
+  private String orgAgentId;
 
-  @Column(name="agent_id", length = 255, nullable = false)
-  private String agentId;
+  @Column(name="prof_id", length = 255, nullable = false)
+  private String profId;
 
   @Id
   @Column(name="order_id", nullable = false)
@@ -32,11 +32,11 @@ public class OrgOrderStat {
   @Column(name="status", nullable = false)
   private Integer status;
 
-  public OrgOrderStat() { }
+  public OrgAgentOrderStat() { }
 
-  public OrgOrderStat(
-    String orgId,
-    String agentId,
+  public OrgAgentOrderStat(
+    String orgAgentId,
+    String profId,
     Long orderId,
     Integer productId,
     double qty,
@@ -44,8 +44,8 @@ public class OrgOrderStat {
     ZonedDateTime creationTime,
     Integer status
   ) {
-    this.orgId = orgId;
-    this.agentId = agentId;
+    this.orgAgentId = orgAgentId;
+    this.profId = profId;
     this.orderId = orderId;
     this.productId = productId;
     this.qty = qty;
@@ -54,20 +54,20 @@ public class OrgOrderStat {
     this.status = status;
   }
 
-  public String getOrgId() {
-    return orgId;
+  public String getOrgAgentId() {
+    return orgAgentId;
   }
 
-  public void setOrgId(String orgId) {
-    this.orgId = orgId;
+  public void setOrgAgentId(String orgAgentId) {
+    this.orgAgentId = orgAgentId;
   }
 
-  public String getAgentId() {
-    return agentId;
+  public String getProfId() {
+    return profId;
   }
 
-  public void setAgentId(String agentId) {
-    this.agentId = agentId;
+  public void setProfId(String profId) {
+    this.profId = profId;
   }
 
   public Integer getProductId() {

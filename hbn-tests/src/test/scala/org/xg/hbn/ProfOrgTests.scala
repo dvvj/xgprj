@@ -8,7 +8,7 @@ object ProfOrgTests extends App {
 
   println(poMap)
 
-  val orgId1 = "prof_org1"
+  val orgId1 = "prof_org_agent1"
   val org1Profs = testHbnOps.profsOf(orgId1)
 
   println(org1Profs)

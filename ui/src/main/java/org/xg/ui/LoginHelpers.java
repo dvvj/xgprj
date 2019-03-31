@@ -121,7 +121,7 @@ public class LoginHelpers {
     Map<Integer, ILoginAction> res = new HashMap<>();
     res.put(UserTypeHelpers.UT_CUSTOMER, customerLogin);
     res.put(UserTypeHelpers.UT_MEDPROFS, medProfsLogin);
-    res.put(UserTypeHelpers.UT_PROFORG, profOrgsLogin);
+    res.put(UserTypeHelpers.UT_PROFORG_AGENT, profOrgsLogin);
     return res;
   }
   private static final Map<Integer, ILoginAction> loginActionMap = createLoginActionMap();

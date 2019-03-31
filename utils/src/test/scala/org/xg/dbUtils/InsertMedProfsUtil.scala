@@ -9,13 +9,13 @@ object InsertMedProfsUtil {
   val profId2 = "prof2"
   val profId3 = "prof3"
 
-  val profOrgId1 = "prof_org1"
-  val profOrgId2 = "prof_org2"
+  val profOrgAgentId1 = "prof_org_agent1"
+  val profOrgAgentId2 = "prof_org_agent2"
 
   val prof2OrgMap:Map[String, String] = Map(
-    profId1 -> profOrgId1,
-    profId2 -> profOrgId1,
-    profId3 -> profOrgId2
+    profId1 -> profOrgAgentId1,
+    profId2 -> profOrgAgentId1,
+    profId3 -> profOrgAgentId2
   )
 
   val testProfs = Array(

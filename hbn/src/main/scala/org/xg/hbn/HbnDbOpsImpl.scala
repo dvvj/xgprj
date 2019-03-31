@@ -79,7 +79,7 @@ object HbnDbOpsImpl {
         sessFactory,
         { sess =>
           //          val param = "customerList"
-          queryAndConvert(sess, classOf[ProfOrg].getName, convertProfOrg)
+          queryAndConvert(sess, classOf[ProfOrgAgent].getName, convertProfOrg)
         }
       )
     }
@@ -254,8 +254,8 @@ object HbnDbOpsImpl {
           if (morder.canBePayed) {
             order.setPayTime(payTime)
             sess.update(order)
-            val orgOrderStatQuery = s"Select o from ${classOf[OrgOrderStat].getName} o where o.orderId = $orderId"
-            val orderStat = sess.createQuery(orgOrderStatQuery).getResultList.get(0).asInstanceOf[OrgOrderStat]
+            val orgOrderStatQuery = s"Select o from ${classOf[OrgAgentOrderStat].getName} o where o.orderId = $orderId"
+            val orderStat = sess.createQuery(orgOrderStatQuery).getResultList.get(0).asInstanceOf[OrgAgentOrderStat]
             orderStat.setStatus(MOrgOrderStat.Status_Paid)
             sess.update(orderStat)
             true
@@ -282,7 +282,7 @@ object HbnDbOpsImpl {
           )
           val orderId:java.lang.Long = sess.save(order).asInstanceOf[java.lang.Long]
 
-          val orgOrderStat = new OrgOrderStat(
+          val orgOrderStat = new OrgAgentOrderStat(
             orgId,
             refUid,
             orderId,
@@ -376,11 +376,11 @@ object HbnDbOpsImpl {
     }
 
     override def getProfOrgPassMap: Map[String, Array[Byte]] = {
-      getUidPassMap("orgId", classOf[ProfOrg].getName)
+      getUidPassMap("orgAgentId", classOf[ProfOrgAgent].getName)
 //      runInTransaction(
 //        sessFactory,
 //        { sess =>
-//          val ql = s"Select mp.orgId, mp.passHash from ${classOf[ProfOrg].getName} mp"
+//          val ql = s"Select mp.orgId, mp.passHash from ${classOf[ProfOrgAgent].getName} mp"
 //
 //          val q = sess.createQuery(ql)
 //          val t = q.getResultList.asScala.map { r =>
@@ -499,26 +499,26 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def profsOf(profOrgId: String): Array[MMedProf] = {
+    override def profsOf(orgAgentId: String): Array[MMedProf] = {
       runInTransaction(
         sessFactory,
         { sess =>
           queryWhereAndConvert(sess,
             classOf[MedProf].getName,
-            s"x.orgId = '$profOrgId'",
+            s"x.orgAgentId = '$orgAgentId'",
             convertMedProf
           )
         }
       )
     }
 
-    override def getOrderStat4Org(orgId: String): Array[MOrgOrderStat] = {
+    override def getOrderStat4Org(orgAgentId: String): Array[MOrgOrderStat] = {
       runInTransaction(
         sessFactory,
         { sess =>
           queryWhereAndConvert(sess,
-            classOf[OrgOrderStat].getName,
-            s"x.orgId = '$orgId'",
+            classOf[OrgAgentOrderStat].getName,
+            s"x.orgAgentId = '$orgAgentId'",
             convertOrgOrderStat
           )
         }
