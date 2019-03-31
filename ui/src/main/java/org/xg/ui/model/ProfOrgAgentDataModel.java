@@ -3,11 +3,11 @@ package org.xg.ui.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.xg.dbModels.MMedProf;
-import org.xg.dbModels.MOrgOrderStat;
+import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Helpers;
 import org.xg.uiModels.MedProf;
-import org.xg.uiModels.OrgOrderStat;
+import org.xg.uiModels.OrgAgentOrderStat;
 import org.xg.uiModels.Product;
 
 import java.util.Arrays;
@@ -15,19 +15,19 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ProfOrgsDataModel {
+public class ProfOrgAgentDataModel {
 
   private final ObservableList<MedProf> medProfs;
-  private final OrgOrderStat[] rawOrderStats;
-  private final ObservableList<OrgOrderStat> orderStats;
+  private final OrgAgentOrderStat[] rawOrderStats;
+  private final ObservableList<OrgAgentOrderStat> orderStats;
   private final Map<String, MedProf> profMap;
   private final TRewardPlan rewardPlan;
   private final Map<Integer, Product> prodMap;
 
 
-  public ProfOrgsDataModel(
+  public ProfOrgAgentDataModel(
     MMedProf[] medProfs,
-    MOrgOrderStat[] orderStats,
+    MOrgAgentOrderStat[] orderStats,
     Map<Integer, Product> prodMap,
     TRewardPlan rewardPlan
   ) {
@@ -48,11 +48,11 @@ public class ProfOrgsDataModel {
     return medProfs;
   }
 
-  public ObservableList<OrgOrderStat> getOrderStats() {
+  public ObservableList<OrgAgentOrderStat> getOrderStats() {
     return orderStats;
   }
 
-  public OrgOrderStat[] getRawOrderStats() {
+  public OrgAgentOrderStat[] getRawOrderStats() {
     return rawOrderStats;
   }
 

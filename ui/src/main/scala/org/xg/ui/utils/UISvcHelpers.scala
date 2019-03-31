@@ -2,7 +2,7 @@ package org.xg.ui.utils
 
 import javafx.collections.{FXCollections, ObservableList}
 import org.xg.auth.SvcHelpers
-import org.xg.dbModels.{MCustomer, MMedProf, MOrder, MOrgOrderStat}
+import org.xg.dbModels.{MCustomer, MMedProf, MOrder, MOrgAgentOrderStat}
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.svc.{AddNewCustomer, AddNewMedProf}
@@ -79,14 +79,14 @@ object UISvcHelpers {
     MMedProf.fromJsons(j)
   }
 
-  def updateOrgOrderStats(orgId:String, userToken:String):Array[MOrgOrderStat] = {
+  def updateOrgOrderStats(orgId:String, userToken:String):Array[MOrgAgentOrderStat] = {
     val j = SvcHelpers.post(
       serverCfg.orderStatsOfURL,
       userToken,
       orgId
     )
 
-    MOrgOrderStat.fromJsons(j)
+    MOrgAgentOrderStat.fromJsons(j)
   }
 
 

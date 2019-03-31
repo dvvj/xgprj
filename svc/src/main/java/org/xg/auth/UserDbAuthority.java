@@ -1,7 +1,6 @@
 package org.xg.auth;
 
 import org.xg.SvcUtils;
-import org.xg.gnl.GlobalCfg;
 import org.xg.log.Logging;
 import org.xg.svc.AuthResult;
 
@@ -134,10 +133,10 @@ public final class UserDbAuthority {
   private final static InstanceCreation profOrgDb = new InstanceCreation();
   private static UserDbAuthority profOrgInstance =
     profOrgDb.getInstance(
-      SvcUtils.getDbOps().getProfOrgPassMapJ()
+      SvcUtils.getDbOps().getProfOrgAgentPassMapJ()
     );
   public static void updateProfOrgfDb() {
-    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getProfOrgPassMapJ();
+    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getProfOrgAgentPassMapJ();
     synchronized (profOrgDb._instanceLock) {
       profOrgInstance = createInstasnce(orgPassMap);
     }

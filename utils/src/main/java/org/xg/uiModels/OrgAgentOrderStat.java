@@ -1,13 +1,13 @@
 package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import org.xg.dbModels.MOrgOrderStat;
+import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
 
 import java.util.Map;
 
-public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
+public class OrgAgentOrderStat extends RecursiveTreeObject<OrgAgentOrderStat> {
   private String orgId;
   private String profId;
   private String profName;
@@ -19,9 +19,9 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
   private Integer status;
   private Double reward;
 
-  public OrgOrderStat() { }
+  public OrgAgentOrderStat() { }
 
-  public OrgOrderStat(
+  public OrgAgentOrderStat(
     String orgId,
     String profId,
     String profName,
@@ -46,7 +46,7 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
   }
 
   public boolean getNotPayed() {
-    return status == MOrgOrderStat.Status_CreatedNotPaid();
+    return status == MOrgAgentOrderStat.Status_CreatedNotPaid();
   }
 
   public String getOrgId() {
@@ -109,8 +109,8 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
     return reward;
   }
 
-  public static OrgOrderStat fromM(
-    MOrgOrderStat os,
+  public static OrgAgentOrderStat fromM(
+    MOrgAgentOrderStat os,
     Map<Integer, Product> prodMap,
     Map<String, MedProf> profMap,
     TRewardPlan rewardPlan
@@ -118,7 +118,7 @@ public class OrgOrderStat extends RecursiveTreeObject<OrgOrderStat> {
     Product product = prodMap.get(os.productId());
     Double reward = rewardPlan != null ?
       rewardPlan.reward(product.getId(), product.getPrice0()) : 0.0;
-    return new OrgOrderStat(
+    return new OrgAgentOrderStat(
       os.orgId(),
       os.profId(),
       profMap.get(os.profId()).getName(),

@@ -2,8 +2,7 @@ package org.xg;
 
 import org.xg.auth.Secured;
 import org.xg.dbModels.MMedProf;
-import org.xg.dbModels.MOrgOrderStat;
-import org.xg.json.CommonUtils;
+import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.svc.AddNewMedProf;
 
 import javax.ws.rs.*;
@@ -38,8 +37,8 @@ public class ProfOrgsOps {
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
   public Response getOrderStatsOf(String orgId) {
     try {
-      MOrgOrderStat[] orderStats = SvcUtils.getOrgOrderStatsOf(orgId);
-      String j = MOrgOrderStat.toJsons(orderStats);
+      MOrgAgentOrderStat[] orderStats = SvcUtils.getOrgOrderStatsOf(orgId);
+      String j = MOrgAgentOrderStat.toJsons(orderStats);
 
       return Response.ok(j)
         .build();

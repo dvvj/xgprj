@@ -77,18 +77,18 @@ object Helpers {
     )
   }
   def convertMedProf(mp:MedProf):MMedProf = {
-    MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile, mp.getOrgId)
+    MMedProf(mp.getProfId, mp.getName,mp.getIdCardNo, mp.getMobile, mp.getOrgAgentId)
   }
 
-  def convertOrgOrderStat(o:OrgAgentOrderStat):MOrgOrderStat = {
-    MOrgOrderStat(
+  def convertOrgOrderStat(o:OrgAgentOrderStat):MOrgAgentOrderStat = {
+    MOrgAgentOrderStat(
       o.getOrgAgentId, o.getProfId, o.getOrderId, o.getProductId,
       o.getQty, o.getActualCost, zonedDateTime2Str(o.getCreationTime), o.getStatus
     )
   }
 
-  def convertProfOrg(po:ProfOrgAgent):MProfOrg = {
-    MProfOrg(
+  def convertProfOrg(po:ProfOrgAgent):MProfOrgAgent = {
+    MProfOrgAgent(
       po.getOrgAgentId,
       po.getName,
       po.getInfo,

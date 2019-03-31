@@ -7,7 +7,7 @@ public class MedProf extends RecursiveTreeObject<MedProf> {
   private String uid;
   private String name;
   private String mobile;
-  private String orgId;
+  private String orgAgentId;
 
   public MedProf() { }
 
@@ -15,12 +15,12 @@ public class MedProf extends RecursiveTreeObject<MedProf> {
     String uid,
     String name,
     String mobile,
-    String orgId
+    String orgAgentId
   ) {
     this.uid = uid;
     this.name = name;
     this.mobile = mobile;
-    this.orgId = orgId;
+    this.orgAgentId = orgAgentId;
   }
 
   public String getUid() {
@@ -47,15 +47,15 @@ public class MedProf extends RecursiveTreeObject<MedProf> {
     this.mobile = mobile;
   }
 
-  public String getOrgId() {
-    return orgId;
+  public String getOrgAgentId() {
+    return orgAgentId;
   }
 
-  public void setOrgId(String orgId) {
-    this.orgId = orgId;
+  public void setOrgAgentId(String orgAgentId) {
+    this.orgAgentId = orgAgentId;
   }
 
   public static MedProf fromMMedProf(MMedProf mp) {
-    return new MedProf(mp.profId(), mp.name(), mp.mobile(), mp.orgId());
+    return new MedProf(mp.profId(), mp.name(), mp.mobile(), mp.orgAgentId());
   }
 }

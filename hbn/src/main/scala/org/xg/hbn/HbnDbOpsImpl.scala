@@ -74,7 +74,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def allProfOrgs: Array[MProfOrg] = {
+    override def allProfOrgs: Array[MProfOrgAgent] = {
       runInTransaction(
         sessFactory,
         { sess =>
@@ -256,7 +256,7 @@ object HbnDbOpsImpl {
             sess.update(order)
             val orgOrderStatQuery = s"Select o from ${classOf[OrgAgentOrderStat].getName} o where o.orderId = $orderId"
             val orderStat = sess.createQuery(orgOrderStatQuery).getResultList.get(0).asInstanceOf[OrgAgentOrderStat]
-            orderStat.setStatus(MOrgOrderStat.Status_Paid)
+            orderStat.setStatus(MOrgAgentOrderStat.Status_Paid)
             sess.update(orderStat)
             true
           }
@@ -290,7 +290,7 @@ object HbnDbOpsImpl {
             order.getQty,
             order.getActualCost,
             order.getCreationTime,
-            MOrgOrderStat.Status_CreatedNotPaid
+            MOrgAgentOrderStat.Status_CreatedNotPaid
           )
 
           sess.save(orgOrderStat)
@@ -375,7 +375,7 @@ object HbnDbOpsImpl {
 //      )
     }
 
-    override def getProfOrgPassMap: Map[String, Array[Byte]] = {
+    override def getProfOrgAgentPassMap: Map[String, Array[Byte]] = {
       getUidPassMap("orgAgentId", classOf[ProfOrgAgent].getName)
 //      runInTransaction(
 //        sessFactory,
@@ -512,7 +512,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def getOrderStat4Org(orgAgentId: String): Array[MOrgOrderStat] = {
+    override def getOrderStat4Org(orgAgentId: String): Array[MOrgAgentOrderStat] = {
       runInTransaction(
         sessFactory,
         { sess =>

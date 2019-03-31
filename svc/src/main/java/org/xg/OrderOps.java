@@ -78,7 +78,7 @@ public class OrderOps {
       String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
       MCustomer customer = SvcUtils.getCustomers().get(userOrder.uid());
       MMedProf prof = SvcUtils.getMedProfs().get(customer.refUid());
-      String profOrgId = SvcUtils.getMedProfOrg(prof.profId()).orgId();
+      String profOrgId = SvcUtils.getMedProfOrg(prof.profId()).orgAgentId();
 
       Long orderId = dbOps.placeOrder(
         profOrgId, customer.refUid(),

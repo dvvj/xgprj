@@ -1,23 +1,18 @@
 package org.xg.ui.model;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.xg.dbModels.MOrder;
-import org.xg.dbModels.MOrgOrderStat;
+import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.gnl.DataUtils;
 import org.xg.ui.utils.Global;
-import org.xg.uiModels.CustomerOrder;
 import org.xg.uiModels.Order;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class CustomerDataModel {
@@ -74,16 +69,16 @@ public class CustomerDataModel {
 
     statusStrMap = new HashMap<>();
     statusStrMap.put(
-      MOrgOrderStat.Status_CreatedNotPaid(), Global.AllRes.getString("orderTable.status.createdNotPaid")
+      MOrgAgentOrderStat.Status_CreatedNotPaid(), Global.AllRes.getString("orderTable.status.createdNotPaid")
     );
     statusStrMap.put(
-      MOrgOrderStat.Status_Paid(), Global.AllRes.getString("orderTable.status.paid")
+      MOrgAgentOrderStat.Status_Paid(), Global.AllRes.getString("orderTable.status.paid")
     );
     statusStrMap.put(
-      MOrgOrderStat.Status_Cancelled(), Global.AllRes.getString("orderTable.status.cancelled")
+      MOrgAgentOrderStat.Status_Cancelled(), Global.AllRes.getString("orderTable.status.cancelled")
     );
     statusStrMap.put(
-      MOrgOrderStat.Status_Locked(), Global.AllRes.getString("orderTable.status.locked")
+      MOrgAgentOrderStat.Status_Locked(), Global.AllRes.getString("orderTable.status.locked")
     );
   }
 

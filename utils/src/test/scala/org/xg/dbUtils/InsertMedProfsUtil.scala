@@ -26,7 +26,7 @@ object InsertMedProfsUtil {
 
   def main(args:Array[String]):Unit = {
     val insertStatementTemplate =
-      "INSERT INTO med_profs (prof_id, name, idcard_no, mobile, org_id, pass_hash)" +
+      "INSERT INTO med_profs (prof_id, name, idcard_no, mobile, org_agent_id, pass_hash)" +
         "  VALUES (%s);"
 
     val insertStatements = testProfs.map { p =>

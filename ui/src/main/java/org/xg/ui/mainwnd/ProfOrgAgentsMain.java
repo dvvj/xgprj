@@ -12,23 +12,21 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import org.xg.chart.ChartHelpers;
 import org.xg.dbModels.MMedProf;
-import org.xg.dbModels.MOrgOrderStat;
+import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
-import org.xg.uiModels.Customer;
 import org.xg.uiModels.MedProf;
-import org.xg.ui.model.ProfOrgsDataModel;
+import org.xg.ui.model.ProfOrgAgentDataModel;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
-import org.xg.uiModels.OrgOrderStat;
+import org.xg.uiModels.OrgAgentOrderStat;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -37,7 +35,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 @ViewController(value = "/ui/ProfOrgsMain.fxml")
-public class ProfOrgsMain {
+public class ProfOrgAgentsMain {
   @FXML
   private StackPane orderStatsTab;
 
@@ -58,7 +56,7 @@ public class ProfOrgsMain {
       "orderStatsTable.toolbar.filter",
       "orderStatsTable.emptyPlaceHolder",
       c -> {
-        OrgOrderStat orderStat = (OrgOrderStat) c;
+        OrgAgentOrderStat orderStat = (OrgAgentOrderStat) c;
         Set<String> strs = new HashSet<>();
         strs.addAll(Arrays.asList(
           orderStat.getProfId(),
@@ -70,7 +68,7 @@ public class ProfOrgsMain {
 
     tblCtrl.setupColumsAndLoadData(
       tbl -> {
-        JFXTreeTableView<OrgOrderStat> theTable = (JFXTreeTableView<OrgOrderStat>)tbl;
+        JFXTreeTableView<OrgAgentOrderStat> theTable = (JFXTreeTableView<OrgAgentOrderStat>)tbl;
         theTable.getColumns().addAll(
 //            TableViewHelper.jfxTableColumnResBundle(
 //              "customerTable.uid",
@@ -82,25 +80,25 @@ public class ProfOrgsMain {
             "orderStatsTable.prodName",
             Global.AllRes,
             150,
-            OrgOrderStat::getProdName
+            OrgAgentOrderStat::getProdName
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderStatsTable.qty",
             Global.AllRes,
             100,
-            OrgOrderStat::getQty
+            OrgAgentOrderStat::getQty
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderStatsTable.actualCost",
             Global.AllRes,
             100,
-            OrgOrderStat::getActualCost
+            OrgAgentOrderStat::getActualCost
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderStatsTable.profName",
             Global.AllRes,
             100,
-            OrgOrderStat::getProfName
+            OrgAgentOrderStat::getProfName
           )
         );
 
@@ -208,7 +206,7 @@ public class ProfOrgsMain {
     }
   }
 
-  private ProfOrgsDataModel dataModel = null;
+  private ProfOrgAgentDataModel dataModel = null;
 
   private void loadDataModel() {
     String orgId = Global.getCurrUid();
@@ -225,9 +223,9 @@ public class ProfOrgsMain {
 
     MMedProf[] profs = (MMedProf[])raw[0];
     System.out.println("Profs found: " + profs.length);
-    dataModel = new ProfOrgsDataModel(
+    dataModel = new ProfOrgAgentDataModel(
       profs,
-      (MOrgOrderStat[])raw[1],
+      (MOrgAgentOrderStat[])raw[1],
       Global.getProductMap(),
       (TRewardPlan)raw[2]
     );
@@ -242,7 +240,7 @@ public class ProfOrgsMain {
     return createBarChartsAll(
       vboxCostChartAll,
       "orderStatsCostBarChart.title",
-      OrgOrderStat::getActualCost
+      OrgAgentOrderStat::getActualCost
     );
   }
 
@@ -252,7 +250,7 @@ public class ProfOrgsMain {
   private double createBarChartsAll(
     VBox barChartParent,
     String titleRes,
-    Function<OrgOrderStat, Double> resultGetter
+    Function<OrgAgentOrderStat, Double> resultGetter
   ) {
     barChartParent.getChildren().clear();
 
@@ -296,7 +294,7 @@ public class ProfOrgsMain {
     return createBarChartsAll(
       vboxRewardChartAll,
       "orderStatsRewardBarChart.title",
-      OrgOrderStat::getReward
+      OrgAgentOrderStat::getReward
     );
   }
 
@@ -312,7 +310,7 @@ public class ProfOrgsMain {
       profId, profName,
       vboxCostChartCurrProf,
       "orderStatsCostBarChart.title",
-      OrgOrderStat::getActualCost,
+      OrgAgentOrderStat::getActualCost,
       maxCostChartValue.getValue()
     );
   }
@@ -321,15 +319,15 @@ public class ProfOrgsMain {
     String profId, String profName,
     VBox barChartParent,
     String titleRes,
-    Function<OrgOrderStat, Double> resultGetter,
+    Function<OrgAgentOrderStat, Double> resultGetter,
     double maxValue
   ) {
     barChartParent.getChildren().clear();
 
-    OrgOrderStat[] orgOrderStats = Arrays.stream(dataModel.getRawOrderStats())
-      .filter(o -> o.getProfId().equals(profId)).toArray(OrgOrderStat[]::new);
+    OrgAgentOrderStat[] orgAgentOrderStats = Arrays.stream(dataModel.getRawOrderStats())
+      .filter(o -> o.getProfId().equals(profId)).toArray(OrgAgentOrderStat[]::new);
     StackedBarChart<String, Number> barChartCurrProf = ChartHelpers.createChartFromOrderStats(
-      orgOrderStats,
+      orgAgentOrderStats,
       new String[] {
         Global.AllRes.getString("orderStatsBarChart.category.paid"),
         Global.AllRes.getString("orderStatsBarChart.category.unpaid"),
@@ -353,7 +351,7 @@ public class ProfOrgsMain {
       profId, profName,
       vboxRewardChartCurrProf,
       "orderStatsRewardBarChart.title",
-      OrgOrderStat::getReward,
+      OrgAgentOrderStat::getReward,
       maxRewardChartValue.getValue()
     );
   }

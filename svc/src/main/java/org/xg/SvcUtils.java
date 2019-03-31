@@ -89,7 +89,7 @@ public class SvcUtils {
 
 
   public static MMedProf[] getMedProfsOf(String orgId) {
-    List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgId().equals(orgId))
+    List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgAgentId().equals(orgId))
       .collect(Collectors.toList());
     MMedProf[] res = new MMedProf[medprofs.size()];
     return medprofs.toArray(res);
@@ -159,27 +159,27 @@ public class SvcUtils {
   }
 
   private static Object _lockProfOrgs = new Object();
-  private static Map<String, MProfOrg> _profOrgs = null;
-  public static Map<String, MProfOrg> getProfOrgMaps() {
+  private static Map<String, MProfOrgAgent> _profOrgs = null;
+  public static Map<String, MProfOrgAgent> getProfOrgMaps() {
     if (_profOrgs == null) {
       synchronized (_lockProfOrgs) {
         if (_profOrgs == null) {
-          _profOrgs = getDbOps().profOrgMapJ();
+          _profOrgs = getDbOps().profOrgAgentMapJ();
         }
       }
     }
     return _profOrgs;
   }
 
-  public static MProfOrg getMedProfOrg(String profId) {
+  public static MProfOrgAgent getMedProfOrg(String profId) {
     MMedProf prof = getMedProfs().get(profId);
-    MProfOrg profOrg = getProfOrgMaps().get(prof.orgId());
+    MProfOrgAgent profOrg = getProfOrgMaps().get(prof.orgAgentId());
     return profOrg;
   }
 
 //  private static Object _lockOrderStats = new Object();
 //  private static Map<String, MOrgOrderStat[]> _orgOrderStats = null;
-  public static MOrgOrderStat[] getOrgOrderStatsOf(String orgId) {
+  public static MOrgAgentOrderStat[] getOrgOrderStatsOf(String orgId) {
     return getDbOps().getOrderStat4Org(orgId);
   }
 
@@ -191,7 +191,7 @@ public class SvcUtils {
       mp.pass(),
       mmp.idCardNo(),
       mmp.mobile(),
-      mmp.orgId()
+      mmp.orgAgentId()
     );
 
     updateMedProfs();

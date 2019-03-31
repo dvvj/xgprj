@@ -132,29 +132,29 @@ trait TDbOps {
   }
   def customersOf(profId:String):Array[MCustomer]
 
-  def allProfOrgs:Array[MProfOrg]
+  def allProfOrgs:Array[MProfOrgAgent]
 
-  def profOrgMap:Map[String, MProfOrg] = {
-    allProfOrgs.map(po => po.orgId -> po).toMap
+  def profOrgAgentMap:Map[String, MProfOrgAgent] = {
+    allProfOrgs.map(po => po.orgAgentId -> po).toMap
   }
 
-  def profOrgMapJ:java.util.Map[String, MProfOrg] = {
-    profOrgMap.asJava
+  def profOrgAgentMapJ:java.util.Map[String, MProfOrgAgent] = {
+    profOrgAgentMap.asJava
   }
 
-  def profsOf(profOrgId:String):Array[MMedProf]
-  def profMapOf(profOrgId:String):Map[String, MMedProf] = {
-    profsOf(profOrgId).map(p => p.profId -> p).toMap
+  def profsOf(profOrgAgentId:String):Array[MMedProf]
+  def profMapOf(profOrgAgentId:String):Map[String, MMedProf] = {
+    profsOf(profOrgAgentId).map(p => p.profId -> p).toMap
   }
-  def profMapOfJ(profOrgId:String):java.util.Map[String, MMedProf] = {
-    profMapOf(profOrgId).asJava
+  def profMapOfJ(profOrgAgentId:String):java.util.Map[String, MMedProf] = {
+    profMapOf(profOrgAgentId).asJava
   }
 
 
   // authentication related
   def getUserPassMap:Map[String, Array[Byte]]
   def getMedProfPassMap: Map[String, Array[Byte]]
-  def getProfOrgPassMap: Map[String, Array[Byte]]
+  def getProfOrgAgentPassMap: Map[String, Array[Byte]]
 
   def getUserPassMapJ:java.util.Map[String, Array[Byte]] = {
     getUserPassMap.asJava
@@ -162,11 +162,11 @@ trait TDbOps {
   def getMedProfPassMapJ:java.util.Map[String, Array[Byte]] = {
     getMedProfPassMap.asJava
   }
-  def getProfOrgPassMapJ:java.util.Map[String, Array[Byte]] = {
-    getProfOrgPassMap.asJava
+  def getProfOrgAgentPassMapJ:java.util.Map[String, Array[Byte]] = {
+    getProfOrgAgentPassMap.asJava
   }
 
-  def getOrderStat4Org(orgId:String):Array[MOrgOrderStat]
+  def getOrderStat4Org(orgId:String):Array[MOrgAgentOrderStat]
 //  def getOrderStat4Org_paid(orgId:String):Array[MOrgOrderStat] = {
 //
 //  }

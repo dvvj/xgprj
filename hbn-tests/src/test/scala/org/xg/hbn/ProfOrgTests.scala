@@ -4,7 +4,7 @@ object ProfOrgTests extends App {
 
   import HbnDbOpsImpl._
 
-  val poMap = testHbnOps.profOrgMap
+  val poMap = testHbnOps.profOrgAgentMap
 
   println(poMap)
 

@@ -47,7 +47,7 @@ CREATE TABLE med_profs (
   pass_hash BINARY(64) NOT NULL,
   idcard_no VARCHAR(31) NOT NULL,
   mobile VARCHAR(31) NOT NULL,
-  org_id VARCHAR(255),
+  org_agent_id VARCHAR(255),
   PRIMARY KEY (prof_id)
 );
 

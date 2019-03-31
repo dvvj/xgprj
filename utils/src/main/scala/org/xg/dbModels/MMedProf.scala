@@ -7,7 +7,7 @@ case class MMedProf(
   name:String,
   idCardNo:String,
   mobile:String,
-  orgId:String
+  orgAgentId:String
 )
 
 object MMedProf {

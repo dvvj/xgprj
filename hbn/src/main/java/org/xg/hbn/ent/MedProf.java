@@ -21,8 +21,8 @@ public class MedProf {
   @Column(name="mobile", length = 31, nullable = false)
   private String mobile;
 
-  @Column(name="org_id", length = 31, nullable = false)
-  private String orgId;
+  @Column(name="org_agent_id", length = 31, nullable = false)
+  private String orgAgentId;
 
   public MedProf() { }
 
@@ -32,14 +32,14 @@ public class MedProf {
     byte[] passHash,
     String idCardNo,
     String mobile,
-    String orgId
+    String orgAgentId
   ) {
     this.profId = profId;
     this.name = name;
     this.passHash = passHash;
     this.idCardNo = idCardNo;
     this.mobile = mobile;
-    this.orgId = orgId;
+    this.orgAgentId = orgAgentId;
   }
 
   public String getProfId() {
@@ -82,11 +82,11 @@ public class MedProf {
     this.mobile = mobile;
   }
 
-  public String getOrgId() {
-    return orgId;
+  public String getOrgAgentId() {
+    return orgAgentId;
   }
 
-  public void setOrgId(String orgId) {
-    this.orgId = orgId;
+  public void setOrgAgentId(String orgAgentId) {
+    this.orgAgentId = orgAgentId;
   }
 }
