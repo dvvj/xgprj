@@ -88,8 +88,8 @@ public class SvcUtils {
   }
 
 
-  public static MMedProf[] getMedProfsOf(String orgId) {
-    List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgAgentId().equals(orgId))
+  public static MMedProf[] getMedProfsOf(String orgAgentId) {
+    List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgAgentId().equals(orgAgentId))
       .collect(Collectors.toList());
     MMedProf[] res = new MMedProf[medprofs.size()];
     return medprofs.toArray(res);
@@ -179,8 +179,8 @@ public class SvcUtils {
 
 //  private static Object _lockOrderStats = new Object();
 //  private static Map<String, MOrgOrderStat[]> _orgOrderStats = null;
-  public static MOrgAgentOrderStat[] getOrgOrderStatsOf(String orgId) {
-    return getDbOps().getOrderStat4Org(orgId);
+  public static MOrgAgentOrderStat[] getOrgAgentOrderStatsOf(String orgAgentId) {
+    return getDbOps().getOrderStat4OrgAgent(orgAgentId);
   }
 
   public static void addNewMedProf(AddNewMedProf mp) {

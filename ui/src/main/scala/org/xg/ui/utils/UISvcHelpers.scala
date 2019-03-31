@@ -69,21 +69,21 @@ object UISvcHelpers {
     MCustomer.fromJsons(j)
   }
 
-  def updateMedProfsOf(orgId:String, userToken:String):Array[MMedProf] = {
+  def updateMedProfsOf(orgAgentId:String, userToken:String):Array[MMedProf] = {
     val j = SvcHelpers.post(
       serverCfg.medprofsOfURL,
       userToken,
-      orgId
+      orgAgentId
     )
 
     MMedProf.fromJsons(j)
   }
 
-  def updateOrgOrderStats(orgId:String, userToken:String):Array[MOrgAgentOrderStat] = {
+  def updateOrgAgentOrderStats(orgAgentId:String, userToken:String):Array[MOrgAgentOrderStat] = {
     val j = SvcHelpers.post(
       serverCfg.orderStatsOfURL,
       userToken,
-      orgId
+      orgAgentId
     )
 
     MOrgAgentOrderStat.fromJsons(j)

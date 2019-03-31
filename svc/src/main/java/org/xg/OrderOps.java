@@ -75,14 +75,14 @@ public class OrderOps {
     UserOrder userOrder = UserOrder.fromJson(orderJson);
     try {
       TDbOps dbOps = SvcUtils.getDbOps();
-      String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
+      //String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
       MCustomer customer = SvcUtils.getCustomers().get(userOrder.uid());
       MMedProf prof = SvcUtils.getMedProfs().get(customer.refUid());
-      String profOrgId = SvcUtils.getMedProfOrg(prof.profId()).orgAgentId();
+      String profOrgAgentId = SvcUtils.getMedProfOrg(prof.profId()).orgAgentId();
 
       Long orderId = dbOps.placeOrder(
-        profOrgId, customer.refUid(),
-        userOrder.uid(), userOrder.productId(), userOrder.qty(), userOrder.actualCost()
+        userOrder.uid(), customer.refUid(),
+        profOrgAgentId, userOrder.productId(), userOrder.qty(), userOrder.actualCost()
       );
 
       String msg = String.format("Created Order (id: %d)", orderId);

@@ -103,7 +103,7 @@ trait TDbOps {
   def ordersOfCustomers_Unpaid(customerIds:Array[String]):Array[MOrder]
 
   //  def ordersOfCustomers_CreationTimeWithin(customerIds:Array[String], days:Int):Array[MOrder]
-  def placeOrder(uid:String, refUid:String, orgId:String, productId:Int, qty:Double, actualCost:Double):Long
+  def placeOrder(uid:String, refUid:String, orgAgentId:String, productId:Int, qty:Double, actualCost:Double):Long
   def updateOrder(orderId:Long, newQty:Double):Boolean
   def payOrder(orderId:Long):Boolean
 
@@ -120,7 +120,7 @@ trait TDbOps {
     pass:String,
     idCardNo:String,
     mobile:String,
-    orgId:String
+    orgAgentId:String
   ):String
   def allMedProfs:Array[MMedProf]
   def medProfsMap:Map[String, MMedProf] = {
@@ -166,19 +166,10 @@ trait TDbOps {
     getProfOrgAgentPassMap.asJava
   }
 
-  def getOrderStat4Org(orgId:String):Array[MOrgAgentOrderStat]
-//  def getOrderStat4Org_paid(orgId:String):Array[MOrgOrderStat] = {
-//
-//  }
-//  def getOrderStat4Org_unpaid(orgId:String):Array[MOrgOrderStat]
+  def getOrderStat4OrgAgent(orgAgentId:String):Array[MOrgAgentOrderStat]
 }
 
 object TDbOps {
   type OrderFilter = MOrder => Boolean
 
-//  private val OrderFilter_CreatedThisMonth:OrderFilter = mo => {
-//    val zdt = DataUtils.utcTimeFromStr(mo.creationTimeS)
-//    val zdtNow = DataUtils.utcTimeNow
-//    zdt.getYear == zdtNow.getYear && zdt.getMonthValue == zdtNow.getMonthValue
-//  }
 }

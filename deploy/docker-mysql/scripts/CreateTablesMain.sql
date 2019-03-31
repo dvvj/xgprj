@@ -61,6 +61,16 @@ CREATE TABLE prof_org_agents (
   PRIMARY KEY (agent_id)
 );
 
+CREATE TABLE med_prof_orgs (
+  org_id VARCHAR(255) NOT NULL,
+  name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  pass_hash BINARY(64) NOT NULL,
+  info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  phone VARCHAR(31) NOT NULL,
+  join_date TIMESTAMP NOT NULL,
+  PRIMARY KEY (agent_id)
+);
+
 CREATE TABLE agency (
   agency_id VARCHAR(255) NOT NULL,
   name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,

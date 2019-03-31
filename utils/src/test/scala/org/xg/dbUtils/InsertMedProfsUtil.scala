@@ -12,7 +12,7 @@ object InsertMedProfsUtil {
   val profOrgAgentId1 = "prof_org_agent1"
   val profOrgAgentId2 = "prof_org_agent2"
 
-  val prof2OrgMap:Map[String, String] = Map(
+  val prof2OrgAgentMap:Map[String, String] = Map(
     profId1 -> profOrgAgentId1,
     profId2 -> profOrgAgentId1,
     profId3 -> profOrgAgentId2
@@ -34,8 +34,8 @@ object InsertMedProfsUtil {
       val passHash = AuthHelpers.sha512(pass)
       val hashStr = AuthHelpers.hash2Str(passHash)
       val profId = line(0)
-      val lineWithOrgId = line ++ Array(prof2OrgMap(profId))
-      val params = lineWithOrgId.mkString("'", "','", "'") + s",X'$hashStr'"
+      val lineWithOrgAgentId = line ++ Array(prof2OrgAgentMap(profId))
+      val params = lineWithOrgAgentId.mkString("'", "','", "'") + s",X'$hashStr'"
       insertStatementTemplate.format(params)
     }
 

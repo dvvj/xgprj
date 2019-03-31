@@ -16,9 +16,9 @@ public class ProfOrgsOps {
   @Path("profs")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-  public Response getProfsOf(String orgId) {
+  public Response getProfsOf(String orgAgentId) {
     try {
-      MMedProf[] medprofs = SvcUtils.getMedProfsOf(orgId);
+      MMedProf[] medprofs = SvcUtils.getMedProfsOf(orgAgentId);
       String j = MMedProf.toJsons(medprofs);
 
       return Response.ok(j)
@@ -35,9 +35,9 @@ public class ProfOrgsOps {
   @Path("orderStats")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-  public Response getOrderStatsOf(String orgId) {
+  public Response getOrderStatsOf(String orgAgentId) {
     try {
-      MOrgAgentOrderStat[] orderStats = SvcUtils.getOrgOrderStatsOf(orgId);
+      MOrgAgentOrderStat[] orderStats = SvcUtils.getOrgAgentOrderStatsOf(orgAgentId);
       String j = MOrgAgentOrderStat.toJsons(orderStats);
 
       return Response.ok(j)

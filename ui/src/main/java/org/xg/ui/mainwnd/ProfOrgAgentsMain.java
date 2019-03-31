@@ -209,14 +209,14 @@ public class ProfOrgAgentsMain {
   private ProfOrgAgentDataModel dataModel = null;
 
   private void loadDataModel() {
-    String orgId = Global.getCurrUid();
+    String orgAgentId = Global.getCurrUid();
     String token = Global.getCurrToken();
 
     Object[] raw = Helpers.paraActions(
       new Supplier[] {
-        () -> UISvcHelpers.updateMedProfsOf(orgId, token),
-        () -> UISvcHelpers.updateOrgOrderStats(orgId, token),
-        () -> UISvcHelpers.updateRewardPlans(orgId, token)
+        () -> UISvcHelpers.updateMedProfsOf(orgAgentId, token),
+        () -> UISvcHelpers.updateOrgAgentOrderStats(orgAgentId, token),
+        () -> UISvcHelpers.updateRewardPlans(orgAgentId, token)
       },
       30000
     );

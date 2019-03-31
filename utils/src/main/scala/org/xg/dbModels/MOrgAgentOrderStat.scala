@@ -3,7 +3,7 @@ package org.xg.dbModels
 import org.xg.json.CommonUtils
 
 case class MOrgAgentOrderStat(
-  orgId:String,
+  orgAgentId:String,
   profId:String,
   orderId:Long,
   productId:Int,

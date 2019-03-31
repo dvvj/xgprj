@@ -8,7 +8,7 @@ import org.xg.pay.rewardPlan.TRewardPlan;
 import java.util.Map;
 
 public class OrgAgentOrderStat extends RecursiveTreeObject<OrgAgentOrderStat> {
-  private String orgId;
+  private String orgAgentId;
   private String profId;
   private String profName;
   private Integer productId;
@@ -22,7 +22,7 @@ public class OrgAgentOrderStat extends RecursiveTreeObject<OrgAgentOrderStat> {
   public OrgAgentOrderStat() { }
 
   public OrgAgentOrderStat(
-    String orgId,
+    String orgAgentId,
     String profId,
     String profName,
     Integer productId,
@@ -33,7 +33,7 @@ public class OrgAgentOrderStat extends RecursiveTreeObject<OrgAgentOrderStat> {
     Integer status,
     Double reward
   ) {
-    this.orgId = orgId;
+    this.orgAgentId = orgAgentId;
     this.profId = profId;
     this.profName = profName;
     this.productId = productId;
@@ -49,12 +49,12 @@ public class OrgAgentOrderStat extends RecursiveTreeObject<OrgAgentOrderStat> {
     return status == MOrgAgentOrderStat.Status_CreatedNotPaid();
   }
 
-  public String getOrgId() {
-    return orgId;
+  public String getOrgAgentId() {
+    return orgAgentId;
   }
 
-  public void setOrgId(String orgId) {
-    this.orgId = orgId;
+  public void setOrgAgentId(String orgAgentId) {
+    this.orgAgentId = orgAgentId;
   }
 
   public String getProfId() {
@@ -119,7 +119,7 @@ public class OrgAgentOrderStat extends RecursiveTreeObject<OrgAgentOrderStat> {
     Double reward = rewardPlan != null ?
       rewardPlan.reward(product.getId(), product.getPrice0()) : 0.0;
     return new OrgAgentOrderStat(
-      os.orgId(),
+      os.orgAgentId(),
       os.profId(),
       profMap.get(os.profId()).getName(),
       os.productId(),

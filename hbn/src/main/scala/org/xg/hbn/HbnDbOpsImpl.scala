@@ -175,7 +175,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def addNewMedProf(profId: String, name: String, pass: String, idCardNo: String, mobile: String, orgId:String): String = {
+    override def addNewMedProf(profId: String, name: String, pass: String, idCardNo: String, mobile: String, orgAgentId:String): String = {
       runInTransaction(
         sessFactory,
         { sess =>
@@ -183,7 +183,7 @@ object HbnDbOpsImpl {
           val medProf = new MedProf(
             profId, name, passHash,
             idCardNo, mobile,
-            orgId
+            orgAgentId
           )
           sess.save(medProf)
           profId
@@ -268,7 +268,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def placeOrder(uid: String, refUid:String, orgId:String, productId: Int, qty: Double, actualCost:Double): Long = {
+    override def placeOrder(uid: String, refUid:String, orgAgentId:String, productId: Int, qty: Double, actualCost:Double): Long = {
       val creationTime = DataUtils.utcTimeNow
       runInTransaction(
         sessFactory,
@@ -283,7 +283,7 @@ object HbnDbOpsImpl {
           val orderId:java.lang.Long = sess.save(order).asInstanceOf[java.lang.Long]
 
           val orgOrderStat = new OrgAgentOrderStat(
-            orgId,
+            orgAgentId,
             refUid,
             orderId,
             order.getProductId,
@@ -377,21 +377,6 @@ object HbnDbOpsImpl {
 
     override def getProfOrgAgentPassMap: Map[String, Array[Byte]] = {
       getUidPassMap("orgAgentId", classOf[ProfOrgAgent].getName)
-//      runInTransaction(
-//        sessFactory,
-//        { sess =>
-//          val ql = s"Select mp.orgId, mp.passHash from ${classOf[ProfOrgAgent].getName} mp"
-//
-//          val q = sess.createQuery(ql)
-//          val t = q.getResultList.asScala.map { r =>
-//            val objArr = r.asInstanceOf[Array[AnyRef]]
-//            val uid = objArr(0).asInstanceOf[String]
-//            val passHash = objArr(1).asInstanceOf[Array[Byte]]
-//            uid -> passHash
-//          }
-//          t.toMap
-//        }
-//      )
     }
 
     override def ordersOf(uid: String): Array[MOrder] = {
@@ -512,7 +497,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def getOrderStat4Org(orgAgentId: String): Array[MOrgAgentOrderStat] = {
+    override def getOrderStat4OrgAgent(orgAgentId: String): Array[MOrgAgentOrderStat] = {
       runInTransaction(
         sessFactory,
         { sess =>

@@ -68,7 +68,7 @@ object TestUtils {
   val profOrgAgentId1 = "prof_org_agent1"
   val profOrgAgentId2 = "prof_org_agent2"
 
-  val prof2OrgMap:Map[String, String] = Map(
+  val prof2OrgAgentMap:Map[String, String] = Map(
     profId1 -> profOrgAgentId1,
     profId2 -> profOrgAgentId1,
     profId3 -> profOrgAgentId2

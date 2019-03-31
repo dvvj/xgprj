@@ -118,8 +118,8 @@ object InsertOrderUtil {
 
       val params2 = ListBuffer[String]()
       val profId = customer2ProfMap(mo.uid)
-      val profOrgId = prof2OrgMap(profId)
-      params2 += s"'$profOrgId'"
+      val profOrgAgentId = prof2OrgAgentMap(profId)
+      params2 += s"'$profOrgAgentId'"
       params2 += s"'$profId'"
       params2 += mo.id.toString
       params2 += mo.productId.toString
