@@ -15,79 +15,79 @@ object InsertOrderUtil {
 
   val testOrders = Array(
     MOrder.createJ(
-      1L, customer2, 1, 2.0, 2499.99,
+      1L, customerId2, 1, 2.0, 2499.99,
       "2018-10-02 19:30:44"
     ),
     MOrder.createJ(
-      2L, customer2, 1, 2.0, 2499.99,
+      2L, customerId2, 1, 2.0, 2499.99,
       "2018-10-12 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      3L, customer2, 1, 2.0, 2499.99,
+      3L, customerId2, 1, 2.0, 2499.99,
       "2018-10-22 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      4L, customer2, 1, 2.0, 2499.99,
+      4L, customerId2, 1, 2.0, 2499.99,
       "2018-10-23 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      5L, customer2, 1, 2.0, 2499.99,
+      5L, customerId2, 1, 2.0, 2499.99,
       "2018-11-02 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      6L, customer2, 1, 2.0, 2499.99,
+      6L, customerId2, 1, 2.0, 2499.99,
       "2018-11-12 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      7L, customer2, 1, 2.0, 2499.99,
+      7L, customerId2, 1, 2.0, 2499.99,
       "2019-01-02 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      8L, customer2, 1, 2.0, 2499.99,
+      8L, customerId2, 1, 2.0, 2499.99,
       "2019-01-03 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      9L, customer2, 1, 2.0, 2499.99,
+      9L, customerId2, 1, 2.0, 2499.99,
       "2019-01-04 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      10L, customer3, 1, 1.0, 1499.99,
+      10L, customerId3, 1, 1.0, 1499.99,
       "2019-02-11 19:30:44"
     ),
     MOrder.createJ(
-      11L, customer1, 2, 3.0, 399.99,
+      11L, customerId1, 2, 3.0, 399.99,
       "2019-02-12 19:30:44", "2019-02-12 19:35:44"
     ),
     MOrder.createJ(
-      12L, customer1, 3, 2.0, 19.99,
+      12L, customerId1, 3, 2.0, 19.99,
       "2019-03-11 19:30:44", "2019-03-11 19:35:44"
     ),
     MOrder.createJ(
-      13L, customer1, 3, 2.0, 19.99,
+      13L, customerId1, 3, 2.0, 19.99,
       "2019-03-11 20:30:44", "2019-03-11 19:35:44"
     ),
     MOrder.createJ(
-      14L, customer1, 3, 4.0, 29.99,
+      14L, customerId1, 3, 4.0, 29.99,
       "2019-03-12 19:20:44"
     ),
     MOrder.createJ(
-      15L, customer1, 3, 4.0, 29.99,
+      15L, customerId1, 3, 4.0, 29.99,
       "2019-03-12 19:30:44", "2019-03-12 19:35:44"
     ),
     MOrder.createJ(
-      16L, customer2, 3, 10.0, 79.99,
+      16L, customerId2, 3, 10.0, 79.99,
       "2019-03-12 19:30:44", "2019-03-12 19:35:44"
     ),
     MOrder.createJ(
-      17L, customer2, 1, 2.0, 2499.99,
+      17L, customerId2, 1, 2.0, 2499.99,
       "2019-03-02 19:30:44", "2019-03-02 19:35:44"
     ),
     MOrder.createJ(
-      18L, customer5, 3, 1.0, 4.99,
+      18L, customerId5, 3, 1.0, 4.99,
       "2019-03-11 19:30:44"
     ),
     MOrder.createJ(
-      19L, customer4, 1, 10.0, 9999.99,
+      19L, customerId4, 1, 10.0, 9999.99,
       "2019-02-11 19:30:44"
     )
   )

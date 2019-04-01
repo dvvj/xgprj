@@ -1,6 +1,7 @@
 package org.xg.dbUtils
 
 import org.xg.auth.AuthHelpers
+import org.xg.user.UserType._
 
 object InsertCustomersUtil {
 
@@ -8,26 +9,26 @@ object InsertCustomersUtil {
 
 //  val testRefUid = "TestRef-4ae8f129bf1c"
 
-  private[dbUtils] val customer1 = "customer1"
-  private[dbUtils] val customer2 = "customer2"
-  private[dbUtils] val customer3 = "customer3"
-  private[dbUtils] val customer4 = "customer4"
-  private[dbUtils] val customer5 = "customer5"
+  private[dbUtils] val customerId1 = Customer.genUid("customer1")
+  private[dbUtils] val customerId2 = Customer.genUid("customer2")
+  private[dbUtils] val customerId3 = Customer.genUid("customer3")
+  private[dbUtils] val customerId4 = Customer.genUid("customer4")
+  private[dbUtils] val customerId5 = Customer.genUid("customer5")
 
   private[dbUtils] val customer2ProfMap = Map(
-    customer1 -> InsertMedProfsUtil.profId1,
-    customer2 -> InsertMedProfsUtil.profId1,
-    customer3 -> InsertMedProfsUtil.profId1,
-    customer4 -> InsertMedProfsUtil.profId2,
-    customer5 -> InsertMedProfsUtil.profId3
+    customerId1 -> InsertMedProfsUtil.profId1,
+    customerId2 -> InsertMedProfsUtil.profId1,
+    customerId3 -> InsertMedProfsUtil.profId1,
+    customerId4 -> InsertMedProfsUtil.profId2,
+    customerId5 -> InsertMedProfsUtil.profId3
   )
 
   val testCustomers = Array(
-    Array(customer1, "张晓东", "3102030222313322", "13892929133", "邮寄地址1", "1983-02-05") -> "123",
-    Array(customer2, "张晓", "31020555555555555", "1385555555", "邮寄地址2", "1983-02-05") -> "456",
-    Array(customer3, "晓东", "3102036666666666", "1386666666", "邮寄地址3", "1983-12-03") -> "abcdef",
-    Array(customer4, "王丽", "3102033333333333", "13833333333", "邮寄地址4", "1983-12-03") -> "acf",
-    Array(customer5, "王丽丽", "3102033333333334", "13833333334", "邮寄地址5", "1983-12-04") -> "acf"
+    Array(customerId1, "张晓东", "3102030222313322", "13892929133", "邮寄地址1", "1983-02-05") -> "123",
+    Array(customerId2, "张晓", "31020555555555555", "1385555555", "邮寄地址2", "1983-02-05") -> "456",
+    Array(customerId3, "晓东", "3102036666666666", "1386666666", "邮寄地址3", "1983-12-03") -> "abcdef",
+    Array(customerId4, "王丽", "3102033333333333", "13833333333", "邮寄地址4", "1983-12-03") -> "acf",
+    Array(customerId5, "王丽丽", "3102033333333334", "13833333334", "邮寄地址5", "1983-12-04") -> "acf"
   )
 
   def main(args:Array[String]):Unit = {

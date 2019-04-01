@@ -6,11 +6,13 @@ import org.xg.gnl.DataUtils
 object InsertPricePlanMapUtil extends App {
 
   import InsertPricePlanUtil._
+  import InsertMedProfsUtil._
+  import InsertCustomersUtil._
   val ppmaps = Array(
-    ("prof1", PlanIdFixed09, -7),
-    ("prof1", PlanIdFixed08, 0),
-    ("prof2", s"$PlanIdProdBasedBasic,$PlanIdFixed09", 0),
-    ("customer1", PlanIdProdBasedAdvanced, 0)
+    (profId1, PlanIdFixed09, -7),
+    (profId1, PlanIdFixed08, 0),
+    (profId2, s"$PlanIdProdBasedBasic,$PlanIdFixed09", 0),
+    (customerId1, PlanIdProdBasedAdvanced, 0)
   )
 
   val insertStatementTemplate =

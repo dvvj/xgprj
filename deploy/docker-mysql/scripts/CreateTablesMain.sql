@@ -8,7 +8,7 @@ CREATE TABLE products (
 );
 
 CREATE TABLE customers (
-  uid VARCHAR(255) NOT NULL,
+  uid VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   pass_hash BINARY(64) NOT NULL,
   idcard_no VARCHAR(31) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE customers (
 
 CREATE TABLE orders (
   id BIGINT NOT NULL AUTO_INCREMENT,
-  customer_id VARCHAR(255) NOT NULL,
+  customer_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   product_id INT NOT NULL,
   qty FLOAT NOT NULL,
   actual_cost FLOAT NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE order_history (
 );
 
 CREATE TABLE med_profs (
-  prof_id VARCHAR(255) NOT NULL,
+  prof_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   pass_hash BINARY(64) NOT NULL,
   idcard_no VARCHAR(31) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE med_profs (
 );
 
 CREATE TABLE prof_org_agents (
-  agent_id VARCHAR(255) NOT NULL,
+  agent_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   pass_hash BINARY(64) NOT NULL,
   info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -62,17 +62,17 @@ CREATE TABLE prof_org_agents (
 );
 
 CREATE TABLE med_prof_orgs (
-  org_id VARCHAR(255) NOT NULL,
+  org_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   pass_hash BINARY(64) NOT NULL,
   info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   phone VARCHAR(31) NOT NULL,
   join_date TIMESTAMP NOT NULL,
-  PRIMARY KEY (agent_id)
+  PRIMARY KEY (org_id)
 );
 
 CREATE TABLE agency (
-  agency_id VARCHAR(255) NOT NULL,
+  agency_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   name VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   pass_hash BINARY(64) NOT NULL,
   agency_no VARCHAR(31) NOT NULL,
@@ -116,8 +116,8 @@ CREATE TABLE reward_plan_map (
 );
 
 CREATE TABLE org_agent_order_stats (
-  org_agent_id VARCHAR(255) NOT NULL,
-  prof_id VARCHAR(255) NOT NULL,
+  org_agent_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  prof_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   order_id BIGINT NOT NULL,
   product_id INT NOT NULL,
   qty FLOAT NOT NULL,

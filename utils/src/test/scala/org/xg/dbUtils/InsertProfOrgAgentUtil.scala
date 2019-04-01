@@ -4,9 +4,11 @@ import org.xg.auth.AuthHelpers
 
 object InsertProfOrgAgentUtil extends App {
 
+  import InsertMedProfsUtil._
+
   val testProfOrgs = Array(
-    Array("prof_org_agent1", "医药公司业务员1", "医药公司业务员1 info", "13792929133", "2018-03-04T16:00:28.179") -> "123",
-    Array("prof_org_agent2", "医药公司业务员2", "医药公司业务员2 info", "1375555555", "2019-08-04T16:00:28.179") -> "456",
+    Array(profOrgAgentId1, "医药公司业务员1", "医药公司业务员1 info", "13792929133", "2018-03-04T16:00:28.179") -> "123",
+    Array(profOrgAgentId2, "医药公司业务员2", "医药公司业务员2 info", "1375555555", "2019-08-04T16:00:28.179") -> "456",
   )
 
   val insertStatementTemplate =

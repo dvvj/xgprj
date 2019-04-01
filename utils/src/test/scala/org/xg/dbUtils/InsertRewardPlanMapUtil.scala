@@ -4,13 +4,15 @@ import org.xg.gnl.DataUtils
 
 object InsertRewardPlanMapUtil extends App {
   import InsertRewardPlanUtil._
+  import InsertMedProfsUtil._
+  import InsertCustomersUtil._
   val rpmaps = Array(
-    ("prof_org_agent1", PlanIdFixed020, 0),
-    ("prof_org_agent2", PlanIdFixed020, 0),
-    ("prof1", PlanIdFixed001, -7),
-    ("prof1", PlanIdFixed002, 0),
-    ("prof2", s"$PlanIdProdBasedBasic,$PlanIdFixed1_5", 0),
-    ("customer1", PlanIdProdBasedAdvanced, 0)
+    (profOrgAgentId1, PlanIdFixed020, 0),
+    (profOrgAgentId2, PlanIdFixed020, 0),
+    (profId1, PlanIdFixed001, -7),
+    (profId1, PlanIdFixed002, 0),
+    (profId2, s"$PlanIdProdBasedBasic,$PlanIdFixed1_5", 0),
+    (customerId1, PlanIdProdBasedAdvanced, 0)
   )
 
   val insertStatementTemplate =

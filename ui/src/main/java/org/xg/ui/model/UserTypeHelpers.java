@@ -1,6 +1,5 @@
 package org.xg.ui.model;
 
-import org.xg.user.UserData;
 import org.xg.user.UserType;
 
 import java.util.LinkedHashMap;
@@ -9,7 +8,7 @@ import java.util.ResourceBundle;
 
 public class UserTypeHelpers {
   public final static Integer UT_CUSTOMER = UserType.Customer().code();
-  public final static Integer UT_MEDPROFS = UserType.Professional().code();
+  public final static Integer UT_MEDPROFS = UserType.MedProf().code();
   public final static Integer UT_PROFORG_AGENT = UserType.MedProfOrgAgent().code();;
   public final static Integer UT_PROFORG = UserType.MedProfOrg().code();;
   public final static Integer UT_AGENCY = UserType.Agency().code();;

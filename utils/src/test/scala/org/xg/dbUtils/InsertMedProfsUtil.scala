@@ -1,16 +1,17 @@
 package org.xg.dbUtils
 
+import org.xg.user.UserType._
 import org.xg.auth.AuthHelpers
 //import org.xg.dbUtils.InsertCustomersUtil.testRefUid
 
 object InsertMedProfsUtil {
 
-  val profId1 = "prof1"
-  val profId2 = "prof2"
-  val profId3 = "prof3"
+  val profId1 = MedProf.genUid("prof1")
+  val profId2 = MedProf.genUid("prof2")
+  val profId3 = MedProf.genUid("prof3")
 
-  val profOrgAgentId1 = "prof_org_agent1"
-  val profOrgAgentId2 = "prof_org_agent2"
+  val profOrgAgentId1 = MedProfOrgAgent.genUid("agent1")
+  val profOrgAgentId2 = MedProfOrgAgent.genUid("agent2")
 
   val prof2OrgAgentMap:Map[String, String] = Map(
     profId1 -> profOrgAgentId1,

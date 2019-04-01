@@ -16,6 +16,8 @@ import org.xg.ui.mainwnd.ProfOrgAgentsMain;
 import org.xg.ui.model.ComboOptionData;
 import org.xg.ui.model.UserTypeHelpers;
 import org.xg.ui.utils.Global;
+import org.xg.user.UserData;
+import org.xg.user.UserType;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -121,7 +123,8 @@ public class UiLoginController implements Initializable {
 
     Global.setResText(txtStatus, "login.loggingIn", Color.BLACK);
 
-    String uid = tfUid.getText().trim();
+    String idPart = tfUid.getText().trim();
+    String uid = UserData.genUid(selectedUt.getCode(), idPart);
     String pass = pfPass.getText();
 
     LoginHelpers.onLogin(
