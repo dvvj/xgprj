@@ -31,22 +31,31 @@ object InsertCustomersUtil {
     Array(customerId5, "王丽丽", "3102033333333334", "13833333334", "邮寄地址5", "1983-12-04") -> "acf"
   )
 
-  def main(args:Array[String]):Unit = {
+  def insertCustomers(
+    rawData:Array[(Array[String],String)],
+    customer2Prof:String => String
+  ):Unit = {
     val insertStatementTemplate =
       "INSERT INTO customers (uid, name, idcard_no, mobile, postal_addr, bday, ref_uid, pass_hash)" +
         "  VALUES (%s);"
 
-    val insertStatements = testCustomers.map { p =>
+    val insertStatements = rawData.map { p =>
       val (line, pass) = p
       val passHash = AuthHelpers.sha512(pass)
       val hashStr = AuthHelpers.hash2Str(passHash)
       val customerId = line(0)
-      val lineWithProf = line ++ Array(customer2ProfMap(customerId))
+      val lineWithProf = line ++ Array(customer2Prof(customerId))
       val params = lineWithProf.mkString("'", "','", "'") + s",X'$hashStr'"
       insertStatementTemplate.format(params)
     }
 
     println(insertStatements.mkString("\n"))
+
+  }
+
+
+  def main(args:Array[String]):Unit = {
+    insertCustomers(testCustomers, customer2ProfMap)
   }
 
 
