@@ -1,15 +1,15 @@
 package org.xg.hbn.ent;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name="prof_org_agents")
-public class ProfOrgAgent {
+@Table(name="med_prof_orgs")
+public class MedProfOrg {
   @Id
-  @Column(name="agent_id", length = 255, nullable = false)
-  private String orgAgentId;
-
   @Column(name="org_id", length = 255, nullable = false)
   private String orgId;
 
@@ -28,10 +28,9 @@ public class ProfOrgAgent {
   @Column(name="join_date", nullable = false)
   private ZonedDateTime joinDate;
 
-  public ProfOrgAgent() { }
+  public MedProfOrg() { }
 
-  public ProfOrgAgent(
-    String orgAgentId,
+  public MedProfOrg(
     String orgId,
     String name,
     byte[] passHash,
@@ -40,7 +39,6 @@ public class ProfOrgAgent {
     String phone,
     ZonedDateTime joinDate
   ) {
-    this.orgAgentId = orgAgentId;
     this.orgId = orgId;
     this.name = name;
     this.passHash = passHash;
@@ -49,12 +47,12 @@ public class ProfOrgAgent {
     this.joinDate = joinDate;
   }
 
-  public String getOrgAgentId() {
-    return orgAgentId;
+  public String getOrgId() {
+    return orgId;
   }
 
-  public void setOrgAgentId(String orgAgentId) {
-    this.orgAgentId = orgAgentId;
+  public void setOrgId(String orgId) {
+    this.orgId = orgId;
   }
 
   public String getName() {
@@ -95,13 +93,5 @@ public class ProfOrgAgent {
 
   public void setJoinDate(ZonedDateTime joinDate) {
     this.joinDate = joinDate;
-  }
-
-  public String getOrgId() {
-    return orgId;
-  }
-
-  public void setOrgId(String orgId) {
-    this.orgId = orgId;
   }
 }

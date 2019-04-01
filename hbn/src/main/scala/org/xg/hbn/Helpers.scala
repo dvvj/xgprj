@@ -90,6 +90,7 @@ object Helpers {
   def convertProfOrg(po:ProfOrgAgent):MProfOrgAgent = {
     MProfOrgAgent(
       po.getOrgAgentId,
+      po.getOrgId,
       po.getName,
       po.getInfo,
       po.getPhone,

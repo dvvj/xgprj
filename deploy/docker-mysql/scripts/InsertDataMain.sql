@@ -76,5 +76,8 @@ INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('mp＿prof1','F
 INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('mp＿prof2','ProdBased-Basic,Fixed-1.5','2019-04-01T09:25:09.048');
 INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('c＿customer1','ProdBased-Advanced','2019-04-01T09:25:09.049');
 
-INSERT INTO prof_org_agents (agent_id, name, info, phone, join_date, pass_hash)  VALUES ('amp＿agent1','医药公司业务员1','医药公司业务员1 info','13792929133','2018-03-04T16:00:28.179',X'3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2');
-INSERT INTO prof_org_agents (agent_id, name, info, phone, join_date, pass_hash)  VALUES ('amp＿agent2','医药公司业务员2','医药公司业务员2 info','1375555555','2019-08-04T16:00:28.179',X'f6b07b6c1340e947b861def5f8b092d8ee710826dc56bd175bdc8f3a16b0b8acf853c64786a710dedf9d1524d61e32504e27d60de159af110bc3941490731578');
+INSERT INTO prof_org_agents (agent_id, org_id, name, info, phone, join_date, pass_hash)  VALUES ('amp＿agent1','omp＿org1','医药公司业务员1','医药公司业务员1 info','13792929133','2018-03-04T16:00:28.179',X'3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2');
+INSERT INTO prof_org_agents (agent_id, org_id, name, info, phone, join_date, pass_hash)  VALUES ('amp＿agent2','omp＿org2','医药公司业务员2','医药公司业务员2 info','1375555555','2019-08-04T16:00:28.179',X'f6b07b6c1340e947b861def5f8b092d8ee710826dc56bd175bdc8f3a16b0b8acf853c64786a710dedf9d1524d61e32504e27d60de159af110bc3941490731578');
+
+INSERT INTO med_prof_orgs (org_id, name, info, phone, join_date, pass_hash)  VALUES ('omp＿org1','医药公司1','医药公司1 info','13792929133','2018-03-04T16:00:28.179',X'3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2');
+INSERT INTO med_prof_orgs (org_id, name, info, phone, join_date, pass_hash)  VALUES ('omp＿org2','医药公司2','医药公司2 info','1375555555','2019-08-04T16:00:28.179',X'f6b07b6c1340e947b861def5f8b092d8ee710826dc56bd175bdc8f3a16b0b8acf853c64786a710dedf9d1524d61e32504e27d60de159af110bc3941490731578');

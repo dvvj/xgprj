@@ -155,6 +155,7 @@ trait TDbOps {
   def getUserPassMap:Map[String, Array[Byte]]
   def getMedProfPassMap: Map[String, Array[Byte]]
   def getProfOrgAgentPassMap: Map[String, Array[Byte]]
+  def getMedProfOrgPassMap: Map[String, Array[Byte]]
 
   def getUserPassMapJ:java.util.Map[String, Array[Byte]] = {
     getUserPassMap.asJava
@@ -164,6 +165,9 @@ trait TDbOps {
   }
   def getProfOrgAgentPassMapJ:java.util.Map[String, Array[Byte]] = {
     getProfOrgAgentPassMap.asJava
+  }
+  def getMedProfOrgPassMapJ:java.util.Map[String, Array[Byte]] = {
+    getMedProfOrgPassMap.asJava
   }
 
   def getOrderStat4OrgAgent(orgAgentId:String):Array[MOrgAgentOrderStat]

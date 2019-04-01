@@ -33,6 +33,7 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
+        <mapping class="org.xg.hbn.ent.MedProfOrg" />
         <mapping class="org.xg.hbn.ent.OrgAgentOrderStat" />
         <mapping class="org.xg.hbn.ent.ProfOrgAgent" />
         <mapping class="org.xg.hbn.ent.RewardPlanMap" />

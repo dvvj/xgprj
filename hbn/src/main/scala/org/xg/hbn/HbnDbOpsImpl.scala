@@ -379,6 +379,10 @@ object HbnDbOpsImpl {
       getUidPassMap("orgAgentId", classOf[ProfOrgAgent].getName)
     }
 
+    override def getMedProfOrgPassMap: Map[String, Array[Byte]] = {
+      getUidPassMap("orgId", classOf[MedProfOrg].getName)
+    }
+
     override def ordersOf(uid: String): Array[MOrder] = {
       runInTransaction(
         sessFactory,
