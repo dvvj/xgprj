@@ -23,16 +23,16 @@ object InsertCustomersUtil {
     customerId5 -> InsertMedProfsUtil.profId3
   )
 
-  val testCustomers = Array(
-    Array(customerId1, "张晓东", "3102030222313322", "13892929133", "邮寄地址1", "1983-02-05") -> "123",
-    Array(customerId2, "张晓", "31020555555555555", "1385555555", "邮寄地址2", "1983-02-05") -> "456",
-    Array(customerId3, "晓东", "3102036666666666", "1386666666", "邮寄地址3", "1983-12-03") -> "abcdef",
-    Array(customerId4, "王丽", "3102033333333333", "13833333333", "邮寄地址4", "1983-12-03") -> "acf",
-    Array(customerId5, "王丽丽", "3102033333333334", "13833333334", "邮寄地址5", "1983-12-04") -> "acf"
+  val testCustomers = IndexedSeq(
+    IndexedSeq(customerId1, "张晓东", "3102030222313322", "13892929133", "邮寄地址1", "1983-02-05") -> "123",
+    IndexedSeq(customerId2, "张晓", "31020555555555555", "1385555555", "邮寄地址2", "1983-02-05") -> "456",
+    IndexedSeq(customerId3, "晓东", "3102036666666666", "1386666666", "邮寄地址3", "1983-12-03") -> "abcdef",
+    IndexedSeq(customerId4, "王丽", "3102033333333333", "13833333333", "邮寄地址4", "1983-12-03") -> "acf",
+    IndexedSeq(customerId5, "王丽丽", "3102033333333334", "13833333334", "邮寄地址5", "1983-12-04") -> "acf"
   )
 
   def insertCustomers(
-    rawData:Array[(Array[String],String)],
+    rawData:IndexedSeq[(IndexedSeq[String],String)],
     customer2Prof:String => String
   ):Unit = {
     val insertStatementTemplate =
