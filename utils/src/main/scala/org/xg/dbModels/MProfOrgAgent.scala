@@ -6,7 +6,6 @@ case class MProfOrgAgent(
   orgAgentId:String,
   name:String,
   info:String,
-  orgNo:String,
   phone:String,
   joinDate:ZonedDateTime
 ) {

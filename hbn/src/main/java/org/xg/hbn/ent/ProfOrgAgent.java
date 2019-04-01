@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name="prof_org_agents", uniqueConstraints = {@UniqueConstraint(columnNames = {"org_no"})})
+@Table(name="prof_org_agents")
 public class ProfOrgAgent {
   @Id
   @Column(name="agent_id", length = 255, nullable = false)
@@ -18,9 +18,6 @@ public class ProfOrgAgent {
 
   @Column(name="info", length = 8191, nullable = false)
   private String info;
-
-  @Column(name="org_no", length = 255, nullable = false)
-  private String orgNo;
 
   @Column(name="phone", length = 31, nullable = false)
   private String phone;
@@ -43,7 +40,6 @@ public class ProfOrgAgent {
     this.name = name;
     this.passHash = passHash;
     this.info = info;
-    this.orgNo = orgNo;
     this.phone = phone;
     this.joinDate = joinDate;
   }
@@ -78,14 +74,6 @@ public class ProfOrgAgent {
 
   public void setInfo(String info) {
     this.info = info;
-  }
-
-  public String getOrgNo() {
-    return orgNo;
-  }
-
-  public void setOrgNo(String orgNo) {
-    this.orgNo = orgNo;
   }
 
   public String getPhone() {

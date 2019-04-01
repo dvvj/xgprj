@@ -1,6 +1,8 @@
 package org.xg.hbn
 
-object ProfOrgTests extends App {
+import org.xg.user.UserType
+
+object ProfOrgAgentTests extends App {
 
   import HbnDbOpsImpl._
 
@@ -8,7 +10,7 @@ object ProfOrgTests extends App {
 
   println(poMap)
 
-  val orgAgentId1 = "prof_org_agent1"
+  val orgAgentId1 = UserType.MedProfOrgAgent.genUid("agent1")
   val org1Profs = testHbnOps.profsOf(orgAgentId1)
 
   println(org1Profs)

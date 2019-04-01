@@ -92,7 +92,6 @@ object Helpers {
       po.getOrgAgentId,
       po.getName,
       po.getInfo,
-      po.getOrgNo,
       po.getPhone,
       po.getJoinDate
     )
