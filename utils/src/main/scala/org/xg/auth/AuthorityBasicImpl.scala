@@ -2,7 +2,6 @@ package org.xg.auth
 import java.util
 
 import org.xg.svc.AuthResult
-import org.xg.user.UserData.UserType.UserType
 
 private class AuthorityBasicImpl(_userPassMap:Map[String, Array[Byte]]) extends TAuthority {
 

@@ -4,7 +4,6 @@ import org.scalatest.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.testng.TestNGSuite
 import org.testng.annotations.Test
-import org.xg.user.UserData.UserType
 
 class AuthorityBasicImplTest extends TestNGSuite with Matchers with TableDrivenPropertyChecks {
 
