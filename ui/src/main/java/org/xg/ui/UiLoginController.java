@@ -9,10 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.xg.ui.mainwnd.CustomerMain;
-import org.xg.ui.mainwnd.MainFrame;
-import org.xg.ui.mainwnd.MedProfsMain;
-import org.xg.ui.mainwnd.ProfOrgAgentsMain;
+import org.xg.ui.mainwnd.*;
 import org.xg.ui.model.ComboOptionData;
 import org.xg.ui.model.UserTypeHelpers;
 import org.xg.ui.utils.Global;
@@ -89,7 +86,7 @@ public class UiLoginController implements Initializable {
     );
 
     cmboUType.setValue(
-      userMap.get(UserTypeHelpers.UT_MEDPROFS)
+      userMap.get(UserTypeHelpers.UT_PROFORG)
     );
 
 
@@ -111,7 +108,14 @@ public class UiLoginController implements Initializable {
     loginSuccessActionMap.put(
       UserTypeHelpers.UT_PROFORG_AGENT, () -> {
         //new MedProfsMain().launch(tfUid.getText());
-        new MainFrame("proforgs.main.title").start(ProfOrgAgentsMain.class);
+        new MainFrame("profOrgAgent.main.title").start(ProfOrgAgentsMain.class);
+        closeWindow();
+      }
+    );
+    loginSuccessActionMap.put(
+      UserTypeHelpers.UT_PROFORG, () -> {
+        //new MedProfsMain().launch(tfUid.getText());
+        new MainFrame("profOrg.main.title").start(MedProfOrgMain.class);
         closeWindow();
       }
     );

@@ -26,36 +26,53 @@ public final class UserDbAuthority {
 //    return customerInstance._auth.isValidToken(token);
 //  }
 
-  public static boolean authenticateCustomer(String customerId, String passHashStr) {
-    logger.warning("fucku");
-    AuthResult res = customerInstance._auth.authenticate(customerId, passHashStr);
-    logger.warning("fucku2");
+  private static boolean authenticateUser(TAuthority auth, String uid, String hashStr) {
+    AuthResult res = auth.authenticate(uid, hashStr);
+
     if (!res.result()) {
       logger.info(
-        String.format("failed to authenticate [%s], reason: %s", customerId, res.msg())
+        String.format("failed to authenticate [%s], reason: %s", uid, res.msg())
       );
     }
     return res.result();
+  }
+
+  public static boolean authenticateCustomer(String customerId, String passHashStr) {
+//    AuthResult res = customerInstance._auth.authenticate(customerId, passHashStr);
+//
+//    if (!res.result()) {
+//      logger.info(
+//        String.format("failed to authenticate [%s], reason: %s", customerId, res.msg())
+//      );
+//    }
+//    return res.result();
+    return authenticateUser(customerInstance._auth, customerId, passHashStr);
   }
 
   public static boolean authenticateMedProfs(String profId, String passHashStr) {
-    AuthResult res = medProfInstance._auth.authenticate(profId, passHashStr);
-    if (!res.result()) {
-      logger.info(
-        String.format("failed to authenticate [%s], reason: %s", profId, res.msg())
-      );
-    }
-    return res.result();
+//    AuthResult res = medProfInstance._auth.authenticate(profId, passHashStr);
+//    if (!res.result()) {
+//      logger.info(
+//        String.format("failed to authenticate [%s], reason: %s", profId, res.msg())
+//      );
+//    }
+//    return res.result();
+    return authenticateUser(medProfInstance._auth, profId, passHashStr);
   }
 
   public static boolean authenticateProfOrgAgent(String orgAgentId, String passHashStr) {
-    AuthResult res = profOrgInstance._auth.authenticate(orgAgentId, passHashStr);
-    if (!res.result()) {
-      logger.info(
-        String.format("failed to authenticate [%s], reason: %s", orgAgentId, res.msg())
-      );
-    }
-    return res.result();
+//    AuthResult res = profOrgAgentInstance._auth.authenticate(orgAgentId, passHashStr);
+//    if (!res.result()) {
+//      logger.info(
+//        String.format("failed to authenticate [%s], reason: %s", orgAgentId, res.msg())
+//      );
+//    }
+//    return res.result();
+    return authenticateUser(profOrgAgentInstance._auth, orgAgentId, passHashStr);
+  }
+
+  public static boolean authenticateProfOrg(String orgId, String passHashStr) {
+    return authenticateUser(profOrgInstance._auth, orgId, passHashStr);
   }
 
   private static UserDbAuthority createInstasnce(Map<String, byte[]> userPassMap) {
@@ -114,7 +131,7 @@ public final class UserDbAuthority {
     synchronized (customerDb._instanceLock) {
       customerInstance = createInstasnce(customerPassMap);
     }
-    logger.info("in updateMedProfDb, updated profPass map size: " + customerPassMap.size());
+    logger.info("in updateCustomerDb, updated profPass map size: " + customerPassMap.size());
   }
 
   private final static InstanceCreation medProfDb = new InstanceCreation();
@@ -130,18 +147,33 @@ public final class UserDbAuthority {
     logger.info("in updateMedProfDb, updated profPass map size: " + profPassMap.size());
   }
 
+  private final static InstanceCreation profOrgAgentDb = new InstanceCreation();
+  private static UserDbAuthority profOrgAgentInstance =
+    profOrgAgentDb.getInstance(
+      SvcUtils.getDbOps().getProfOrgAgentPassMapJ()
+    );
+  public static void updateProfOrgAgentDb() {
+    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getProfOrgAgentPassMapJ();
+    synchronized (profOrgAgentDb._instanceLock) {
+      profOrgAgentInstance = createInstasnce(orgPassMap);
+    }
+    logger.info("in updateProfOrgAgentDb, updated profPass map size: " + orgPassMap.size());
+  }
+
+
   private final static InstanceCreation profOrgDb = new InstanceCreation();
   private static UserDbAuthority profOrgInstance =
     profOrgDb.getInstance(
-      SvcUtils.getDbOps().getProfOrgAgentPassMapJ()
+      SvcUtils.getDbOps().getMedProfOrgPassMapJ()
     );
-  public static void updateProfOrgfDb() {
-    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getProfOrgAgentPassMapJ();
+  public static void updateProfOrgDb() {
+    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getMedProfOrgPassMapJ();
     synchronized (profOrgDb._instanceLock) {
       profOrgInstance = createInstasnce(orgPassMap);
     }
-    logger.info("in updateMedProfDb, updated profPass map size: " + orgPassMap.size());
+    logger.info("in updateProfOrgAgentDb, updated profPass map size: " + orgPassMap.size());
   }
+
 //  private static final String _InvalidToken = "";
 //
 //  @Override

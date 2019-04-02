@@ -157,7 +157,7 @@ public class LoginHelpers {
 //    }
 //  };
   private final static ILoginAction profOrgAgentLogin = new LoginActionBase(
-    UISvcHelpers.serverCfg().authOrgAgentURL()
+    UISvcHelpers.serverCfg().authProfOrgAgentURL()
   ) {
     @Override
     protected void extraAction() {
@@ -195,12 +195,21 @@ public class LoginHelpers {
 //    }
 //  };
 
+  private final static ILoginAction profOrgsLogin = new LoginActionBase(
+    UISvcHelpers.serverCfg().authProfOrgURL()
+  ) {
+    @Override
+    protected void extraAction() {
+
+    }
+  };
+
   private static Map<Integer, ILoginAction> createLoginActionMap() {
     Map<Integer, ILoginAction> res = new HashMap<>();
     res.put(UserTypeHelpers.UT_CUSTOMER, customerLogin);
     res.put(UserTypeHelpers.UT_MEDPROFS, medProfsLogin);
     res.put(UserTypeHelpers.UT_PROFORG_AGENT, profOrgAgentLogin);
-    //res.put(UserTypeHelpers.UT_PROFORG, profOrgsLogin);
+    res.put(UserTypeHelpers.UT_PROFORG, profOrgsLogin);
     return res;
   }
   private static final Map<Integer, ILoginAction> loginActionMap = createLoginActionMap();

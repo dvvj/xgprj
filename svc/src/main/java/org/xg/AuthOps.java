@@ -22,11 +22,12 @@ public class AuthOps {
 
   private static Response authenticate(
     String userPassPostJson,
-    BiFunction<String, String, Boolean> authenticator
+    BiFunction<String, String, Boolean> authenticator,
+    String tag
   ) {
     try {
       UserPass up = UserPass.fromJson(userPassPostJson);
-      logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
+      logger.warning(String.format(tag + " Authenticating %s with %s", up.uid(), up.passHashStr()));
 
       boolean authenticated = authenticator.apply(up.uid(), up.passHashStr()); // UserDbAuthority.authenticateCustomer(up.uid(), up.passHashStr());
 
@@ -35,11 +36,11 @@ public class AuthOps {
         AuthResp resp = AuthResp.authSuccess(up);
         SessionManager.addSession(up.uid(), resp.token());
         logger.warning(
-          String.format("Session added: [%s]-[%s]", up.uid(), resp.token())
+          String.format(tag + " Session added: [%s]-[%s]", up.uid(), resp.token())
         );
         return Response.ok(AuthResp.toJson(resp)).build();
       } else {
-        logger.warning("====================== Failed to authenticateCustomer user: ");
+        logger.warning(tag + " Failed to authenticateCustomer user: ");
         return Response.status(Response.Status.UNAUTHORIZED)
           .entity(String.format("user [%s] NOT authorized!", up.uid()))
           .build();
@@ -48,24 +49,36 @@ public class AuthOps {
     catch (Exception ex) {
       logger.warning("Exception while authenticating user: " + userPassPostJson);
       ex.printStackTrace();
-      throw new WebApplicationException("====================== Failed to authenticateCustomer user", ex);
+      throw new WebApplicationException(tag + " Failed to authenticateCustomer user", ex);
     }
   }
 
   @POST
-  @Path("customerPass")
+  @Path("authCustomer")
   @Consumes(MediaType.TEXT_PLAIN)
-  public Response authorize(String userPassPostJson) {
+  public Response authCustomer(String userPassPostJson) {
     return authenticate(
       userPassPostJson,
-      UserDbAuthority::authenticateCustomer
+      UserDbAuthority::authenticateCustomer,
+      "[AuthCustomer]"
+    );
+  }
+
+  @POST
+  @Path("authMedProf")
+  @Consumes(MediaType.TEXT_PLAIN)
+  public Response authorizeProf(String userPassPostJson) {
+    return authenticate(
+      userPassPostJson,
+      UserDbAuthority::authenticateMedProfs,
+      "[AuthMedProf]"
     );
 //    try {
 //      UserPass up = UserPass.fromJson(userPassPostJson);
 //
 //      logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
 //
-//      boolean authenticated = UserDbAuthority.authenticateCustomer(up.uid(), up.passHashStr());
+//      boolean authenticated = UserDbAuthority.authenticateMedProfs(up.uid(), up.passHashStr());
 //
 //      if (authenticated) {
 //        AuthResp resp = AuthResp.authSuccess(up);
@@ -76,7 +89,7 @@ public class AuthOps {
 //        return Response.ok(AuthResp.toJson(resp)).build();
 //      }
 //      else {
-//        logger.warning("====================== Failed to authenticateCustomer user: " );
+//        logger.warning("====================== Failed to authorizeProf user: " );
 //        return Response.status(Response.Status.UNAUTHORIZED)
 //          .entity(String.format("user [%s] NOT authorized!", up.uid()))
 //          .build();
@@ -85,74 +98,57 @@ public class AuthOps {
 //    catch (Exception ex) {
 //      logger.warning("Exception while authenticating user.");
 //      ex.printStackTrace();
-//      throw new WebApplicationException("====================== Failed to authenticateCustomer user", ex);
+//      throw new WebApplicationException("====================== Failed to authorizeProf user", ex);
 //    }
   }
 
   @POST
-  @Path("profPass")
-  @Consumes(MediaType.TEXT_PLAIN)
-  public Response authorizeProf(String userPassPostJson) {
-    try {
-      UserPass up = UserPass.fromJson(userPassPostJson);
-
-      logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
-
-      boolean authenticated = UserDbAuthority.authenticateMedProfs(up.uid(), up.passHashStr());
-
-      if (authenticated) {
-        AuthResp resp = AuthResp.authSuccess(up);
-        SessionManager.addSession(up.uid(), resp.token());
-        logger.warning(
-          String.format("Session added: [%s]-[%s]", up.uid(), resp.token())
-        );
-        return Response.ok(AuthResp.toJson(resp)).build();
-      }
-      else {
-        logger.warning("====================== Failed to authorizeProf user: " );
-        return Response.status(Response.Status.UNAUTHORIZED)
-          .entity(String.format("user [%s] NOT authorized!", up.uid()))
-          .build();
-      }
-    }
-    catch (Exception ex) {
-      logger.warning("Exception while authenticating user.");
-      ex.printStackTrace();
-      throw new WebApplicationException("====================== Failed to authorizeProf user", ex);
-    }
-  }
-
-  @POST
-  @Path("orgAgentPass")
+  @Path("authProfOrgAgent")
   @Consumes(MediaType.TEXT_PLAIN)
   public Response authorizeOrgAgent(String userPassPostJson) {
-    try {
-      UserPass up = UserPass.fromJson(userPassPostJson);
-
-      logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
-
-      boolean authenticated = UserDbAuthority.authenticateProfOrgAgent(up.uid(), up.passHashStr());
-
-      if (authenticated) {
-        AuthResp resp = AuthResp.authSuccess(up);
-        SessionManager.addSession(up.uid(), resp.token());
-        logger.warning(
-          String.format("Session added: [%s]-[%s]", up.uid(), resp.token())
-        );
-        return Response.ok(AuthResp.toJson(resp)).build();
-      }
-      else {
-        logger.warning("====================== Failed to authenticateProfOrgAgent user: " );
-        return Response.status(Response.Status.UNAUTHORIZED)
-          .entity(String.format("user [%s] NOT authorized!", up.uid()))
-          .build();
-      }
-    }
-    catch (Exception ex) {
-      logger.warning("Exception while authenticating user.");
-      ex.printStackTrace();
-      throw new WebApplicationException("====================== Failed to authenticateProfOrgAgent user", ex);
-    }
+    return authenticate(
+      userPassPostJson,
+      UserDbAuthority::authenticateProfOrgAgent,
+      "[AuthProfOrgAgent]"
+    );
+//    try {
+//      UserPass up = UserPass.fromJson(userPassPostJson);
+//
+//      logger.warning(String.format("Authenticating %s with %s", up.uid(), up.passHashStr()));
+//
+//      boolean authenticated = UserDbAuthority.authenticateProfOrgAgent(up.uid(), up.passHashStr());
+//
+//      if (authenticated) {
+//        AuthResp resp = AuthResp.authSuccess(up);
+//        SessionManager.addSession(up.uid(), resp.token());
+//        logger.warning(
+//          String.format("Session added: [%s]-[%s]", up.uid(), resp.token())
+//        );
+//        return Response.ok(AuthResp.toJson(resp)).build();
+//      }
+//      else {
+//        logger.warning("====================== Failed to authenticateProfOrgAgent user: " );
+//        return Response.status(Response.Status.UNAUTHORIZED)
+//          .entity(String.format("user [%s] NOT authorized!", up.uid()))
+//          .build();
+//      }
+//    }
+//    catch (Exception ex) {
+//      logger.warning("Exception while authenticating user.");
+//      ex.printStackTrace();
+//      throw new WebApplicationException("====================== Failed to authenticateProfOrgAgent user", ex);
+//    }
   }
 
+
+  @POST
+  @Path("authProfOrg")
+  @Consumes(MediaType.TEXT_PLAIN)
+  public Response authProfOrg(String userPassPostJson) {
+    return authenticate(
+      userPassPostJson,
+      UserDbAuthority::authenticateProfOrg,
+      "[AuthProfOrg]"
+    );
+  }
 }
