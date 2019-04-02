@@ -1,11 +1,13 @@
 package org.xg.ui.comp;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.jfoenix.utils.JFXHighlighter;
+import io.datafx.controller.flow.Flow;
+import io.datafx.controller.flow.FlowHandler;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.ViewFlowContext;
+import javafx.animation.Transition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -17,13 +19,18 @@ import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+import org.xg.ui.utils.ExtendedAnimatedFlowContainer;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 
 import java.util.Set;
 import java.util.function.*;
+
+import static io.datafx.controller.flow.container.ContainerAnimations.SWIPE_LEFT;
 
 public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 
@@ -37,6 +44,9 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     return selected;
   }
 
+  @FXMLViewFlowContext
+  private ViewFlowContext context;
+
   public void setup(
 //    String headingRes,
     String refreshRes,
@@ -44,7 +54,9 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     String filterRes,
     String emptyTableRes,
     Function<T, Set<String>> searchStringCollector
-  ) {
+  ) throws Exception {
+    initDrawer();
+
     this.emptyTableRes = emptyTableRes;
 //    Global.setResText(txtHeading, headingRes);
     txtSearch.setPromptText(Global.AllRes.getString(searchRes));
@@ -203,6 +215,50 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 //  private JFXButton btnFilter;
   @FXML
   private JFXTreeTableView<T> theTable;
+
+//  @FXML
+//  private JFXDrawer drawer;
+//  @FXML
+//  private StackPane titleBurgerContainer;
+//  @FXML
+//  private JFXHamburger titleBurger;
+  private void initDrawer() throws Exception {
+
+//    theTable = new JFXTreeTableView<>();
+//
+//    drawer.setOnDrawerOpening(e -> {
+//      final Transition animation = titleBurger.getAnimation();
+//      animation.setRate(1);
+//      animation.play();
+//    });
+//    drawer.setOnDrawerClosing(e -> {
+//      final Transition animation = titleBurger.getAnimation();
+//      animation.setRate(-1);
+//      animation.play();
+//    });
+//    titleBurgerContainer.setOnMouseClicked(e -> {
+//      if (drawer.isClosed() || drawer.isClosing()) {
+//        drawer.open();
+//      } else {
+//        drawer.close();
+//      }
+//    });
+//
+//    context = new ViewFlowContext();
+//    Flow innerFlow = new Flow(JFXTreeTableViewCtrl.class);
+//
+//    final FlowHandler flowHandler = innerFlow.createHandler(context);
+//    context.register("ContentFlowHandler", flowHandler);
+//    context.register("ContentFlow", innerFlow);
+//    final Duration containerAnimationDuration = Duration.millis(320);
+//    drawer.setContent(flowHandler.start(new ExtendedAnimatedFlowContainer(containerAnimationDuration, SWIPE_LEFT)));
+//    context.register("ContentPane", drawer.getContent().get(0));
+//
+//    Flow sideMenuFlow = new Flow(OrgAgentSideMenuCtrl.class);
+//    final FlowHandler sideMenuFlowHandler = sideMenuFlow.createHandler(context);
+//    drawer.setSidePane(sideMenuFlowHandler.start(new ExtendedAnimatedFlowContainer(containerAnimationDuration,
+//      SWIPE_LEFT)));
+  }
 
   @FXML
   private HBox exComps;

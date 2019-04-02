@@ -11,7 +11,7 @@
             xmlns:fx="http://javafx.com/fxml">
     <center>
         <JFXTabPane minWidth="1000.0">
-            <Tab text="%proforgs.tab.profsTable.heading">
+            <Tab text="%orgagent.tab.profsTable.heading">
                 <HBox>
                     <StackPane fx:id="profsTab">
                     </StackPane>
@@ -23,16 +23,17 @@
                         <VBox fx:id="vboxRewardChartCurrProf" />
                         <VBox fx:id="vboxRewardChartAll" />
                     </VBox>
-                </HBox>            </Tab>
-            <Tab text="%proforgs.tab.customerOrderStatsTable.heading">
+                </HBox>
+            </Tab>
+            <Tab text="%orgagent.tab.orderStatsTable.heading">
                 <StackPane fx:id="orderStatsTab">
                 </StackPane>
             </Tab>
-            <Tab text="%proforgs.tab.addNewProfs.heading">
+            <Tab text="%orgagent.tab.addNewProfs.heading">
                 <VBox fx:id="addNewProfsTab" spacing="20">
                 </VBox>
             </Tab>
-            <Tab text="%proforgs.tab.updatePassword.heading">
+            <Tab text="%orgagent.tab.updatePassword.heading">
                 <VBox fx:id="updatePasswordTab" spacing="20">
                 </VBox>
             </Tab>

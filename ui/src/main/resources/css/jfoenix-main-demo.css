@@ -167,7 +167,7 @@
 .jfx-hamburger StackPane {
     -fx-pref-width: 30px;
     -fx-pref-height: 4px;
-    -fx-background-color: #FFF;
+    -fx-background-color: #5264AE;
     -fx-background-radius: 5px;
 }
 
@@ -187,7 +187,7 @@
 
 .jfx-tool-bar2 {
     -fx-font-size: 16;
-    -fx-background-color: #EEEEEE;
+    -fx-background-color: #EEE;
     -fx-pref-width: 100%;
     -fx-pref-height: 52px;
 }
