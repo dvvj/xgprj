@@ -19,24 +19,35 @@ public class LoginHelpers {
     void run(String userId, String pass, Runnable onSuccess, Runnable onFailure);
   }
 
-  private final static ILoginAction customerLogin = new ILoginAction() {
+  private abstract static class LoginActionBase implements ILoginAction {
+
+    private final String _authUrl;
+
+    protected LoginActionBase(String authUrl) {
+      _authUrl = authUrl;
+    }
+
+    protected abstract void extraAction();
+
     @Override
     public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
 
       Task<AuthResp> authTask = Helpers.uiTaskJ(
         () -> {
-          GlobalCfg cfg = UISvcHelpers.serverCfg();
-          String authUrl = cfg.authCustomerURL(); //"https://localhost:8443/webapi/auth/userPass";
+//          GlobalCfg cfg = UISvcHelpers.serverCfg();
+//          String authUrl = cfg.authCustomerURL(); //"https://localhost:8443/webapi/auth/userPass";
 
-          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
+          AuthResp resp = SvcHelpers.authReq(_authUrl, userId, pass);
           if (resp.success()) {
             //System.out.println(resp.token());
             Global.updateUidToken(userId, resp.token());
           }
+
+          extraAction();
           //todo
-          TPricePlan pp = SvcHelpers.getPricePlan4UserJ(cfg.pricePlanURL(), userId, resp.token());
-          if (pp != null)
-            Global.setPricePlan(pp);
+//          TPricePlan pp = SvcHelpers.getPricePlan4UserJ(cfg.pricePlanURL(), userId, resp.token());
+//          if (pp != null)
+//            Global.setPricePlan(pp);
           return resp;
         },
         resp -> {
@@ -54,74 +65,142 @@ public class LoginHelpers {
       new Thread(authTask).start();
 
     }
+  }
+
+  private final static ILoginAction customerLogin = new LoginActionBase(
+    UISvcHelpers.serverCfg().authCustomerURL()
+  ) {
+    @Override
+    protected void extraAction() {
+      TPricePlan pp = SvcHelpers.getPricePlan4UserJ(
+        UISvcHelpers.serverCfg().pricePlanURL(),
+        Global.getCurrUid(),
+        Global.getCurrToken()
+      );
+      if (pp != null)
+        Global.setPricePlan(pp);
+    }
   };
+//    new ILoginAction() {
+//    @Override
+//    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
+//
+//      Task<AuthResp> authTask = Helpers.uiTaskJ(
+//        () -> {
+//          GlobalCfg cfg = UISvcHelpers.serverCfg();
+//          String authUrl = cfg.authCustomerURL(); //"https://localhost:8443/webapi/auth/userPass";
+//
+//          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
+//          if (resp.success()) {
+//            //System.out.println(resp.token());
+//            Global.updateUidToken(userId, resp.token());
+//          }
+//          //todo
+//          TPricePlan pp = SvcHelpers.getPricePlan4UserJ(cfg.pricePlanURL(), userId, resp.token());
+//          if (pp != null)
+//            Global.setPricePlan(pp);
+//          return resp;
+//        },
+//        resp -> {
+//          if (resp != null && resp.success()) {
+//            onSuccess.run();
+//          }
+//          else {
+//            onFailure.run();
+//          }
+//          return null;
+//        },
+//        30000
+//      );
+//
+//      new Thread(authTask).start();
+//
+//    }
+//  };
   //todo
-  private final static ILoginAction medProfsLogin = new ILoginAction() {
+  private final static ILoginAction medProfsLogin = new LoginActionBase(
+    UISvcHelpers.serverCfg().authProfURL()
+  ) {
     @Override
-    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-      String authUrl = UISvcHelpers.serverCfg().authProfURL(); //"https://localhost:8443/webapi/auth/userPass";
-
-      Task<AuthResp> authTask = Helpers.uiTaskJ(
-        () -> {
-          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
-          if (resp.success()) {
-            //System.out.println(resp.token());
-            Global.updateUidToken(userId, resp.token());
-          }
-          return resp;
-        },
-        resp -> {
-          if (resp != null && resp.success()) {
-            onSuccess.run();
-          }
-          else {
-            onFailure.run();
-          }
-          return null;
-        },
-        30000
-      );
-
-      new Thread(authTask).start();
+    protected void extraAction() {
 
     }
   };
-  private final static ILoginAction profOrgsLogin = new ILoginAction() {
+//  new ILoginAction() {
+//    @Override
+//    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
+//      String authUrl = UISvcHelpers.serverCfg().authProfURL(); //"https://localhost:8443/webapi/auth/userPass";
+//
+//      Task<AuthResp> authTask = Helpers.uiTaskJ(
+//        () -> {
+//          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
+//          if (resp.success()) {
+//            //System.out.println(resp.token());
+//            Global.updateUidToken(userId, resp.token());
+//          }
+//          return resp;
+//        },
+//        resp -> {
+//          if (resp != null && resp.success()) {
+//            onSuccess.run();
+//          }
+//          else {
+//            onFailure.run();
+//          }
+//          return null;
+//        },
+//        30000
+//      );
+//
+//      new Thread(authTask).start();
+//
+//    }
+//  };
+  private final static ILoginAction profOrgAgentLogin = new LoginActionBase(
+    UISvcHelpers.serverCfg().authOrgAgentURL()
+  ) {
     @Override
-    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-      String authUrl = UISvcHelpers.serverCfg().authOrgURL(); //"https://localhost:8443/webapi/auth/userPass";
-
-      Task<AuthResp> authTask = Helpers.uiTaskJ(
-        () -> {
-          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
-          if (resp.success()) {
-            //System.out.println(resp.token());
-            Global.updateUidToken(userId, resp.token());
-          }
-          return resp;
-        },
-        resp -> {
-          if (resp != null && resp.success()) {
-            onSuccess.run();
-          }
-          else {
-            onFailure.run();
-          }
-          return null;
-        },
-        30000
-      );
-
-      new Thread(authTask).start();
+    protected void extraAction() {
 
     }
   };
+//  new ILoginAction() {
+//    @Override
+//    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
+//      String authUrl = UISvcHelpers.serverCfg().authOrgURL(); //"https://localhost:8443/webapi/auth/userPass";
+//
+//      Task<AuthResp> authTask = Helpers.uiTaskJ(
+//        () -> {
+//          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
+//          if (resp.success()) {
+//            //System.out.println(resp.token());
+//            Global.updateUidToken(userId, resp.token());
+//          }
+//          return resp;
+//        },
+//        resp -> {
+//          if (resp != null && resp.success()) {
+//            onSuccess.run();
+//          }
+//          else {
+//            onFailure.run();
+//          }
+//          return null;
+//        },
+//        30000
+//      );
+//
+//      new Thread(authTask).start();
+//
+//    }
+//  };
 
   private static Map<Integer, ILoginAction> createLoginActionMap() {
     Map<Integer, ILoginAction> res = new HashMap<>();
     res.put(UserTypeHelpers.UT_CUSTOMER, customerLogin);
     res.put(UserTypeHelpers.UT_MEDPROFS, medProfsLogin);
-    res.put(UserTypeHelpers.UT_PROFORG_AGENT, profOrgsLogin);
+    res.put(UserTypeHelpers.UT_PROFORG_AGENT, profOrgAgentLogin);
+    //res.put(UserTypeHelpers.UT_PROFORG, profOrgsLogin);
     return res;
   }
   private static final Map<Integer, ILoginAction> loginActionMap = createLoginActionMap();

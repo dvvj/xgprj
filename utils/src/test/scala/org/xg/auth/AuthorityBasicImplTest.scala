@@ -16,25 +16,27 @@ class AuthorityBasicImplTest extends TestNGSuite with Matchers with TableDrivenP
 
   private val testData = Table(
     ( "userPassMap", "uid", "pass", "expAuthResult" ),
-    ( userPassMap1, "usr1", "123", InvalidToken ),
-    ( userPassMap1, "usr1", "1234", authSuccessToken ),
-    ( userPassMap1, "usr2", "abcdefg", authSuccessToken ),
-    ( userPassMap1, null, "abcdefg", InvalidToken ),
-    ( null, "usr1", "1234", InvalidToken ),
-    ( null, null, "1234", InvalidToken )
+    ( userPassMap1, "usr1", "123", false ),
+    ( userPassMap1, "usr1", "1234", true),
+    ( userPassMap1, "usr2", "abcdefg", true ),
+    ( userPassMap1, null, "abcdefg", false ),
+    ( userPassMap1, null, "", false ),
+    ( null, "usr1", "1234", false ),
+    ( null, null, "1234", false )
   )
 
   @Test
   def basicAuthorizerTest:Unit = {
-//    println("[Test] -- in basicAuthorizerTest")
-//    forAll (testData) { (userPassMap, uid, pass, expResult) =>
-//      val authorizer = instance(userPassMap)
-//      println(s"\tchecking user: [$uid], pass: [$pass] ...")
-//
-//      val passHash = AuthHelpers.sha512(pass)
-//      val authRes = authorizer.authenticate(uid, passHash)
-//      authRes shouldBe expResult
-//    }
+    println("[Test] -- in basicAuthorizerTest")
+    forAll (testData) { (userPassMap, uid, pass, expResult) =>
+      val authorizer = instance(userPassMap)
+      println(s"\tchecking user: [$uid], pass: [$pass] ...")
+
+      val passHash = AuthHelpers.sha512(pass)
+      val passHashStr = AuthHelpers.hash2Str(passHash)
+      val authRes = authorizer.authenticate(uid, passHashStr)
+      authRes.result shouldBe expResult
+    }
   }
 
 }

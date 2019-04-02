@@ -123,9 +123,9 @@ public class AuthOps {
   }
 
   @POST
-  @Path("orgsPass")
+  @Path("orgAgentPass")
   @Consumes(MediaType.TEXT_PLAIN)
-  public Response authorizeOrg(String userPassPostJson) {
+  public Response authorizeOrgAgent(String userPassPostJson) {
     try {
       UserPass up = UserPass.fromJson(userPassPostJson);
 
