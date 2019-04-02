@@ -19,9 +19,25 @@ object InsertAllTestData {
     InsertOrderUtil.insertOrders(TestDataSet.orderData, customerId2ProfIdMap, profId2AgentIdMap)
   }
 
+  private def insertRewardPlans():Unit = {
+    InsertRewardPlanUtil.insertPlans(
+      TestDataSet.RewardPlans.planData
+    )
+  }
+
+  private def insertRewardPlanMap():Unit = {
+    InsertRewardPlanMapUtil.insertPlanMap(
+      TestDataSet.RewardPlans.planMapData
+    )
+  }
+
   def main(args:Array[String]):Unit = {
     //insertAllUsers()
+//    println()
+//    insertOrders()
+//    println()
+//    insertRewardPlans()
     println()
-    insertOrders()
+    insertRewardPlanMap()
   }
 }

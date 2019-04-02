@@ -15,20 +15,24 @@ object InsertRewardPlanMapUtil extends App {
     (customerId1, PlanIdProdBasedAdvanced, 0)
   )
 
-  val insertStatementTemplate =
-    "INSERT INTO reward_plan_map (uid, plan_ids, start_time)" +
-      "  VALUES (%s);"
+  def insertPlanMap(mapData:Array[(String, String, Int)]):Unit = {
+    val insertStatementTemplate =
+      "INSERT INTO reward_plan_map (uid, plan_ids, start_time)" +
+        "  VALUES (%s);"
 
-  val insertStatements = rpmaps.map { ppm =>
-    val (uid, planIds, days) = ppm
-    val dt = DataUtils.zonedDateTime2Str(DataUtils.utcTimeNow.plusDays(days))
-    val params = Array(
-      uid, planIds, dt
-    ).mkString("'", "','", "'")
-    insertStatementTemplate.format(params)
-    //MPricePlanMap(uid, planIds, dt, null)
+    val insertStatements = mapData.map { ppm =>
+      val (uid, planIds, days) = ppm
+      val dt = DataUtils.zonedDateTime2Str(DataUtils.utcTimeNow.plusDays(days))
+      val params = Array(
+        uid, planIds, dt
+      ).mkString("'", "','", "'")
+      insertStatementTemplate.format(params)
+      //MPricePlanMap(uid, planIds, dt, null)
+    }
+
+    println(insertStatements.mkString("\n"))
   }
 
-  println(insertStatements.mkString("\n"))
+  insertPlanMap(rpmaps)
 
 }

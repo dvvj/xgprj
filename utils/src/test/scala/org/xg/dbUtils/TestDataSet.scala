@@ -3,6 +3,8 @@ package org.xg.dbUtils
 import org.xg.dbModels.MOrder
 import org.xg.dbUtils.InsertCustomersUtil._
 import org.xg.dbUtils.InsertMedProfOrgUtil.{orgId1, orgId2}
+import org.xg.pay.rewardPlan.TRewardPlan
+import org.xg.pay.rewardPlan.v1.{RwPlFixedRate, RwPlProdBasedRates}
 import org.xg.user.UserType._
 
 import scala.collection.mutable.ListBuffer
@@ -270,83 +272,43 @@ object TestDataSet {
         //"%d-%02d-02 19:30:44"
       ),
     )
-    //Array(
-//    MOrder.createJ(
-//      1L, customerId2, 1, 2.0, 2499.99,
-//      "2018-10-02 19:30:44"
-//    ),
-//    MOrder.createJ(
-//      2L, customerId2, 1, 2.0, 2499.99,
-//      "2018-10-12 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      3L, customerId2, 1, 2.0, 2499.99,
-//      "2018-10-22 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      4L, customerId2, 1, 2.0, 2499.99,
-//      "2018-10-23 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      5L, customerId2, 1, 2.0, 2499.99,
-//      "2018-11-02 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      6L, customerId2, 1, 2.0, 2499.99,
-//      "2018-11-12 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      7L, customerId2, 1, 2.0, 2499.99,
-//      "2019-01-02 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      8L, customerId2, 1, 2.0, 2499.99,
-//      "2019-01-03 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      9L, customerId2, 1, 2.0, 2499.99,
-//      "2019-01-04 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      10L, customerId3, 1, 1.0, 1499.99,
-//      "2019-02-11 19:30:44"
-//    ),
-//    MOrder.createJ(
-//      11L, customerId1, 2, 3.0, 399.99,
-//      "2019-02-12 19:30:44", "2019-02-12 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      12L, customerId1, 3, 2.0, 19.99,
-//      "2019-03-11 19:30:44", "2019-03-11 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      13L, customerId1, 3, 2.0, 19.99,
-//      "2019-03-11 20:30:44", "2019-03-11 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      14L, customerId1, 3, 4.0, 29.99,
-//      "2019-03-12 19:20:44"
-//    ),
-//    MOrder.createJ(
-//      15L, customerId1, 3, 4.0, 29.99,
-//      "2019-03-12 19:30:44", "2019-03-12 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      16L, customerId2, 3, 10.0, 79.99,
-//      "2019-03-12 19:30:44", "2019-03-12 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      17L, customerId2, 1, 2.0, 2499.99,
-//      "2019-03-02 19:30:44", "2019-03-02 19:35:44"
-//    ),
-//    MOrder.createJ(
-//      18L, customerId5, 3, 1.0, 4.99,
-//      "2019-03-11 19:30:44"
-//    ),
-//    MOrder.createJ(
-//      19L, customerId4, 1, 10.0, 9999.99,
-//      "2019-02-11 19:30:44"
-//    )
-  //)
+
+  val profId111 = profId(1, 1, 1)
+  val profId112 = profId(1, 1, 2)
+  val profId121 = profId(1, 2, 1)
+  val agentId11 = agentId(1, 1)
+  val agentId12 = agentId(1, 2)
+  val agentId21 = agentId(2, 1)
+
+  object RewardPlans {
+    val RwPlanIdFixed010:String = "RwFixed-0.1"
+    val RwPlanIdFixed020:String = "RwFixed-0.2"
+    val RwPlanIdFixed030:String = "RwFixed-0.3"
+    val RwPlanIdModifier1_5:String = "RwModifier-1.5"
+    val RwPlanIdProdBasedBasic:String = "RwProdBased-Basic"
+    val RwPlanIdProdBasedAdvanced:String = "RwProdBased-Advanced"
+    import org.xg.pay.rewardPlan.RewardPlanSettings.VTag._
+    val planData = Array[(String, String, VTag, TRewardPlan)](
+      (RwPlanIdFixed010, "Fixed Rate 10%", FixedRate, RwPlFixedRate(0.1)),
+      (RwPlanIdFixed020, "Fixed Rate 20%", FixedRate, RwPlFixedRate(0.2)),
+      (RwPlanIdFixed030, "Fixed Rate 30%", FixedRate, RwPlFixedRate(0.3)),
+      (RwPlanIdModifier1_5, "Fixed Rate x 1.5, used only in combination with other plans", FixedRate, RwPlFixedRate(1.5)),
+      (RwPlanIdProdBasedBasic, "Producted Based Basic, range: 10% - 30%", ProductBasedRates,
+        RwPlProdBasedRates(0.1, Map(1 -> 0.2, 2 -> 0.3))),
+      (RwPlanIdProdBasedAdvanced, "Producted Based Advanced, range: 20% - 40%", ProductBasedRates,
+        RwPlProdBasedRates(0.2, Map(1 -> 0.3, 2 -> 0.4))),
+    )
+
+    val planMapData = Array(
+      (agentId11, RwPlanIdFixed020, 0),
+      (agentId12, RwPlanIdFixed030, 0),
+      (profId111, RwPlanIdFixed010, -7),
+      (profId112, RwPlanIdFixed020, 0),
+      (profId121, s"$RwPlanIdProdBasedBasic,$RwPlanIdModifier1_5", 0),
+      (agentId21, RwPlanIdProdBasedAdvanced, 0)
+    )
+  }
+
+
 
 }
