@@ -132,10 +132,17 @@ trait TDbOps {
   }
   def customersOf(profId:String):Array[MCustomer]
 
-  def allProfOrgs:Array[MProfOrgAgent]
+  def allProfOrgAgents:Array[MProfOrgAgent]
 
   def profOrgAgentMap:Map[String, MProfOrgAgent] = {
-    allProfOrgs.map(po => po.orgAgentId -> po).toMap
+    allProfOrgAgents.map(a => a.orgAgentId -> a).toMap
+  }
+
+  def profOrg2AgentMap:Map[String, Array[MProfOrgAgent]] = {
+    allProfOrgAgents.groupBy(_.orgId)
+  }
+  def profOrg2AgentMapJ:java.util.Map[String, Array[MProfOrgAgent]] = {
+    profOrg2AgentMap.asJava
   }
 
   def profOrgAgentMapJ:java.util.Map[String, MProfOrgAgent] = {

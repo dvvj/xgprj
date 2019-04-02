@@ -94,7 +94,7 @@ object Helpers {
       po.getName,
       po.getInfo,
       po.getPhone,
-      po.getJoinDate
+      zonedDateTime2Str(po.getJoinDate)
     )
   }
 

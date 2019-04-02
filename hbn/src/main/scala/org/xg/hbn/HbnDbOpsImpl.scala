@@ -74,7 +74,7 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def allProfOrgs: Array[MProfOrgAgent] = {
+    override def allProfOrgAgents: Array[MProfOrgAgent] = {
       runInTransaction(
         sessFactory,
         { sess =>

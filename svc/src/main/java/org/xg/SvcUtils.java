@@ -149,6 +149,10 @@ public class SvcUtils {
     return getDbOps().customersRefedBy(profId);
   }
 
+  public static MProfOrgAgent[] getProfOrgAgentsOf(String orgId) {
+    return getDbOps().profOrg2AgentMapJ().get(orgId);
+  }
+
   public static MOrder[] getRefedCustomerOrders(String profId) {
     MCustomer[] customers = getCustomersRefedBy(profId);
     String[] customerIds = new String[customers.length];

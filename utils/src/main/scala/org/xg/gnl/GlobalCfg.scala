@@ -27,6 +27,7 @@ case class GlobalCfg(
   def customersRefedByURL:String = s"$svcSvr/$CUSTOMERS_REFED_BY"
   def refedCustomerOrdersURL:String = s"$svcSvr/$ORDERS_BY_REFED_CUSTOMERS"
   def medprofsOfURL:String = s"$svcSvr/$MEDPROFS_OF"
+  def profOrgAgentsOfURL:String = s"$svcSvr/$PROFORG_AGENTS_OF"
   def orderStatsOfURL:String = s"$svcSvr/$ORDERSTATS_OF"
   def addNewMedProfURL:String = s"$svcSvr/$ADD_NEW_MEDPROF"
   def addNewCustomerURL:String = s"$svcSvr/$ADD_NEW_CUSTOMER"
@@ -48,9 +49,10 @@ object GlobalCfg {
   private val REWARD_PLAN = "user/rewardPlan"
   private val CUSTOMERS_REFED_BY = "prof/customers"
   private val ORDERS_BY_REFED_CUSTOMERS = "order/refedCustomerOrders"
-  private val MEDPROFS_OF = "profOrg/profs"
-  private val ORDERSTATS_OF = "profOrg/orderStats"
-  private val ADD_NEW_MEDPROF = "profOrg/addNewMedProf"
+  private val MEDPROFS_OF = "profOrgAgent/profs"
+  private val PROFORG_AGENTS_OF = "profOrg/agents"
+  private val ORDERSTATS_OF = "profOrgAgent/orderStats"
+  private val ADD_NEW_MEDPROF = "profOrgAgent/addNewMedProf"
   private val ADD_NEW_CUSTOMER = "prof/newCustomer"
 
   def fromJson(j:String):GlobalCfg = {
