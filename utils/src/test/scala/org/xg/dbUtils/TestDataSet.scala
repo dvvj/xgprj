@@ -1,7 +1,11 @@
 package org.xg.dbUtils
 
+import org.xg.dbModels.MOrder
+import org.xg.dbUtils.InsertCustomersUtil._
 import org.xg.dbUtils.InsertMedProfOrgUtil.{orgId1, orgId2}
 import org.xg.user.UserType._
+
+import scala.collection.mutable.ListBuffer
 
 object TestDataSet {
 
@@ -96,6 +100,24 @@ object TestDataSet {
     (3, 1, 2) -> 0
   )
 
+  val customerId2ProfIdMap:Map[String, String] = allCustomers.flatMap { pp =>
+      val (coord, count) = pp
+      val (o, a, p) = coord
+      val pid = profId(o, a, p)
+      (1 to count).map { customerIdx =>
+        val cid = customerId(o, a, p, customerIdx)
+        cid -> pid
+      }
+    }.toMap
+
+  val profId2AgentIdMap:Map[String, String] = allCustomers.map { pp =>
+      val (coord, count) = pp
+      val (o, a, p) = coord
+      val aid = agentId(o, a)
+      val pid = profId(o, a, p)
+      pid -> aid
+    }.toMap
+
   val MedProfBase =  IndexedSeq(
     IndexedSeq("卫东", "3302030222313322", "13792929133") -> "123",
     IndexedSeq("鑫", "33020555555555555", "1375555555") -> "456",
@@ -152,7 +174,7 @@ object TestDataSet {
     }
   }
 
-  private def insertOrgAgentData():Unit = {
+  private[dbUtils] def insertOrgAgentData():Unit = {
     org2AgentData.foreach { p =>
       val (orgIdx, agentData) = p
       val (agentCount, surname) = agentData
@@ -171,7 +193,7 @@ object TestDataSet {
     InsertMedProfOrgUtil.insertMedProfOrgs(orgData)
   }
 
-  private def insertCustomerData(coord:(Int, Int, Int), count:Int):Unit = {
+  private[dbUtils] def insertCustomerData(coord:(Int, Int, Int), count:Int):Unit = {
     val (o, a, p) = coord
 
     val data = CustomerBaseData.take(count)
@@ -181,7 +203,7 @@ object TestDataSet {
     InsertCustomersUtil.insertCustomers(genData, _ => profId(o, a, p))
   }
 
-  private def insertProfData(coord:(Int, Int, Int)):Unit = {
+  private[dbUtils] def insertProfData(coord:(Int, Int, Int)):Unit = {
     val (o, a, p) = coord
     val data = MedProfBase(p-1)
     val pid = profId(o, a, p)
@@ -197,20 +219,134 @@ object TestDataSet {
     )
   }
 
-  def main(args:Array[String]):Unit = {
-    allCustomers.foreach { p =>
-      println()
-      val count = p._2
-      insertProfData(p._1)
-      insertCustomerData(p._1, count)
+  def genMonthlyOrders(startOrderId:Long, customerId:String, prodId:Int, qty:Double, actualCost:Double,
+                       creationTimeFmt:String, payTimeFmt:String,
+                       beginYearMonth:(Int, Int), endYearMonth:(Int, Int)):Array[MOrder] = {
+    var orderId:Long = startOrderId
+
+    val stepFunc:(Int, Int) => (Int, Int) = (year, month) => {
+      if (month >= 12)
+        (year+1, 1)
+      else
+        (year, month + 1)
     }
 
-    insertOrgAgentData()
-//    InsertCustomersUtil.insertCustomers(o1a1p1Customers, _ => profId(1, 1, 1))
-//    println()
-//    InsertCustomersUtil.insertCustomers(o1a1p2Customers, _ => profId(1, 1, 2))
-//    println()
-//    InsertCustomersUtil.insertCustomers(o1a1p3Customers, _ => profId(1, 1, 3))
+    var currYearMonth = beginYearMonth
+    val res = ListBuffer[MOrder]()
+    while (currYearMonth != endYearMonth) {
+      val (year, month) = currYearMonth
+      res += MOrder.createJ(
+        orderId, customerId, prodId, qty, actualCost,
+        creationTimeFmt.format(year, month),
+        payTimeFmt.format(year, month)
+        //"%d-%02d-02 19:30:44"
+      )
+      currYearMonth = stepFunc(year, month)
+      orderId += 1
+    }
+    res.toArray
   }
+
+  val customerId1111 = customerId(1, 1, 1, 1)
+  val customerId1121 = customerId(1, 1, 2, 1)
+  private[dbUtils] val orderData =
+    genMonthlyOrders(
+      1000L, customerId1111, 1, 2.0, 2399.99,
+      "%d-%02d-02 19:30:44", "%d-%02d-02 19:50:44",
+      2018 -> 1, 2019 -> 4
+    ) ++ genMonthlyOrders(
+      1100L, customerId1121, 1, 2.0, 2399.99,
+      "%d-%02d-12 18:30:44", "%d-%02d-12 18:50:44",
+      2018 -> 6, 2019 -> 4
+    ) ++ Array(
+      MOrder.createJ(
+        10000L, customerId1111, 2, 2.0, 149.99,
+        "2019-03-02 19:00:44"
+        //"%d-%02d-02 19:30:44"
+      ),
+      MOrder.createJ(
+        10001L, customerId1111, 2, 2.0, 149.99,
+        "2019-03-02 19:20:44"
+        //"%d-%02d-02 19:30:44"
+      ),
+    )
+    //Array(
+//    MOrder.createJ(
+//      1L, customerId2, 1, 2.0, 2499.99,
+//      "2018-10-02 19:30:44"
+//    ),
+//    MOrder.createJ(
+//      2L, customerId2, 1, 2.0, 2499.99,
+//      "2018-10-12 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      3L, customerId2, 1, 2.0, 2499.99,
+//      "2018-10-22 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      4L, customerId2, 1, 2.0, 2499.99,
+//      "2018-10-23 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      5L, customerId2, 1, 2.0, 2499.99,
+//      "2018-11-02 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      6L, customerId2, 1, 2.0, 2499.99,
+//      "2018-11-12 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      7L, customerId2, 1, 2.0, 2499.99,
+//      "2019-01-02 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      8L, customerId2, 1, 2.0, 2499.99,
+//      "2019-01-03 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      9L, customerId2, 1, 2.0, 2499.99,
+//      "2019-01-04 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      10L, customerId3, 1, 1.0, 1499.99,
+//      "2019-02-11 19:30:44"
+//    ),
+//    MOrder.createJ(
+//      11L, customerId1, 2, 3.0, 399.99,
+//      "2019-02-12 19:30:44", "2019-02-12 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      12L, customerId1, 3, 2.0, 19.99,
+//      "2019-03-11 19:30:44", "2019-03-11 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      13L, customerId1, 3, 2.0, 19.99,
+//      "2019-03-11 20:30:44", "2019-03-11 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      14L, customerId1, 3, 4.0, 29.99,
+//      "2019-03-12 19:20:44"
+//    ),
+//    MOrder.createJ(
+//      15L, customerId1, 3, 4.0, 29.99,
+//      "2019-03-12 19:30:44", "2019-03-12 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      16L, customerId2, 3, 10.0, 79.99,
+//      "2019-03-12 19:30:44", "2019-03-12 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      17L, customerId2, 1, 2.0, 2499.99,
+//      "2019-03-02 19:30:44", "2019-03-02 19:35:44"
+//    ),
+//    MOrder.createJ(
+//      18L, customerId5, 3, 1.0, 4.99,
+//      "2019-03-11 19:30:44"
+//    ),
+//    MOrder.createJ(
+//      19L, customerId4, 1, 10.0, 9999.99,
+//      "2019-02-11 19:30:44"
+//    )
+  //)
 
 }

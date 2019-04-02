@@ -100,7 +100,15 @@ object InsertOrderUtil {
 
   val NULL = "NULL"
   def main(args:Array[String]):Unit = {
-    val insertStatements = testOrders.flatMap { mo =>
+    insertOrders(testOrders, customer2ProfMap, prof2OrgAgentMap)
+  }
+
+  def insertOrders(
+                    orders:Array[MOrder],
+                    customer2ProfIdMap:Map[String, String],
+                    prof2OrgAgentIdMap:Map[String, String]
+                  ):Unit = {
+    val insertStatements = orders.flatMap { mo =>
       val params = ListBuffer[String]()
 
       params += mo.id.toString
@@ -117,8 +125,8 @@ object InsertOrderUtil {
       val statement1 = insertStatementTemplate1.format(params.mkString(","))
 
       val params2 = ListBuffer[String]()
-      val profId = customer2ProfMap(mo.uid)
-      val profOrgAgentId = prof2OrgAgentMap(profId)
+      val profId = customer2ProfIdMap(mo.uid)
+      val profOrgAgentId = prof2OrgAgentIdMap(profId)
       params2 += s"'$profOrgAgentId'"
       params2 += s"'$profId'"
       params2 += mo.id.toString
@@ -135,8 +143,6 @@ object InsertOrderUtil {
 
     println(insertStatements.mkString("\n"))
   }
-
-
 
   // VALUES ('customer3', 1, 1.0, 1499.99, '2018-02-11 19:30:44', NULL, NULL, NULL, NULL);
 }
