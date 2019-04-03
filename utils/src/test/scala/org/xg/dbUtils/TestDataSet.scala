@@ -1,8 +1,10 @@
 package org.xg.dbUtils
 
-import org.xg.dbModels.MOrder
+import org.xg.dbModels.{MOrder, MPricePlan}
 import org.xg.dbUtils.InsertCustomersUtil._
 import org.xg.dbUtils.InsertMedProfOrgUtil.{orgId1, orgId2}
+import org.xg.pay.pricePlan.TPricePlan
+import org.xg.pay.pricePlan.v1.{PrPlFixedRate, PrPlProdBasedRates}
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.pay.rewardPlan.v1.{RwPlFixedRate, RwPlProdBasedRates}
 import org.xg.user.UserType._
@@ -309,6 +311,22 @@ object TestDataSet {
     )
   }
 
+  object PricePlans {
+    import org.xg.pay.pricePlan.PricePlanSettings.VTag._
+    import MPricePlan._
 
+    val PrPlanIdFixed09:String = "PrFixed-0.9"
+    val PrPlanIdFixed095:String = "PrFixed-0.95"
+    val PrPlanIdProdBasedBasic:String = "PrProdBased-Basic"
+    val PrPlanIdProdBasedAdvanced:String = "PrProdBased-Advanced"
+    val planData = Array[(String, String, VTag, TPricePlan, String)](
+      (PrPlanIdFixed09, "Fixed Rate 90%", FixedRate, PrPlFixedRate(0.9), builtInCreator),
+      (PrPlanIdFixed095, "Fixed Rate 95%", FixedRate, PrPlFixedRate(0.95), builtInCreator),
+      (PrPlanIdProdBasedBasic, "Producted Based Basic, range: 85% - 95%", ProductBasedRates,
+        PrPlProdBasedRates(0.95, Map(1 -> 0.9, 2 -> 0.85)), builtInCreator),
+      (PrPlanIdProdBasedAdvanced, "Producted Based Advanced, range: 80% - 90%", ProductBasedRates,
+        PrPlProdBasedRates(0.85, Map(1 -> 0.8, 2 -> 0.9)), builtInCreator),
+    )
+  }
 
 }

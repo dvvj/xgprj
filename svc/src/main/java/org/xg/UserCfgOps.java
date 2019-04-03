@@ -43,6 +43,29 @@ public class UserCfgOps {
     }
   }
 
+//  @Secured
+//  @POST
+//  @Path("addPricePlan")
+//  @Consumes(MediaType.TEXT_PLAIN)
+//  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+//  public Response addPricePlan(String json) {
+//    try {
+//      MCustomer customer = SvcUtils.getCustomers().get(uid);
+//      String plansJson = PricePlanLogics.pricePlanJsonForJ(
+//        customer,
+//        SvcUtils.getPricePlanMaps(),
+//        SvcUtils.getPricePlans()
+//      );
+//
+//      return Response.ok(plansJson)
+//        .build();
+//    }
+//    catch (Exception ex) {
+//      ex.printStackTrace();
+//      throw new WebApplicationException("Error", ex);
+//    }
+//  }
+
   @Secured
   @POST
   @Path("rewardPlan")

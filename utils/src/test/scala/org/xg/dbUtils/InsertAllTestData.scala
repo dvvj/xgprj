@@ -25,6 +25,13 @@ object InsertAllTestData {
     )
   }
 
+  private def insertPricePlans():Unit = {
+    InsertPricePlanUtil.insertPricePlans(
+      TestDataSet.PricePlans.planData
+    )
+  }
+
+
   private def insertRewardPlanMap():Unit = {
     InsertRewardPlanMapUtil.insertPlanMap(
       TestDataSet.RewardPlans.planMapData
@@ -37,7 +44,9 @@ object InsertAllTestData {
 //    insertOrders()
 //    println()
 //    insertRewardPlans()
+//    println()
+//    insertRewardPlanMap()
     println()
-    insertRewardPlanMap()
+    insertPricePlans()
   }
 }

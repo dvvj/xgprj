@@ -14,4 +14,7 @@ case class MPricePlan(id:String, info:String, defi:String, vtag:String) {
 
 object MPricePlan {
   def fromJsons(j:String):Array[MPricePlan] = _fromJsons(j)
+
+  private val UnderScoreUnicode:String = "＿"
+  val builtInCreator:String = s"${UnderScoreUnicode}global"
 }
