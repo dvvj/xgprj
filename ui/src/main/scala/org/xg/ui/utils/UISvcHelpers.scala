@@ -99,6 +99,16 @@ object UISvcHelpers {
     MOrgAgentOrderStat.fromJsons(j)
   }
 
+  def updateOrgOrderStats(orgId:String, userToken:String):Array[MOrgOrderStat] = {
+    val j = SvcHelpers.post(
+      serverCfg.orderStatsOfOrgURL,
+      userToken,
+      orgId
+    )
+
+    MOrgOrderStat.fromJsons(j)
+  }
+
 
   def updateAllOrdersOfRefedCustomers(profId:String, userToken:String):Array[MOrder] = {
     val j = SvcHelpers.post(

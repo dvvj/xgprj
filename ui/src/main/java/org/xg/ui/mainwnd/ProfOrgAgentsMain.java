@@ -34,7 +34,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-@ViewController(value = "/ui/ProfOrgsMain.fxml")
+@ViewController(value = "/ui/ProfOrgAgentMain.fxml")
 public class ProfOrgAgentsMain {
   @FXML
   private StackPane orderStatsTab;

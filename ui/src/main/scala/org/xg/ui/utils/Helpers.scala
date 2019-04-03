@@ -27,13 +27,22 @@ object Helpers {
     mcs.map(MedProf.fromMMedProf)
   }
 
-  def convOrgOrderStats(
+  def convOrgAgentOrderStats(
                          os:Array[MOrgAgentOrderStat],
                          profMap:java.util.Map[String, MedProf],
                          rewardPlan: TRewardPlan
                        ):Array[OrgAgentOrderStat] = {
     os.map(o => OrgAgentOrderStat.fromM(o, Global.getProductMap, profMap, rewardPlan))
   }
+
+  def convOrgOrderStats(
+    os:Array[MOrgOrderStat],
+    agentMap:java.util.Map[String, ProfOrgAgent],
+    rewardPlan: TRewardPlan
+  ):Array[OrgOrderStat] = {
+    os.map(o => OrgOrderStat.fromM(o, Global.getProductMap, agentMap, rewardPlan))
+  }
+
 
   def convOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[Order] = {
     morders.map(mo => Order.fromMOrder(mo, prodMap))
@@ -155,5 +164,9 @@ object Helpers {
 
   def calcRewards(rewardPlan:TRewardPlan, orders: Array[OrgAgentOrderStat], prodMap:java.util.Map[Integer, Product]): Double = {
     orders.map(os => calcReward(rewardPlan, os.getProductId, prodMap.get(os.getProductId).getPrice0)).sum
+  }
+
+  def calcRewards(rewardPlan:TRewardPlan, orders: Array[OrgOrderStat], prodMap:java.util.Map[Integer, Product]): Double = {
+    orders.map(os => calcReward(rewardPlan, os.getAgentOrderStat.getProductId, prodMap.get(os.getAgentOrderStat.getProductId).getPrice0)).sum
   }
 }
