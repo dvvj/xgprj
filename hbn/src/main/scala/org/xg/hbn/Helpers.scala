@@ -63,6 +63,14 @@ object Helpers {
     MRewardPlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag, pp.getCreator)
   }
 
+  def convertOrgOrderStat(os:OrgOrderStat):MOrgOrderStat = {
+    MOrgOrderStat(os.getOrgId, os.getOrgAgentId, os.getProfId, os.getOrderId,
+      os.getProductId, os.getQty, os.getActualCost,
+      DataUtils.zonedDateTime2Str(os.getCreationTime),
+      os.getStatus
+    )
+  }
+
   import DataUtils._
   def convertPricePlanMap(ppm:PricePlanMap):MPricePlanMap = {
     MPricePlanMap.createJ(ppm.getUid, ppm.getPlanIds,

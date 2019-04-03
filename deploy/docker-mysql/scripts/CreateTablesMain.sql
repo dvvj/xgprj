@@ -130,3 +130,11 @@ CREATE TABLE org_agent_order_stats (
   PRIMARY KEY (order_id),
   INDEX(org_agent_id)
 );
+
+CREATE VIEW org_order_stats AS
+  SELECT
+    orderstats.*, agents.org_id
+  FROM
+    org_agent_order_stats orderstats
+      INNER JOIN
+    prof_org_agents agents ON agents.agent_id = orderstats.org_agent_id

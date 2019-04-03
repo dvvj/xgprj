@@ -136,6 +136,20 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def orderStatsOfOrg(orgId: String): Array[MOrgOrderStat] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          queryWhereAndConvert(
+            sess,
+            classOf[OrgOrderStat].getName,
+            s"x.orgId = '$orgId'",
+            convertOrgOrderStat
+          )
+        }
+      )
+    }
+
     override def allPricePlanMaps: Array[MPricePlanMap] = {
       runInTransaction(
         sessFactory,

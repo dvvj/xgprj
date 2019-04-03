@@ -91,7 +91,7 @@ object UISvcHelpers {
 
   def updateOrgAgentOrderStats(orgAgentId:String, userToken:String):Array[MOrgAgentOrderStat] = {
     val j = SvcHelpers.post(
-      serverCfg.orderStatsOfURL,
+      serverCfg.orderStatsOfAgentURL,
       userToken,
       orgAgentId
     )
