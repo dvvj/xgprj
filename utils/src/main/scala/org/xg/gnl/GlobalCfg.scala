@@ -25,6 +25,7 @@ case class GlobalCfg(
   def pricePlanURL:String = s"$svcSvr/$PRICE_PLAN"
   def pricePlanCreatedByURL:String = s"$svcSvr/$PRICE_PLAN_CREATEDBY"
   def rewardPlanURL:String = s"$svcSvr/$REWARD_PLAN"
+  def rewardPlanCreatedByURL:String = s"$svcSvr/$REWARD_PLAN_CREATEDBY"
   def customersRefedByURL:String = s"$svcSvr/$CUSTOMERS_REFED_BY"
   def refedCustomerOrdersURL:String = s"$svcSvr/$ORDERS_BY_REFED_CUSTOMERS"
   def medprofsOfURL:String = s"$svcSvr/$MEDPROFS_OF"
@@ -33,6 +34,7 @@ case class GlobalCfg(
   def addNewMedProfURL:String = s"$svcSvr/$ADD_NEW_MEDPROF"
   def addNewCustomerURL:String = s"$svcSvr/$ADD_NEW_CUSTOMER"
   def addPricePlanURL:String = s"$svcSvr/$ADD_PRICE_PLAN"
+  def addRewardPlanURL:String = s"$svcSvr/$ADD_REWARD_PLAN"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
@@ -50,6 +52,8 @@ object GlobalCfg {
   private val PRICE_PLAN = "user/pricePlan"
   private val PRICE_PLAN_CREATEDBY = "user/pricePlanCreatedBy"
   private val REWARD_PLAN = "user/rewardPlan"
+  private val REWARD_PLAN_CREATEDBY = "user/rewardPlanCreatedBy"
+  private val ADD_REWARD_PLAN = "user/addRewardPlan"
   private val CUSTOMERS_REFED_BY = "prof/customers"
   private val ORDERS_BY_REFED_CUSTOMERS = "order/refedCustomerOrders"
   private val MEDPROFS_OF = "profOrgAgent/profs"

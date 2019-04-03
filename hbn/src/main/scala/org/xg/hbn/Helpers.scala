@@ -60,7 +60,7 @@ object Helpers {
   }
 
   def convertRewardPlan(pp:RewardPlan):MRewardPlan = {
-    MRewardPlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag)
+    MRewardPlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag, pp.getCreator)
   }
 
   import DataUtils._

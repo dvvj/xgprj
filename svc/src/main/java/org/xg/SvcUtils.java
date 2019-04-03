@@ -158,6 +158,18 @@ public class SvcUtils {
     return _rewardPlanMaps;
   }
 
+
+  public static void invalidatedRewardPlans() {
+    _rewardPlans = null;
+  }
+
+  public static MRewardPlan[] getRewardPlansCreatedBy(String creatorId) {
+    Map<String, MRewardPlan> plans = new HashMap<>(getRewardPlans());
+    MRewardPlan[] res = plans.values().stream().filter(p -> p.creator().equals(creatorId))
+      .toArray(MRewardPlan[]::new);
+    return res;
+  }
+
   public static MCustomer[] getCustomersRefedBy(String profId) {
     return getDbOps().customersRefedBy(profId);
   }

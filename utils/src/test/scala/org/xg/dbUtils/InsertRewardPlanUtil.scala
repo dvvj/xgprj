@@ -14,29 +14,30 @@ object InsertRewardPlanUtil {
   val PlanIdProdBasedBasic:String = "ProdBased-Basic"
   val PlanIdProdBasedAdvanced:String = "ProdBased-Advanced"
 
-  val plans:Array[(String, String, VTag, TRewardPlan)] = Array(
-    (PlanIdFixed001, "Fixed Rate 1%", FixedRate, RwPlFixedRate(0.01)),
-    (PlanIdFixed002, "Fixed Rate 2%", FixedRate, RwPlFixedRate(0.02)),
-    (PlanIdFixed020, "Fixed Rate 20%", FixedRate, RwPlFixedRate(0.2)),
-    (PlanIdFixed1_5, "Fixed Rate x 1.5, used only in combination with other plans", FixedRate, RwPlFixedRate(1.5)),
+  import org.xg.dbModels.MRewardPlan._
+  val plans:Array[(String, String, VTag, TRewardPlan, String)] = Array(
+    (PlanIdFixed001, "Fixed Rate 1%", FixedRate, RwPlFixedRate(0.01), builtInCreator),
+    (PlanIdFixed002, "Fixed Rate 2%", FixedRate, RwPlFixedRate(0.02), builtInCreator),
+    (PlanIdFixed020, "Fixed Rate 20%", FixedRate, RwPlFixedRate(0.2), builtInCreator),
+    (PlanIdFixed1_5, "Fixed Rate x 1.5, used only in combination with other plans", FixedRate, RwPlFixedRate(1.5), builtInCreator),
     (PlanIdProdBasedBasic, "Producted Based Basic, range: 1% - 3%", ProductBasedRates,
-      RwPlProdBasedRates(0.01, Map(1 -> 0.02, 2 -> 0.03))),
+      RwPlProdBasedRates(0.01, Map(1 -> 0.02, 2 -> 0.03)), builtInCreator),
     (PlanIdProdBasedAdvanced, "Producted Based Advanced, range: 2% - 5%", ProductBasedRates,
-      RwPlProdBasedRates(0.02, Map(1 -> 0.03, 2 -> 0.05))),
+      RwPlProdBasedRates(0.02, Map(1 -> 0.03, 2 -> 0.05)), builtInCreator),
   )
   def main(args:Array[String]):Unit = {
     insertPlans(plans)
   }
 
-  def insertPlans(planData:Array[(String, String, VTag, TRewardPlan)]):Unit = {
+  def insertPlans(planData:Array[(String, String, VTag, TRewardPlan, String)]):Unit = {
     val insertStatementTemplate =
-      "INSERT INTO reward_plans (id, info, defi, vtag)" +
+      "INSERT INTO reward_plans (id, info, defi, vtag, creator)" +
         "  VALUES (%s);"
 
     val insertStatements = planData.map { p =>
-      val (id, info, vtag, plan) = p
+      val (id, info, vtag, plan, creator) = p
       val params = List(
-        id, info, CommonUtils._toJson(plan), vtag.toString
+        id, info, CommonUtils._toJson(plan), vtag.toString, creator
       ).mkString("'", "','", "'")
       insertStatementTemplate.format(params)
     }

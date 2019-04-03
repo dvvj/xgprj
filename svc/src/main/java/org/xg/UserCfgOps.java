@@ -3,10 +3,7 @@ package org.xg;
 import org.xg.auth.Secured;
 import org.xg.busiLogic.PricePlanLogics;
 import org.xg.busiLogic.RewardPlanLogics;
-import org.xg.dbModels.MCustomer;
-import org.xg.dbModels.MMedProf;
-import org.xg.dbModels.MPricePlan;
-import org.xg.dbModels.TDbOps;
+import org.xg.dbModels.*;
 import org.xg.pay.pricePlan.TPricePlan;
 
 import javax.ws.rs.*;
@@ -108,6 +105,52 @@ public class UserCfgOps {
 
       return Response.ok(plansJson)
         .build();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException("Error", ex);
+    }
+  }
+
+  @Secured
+  @POST
+  @Path("addRewardPlan")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  public Response addRewardPlan(String json) {
+    try {
+      MRewardPlan plan = MRewardPlan.fromJson(json);
+      TDbOps dbOps = SvcUtils.getDbOps();
+
+      String planId = dbOps.addRewardPlan(plan);
+
+      SvcUtils.invalidatedRewardPlans();
+
+      return Response.status(Response.Status.CREATED)
+        .entity(planId)
+        .build();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException("Error", ex);
+    }
+  }
+
+
+  @Secured
+  @POST
+  @Path("rewardPlanCreatedBy")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  public Response rewardPlanCreatedBy(String creatorId) {
+    try {
+      MRewardPlan[] rewardPlans = SvcUtils.getRewardPlansCreatedBy(creatorId);
+
+      String j = MRewardPlan.toJsons(rewardPlans);
+//      if (pricePlan == null)
+//        logger.info(String.format("No price plan found for user [%s]", uid));
+
+      return Response.ok(j).build();
     }
     catch (Exception ex) {
       ex.printStackTrace();

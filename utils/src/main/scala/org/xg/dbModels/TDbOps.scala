@@ -180,6 +180,8 @@ trait TDbOps {
   def getOrderStat4OrgAgent(orgAgentId:String):Array[MOrgAgentOrderStat]
 
   def addPricePlan(prPlan:MPricePlan):String
+
+  def addRewardPlan(rwPlan:MRewardPlan):String
 }
 
 object TDbOps {

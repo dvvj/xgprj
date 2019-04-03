@@ -290,15 +290,17 @@ object TestDataSet {
     val RwPlanIdProdBasedBasic:String = "RwProdBased-Basic"
     val RwPlanIdProdBasedAdvanced:String = "RwProdBased-Advanced"
     import org.xg.pay.rewardPlan.RewardPlanSettings.VTag._
-    val planData = Array[(String, String, VTag, TRewardPlan)](
-      (RwPlanIdFixed010, "Fixed Rate 10%", FixedRate, RwPlFixedRate(0.1)),
-      (RwPlanIdFixed020, "Fixed Rate 20%", FixedRate, RwPlFixedRate(0.2)),
-      (RwPlanIdFixed030, "Fixed Rate 30%", FixedRate, RwPlFixedRate(0.3)),
-      (RwPlanIdModifier1_5, "Fixed Rate x 1.5, used only in combination with other plans", FixedRate, RwPlFixedRate(1.5)),
+    import org.xg.dbModels.MRewardPlan._
+
+    val planData = Array[(String, String, VTag, TRewardPlan, String)](
+      (RwPlanIdFixed010, "Fixed Rate 10%", FixedRate, RwPlFixedRate(0.1), builtInCreator),
+      (RwPlanIdFixed020, "Fixed Rate 20%", FixedRate, RwPlFixedRate(0.2), builtInCreator),
+      (RwPlanIdFixed030, "Fixed Rate 30%", FixedRate, RwPlFixedRate(0.3), builtInCreator),
+      (RwPlanIdModifier1_5, "Fixed Rate x 1.5, used only in combination with other plans", FixedRate, RwPlFixedRate(1.5), builtInCreator),
       (RwPlanIdProdBasedBasic, "Producted Based Basic, range: 10% - 30%", ProductBasedRates,
-        RwPlProdBasedRates(0.1, Map(1 -> 0.2, 2 -> 0.3))),
+        RwPlProdBasedRates(0.1, Map(1 -> 0.2, 2 -> 0.3)), builtInCreator),
       (RwPlanIdProdBasedAdvanced, "Producted Based Advanced, range: 20% - 40%", ProductBasedRates,
-        RwPlProdBasedRates(0.2, Map(1 -> 0.3, 2 -> 0.4))),
+        RwPlProdBasedRates(0.2, Map(1 -> 0.3, 2 -> 0.4)), builtInCreator),
     )
 
     val planMapData = Array(

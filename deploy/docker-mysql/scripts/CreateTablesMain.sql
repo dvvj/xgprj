@@ -105,6 +105,7 @@ CREATE TABLE reward_plans (
   info VARCHAR(4095) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   defi VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   vtag VARCHAR(31) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  creator VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (id)
 );
 

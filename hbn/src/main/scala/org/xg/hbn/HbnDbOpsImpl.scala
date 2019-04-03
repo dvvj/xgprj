@@ -74,6 +74,23 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def addRewardPlan(rwPlan:MRewardPlan):String = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val plan = new RewardPlan(
+            rwPlan.id,
+            rwPlan.info,
+            rwPlan.defi,
+            rwPlan.vtag.toString,
+            rwPlan.creator
+          )
+          sess.save(plan)
+          plan.getId
+        }
+      )
+    }
+
     override def addPricePlan(prPlan: MPricePlan): String = {
       runInTransaction(
         sessFactory,

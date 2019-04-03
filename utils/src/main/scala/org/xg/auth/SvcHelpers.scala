@@ -6,7 +6,7 @@ import org.xg.svc.{SvcCommonUtils, UserPass}
 import scalaj.http.{Http, HttpOptions}
 import java.util.function.{Function => JFunc}
 
-import org.xg.dbModels.MPricePlan
+import org.xg.dbModels.{MPricePlan, MRewardPlan}
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.pricePlan.v1.PrPlFixedRate
 import org.xg.pay.rewardPlan.TRewardPlan
@@ -149,9 +149,20 @@ object SvcHelpers {
     res
   }
 
+  def addRewardPlan(url:String, token:String, plan:MRewardPlan):String = {
+    val j = MRewardPlan.toJson(plan)
+    val res = post(url, token, j)
+    res
+  }
+
   def pricePlansBy(url:String, token:String, creatorId:String):Array[MPricePlan] = {
     val res = post(url, token, creatorId)
     MPricePlan.fromJsons(res)
+  }
+
+  def rewardPlansBy(url:String, token:String, creatorId:String):Array[MRewardPlan] = {
+    val res = post(url, token, creatorId)
+    MRewardPlan.fromJsons(res)
   }
 
 }
