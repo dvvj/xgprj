@@ -74,6 +74,23 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def addPricePlan(prPlan: MPricePlan): String = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val plan = new PricePlan(
+            prPlan.id,
+            prPlan.info,
+            prPlan.defi,
+            prPlan.vtag.toString,
+            prPlan.creator
+          )
+          sess.save(plan)
+          plan.getId
+        }
+      )
+    }
+
     override def allProfOrgAgents: Array[MProfOrgAgent] = {
       runInTransaction(
         sessFactory,

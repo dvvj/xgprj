@@ -22,18 +22,23 @@ public class PricePlan {
   @Column(name="vtag", length = 31, nullable = false)
   private String vtag;
 
+  @Column(name="creator", length = 255, nullable = false)
+  private String creator;
+
   public PricePlan() { }
 
   public PricePlan(
     String id,
     String info,
     String defi,
-    String vtag
+    String vtag,
+    String creator
   ) {
     this.id = id;
     this.info = info;
     this.defi = defi;
     this.vtag = vtag;
+    this.creator = creator;
   }
 
   public String getId() {
@@ -66,5 +71,13 @@ public class PricePlan {
 
   public void setVtag(String vtag) {
     this.vtag = vtag;
+  }
+
+  public String getCreator() {
+    return creator;
+  }
+
+  public void setCreator(String creator) {
+    this.creator = creator;
   }
 }

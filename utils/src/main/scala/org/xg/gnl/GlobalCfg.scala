@@ -23,6 +23,7 @@ case class GlobalCfg(
   def allProductsURL:String = s"$svcSvr/$ALLPRODUCTS"
   def imgAssetURL:String = s"$svcSvr/$IMAGE_ASSET"
   def pricePlanURL:String = s"$svcSvr/$PRICE_PLAN"
+  def pricePlanCreatedByURL:String = s"$svcSvr/$PRICE_PLAN_CREATEDBY"
   def rewardPlanURL:String = s"$svcSvr/$REWARD_PLAN"
   def customersRefedByURL:String = s"$svcSvr/$CUSTOMERS_REFED_BY"
   def refedCustomerOrdersURL:String = s"$svcSvr/$ORDERS_BY_REFED_CUSTOMERS"
@@ -31,6 +32,7 @@ case class GlobalCfg(
   def orderStatsOfURL:String = s"$svcSvr/$ORDERSTATS_OF"
   def addNewMedProfURL:String = s"$svcSvr/$ADD_NEW_MEDPROF"
   def addNewCustomerURL:String = s"$svcSvr/$ADD_NEW_CUSTOMER"
+  def addPricePlanURL:String = s"$svcSvr/$ADD_PRICE_PLAN"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
@@ -46,6 +48,7 @@ object GlobalCfg {
   private val ALLPRODUCTS = "product/all"
   private val IMAGE_ASSET = "asset/img"
   private val PRICE_PLAN = "user/pricePlan"
+  private val PRICE_PLAN_CREATEDBY = "user/pricePlanCreatedBy"
   private val REWARD_PLAN = "user/rewardPlan"
   private val CUSTOMERS_REFED_BY = "prof/customers"
   private val ORDERS_BY_REFED_CUSTOMERS = "order/refedCustomerOrders"
@@ -54,6 +57,7 @@ object GlobalCfg {
   private val ORDERSTATS_OF = "profOrgAgent/orderStats"
   private val ADD_NEW_MEDPROF = "profOrgAgent/addNewMedProf"
   private val ADD_NEW_CUSTOMER = "prof/newCustomer"
+  private val ADD_PRICE_PLAN = "user/addPricePlan"
 
   def fromJson(j:String):GlobalCfg = {
     import org.json4s.jackson.JsonMethods._

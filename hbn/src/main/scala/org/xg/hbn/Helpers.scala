@@ -56,7 +56,7 @@ object Helpers {
   }
 
   def convertPricePlan(pp:PricePlan):MPricePlan = {
-    MPricePlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag)
+    MPricePlan(pp.getId, pp.getInfo, pp.getDefi, pp.getVtag, pp.getCreator)
   }
 
   def convertRewardPlan(pp:RewardPlan):MRewardPlan = {

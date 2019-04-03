@@ -8,6 +8,7 @@ import org.xg.svc.AddNewCustomer;
 import org.xg.svc.AddNewMedProf;
 
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -116,6 +117,18 @@ public class SvcUtils {
       }
     }
     return _pricePlans;
+  }
+
+  public static void invalidatedPricePlans() {
+    _pricePlans = null;
+    //_pricePlanMaps = null;
+  }
+
+  public static MPricePlan[] getPricePlansCreatedBy(String creatorId) {
+    Map<String, MPricePlan> plans = new HashMap<>(getPricePlans());
+    MPricePlan[] res = plans.values().stream().filter(p -> p.creator().equals(creatorId))
+      .toArray(MPricePlan[]::new);
+    return res;
   }
 
   private static Object _lockRewardPlans = new Object();
