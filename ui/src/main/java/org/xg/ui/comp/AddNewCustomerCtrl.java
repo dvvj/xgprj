@@ -39,32 +39,43 @@ public class AddNewCustomerCtrl {
   JFXComboBox cmboPricePlanType;
 
   public void onAdd() {
-    AddNewCustomer newCustomer = new AddNewCustomer(
-      new MCustomer(
-        tfUid.getText(),
-        tfName.getText(),
-        tfIdCardNo.getText(),
-        tfMobile.getText(),
-        tfPostalAddr.getText(),
-        tfBDay.getText(),
-        Global.getCurrUid()
-      ),
-      pfNew.getText()
-    );
+    try {
+      AddNewCustomer newCustomer = new AddNewCustomer(
+        new MCustomer(
+          tfUid.getText(),
+          tfName.getText(),
+          tfIdCardNo.getText(),
+          tfMobile.getText(),
+          tfPostalAddr.getText(),
+          tfBDay.getText(),
+          Global.getCurrUid()
+        ),
+        pfNew.getText()
+      );
 
-    UISvcHelpers.addNewCustomer(newCustomer);
+      UISvcHelpers.addNewCustomer(newCustomer);
+      newCustomerCallback.run();
+    }
+    catch (Exception ex) {
+      Global.loggingTodo("Error adding customer: " + ex.getMessage());
+    }
   }
+
+  private Runnable newCustomerCallback;
 
   //private ListProperty<PricePlan> pricePlanList;
   private ListProperty<PricePlanOption> pricePlanOptionList;
 
-
-  private final static Integer NA = 0;
-  public void setup(ObservableList<PricePlanOption> pricePlans) {
+//  private final static Integer NA = 0;
+  public void setup(
+    ObservableList<PricePlanOption> pricePlans,
+    Runnable callback
+    ) {
     System.out.println("# price plans: " + pricePlans.size());
     //pricePlanList = new SimpleListProperty<>(pricePlans);
     pricePlanOptionList = new SimpleListProperty<>(pricePlans);
     cmboPricePlanType.itemsProperty().bind(pricePlanOptionList);
+    newCustomerCallback = callback;
 //    Helpers.uiTaskJ(
 //      () -> NA,
 //      na -> {

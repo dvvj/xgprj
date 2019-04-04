@@ -65,6 +65,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 
     txtSearch.setOnKeyReleased(e -> {
       filterAndUpdateTable2(
+        null,
         t -> {
           Set<String> strs = searchStringCollector.apply((T)t);
           return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
@@ -79,31 +80,23 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 //    ));
   }
 
-  public void filterAndUpdateTable2(Predicate<T> filter) {
+  public void filterAndUpdateTable2(ObservableList<T> updatedData, Predicate<T> filter) {
     Task<Integer> task = Helpers.uiTaskJ(
       () -> {
         return 0;
       },
       resp -> {
-        filterAndUpdateTable(filter);
+        filterAndUpdateTable(updatedData, filter);
         //highlighter.highlight(theTable, txtSearch.getText());
         return null;
       },
       1000
     );
     new Thread(task).start();
-//    if (productsCache != null && productsCache.size() > 0) {
-//      activeProducts = productsCache.filtered(filter);
-//
-//      UIHelpers.setRoot4TreeView(tblProducts, activeProducts);
-//      Global.loggingTodo(String.format("found %d products", activeProducts.size()));
-//      //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
-//      if (activeProducts.size() > 0) {
-//        TreeItem<Product> first =  tblProducts.getTreeItem(0);
-//        tblProducts.getSelectionModel().select(first);
-//        updateSelection(first.getValue());
-//      }
-//    }
+  }
+
+  private void filterAndUpdateTable2(Predicate<T> filter) {
+    filterAndUpdateTable2(null, filter);
   }
 
   private ObservableList<T> dataCache;
@@ -147,13 +140,12 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
       },
       resp -> {
         if (resp != null) {
-          dataCache = resp;
 //          UIHelpers.setRoot4TreeView(theTable, dataCache);
 //
 //          if (dataCache.size() > 0) {
 //            theTable.getSelectionModel().select(0);
 //          }
-          filterAndUpdateTable(t -> true);
+          filterAndUpdateTable(resp);
 
           uiUpdater.run();
         }
@@ -167,7 +159,18 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 
     new Thread(fetchCustomersTask).start();
   }
+
+  private void filterAndUpdateTable(ObservableList<T> data) {
+    filterAndUpdateTable(data, t -> true);
+  }
+
   private void filterAndUpdateTable(Predicate<T> filter) {
+    filterAndUpdateTable(null, filter);
+  }
+
+  private void filterAndUpdateTable(ObservableList<T> data, Predicate<T> filter) {
+    if (data != null)
+      dataCache = data;
     if (dataCache != null && dataCache.size() > 0) {
       highlighter.clear();
       activeDataCache = dataCache.filtered(filter);

@@ -317,10 +317,29 @@ public class MedProfsMain {
     VBox addNewProf = addNewCustomerLoader.load();
     addNewCustomerCtrl = addNewCustomerLoader.getController();
 
-    addNewCustomerCtrl.setup(dataModel.getPricePlanOptions());
+    addNewCustomerCtrl.setup(
+      dataModel.getPricePlanOptions(),
+      () -> updateCustomers()
+    );
 
     addNewCustomerTab.getChildren().add(addNewProf);
   }
+
+  private void updateCustomers() {
+    String profId = Global.getCurrUid();
+    String token = Global.getCurrToken();
+    Object[] raw = Helpers.paraActions(
+      new Supplier[] {
+        () -> UISvcHelpers.updateAllRefedCustomers(profId, token)
+      },
+      30000
+    );
+
+    dataModel.setCustomers((MCustomer[]) raw[0]);
+
+    customerCtrl.filterAndUpdateTable2(dataModel.getCustomers(), t -> true);
+  }
+
 
   @FXML
   VBox pricePlanTab;

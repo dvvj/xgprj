@@ -183,6 +183,7 @@ public class CustomerMain {
 //        System.out.println("New selection: " + newVal);
         //dataModel.setFilterOptionCode(newVal);
         orderTableCtrl.filterAndUpdateTable2(
+          null,
           CustomerDataModel.filterMap.get(newVal)
         );
         //refreshOrderList(newVal);

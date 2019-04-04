@@ -21,7 +21,9 @@ import java.util.stream.Collectors;
 
 public class MedProfsDataModel {
 
-  private final ObservableList<Customer> customers;
+  private ObservableList<Customer> customers;
+  private Map<String, Customer> customerMap;
+
   private final CustomerOrder[] rawOrders;
   private final ObservableList<CustomerOrder> customerOrders;
   private final TRewardPlan rewardPlan;
@@ -29,8 +31,32 @@ public class MedProfsDataModel {
   private final ObservableList<PricePlan> pricePlans;
   private final ObservableList<PricePlanOption> pricePlanOptions;
 
-  private final Map<String, Customer> customerMap;
   private final Map<Integer, Product> prodMap;
+
+  public void setCustomers(MCustomer[] customers) {
+    this.customers = FXCollections.observableArrayList(
+      Helpers.convCustomers(customers)
+    );
+    customerMap = this.customers.stream().collect(Collectors.toMap(Customer::getUid, Function.identity()));
+  }
+
+  private final static String NoPricePlanId = "c49a2438-fc30-4103-8e83-86f410a31ed4";
+  public final static PricePlanOption NoPricePlan = new PricePlanOption(
+    NoPricePlanId,
+    Global.AllRes.getString("addNewCustomer.pricePlanType.noPricePlan")
+  );
+
+  private static PricePlanOption[] createPricePlanOptions(MPricePlan[] pricePlans) {
+    PricePlanOption[] planOptions = Arrays.stream(pricePlans).map(p -> new PricePlanOption(p.id(), p.info()))
+      .toArray(PricePlanOption[]::new);
+
+    PricePlanOption[] res = new PricePlanOption[planOptions.length+1];
+    res[0] = NoPricePlan;
+    for (int i = 0; i < planOptions.length; i++) {
+      res[i+1] = planOptions[i];
+    }
+    return res;
+  }
 
   public MedProfsDataModel(
     MCustomer[] customers,
@@ -41,14 +67,10 @@ public class MedProfsDataModel {
   ) {
     Global.loggingTodo("price plans: " + pricePlans.length);
     PricePlan[] plans = Arrays.stream(pricePlans).map(PricePlan::fromM).toArray(PricePlan[]::new);
-    PricePlanOption[] planOptions = Arrays.stream(pricePlans).map(p -> new PricePlanOption(p.id(), p.info()))
-      .toArray(PricePlanOption[]::new);
+    PricePlanOption[] planOptions = createPricePlanOptions(pricePlans);
     this.pricePlans = FXCollections.observableArrayList(plans);
     this.pricePlanOptions = FXCollections.observableArrayList(planOptions);
-    this.customers = FXCollections.observableArrayList(
-      Helpers.convCustomers(customers)
-    );
-    customerMap = this.customers.stream().collect(Collectors.toMap(Customer::getUid, Function.identity()));
+    setCustomers(customers);
     rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap, rewardPlan);
     this.customerOrders = FXCollections.observableArrayList(rawOrders);
     this.prodMap = prodMap;
