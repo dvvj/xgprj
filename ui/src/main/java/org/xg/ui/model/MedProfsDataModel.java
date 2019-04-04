@@ -40,23 +40,7 @@ public class MedProfsDataModel {
     customerMap = this.customers.stream().collect(Collectors.toMap(Customer::getUid, Function.identity()));
   }
 
-  private final static String NoPricePlanId = "c49a2438-fc30-4103-8e83-86f410a31ed4";
-  public final static PricePlanOption NoPricePlan = new PricePlanOption(
-    NoPricePlanId,
-    Global.AllRes.getString("addNewCustomer.pricePlanType.noPricePlan")
-  );
 
-  private static PricePlanOption[] createPricePlanOptions(MPricePlan[] pricePlans) {
-    PricePlanOption[] planOptions = Arrays.stream(pricePlans).map(p -> new PricePlanOption(p.id(), p.info()))
-      .toArray(PricePlanOption[]::new);
-
-    PricePlanOption[] res = new PricePlanOption[planOptions.length+1];
-    res[0] = NoPricePlan;
-    for (int i = 0; i < planOptions.length; i++) {
-      res[i+1] = planOptions[i];
-    }
-    return res;
-  }
 
   public MedProfsDataModel(
     MCustomer[] customers,
@@ -67,9 +51,8 @@ public class MedProfsDataModel {
   ) {
     Global.loggingTodo("price plans: " + pricePlans.length);
     PricePlan[] plans = Arrays.stream(pricePlans).map(PricePlan::fromM).toArray(PricePlan[]::new);
-    PricePlanOption[] planOptions = createPricePlanOptions(pricePlans);
     this.pricePlans = FXCollections.observableArrayList(plans);
-    this.pricePlanOptions = FXCollections.observableArrayList(planOptions);
+    this.pricePlanOptions = PricePlanOption.pricePlanOptionsIncludingNone(pricePlans);
     setCustomers(customers);
     rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap, rewardPlan);
     this.customerOrders = FXCollections.observableArrayList(rawOrders);

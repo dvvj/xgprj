@@ -1,11 +1,12 @@
 package org.xg.svc
 
-import org.xg.dbModels.MCustomer
+import org.xg.dbModels.{MCustomer, MPricePlanMap}
 import org.xg.json.CommonUtils
 
 case class AddNewCustomer(
   customer:MCustomer,
-  pass:String
+  pass:String,
+  ppm:MPricePlanMap
 )
 
 object AddNewCustomer {

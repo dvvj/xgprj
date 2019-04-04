@@ -107,6 +107,14 @@ public class SvcUtils {
     return _pricePlanMaps;
   }
 
+  public static boolean addPricePlanMap(MPricePlanMap ppm) {
+    getDbOps().addPricePlanMap(ppm);
+    synchronized (_lockPricePlanMaps) {
+      _pricePlanMaps = getDbOps().allActivePricePlansJ();
+    }
+    return true;
+  }
+
 
   public static Map<String, MPricePlan> getPricePlans() {
     if (_pricePlans == null) {

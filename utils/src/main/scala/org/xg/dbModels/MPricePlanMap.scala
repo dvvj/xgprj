@@ -13,6 +13,7 @@ case class MPricePlanMap(
   import DataUtils._
   private val planIds:Array[String] = _planIds.split(",").map(_.trim)
   def getPlanIds:Array[String] = planIds
+  def planIdStr:String = _planIds
   private val startTime:ZonedDateTime = utcTimeFromStr(startTimeS)
   def getStartTime:ZonedDateTime = startTime
   private val expireTime:Option[ZonedDateTime] = expireTimes.map(utcTimeFromStr)

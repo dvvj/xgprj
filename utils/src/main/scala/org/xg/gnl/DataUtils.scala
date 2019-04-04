@@ -8,6 +8,7 @@ object DataUtils {
 
   val UTC:ZoneId = ZoneId.of("UTC")
   def utcTimeNow:ZonedDateTime = ZonedDateTime.now(UTC)
+  def utcTimeNowStr:String = zonedDateTime2Str(utcTimeNow)
 
   private val EmptyDateString = ""
   def zonedDateTime2Str(zdt:ZonedDateTime):String = {

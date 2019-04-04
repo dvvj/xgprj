@@ -184,6 +184,8 @@ trait TDbOps {
   def addRewardPlan(rwPlan:MRewardPlan):String
 
   def orderStatsOfOrg(orgId:String):Array[MOrgOrderStat]
+
+  def addPricePlanMap(ppm: MPricePlanMap):Boolean
 }
 
 object TDbOps {

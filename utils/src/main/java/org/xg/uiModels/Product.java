@@ -27,9 +27,9 @@ public class Product extends RecursiveTreeObject<Product> {
   public String getPriceDetail() {
     if (pricePlan != null) {
       Double actualPrice = getActualPrice();
-      Double discount = (1 - actualPrice / getPrice0())*100;
+      Long discount = Math.round((1 - actualPrice / getPrice0())*100);
       return String.format(
-        "%.2f (省%d%%)", actualPrice, discount.intValue()
+        "%.2f (省%d%%)", actualPrice, discount
       );
     }
     else {

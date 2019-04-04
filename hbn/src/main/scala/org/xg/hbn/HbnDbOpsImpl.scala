@@ -155,15 +155,21 @@ object HbnDbOpsImpl {
         sessFactory,
         { sess =>
           queryAndConvert(sess, classOf[PricePlanMap].getName, convertPricePlanMap)
-//          val ql = s"Select ppm from ${classOf[PricePlanMap].getName} ppm"
-//          val q = sess.createQuery(ql)
-//          val t = q.getResultList.asScala.map(_.asInstanceOf[PricePlanMap])
-//          //        t.foreach { c => println(AuthHelpers.hash2Str(c.getPassHash)) }
-//          val res = t.toArray.map(convertPricePlanMap)
-//          res
         }
       )
     }
+
+    override def addPricePlanMap(ppm: MPricePlanMap):Boolean = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val p = revConvertPricePlanMap(ppm)
+          sess.save(p)
+          true
+        }
+      )
+    }
+
 
     override def pricePlansByUid(uid: String): Array[MPricePlanMap] = {
       runInTransaction(

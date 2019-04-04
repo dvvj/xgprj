@@ -9,12 +9,15 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import org.xg.dbModels.MCustomer;
+import org.xg.dbModels.MPricePlanMap;
+import org.xg.gnl.DataUtils;
 import org.xg.svc.AddNewCustomer;
 import org.xg.ui.model.PricePlanOption;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiModels.PricePlan;
+import org.xg.user.UserType;
 
 import java.util.ArrayList;
 
@@ -36,13 +39,18 @@ public class AddNewCustomerCtrl {
   @FXML
   JFXPasswordField pfNew2;
   @FXML
-  JFXComboBox cmboPricePlanType;
+  JFXComboBox<PricePlanOption> cmboPricePlanType;
 
   public void onAdd() {
     try {
+      PricePlanOption pricePlanOption = cmboPricePlanType.getSelectionModel().getSelectedItem();
+      String uid = UserType.Customer().genUid(tfUid.getText().trim());
+      MPricePlanMap ppm = PricePlanOption.isValidPlan(pricePlanOption) ?
+        MPricePlanMap.createJ(uid, pricePlanOption.getPlan().id(), DataUtils.utcTimeNowStr(), null) : null;
+      System.out.println("MPricePlanMap: " + ppm);
       AddNewCustomer newCustomer = new AddNewCustomer(
         new MCustomer(
-          tfUid.getText(),
+          uid,
           tfName.getText(),
           tfIdCardNo.getText(),
           tfMobile.getText(),
@@ -50,7 +58,8 @@ public class AddNewCustomerCtrl {
           tfBDay.getText(),
           Global.getCurrUid()
         ),
-        pfNew.getText()
+        pfNew.getText(),
+        ppm
       );
 
       UISvcHelpers.addNewCustomer(newCustomer);

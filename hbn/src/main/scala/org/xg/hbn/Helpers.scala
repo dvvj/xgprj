@@ -78,6 +78,11 @@ object Helpers {
       zonedDateTime2Str(ppm.getExpireTime)
     )
   }
+  def revConvertPricePlanMap(ppm:MPricePlanMap):PricePlanMap = {
+    new PricePlanMap(
+      ppm.uid, ppm._planIds, ppm.getStartTime, ppm.getExpireTime.orNull
+    )
+  }
   def convertRewardPlanMap(ppm:RewardPlanMap):MRewardPlanMap = {
     MRewardPlanMap.createJ(ppm.getUid, ppm.getPlanIds,
       zonedDateTime2Str(ppm.getStartTime),
