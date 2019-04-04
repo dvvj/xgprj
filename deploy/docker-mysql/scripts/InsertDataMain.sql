@@ -213,6 +213,7 @@ INSERT INTO reward_plans (id, info, defi, vtag, creator)  VALUES ('RwFixed-0.2',
 INSERT INTO reward_plans (id, info, defi, vtag, creator)  VALUES ('RwFixed-0.3','所有商品30%','{"globalRate":0.3}','FixedRate','＿global');
 INSERT INTO reward_plans (id, info, defi, vtag, creator)  VALUES ('RwModifier-1.5','Fixed Rate x 1.5, used only in combination with other plans','{"globalRate":1.5}','FixedRate','＿global');
 INSERT INTO reward_plans (id, info, defi, vtag, creator)  VALUES ('RwProdBased-Basic','【商品1】20%，【商品2】30%，其余10%','{"globalRate":0.1,"prodRates":{"1":0.2,"2":0.3}}','ProductBasedRates','＿global');
+INSERT INTO reward_plans (id, info, defi, vtag, creator)  VALUES ('RwProdBased-Basic_A11','【商品1】20%，【商品2】30%，其余10%','{"globalRate":0.1,"prodRates":{"1":0.2,"2":0.3}}','ProductBasedRates','amp＿o1_agent1');
 INSERT INTO reward_plans (id, info, defi, vtag, creator)  VALUES ('RwProdBased-Advanced','【商品1】30%，【商品2】40%，其余20%','{"globalRate":0.2,"prodRates":{"1":0.3,"2":0.4}}','ProductBasedRates','＿global');
 
 INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('amp＿o1_agent1','RwFixed-0.2','2019-04-02T14:13:56.571');

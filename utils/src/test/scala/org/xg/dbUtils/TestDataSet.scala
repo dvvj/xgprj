@@ -289,6 +289,7 @@ object TestDataSet {
     val RwPlanIdFixed030:String = "RwFixed-0.3"
     val RwPlanIdModifier1_5:String = "RwModifier-1.5"
     val RwPlanIdProdBasedBasic:String = "RwProdBased-Basic"
+    val RwPlanIdProdBasedBasic_A11:String = "RwProdBased-Basic_A11"
     val RwPlanIdProdBasedAdvanced:String = "RwProdBased-Advanced"
     import org.xg.pay.rewardPlan.RewardPlanSettings.VTag._
     import org.xg.dbModels.MRewardPlan._
@@ -301,6 +302,8 @@ object TestDataSet {
       (RwPlanIdModifier1_5, "Fixed Rate x 1.5, used only in combination with other plans", FixedRate, RwPlFixedRate(1.5), builtInCreator),
       (RwPlanIdProdBasedBasic, "【商品1】20%，【商品2】30%，其余10%", ProductBasedRates,
         RwPlProdBasedRates(0.1, Map(1 -> 0.2, 2 -> 0.3)), builtInCreator),
+      (RwPlanIdProdBasedBasic_A11, "【商品1】20%，【商品2】30%，其余10%", ProductBasedRates,
+        RwPlProdBasedRates(0.1, Map(1 -> 0.2, 2 -> 0.3)), agentId11),
       (RwPlanIdProdBasedAdvanced, "【商品1】30%，【商品2】40%，其余20%", ProductBasedRates,
         RwPlProdBasedRates(0.2, Map(1 -> 0.3, 2 -> 0.4)), builtInCreator),
     )
