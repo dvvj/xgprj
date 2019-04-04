@@ -42,9 +42,7 @@
                     <StackPane fx:id="customersTab">
                     </StackPane>
                     <VBox>
-                        <VBox fx:id="vboxChartCurrCustomer">
-
-                        </VBox>
+                        <VBox fx:id="vboxChartCurrCustomer" />
                         <VBox fx:id="vboxChartAll" />
                     </VBox>
                 </HBox>
@@ -52,6 +50,9 @@
             <Tab text="%medprofs.tab.customerOrderTable.heading">
                 <StackPane fx:id="ordersTab">
                 </StackPane>
+            </Tab>
+            <Tab text="%medprofs.tab.pricePlans.heading">
+                <VBox fx:id="pricePlanTab" />
             </Tab>
             <Tab text="%medprofs.tab.addNewCustomer.heading">
                 <VBox fx:id="addNewCustomerTab">

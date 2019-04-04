@@ -18,6 +18,9 @@ import javafx.scene.layout.VBox;
 import org.xg.chart.ChartHelpers;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
+import org.xg.dbModels.MPricePlan;
+import org.xg.gnl.DataUtils;
+import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
@@ -29,6 +32,7 @@ import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
+import org.xg.uiModels.PricePlan;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -53,6 +57,7 @@ public class MedProfsMain {
       new Supplier[] {
         () -> UISvcHelpers.updateAllRefedCustomers(profId, token),
         () -> UISvcHelpers.updateAllOrdersOfRefedCustomers(profId, token),
+        () -> UISvcHelpers.updatePricePlansOfProf(profId, token),
         () -> UISvcHelpers.updateRewardPlans(profId, token)
       },
       30000
@@ -61,8 +66,9 @@ public class MedProfsMain {
     dataModel = new MedProfsDataModel(
       (MCustomer[])raw[0],
       (MOrder[])raw[1],
+      (MPricePlan[])raw[2],
       Global.getProductMap(),
-      (TRewardPlan)raw[2]
+      (TRewardPlan)raw[3]
     );
 
     double totalReward = dataModel.calcTotalReward();
@@ -81,8 +87,7 @@ public class MedProfsMain {
     //productLoader.setLocation(path);
     table = tableLoader.load();
     customerCtrl = tableLoader.getController();
-    TreeTableViewWithFilterCtrl tblCtrl = tableLoader.getController();
-    tblCtrl.setup(
+    customerCtrl.setup(
 //        "customerTable.toolbar.heading",
       "customerTable.toolbar.refresh",
       "customerTable.toolbar.searchPrompt",
@@ -100,7 +105,7 @@ public class MedProfsMain {
       }
     );
 
-    tblCtrl.setupColumsAndLoadData(
+    customerCtrl.setupColumsAndLoadData(
       tbl -> {
         JFXTreeTableView<Customer> theTable = (JFXTreeTableView<Customer>)tbl;
         theTable.getColumns().addAll(
@@ -129,7 +134,7 @@ public class MedProfsMain {
       },
       () -> dataModel.getCustomers(),
       () -> {
-        double m = createBarChartsAll();
+        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
         maxChartValue.setValue(m);
         selectedCustomer.bind(customerCtrl.getSelected());
       }
@@ -138,6 +143,7 @@ public class MedProfsMain {
     selectedCustomer.addListener((observable, oldValue, newValue) -> {
       if (newValue != null) {
         String customerId = newValue.getUid();
+        System.out.println("current customer " + customerId);
         createBarChartCurrCustomer(customerId, newValue.getName());
       }
     });
@@ -291,7 +297,7 @@ public class MedProfsMain {
       loadDataModel();
       loadCustomerOrderTable();
       loadCustomerTable();
-
+      loadPricePlanTable();
       loadAddNewCustomerTab();
     }
     catch (Exception ex) {
@@ -308,5 +314,72 @@ public class MedProfsMain {
     VBox addNewProf = addNewCustomerLoader.load();
 
     addNewCustomerTab.getChildren().add(addNewProf);
+  }
+
+  @FXML
+  VBox pricePlanTab;
+  TreeTableViewWithFilterCtrl<PricePlan> pricePlanCtrl;
+
+  private void loadPricePlanTable() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
+    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
+    VBox table;
+
+    //productLoader.setLocation(path);
+    table = tableLoader.load();
+    pricePlanCtrl = tableLoader.getController();
+
+    pricePlanCtrl.setup(
+//        "customerTable.toolbar.heading",
+      "pricePlanTable.toolbar.refresh",
+      "pricePlanTable.toolbar.searchPrompt",
+      "pricePlanTable.toolbar.filter",
+      "pricePlanTable.emptyPlaceHolder",
+      pricePlan -> {
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          pricePlan.getInfo()
+        ));
+        return strs;
+      }
+    );
+
+    pricePlanCtrl.setupColumsAndLoadData(
+      theTable -> {
+        theTable.getColumns().addAll(
+//            TableViewHelper.jfxTableColumnResBundle(
+//              "customerTable.uid",
+//              Global.AllRes,
+//              100,
+//              Customer::getUid
+//            ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "pricePlanTable.type",
+            Global.AllRes,
+            200,
+            PricePlan::getVtag
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "pricePlanTable.info",
+            Global.AllRes,
+            400,
+            PricePlan::getInfo
+          )
+        );
+
+        UIHelpers.setPlaceHolder4TreeView(theTable, "pricePlanTable.placeHolder");
+
+      },
+      () -> dataModel.getPricePlans(),
+      () -> {
+//        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
+//        maxChartValue.setValue(m);
+//        selectedCustomer.bind(customerCtrl.getSelected());
+      }
+    );
+
+    //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
+    //System.out.println("data :" + dataModel.getOrderData().length);
+    pricePlanTab.getChildren().addAll(table);
   }
 }

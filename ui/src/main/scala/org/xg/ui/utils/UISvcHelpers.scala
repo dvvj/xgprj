@@ -2,8 +2,10 @@ package org.xg.ui.utils
 
 import javafx.collections.{FXCollections, ObservableList}
 import org.xg.auth.SvcHelpers
+import org.xg.busiLogic.PricePlanLogics
 import org.xg.dbModels._
 import org.xg.gnl.GlobalCfg
+import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.svc.{AddNewCustomer, AddNewMedProf}
 import org.xg.uiModels.Order
@@ -121,7 +123,7 @@ object UISvcHelpers {
   }
 
   def updateAllOrders(token:String): Array[Order] = {
-    val cfg = UISvcHelpers.serverCfg
+    val cfg = serverCfg
 
     val j = SvcHelpers.get(cfg.currOrdersURL, token)
     val morders = MOrder.fromJsons(j)
@@ -131,4 +133,15 @@ object UISvcHelpers {
 
   def updateRewardPlans(uid:String, userToken:String):TRewardPlan =
     SvcHelpers.getRewardPlan4UserJ(serverCfg.rewardPlanURL, uid, userToken)
+
+  def updatePricePlansOfProf(profId:String, token:String):Array[MPricePlan] = {
+    val mps = SvcHelpers.postDecArray(
+      serverCfg.pricePlanCreatedByURL,
+      token,
+      profId,
+      MPricePlan.fromJsons
+    )
+
+    mps
+  }
 }

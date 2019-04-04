@@ -318,17 +318,24 @@ object TestDataSet {
     import MPricePlan._
 
     val PrPlanIdFixed09:String = "PrFixed-0.9"
+    val PrPlanIdFixed09_P111:String = "PrFixed-0.9_P111"
     val PrPlanIdFixed095:String = "PrFixed-0.95"
     val PrPlanIdProdBasedBasic:String = "PrProdBased-Basic"
+    val PrPlanIdProdBasedBasic_P111:String = "PrProdBased-Basic_P111"
     val PrPlanIdProdBasedAdvanced:String = "PrProdBased-Advanced"
     val planData = Array[(String, String, VTag, TPricePlan, String)](
-      (PrPlanIdFixed09, "Fixed Rate 90%", FixedRate, PrPlFixedRate(0.9), builtInCreator),
-      (PrPlanIdFixed095, "Fixed Rate 95%", FixedRate, PrPlFixedRate(0.95), builtInCreator),
-      (PrPlanIdProdBasedBasic, "Producted Based Basic, range: 85% - 95%", ProductBasedRates,
+      (PrPlanIdFixed09_P111, "所有商品9折", FixedRate, PrPlFixedRate(0.9), profId111),
+      (PrPlanIdFixed09, "所有商品9折", FixedRate, PrPlFixedRate(0.9), builtInCreator),
+      (PrPlanIdFixed095, "所有商品95折", FixedRate, PrPlFixedRate(0.95), builtInCreator),
+      (PrPlanIdProdBasedBasic, "【商品1】9折，【商品2】85折，其余95折", ProductBasedRates,
         PrPlProdBasedRates(0.95, Map(1 -> 0.9, 2 -> 0.85)), builtInCreator),
-      (PrPlanIdProdBasedAdvanced, "Producted Based Advanced, range: 80% - 90%", ProductBasedRates,
-        PrPlProdBasedRates(0.85, Map(1 -> 0.8, 2 -> 0.9)), builtInCreator),
+      (PrPlanIdProdBasedBasic_P111, "【商品1】9折，【商品2】85折，其余95折", ProductBasedRates,
+        PrPlProdBasedRates(0.95, Map(1 -> 0.9, 2 -> 0.85)), profId111),
+      (PrPlanIdProdBasedAdvanced, "【商品1】8折，【商品2】85折，其余9折", ProductBasedRates,
+        PrPlProdBasedRates(0.9, Map(1 -> 0.8, 2 -> 0.85)), builtInCreator),
     )
+
+
   }
 
 }

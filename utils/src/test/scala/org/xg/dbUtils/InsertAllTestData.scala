@@ -42,11 +42,11 @@ object InsertAllTestData {
     //insertAllUsers()
 //    println()
 //    insertOrders()
-    println()
-    insertRewardPlans()
+//    println()
+//    insertRewardPlans()
 //    println()
 //    insertRewardPlanMap()
-//    println()
-//    insertPricePlans()
+    println()
+    insertPricePlans()
   }
 }

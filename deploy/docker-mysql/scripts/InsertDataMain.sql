@@ -221,7 +221,9 @@ INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('mp＿o1a1_prof
 INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('mp＿o1a2_prof1','RwProdBased-Basic,RwModifier-1.5','2019-04-02T14:13:56.595');
 INSERT INTO reward_plan_map (uid, plan_ids, start_time)  VALUES ('amp＿o2_agent1','RwProdBased-Advanced','2019-04-02T14:13:56.595');
 
-INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrFixed-0.9','Fixed Rate 90%','{"globalRate":0.9}','FixedRate','＿global');
-INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrFixed-0.95','Fixed Rate 95%','{"globalRate":0.95}','FixedRate','＿global');
-INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrProdBased-Basic','Producted Based Basic, range: 85% - 95%','{"globalRate":0.95,"prodRates":{"1":0.9,"2":0.85}}','ProductBasedRates','＿global');
-INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrProdBased-Advanced','Producted Based Advanced, range: 80% - 90%','{"globalRate":0.85,"prodRates":{"1":0.8,"2":0.9}}','ProductBasedRates','＿global');
+INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrFixed-0.9_P111','所有商品9折','{"globalRate":0.9}','FixedRate','mp＿o1a1_prof1');
+INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrFixed-0.9','所有商品9折','{"globalRate":0.9}','FixedRate','＿global');
+INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrFixed-0.95','所有商品95折','{"globalRate":0.95}','FixedRate','＿global');
+INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrProdBased-Basic','【商品1】9折，【商品2】85折，其余95折','{"globalRate":0.95,"prodRates":{"1":0.9,"2":0.85}}','ProductBasedRates','＿global');
+INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrProdBased-Basic_P111','【商品1】9折，【商品2】85折，其余95折','{"globalRate":0.95,"prodRates":{"1":0.9,"2":0.85}}','ProductBasedRates','mp＿o1a1_prof1');
+INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrProdBased-Advanced','【商品1】8折，【商品2】85折，其余9折','{"globalRate":0.9,"prodRates":{"1":0.8,"2":0.85}}','ProductBasedRates','＿global');
