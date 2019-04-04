@@ -10,6 +10,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.xg.ui.comp.AddNewCustomerCtrl"
@@ -24,8 +25,9 @@
     <JFXTextField fx:id="tfPostalAddr" text="addr1" promptText="%addCustomer.postalAddr.prompt"/>
     <JFXTextField fx:id="tfBDay" text="bday1" promptText="%addCustomer.bDay.prompt"/>
     <JFXPasswordField fx:id="pfNew" text="123" promptText="%addCustomer.newPassowrd.prompt" />
+    <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addCustomer.repeatPassowrd.prompt" />
     <HBox spacing="10">
-        <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addCustomer.repeatPassowrd.prompt" />
+        <JFXComboBox fx:id="cmboPricePlanType" promptText="%addNewCustomer.pricePlanType.prompt" />
         <JFXButton text="%addCustomer.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
     </HBox>
 </VBox>

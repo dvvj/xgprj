@@ -27,6 +27,7 @@ public class MedProfsDataModel {
   private final TRewardPlan rewardPlan;
 
   private final ObservableList<PricePlan> pricePlans;
+  private final ObservableList<PricePlanOption> pricePlanOptions;
 
   private final Map<String, Customer> customerMap;
   private final Map<Integer, Product> prodMap;
@@ -40,7 +41,10 @@ public class MedProfsDataModel {
   ) {
     Global.loggingTodo("price plans: " + pricePlans.length);
     PricePlan[] plans = Arrays.stream(pricePlans).map(PricePlan::fromM).toArray(PricePlan[]::new);
+    PricePlanOption[] planOptions = Arrays.stream(pricePlans).map(p -> new PricePlanOption(p.id(), p.info()))
+      .toArray(PricePlanOption[]::new);
     this.pricePlans = FXCollections.observableArrayList(plans);
+    this.pricePlanOptions = FXCollections.observableArrayList(planOptions);
     this.customers = FXCollections.observableArrayList(
       Helpers.convCustomers(customers)
     );
@@ -76,5 +80,9 @@ public class MedProfsDataModel {
       return Helpers.calcRewards(rewardPlan, rawOrders, prodMap);
     else
       return 0.0;
+  }
+
+  public ObservableList<PricePlanOption> getPricePlanOptions() {
+    return pricePlanOptions;
   }
 }

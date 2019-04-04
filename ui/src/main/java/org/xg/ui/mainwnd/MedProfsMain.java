@@ -23,6 +23,7 @@ import org.xg.gnl.DataUtils;
 import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
+import org.xg.ui.comp.AddNewCustomerCtrl;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.uiModels.Customer;
 import org.xg.uiModels.CustomerOrder;
@@ -308,10 +309,15 @@ public class MedProfsMain {
 
   @FXML
   VBox addNewCustomerTab;
+
+  private AddNewCustomerCtrl addNewCustomerCtrl;
   private void loadAddNewCustomerTab() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/AddNewCustomer.fxml");
     FXMLLoader addNewCustomerLoader = new FXMLLoader(path, Global.AllRes);
     VBox addNewProf = addNewCustomerLoader.load();
+    addNewCustomerCtrl = addNewCustomerLoader.getController();
+
+    addNewCustomerCtrl.setup(dataModel.getPricePlanOptions());
 
     addNewCustomerTab.getChildren().add(addNewProf);
   }
