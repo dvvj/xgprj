@@ -17,16 +17,27 @@ import java.util.stream.Collectors;
 
 public class ProfOrgAgentDataModel {
 
-  private final ObservableList<MedProf> medProfs;
+  private ObservableList<MedProf> medProfs;
   private final OrgAgentOrderStat[] rawOrderStats;
   private final ObservableList<OrgAgentOrderStat> orderStats;
-  private final Map<String, MedProf> profMap;
+  private Map<String, MedProf> profMap;
   private final ObservableList<RewardPlan> ownedRewardPlans;
+  private final ObservableList<RewardPlanOption> rewardPlanOptions;
   private final TRewardPlan rewardPlan;
   private final Map<Integer, Product> prodMap;
 
   public ObservableList<RewardPlan> getOwnedRewardPlans() {
     return ownedRewardPlans;
+  }
+
+  public void setMedProfs(MMedProf[] medProfs) {
+    MedProf[] profs = Helpers.convMedProfs(medProfs);
+    profMap = Arrays.stream(profs).collect(
+      Collectors.toMap(
+        MedProf::getUid, Function.identity()
+      )
+    );
+    this.medProfs = FXCollections.observableArrayList(profs);
   }
 
   public ProfOrgAgentDataModel(
@@ -36,15 +47,10 @@ public class ProfOrgAgentDataModel {
     Map<Integer, Product> prodMap,
     TRewardPlan rewardPlan
   ) {
-    MedProf[] profs = Helpers.convMedProfs(medProfs);
-    profMap = Arrays.stream(profs).collect(
-      Collectors.toMap(
-        MedProf::getUid, Function.identity()
-      )
-    );
+    setMedProfs(medProfs);
     RewardPlan[] plans = Arrays.stream(rewardPlans).map(RewardPlan::fromM).toArray(RewardPlan[]::new);
     this.ownedRewardPlans = FXCollections.observableArrayList(plans);
-    this.medProfs = FXCollections.observableArrayList(profs);
+    rewardPlanOptions = RewardPlanOption.pricePlanOptionsIncludingNone(rewardPlans);
     rawOrderStats = Helpers.convOrgAgentOrderStats(orderStats, profMap, rewardPlan);
     this.orderStats = FXCollections.observableArrayList(rawOrderStats);
     this.rewardPlan = rewardPlan;
@@ -68,5 +74,13 @@ public class ProfOrgAgentDataModel {
       return Helpers.calcRewards(rewardPlan, rawOrderStats, prodMap);
     else
       return 0.0;
+  }
+
+  public ObservableList<RewardPlanOption> getRewardPlanOptions() {
+    return rewardPlanOptions;
+  }
+
+  public TRewardPlan getRewardPlan() {
+    return rewardPlan;
   }
 }

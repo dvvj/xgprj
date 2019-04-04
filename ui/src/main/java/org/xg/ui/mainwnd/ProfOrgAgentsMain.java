@@ -19,6 +19,7 @@ import org.xg.dbModels.MRewardPlan;
 import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
+import org.xg.ui.comp.AddNewMedProfCtrl;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.uiModels.MedProf;
 import org.xg.ui.model.ProfOrgAgentDataModel;
@@ -363,15 +364,35 @@ public class ProfOrgAgentsMain {
 
   @FXML
   VBox addNewProfsTab;
+
   private void loadAddNewProfsTab() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/AddNewMedProf.fxml");
     FXMLLoader addNewProfLoader = new FXMLLoader(path, Global.AllRes);
     VBox addNewProf = addNewProfLoader.load();
-
+    AddNewMedProfCtrl ctrl = addNewProfLoader.getController();
+    ctrl.setup(
+      dataModel.getRewardPlanOptions(),
+      () -> updateMedProfs()
+    );
 
     addNewProfsTab.getChildren().addAll(addNewProf);
 
   }
+  private void updateMedProfs() {
+    String agentId = Global.getCurrUid();
+    String token = Global.getCurrToken();
+    Object[] raw = Helpers.paraActions(
+      new Supplier[] {
+        () -> UISvcHelpers.updateMedProfsOf(agentId, token)
+      },
+      10000
+    );
+
+    dataModel.setMedProfs((MMedProf[])raw[0]);
+
+    profCtrl.filterAndUpdateTable2(dataModel.getMedProfs(), t -> true);
+  }
+
   @FXML
   VBox updatePasswordTab;
   private void loadUpdatePasswordTab() throws Exception {
@@ -394,6 +415,7 @@ public class ProfOrgAgentsMain {
     //productLoader.setLocation(path);
     table = tableLoader.load();
     rewardPlanCtrl = tableLoader.getController();
+
     rewardPlanCtrl.setup(
 //        "customerTable.toolbar.heading",
       "rewardPlanTable.toolbar.refresh",
