@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import org.xg.chart.ChartHelpers;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgAgentOrderStat;
+import org.xg.dbModels.MRewardPlan;
 import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
@@ -27,6 +28,7 @@ import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiModels.OrgAgentOrderStat;
+import org.xg.uiModels.RewardPlan;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -198,6 +200,7 @@ public class ProfOrgAgentsMain {
       loadDataModel();
       loadOrderStatsTab();
       loadMedProfsTab();
+      loadRewardPlansTab();
       loadAddNewProfsTab();
       loadUpdatePasswordTab();
     }
@@ -216,6 +219,7 @@ public class ProfOrgAgentsMain {
       new Supplier[] {
         () -> UISvcHelpers.updateMedProfsOf(orgAgentId, token),
         () -> UISvcHelpers.updateOrgAgentOrderStats(orgAgentId, token),
+        () -> UISvcHelpers.updateRewardPlansCreatedBy(orgAgentId, token),
         () -> UISvcHelpers.updateRewardPlans(orgAgentId, token)
       },
       30000
@@ -226,8 +230,9 @@ public class ProfOrgAgentsMain {
     dataModel = new ProfOrgAgentDataModel(
       profs,
       (MOrgAgentOrderStat[])raw[1],
+      (MRewardPlan[])raw[2],
       Global.getProductMap(),
-      (TRewardPlan)raw[2]
+      (TRewardPlan)raw[3]
     );
 
     double totalReward = dataModel.calcTotalReward();
@@ -375,6 +380,66 @@ public class ProfOrgAgentsMain {
     VBox updatePass = updatePassLoader.load();
 
     updatePasswordTab.getChildren().addAll(updatePass);
+
+  }
+
+  @FXML
+  VBox rewardPlanTab;
+  TreeTableViewWithFilterCtrl<RewardPlan> rewardPlanCtrl;
+  private void loadRewardPlansTab() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
+    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
+    VBox table;
+
+    //productLoader.setLocation(path);
+    table = tableLoader.load();
+    rewardPlanCtrl = tableLoader.getController();
+    rewardPlanCtrl.setup(
+//        "customerTable.toolbar.heading",
+      "rewardPlanTable.toolbar.refresh",
+      "rewardPlanTable.toolbar.searchPrompt",
+      "rewardPlanTable.toolbar.filter",
+      "rewardPlanTable.emptyPlaceHolder",
+      c -> {
+        RewardPlan plan = c;
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          plan.getInfo()
+        ));
+        return strs;
+      }
+    );
+
+    rewardPlanCtrl.setupColumsAndLoadData(
+      theTable -> {
+        theTable.getColumns().addAll(
+//            TableViewHelper.jfxTableColumnResBundle(
+//              "customerTable.uid",
+//              Global.AllRes,
+//              100,
+//              Customer::getUid
+//            ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "rewardPlanTable.type",
+            Global.AllRes,
+            200,
+            RewardPlan::getVtag
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "rewardPlanTable.info",
+            Global.AllRes,
+            400,
+            RewardPlan::getInfo
+          )
+        );
+
+        UIHelpers.setPlaceHolder4TreeView(theTable, "rewardPlanTable.placeHolder");
+
+      },
+      () -> dataModel.getOwnedRewardPlans()
+    );
+
+    rewardPlanTab.getChildren().addAll(table);
 
   }
 }

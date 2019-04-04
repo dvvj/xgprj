@@ -284,6 +284,7 @@ object TestDataSet {
 
   object RewardPlans {
     val RwPlanIdFixed010:String = "RwFixed-0.1"
+    val RwPlanIdFixed010_A11:String = "RwFixed-0.1_A11"
     val RwPlanIdFixed020:String = "RwFixed-0.2"
     val RwPlanIdFixed030:String = "RwFixed-0.3"
     val RwPlanIdModifier1_5:String = "RwModifier-1.5"
@@ -293,13 +294,14 @@ object TestDataSet {
     import org.xg.dbModels.MRewardPlan._
 
     val planData = Array[(String, String, VTag, TRewardPlan, String)](
-      (RwPlanIdFixed010, "Fixed Rate 10%", FixedRate, RwPlFixedRate(0.1), builtInCreator),
-      (RwPlanIdFixed020, "Fixed Rate 20%", FixedRate, RwPlFixedRate(0.2), builtInCreator),
-      (RwPlanIdFixed030, "Fixed Rate 30%", FixedRate, RwPlFixedRate(0.3), builtInCreator),
+      (RwPlanIdFixed010, "所有商品10%", FixedRate, RwPlFixedRate(0.1), builtInCreator),
+      (RwPlanIdFixed010_A11, "所有商品10%", FixedRate, RwPlFixedRate(0.1), agentId11),
+      (RwPlanIdFixed020, "所有商品20%", FixedRate, RwPlFixedRate(0.2), builtInCreator),
+      (RwPlanIdFixed030, "所有商品30%", FixedRate, RwPlFixedRate(0.3), builtInCreator),
       (RwPlanIdModifier1_5, "Fixed Rate x 1.5, used only in combination with other plans", FixedRate, RwPlFixedRate(1.5), builtInCreator),
-      (RwPlanIdProdBasedBasic, "Producted Based Basic, range: 10% - 30%", ProductBasedRates,
+      (RwPlanIdProdBasedBasic, "【商品1】20%，【商品2】30%，其余10%", ProductBasedRates,
         RwPlProdBasedRates(0.1, Map(1 -> 0.2, 2 -> 0.3)), builtInCreator),
-      (RwPlanIdProdBasedAdvanced, "Producted Based Advanced, range: 20% - 40%", ProductBasedRates,
+      (RwPlanIdProdBasedAdvanced, "【商品1】30%，【商品2】40%，其余20%", ProductBasedRates,
         RwPlProdBasedRates(0.2, Map(1 -> 0.3, 2 -> 0.4)), builtInCreator),
     )
 

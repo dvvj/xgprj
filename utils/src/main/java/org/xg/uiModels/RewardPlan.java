@@ -1,27 +1,25 @@
 package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import org.xg.dbModels.MPricePlan;
-import org.xg.pay.pricePlan.TPricePlan;
+import org.xg.dbModels.MRewardPlan;
+import org.xg.pay.rewardPlan.TRewardPlan;
 
-public class PricePlan extends RecursiveTreeObject<PricePlan> {
+public class RewardPlan extends RecursiveTreeObject<RewardPlan> {
   private String planId;
   private String vtag;
   private String info;
-  //private TPricePlan plan;
 
-  public PricePlan() { }
+  public RewardPlan() { }
 
-  public PricePlan(
+  public RewardPlan(
     String planId,
     String vtag,
     String info
-    //TPricePlan plan
+
   ) {
     this.planId = planId;
     this.vtag = vtag;
     this.info = info;
-    //this.plan = plan;
   }
 
   public String getPlanId() {
@@ -48,12 +46,8 @@ public class PricePlan extends RecursiveTreeObject<PricePlan> {
     this.info = info;
   }
 
-//  public TPricePlan getPlan() {
-//    return plan;
-//  }
-
-  public static PricePlan fromM(MPricePlan p) {
-    return new PricePlan(
+  public static RewardPlan fromM(MRewardPlan p) {
+    return new RewardPlan(
       p.id(),
       p.vtag(),
       p.info()

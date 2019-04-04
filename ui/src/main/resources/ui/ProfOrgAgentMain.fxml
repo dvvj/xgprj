@@ -29,6 +29,9 @@
                 <StackPane fx:id="orderStatsTab">
                 </StackPane>
             </Tab>
+            <Tab text="%orgagent.tab.rewardPlans.heading">
+                <VBox fx:id="rewardPlanTab" />
+            </Tab>
             <Tab text="%orgagent.tab.addNewProfs.heading">
                 <VBox fx:id="addNewProfsTab" spacing="20">
                 </VBox>

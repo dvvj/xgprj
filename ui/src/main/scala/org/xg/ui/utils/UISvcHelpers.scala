@@ -144,4 +144,15 @@ object UISvcHelpers {
 
     mps
   }
+
+  def updateRewardPlansCreatedBy(uid:String, token:String):Array[MRewardPlan] = {
+    val mps = SvcHelpers.postDecArray(
+      serverCfg.rewardPlanCreatedByURL,
+      token,
+      uid,
+      MRewardPlan.fromJsons
+    )
+
+    mps
+  }
 }
