@@ -1,11 +1,12 @@
 package org.xg.svc
 
-import org.xg.dbModels.MMedProf
+import org.xg.dbModels.{MMedProf, MRewardPlan, MRewardPlanMap}
 import org.xg.json.CommonUtils
 
 case class AddNewMedProf(
   medProf:MMedProf,
-  pass:String
+  pass:String,
+  rewardPlan:MRewardPlanMap
 )
 
 object AddNewMedProf {

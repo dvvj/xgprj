@@ -20,7 +20,7 @@ public class RewardPlanMap {
   @Column(name="start_time", nullable = false)
   private ZonedDateTime startTime;
 
-  @Column(name="expire_time", nullable = false)
+  @Column(name="expire_time")
   private ZonedDateTime expireTime;
 
   public RewardPlanMap() { }

@@ -21,7 +21,7 @@ public class Product extends RecursiveTreeObject<Product> {
   }
 
   public Double getActualPrice() {
-    return pricePlan.adjust(getId(), getPrice0());
+    return pricePlan != null ? pricePlan.adjust(getId(), getPrice0()) : getPrice0();
   }
 
   public String getPriceDetail() {

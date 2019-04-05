@@ -83,6 +83,11 @@ object Helpers {
       ppm.uid, ppm._planIds, ppm.getStartTime, ppm.getExpireTime.orNull
     )
   }
+  def revConvertRewardPlanMap(rpm:MRewardPlanMap):RewardPlanMap = {
+    new RewardPlanMap(
+      rpm.uid, rpm._planIds, rpm.getStartTime, rpm.getExpireTime.orNull
+    )
+  }
   def convertRewardPlanMap(ppm:RewardPlanMap):MRewardPlanMap = {
     MRewardPlanMap.createJ(ppm.getUid, ppm.getPlanIds,
       zonedDateTime2Str(ppm.getStartTime),

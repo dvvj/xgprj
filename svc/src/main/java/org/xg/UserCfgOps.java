@@ -95,8 +95,8 @@ public class UserCfgOps {
       //MMedProf prof = SvcUtils.getMedProfs().get(uid);
       String plansJson = RewardPlanLogics.rewardPlanJsonForJ(
         uid,
-        SvcUtils.getRewardPlanMaps(),
-        SvcUtils.getRewardPlans()
+        RewardPlanUtils.getRewardPlanMaps(),
+        RewardPlanUtils.getRewardPlans()
       );
 
 //      if (pricePlan == null)
@@ -123,7 +123,7 @@ public class UserCfgOps {
 
       String planId = dbOps.addRewardPlan(plan);
 
-      SvcUtils.invalidatedRewardPlans();
+      RewardPlanUtils.updateRewardPlans();
 
       return Response.status(Response.Status.CREATED)
         .entity(planId)
@@ -143,7 +143,7 @@ public class UserCfgOps {
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
   public Response rewardPlanCreatedBy(String creatorId) {
     try {
-      MRewardPlan[] rewardPlans = SvcUtils.getRewardPlansCreatedBy(creatorId);
+      MRewardPlan[] rewardPlans = RewardPlanUtils.getRewardPlansCreatedBy(creatorId);
 
       String j = MRewardPlan.toJsons(rewardPlans);
 //      if (pricePlan == null)

@@ -131,7 +131,6 @@ public class MedProfsMain {
   @FXML
   StackPane productsTab;
   private TreeTableViewWithFilterCtrl<Product> productCtrl;
-//  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
 
   private void loadProductTable() throws Exception {
 

@@ -3,6 +3,8 @@ package org.xg;
 import org.xg.auth.Secured;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgAgentOrderStat;
+import org.xg.dbModels.MRewardPlan;
+import org.xg.dbModels.MRewardPlanMap;
 import org.xg.svc.AddNewMedProf;
 import org.xg.svc.CustomerPricePlan;
 
@@ -60,6 +62,9 @@ public class ProfOrgAgentOps {
       AddNewMedProf mp = AddNewMedProf.fromJson(addNewMedProfJson);
 
       SvcUtils.addNewMedProf(mp);
+
+      MRewardPlanMap rpm = mp.rewardPlan();
+      RewardPlanUtils.addRewardPlanMap(rpm);
 
       return Response.status(Response.Status.CREATED)
         .build();

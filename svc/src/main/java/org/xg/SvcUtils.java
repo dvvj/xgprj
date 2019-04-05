@@ -89,44 +89,6 @@ public class SvcUtils {
     return medprofs.toArray(res);
   }
 
-  private static Object _lockRewardPlans = new Object();
-  private static Map<String, MRewardPlan> _rewardPlans = null;
-  private static Object _lockRewardPlanMaps = new Object();
-  private static Map<String, MRewardPlanMap> _rewardPlanMaps = null;
-
-  public static Map<String, MRewardPlan> getRewardPlans() {
-    if (_rewardPlans == null) {
-      synchronized (_lockRewardPlans) {
-        if (_rewardPlans == null) {
-          _rewardPlans = getDbOps().allRewardPlansToMapJ();
-        }
-      }
-    }
-    return _rewardPlans;
-  }
-
-  public static Map<String, MRewardPlanMap> getRewardPlanMaps() {
-    if (_rewardPlanMaps == null) {
-      synchronized (_lockRewardPlanMaps) {
-        if (_rewardPlanMaps == null) {
-          _rewardPlanMaps = getDbOps().allActiveRewardPlansJ();
-        }
-      }
-    }
-    return _rewardPlanMaps;
-  }
-
-
-  public static void invalidatedRewardPlans() {
-    _rewardPlans = null;
-  }
-
-  public static MRewardPlan[] getRewardPlansCreatedBy(String creatorId) {
-    Map<String, MRewardPlan> plans = new HashMap<>(getRewardPlans());
-    MRewardPlan[] res = plans.values().stream().filter(p -> p.creator().equals(creatorId))
-      .toArray(MRewardPlan[]::new);
-    return res;
-  }
 
   public static MCustomer[] getCustomersRefedBy(String profId) {
     return getDbOps().customersRefedBy(profId);

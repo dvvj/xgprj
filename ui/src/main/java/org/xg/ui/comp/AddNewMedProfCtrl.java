@@ -8,8 +8,10 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import org.xg.dbModels.MMedProf;
+import org.xg.dbModels.MRewardPlan;
+import org.xg.dbModels.MRewardPlanMap;
+import org.xg.gnl.DataUtils;
 import org.xg.svc.AddNewMedProf;
-import org.xg.ui.model.PricePlanOption;
 import org.xg.ui.model.RewardPlanOption;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.UISvcHelpers;
@@ -29,27 +31,33 @@ public class AddNewMedProfCtrl {
   @FXML
   JFXPasswordField pfNew2;
   @FXML
-  JFXComboBox cmboRewardPlanType;
+  JFXComboBox<RewardPlanOption> cmboRewardPlanType;
 
   public void onAdd() {
+    RewardPlanOption rewardPlanOption = cmboRewardPlanType.getSelectionModel().getSelectedItem();
     String uid = UserType.MedProf().genUid(tfUid.getText().trim());
+    MRewardPlanMap rpm = RewardPlanOption.isValidPlan(rewardPlanOption) ?
+      MRewardPlanMap.createJ(uid, rewardPlanOption.getPlan().id(), DataUtils.utcTimeNowStr(), null) : null;
+    System.out.println("MRewardPlanMap: " + rpm);
+
     AddNewMedProf mp = new AddNewMedProf(
       new MMedProf(uid, tfName.getText(), tfIdCardNo.getText(), tfMobile.getText(), Global.getCurrUid()),
-      pfNew.getText()
+      pfNew.getText(),
+      rpm
     );
     UISvcHelpers.addNewMedProf(mp);
   }
 
   private Runnable newMedProfCallback;
-  private ListProperty<RewardPlanOption> pricePlanOptionList;
+  private ListProperty<RewardPlanOption> rewardPlanOptionList;
   public void setup(
     ObservableList<RewardPlanOption> rewardPlans,
     Runnable callback
   ) {
     System.out.println("# price plans: " + rewardPlans.size());
     //pricePlanList = new SimpleListProperty<>(pricePlans);
-    pricePlanOptionList = new SimpleListProperty<>(rewardPlans);
-    cmboRewardPlanType.itemsProperty().bind(pricePlanOptionList);
+    rewardPlanOptionList = new SimpleListProperty<>(rewardPlans);
+    cmboRewardPlanType.itemsProperty().bind(rewardPlanOptionList);
     newMedProfCallback = callback;
 
   }

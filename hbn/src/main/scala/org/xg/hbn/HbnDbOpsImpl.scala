@@ -171,6 +171,17 @@ object HbnDbOpsImpl {
     }
 
 
+    override def addRewardPlanMap(rpm: MRewardPlanMap):Boolean = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val p = revConvertRewardPlanMap(rpm)
+          sess.save(p)
+          true
+        }
+      )
+    }
+
     override def pricePlansByUid(uid: String): Array[MPricePlanMap] = {
       runInTransaction(
         sessFactory,

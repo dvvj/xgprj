@@ -66,7 +66,8 @@ public class CustomerOrder extends RecursiveTreeObject<CustomerOrder> {
   ) {
     Order o = Order.fromMOrder(order, productMap);
     Product prod = productMap.get(o.getProdId());
-    Double reward = rewardPlan.reward(order.productId(), prod.getPrice0());
+    Double reward =
+      rewardPlan.reward(order.productId(), prod.getPrice0());
     return new CustomerOrder(
       order.uid(),
       customerMap.get(order.uid()).getName(),
