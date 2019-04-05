@@ -82,77 +82,6 @@ public class MedProfsMain {
 
   private TreeTableViewWithFilterCtrl<Customer> customerCtrl;
 
-  private ObjectProperty<Customer> selectedCustomer = new SimpleObjectProperty<>();
-
-  private void loadCustomerTable1() throws Exception {
-    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
-    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
-    VBox table;
-
-    //productLoader.setLocation(path);
-    table = tableLoader.load();
-    customerCtrl = tableLoader.getController();
-    customerCtrl.setup(
-//        "customerTable.toolbar.heading",
-      "customerTable.toolbar.refresh",
-      "customerTable.toolbar.searchPrompt",
-      "customerTable.toolbar.filter",
-      "customerTable.emptyPlaceHolder",
-      customer -> {
-        Set<String> strs = new HashSet<>();
-        strs.addAll(Arrays.asList(
-          customer.getName(),
-          customer.getUid(),
-          customer.getMobile()
-        ));
-        return strs;
-      }
-    );
-
-    customerCtrl.setupColumsAndLoadData(
-      theTable -> {
-        theTable.getColumns().addAll(
-          TableViewHelper.jfxTableColumnResBundle(
-            "customerTable.name",
-            100,
-            Customer::getName
-          ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "customerTable.mobile",
-            150,
-            Customer::getMobile
-          ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "customerTable.pricePlanInfo",
-            300,
-            Customer::getPricePlanInfo
-          )
-        );
-
-        UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
-
-      },
-      () -> dataModel.getCustomers(),
-      () -> {
-        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
-        maxChartValue.setValue(m);
-        selectedCustomer.bind(customerCtrl.getSelected());
-      }
-    );
-
-    selectedCustomer.addListener((observable, oldValue, newValue) -> {
-      if (newValue != null) {
-        String customerId = newValue.getUid();
-        System.out.println("current customer " + customerId);
-        createBarChartCurrCustomer(customerId, newValue.getName());
-      }
-    });
-
-    //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
-    //System.out.println("data :" + dataModel.getOrderData().length);
-    customersTab.getChildren().addAll(table);
-  }
-
   private void loadCustomerTable() throws Exception {
 
     customerCtrl = TreeTableViewHelper.loadTableToTab(
@@ -175,7 +104,8 @@ public class MedProfsMain {
       "customerTable.placeHolder",
       newCustomer -> {
         String customerId = newCustomer.getUid();
-        System.out.println("current customer " + customerId);
+//        System.out.println("current customer " + customerId);
+//        System.out.println("maxChartValue " + maxChartValue.getValue());
         createBarChartCurrCustomer(customerId, newCustomer.getName());
       },
       Arrays.asList(
@@ -431,63 +361,31 @@ public class MedProfsMain {
   TreeTableViewWithFilterCtrl<PricePlan> pricePlanCtrl;
 
   private void loadPricePlanTable() throws Exception {
-    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
-    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
-    VBox table;
-
-    //productLoader.setLocation(path);
-    table = tableLoader.load();
-    pricePlanCtrl = tableLoader.getController();
-
-    pricePlanCtrl.setup(
-//        "customerTable.toolbar.heading",
-      "pricePlanTable.toolbar.refresh",
-      "pricePlanTable.toolbar.searchPrompt",
-      "pricePlanTable.toolbar.filter",
-      "pricePlanTable.emptyPlaceHolder",
+    pricePlanCtrl = TreeTableViewHelper.loadTableToTab(
+      pricePlanTab,
       pricePlan -> {
         Set<String> strs = new HashSet<>();
         strs.addAll(Arrays.asList(
           pricePlan.getInfo()
         ));
         return strs;
-      }
-    );
-
-    pricePlanCtrl.setupColumsAndLoadData(
-      theTable -> {
-        theTable.getColumns().addAll(
-//            TableViewHelper.jfxTableColumnResBundle(
-//              "customerTable.uid",
-//              Global.AllRes,
-//              100,
-//              Customer::getUid
-//            ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "pricePlanTable.type",
-            200,
-            PricePlan::getVtag
-          ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "pricePlanTable.info",
-            400,
-            PricePlan::getInfo
-          )
-        );
-
-        UIHelpers.setPlaceHolder4TreeView(theTable, "pricePlanTable.placeHolder");
-
       },
       () -> dataModel.getPricePlans(),
-      () -> {
-//        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
-//        maxChartValue.setValue(m);
-//        selectedCustomer.bind(customerCtrl.getSelected());
-      }
+      "pricePlanTable",
+      "pricePlanTable.placeHolder",
+      selected -> { },
+      Arrays.asList(
+        TableViewHelper.jfxTableColumnResBundle(
+          "pricePlanTable.type",
+          200,
+          PricePlan::getVtag
+        ),
+        TableViewHelper.jfxTableColumnResBundle(
+          "pricePlanTable.info",
+          400,
+          PricePlan::getInfo
+        )
+      )
     );
-
-    //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
-    //System.out.println("data :" + dataModel.getOrderData().length);
-    pricePlanTab.getChildren().addAll(table);
   }
 }

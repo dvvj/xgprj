@@ -51,6 +51,11 @@ public class TreeTableViewHelper {
       resPfx + ResEmptyPlaceHolder,
       getSearchableStrs
     );
+    tblCtrl.getSelected().addListener((observable, oldValue, newValue) -> {
+      if (newValue != null) {
+        selectedListener.accept(newValue);
+      }
+    });
 
     tblCtrl.setupColumsAndLoadData(
       theTable -> {
@@ -60,12 +65,6 @@ public class TreeTableViewHelper {
       dataRetriever,
       uiUpdater
     );
-
-    tblCtrl.getSelected().addListener((observable, oldValue, newValue) -> {
-      if (newValue != null) {
-        selectedListener.accept(newValue);
-      }
-    });
 
     tab.getChildren().addAll(table);
 

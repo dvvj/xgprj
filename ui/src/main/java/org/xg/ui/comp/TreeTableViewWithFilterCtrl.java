@@ -132,9 +132,8 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
       },
       resp -> {
         if (resp != null) {
-          filterAndUpdateTable(resp);
-
           uiUpdater.run();
+          filterAndUpdateTable(resp);
         }
         else {
           // todo: show error
