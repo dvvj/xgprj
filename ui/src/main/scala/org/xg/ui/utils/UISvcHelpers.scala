@@ -7,7 +7,7 @@ import org.xg.dbModels._
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
-import org.xg.svc.{AddNewCustomer, AddNewMedProf}
+import org.xg.svc.{AddNewCustomer, AddNewMedProf, CustomerPricePlan}
 import org.xg.uiModels.Order
 
 object UISvcHelpers {
@@ -143,6 +143,18 @@ object UISvcHelpers {
     )
 
     mps
+  }
+
+  import collection.JavaConverters._
+  def updatePricePlans4Customers(profId:String, token:String):java.util.Map[String, MPricePlan] = {
+    val cps = SvcHelpers.postDecArray(
+      serverCfg.customerPricePlansURL,
+      token,
+      profId,
+      CustomerPricePlan.fromJsons
+    )
+
+    cps.map(c => c.customerId -> c.pricePlan).toMap.asJava
   }
 
   def updateRewardPlansCreatedBy(uid:String, token:String):Array[MRewardPlan] = {

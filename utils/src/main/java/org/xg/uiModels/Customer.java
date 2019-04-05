@@ -2,8 +2,12 @@ package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
+import jdk.nashorn.internal.objects.Global;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MPricePlan;
+import org.xg.gnl.GlobalCfg;
+
+import java.util.Map;
 
 public class Customer extends RecursiveTreeObject<Customer> {
   private String uid;
@@ -58,7 +62,12 @@ public class Customer extends RecursiveTreeObject<Customer> {
     this.refUid = refUid;
   }
 
-  public static Customer fromMCustomer(MCustomer customer) {
-    return new Customer(customer.uid(), customer.name(), customer.mobile(), customer.refUid(), null);
+  public String getPricePlanInfo() {
+    return pricePlan == null ? "-" : pricePlan.info();
+  }
+
+  public static Customer fromMCustomer(MCustomer customer, Map<String, MPricePlan> pricePlanMap) {
+    MPricePlan plan = pricePlanMap.getOrDefault(customer.uid(), null);
+    return new Customer(customer.uid(), customer.name(), customer.mobile(), customer.refUid(), plan);
   }
 }

@@ -36,6 +36,7 @@ case class GlobalCfg(
   def addNewCustomerURL:String = s"$svcSvr/$ADD_NEW_CUSTOMER"
   def addPricePlanURL:String = s"$svcSvr/$ADD_PRICE_PLAN"
   def addRewardPlanURL:String = s"$svcSvr/$ADD_REWARD_PLAN"
+  def customerPricePlansURL:String = s"$svcSvr/$CUSTOMER_PRICEPLANS_OF_PROF"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
@@ -61,6 +62,7 @@ object GlobalCfg {
   private val PROFORG_AGENTS_OF = "profOrg/agents"
   private val ORDERSTATS_OF_ORG = "profOrg/orderStats"
   private val ORDERSTATS_OF_AGENT = "profOrgAgent/orderStats"
+  private val CUSTOMER_PRICEPLANS_OF_PROF = "prof/customerPricePlans"
   private val ADD_NEW_MEDPROF = "profOrgAgent/addNewMedProf"
   private val ADD_NEW_CUSTOMER = "prof/newCustomer"
   private val ADD_PRICE_PLAN = "user/addPricePlan"

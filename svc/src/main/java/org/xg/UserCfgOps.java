@@ -24,8 +24,8 @@ public class UserCfgOps {
       MCustomer customer = SvcUtils.getCustomers().get(uid);
       String plansJson = PricePlanLogics.pricePlanJsonForJ(
         customer,
-        SvcUtils.getPricePlanMaps(),
-        SvcUtils.getPricePlans()
+        PricePlanUtils.getPricePlanMaps(),
+        PricePlanUtils.getPricePlans()
       );
 
 //      if (pricePlan == null)
@@ -47,7 +47,7 @@ public class UserCfgOps {
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
   public Response getPricePlanCreatedBy(String creatorId) {
     try {
-      MPricePlan[] pricePlans = SvcUtils.getPricePlansCreatedBy(creatorId);
+      MPricePlan[] pricePlans = PricePlanUtils.getPricePlansCreatedBy(creatorId);
 
       String j = MPricePlan.toJsons(pricePlans);
 //      if (pricePlan == null)
@@ -73,7 +73,7 @@ public class UserCfgOps {
 
       String planId = dbOps.addPricePlan(plan);
 
-      SvcUtils.updatePricePlans();
+      PricePlanUtils.updatePricePlans();
 
       return Response.status(Response.Status.CREATED)
         .entity(planId)

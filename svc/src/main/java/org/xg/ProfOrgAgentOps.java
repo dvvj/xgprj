@@ -4,6 +4,7 @@ import org.xg.auth.Secured;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.svc.AddNewMedProf;
+import org.xg.svc.CustomerPricePlan;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -68,4 +69,5 @@ public class ProfOrgAgentOps {
       throw new WebApplicationException("Error", ex);
     }
   }
+
 }

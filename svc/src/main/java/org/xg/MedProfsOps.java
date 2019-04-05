@@ -4,6 +4,7 @@ import org.xg.auth.Secured;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MMedProf;
 import org.xg.svc.AddNewCustomer;
+import org.xg.svc.CustomerPricePlan;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -54,7 +55,7 @@ public class MedProfsOps {
       );
 
       if (addNewCustomer.ppm() != null) {
-        SvcUtils.addPricePlanMap(addNewCustomer.ppm());
+        PricePlanUtils.addPricePlanMap(addNewCustomer.ppm());
         logger.info(
           String.format("Price plan mapped: ids [%s]",
             addNewCustomer.ppm().planIdStr()
@@ -72,4 +73,21 @@ public class MedProfsOps {
   }
 
 
+  @Secured
+  @POST
+  @Path("customerPricePlans")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  public Response getCustomerPricePlans(String agentId) {
+    try {
+      CustomerPricePlan[] res = PricePlanUtils.getPricePlanMap4Agent(agentId);
+      String j = CustomerPricePlan.toJsons(res);
+
+      return Response.ok(j).build();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException("Error", ex);
+    }
+  }
 }

@@ -23,6 +23,7 @@ public class MedProfsDataModel {
 
   private ObservableList<Customer> customers;
   private Map<String, Customer> customerMap;
+  private Map<String, MPricePlan> customerPricePlanMap;
 
   private final CustomerOrder[] rawOrders;
   private final ObservableList<CustomerOrder> customerOrders;
@@ -33,9 +34,10 @@ public class MedProfsDataModel {
 
   private final Map<Integer, Product> prodMap;
 
-  public void setCustomers(MCustomer[] customers) {
+  public void setCustomers(MCustomer[] customers, Map<String, MPricePlan> customerPricePlanMap) {
+    this.customerPricePlanMap = customerPricePlanMap;
     this.customers = FXCollections.observableArrayList(
-      Helpers.convCustomers(customers)
+      Helpers.convCustomers(customers, this.customerPricePlanMap)
     );
     customerMap = this.customers.stream().collect(Collectors.toMap(Customer::getUid, Function.identity()));
   }
@@ -47,13 +49,15 @@ public class MedProfsDataModel {
     MOrder[] customerOrders,
     MPricePlan[] pricePlans,
     Map<Integer, Product> prodMap,
+    Map<String, MPricePlan> customerPricePlanMap,
     TRewardPlan rewardPlan
   ) {
     Global.loggingTodo("price plans: " + pricePlans.length);
     PricePlan[] plans = Arrays.stream(pricePlans).map(PricePlan::fromM).toArray(PricePlan[]::new);
     this.pricePlans = FXCollections.observableArrayList(plans);
     this.pricePlanOptions = PricePlanOption.pricePlanOptionsIncludingNone(pricePlans);
-    setCustomers(customers);
+
+    setCustomers(customers, customerPricePlanMap);
     rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap, rewardPlan);
     this.customerOrders = FXCollections.observableArrayList(rawOrders);
     this.prodMap = prodMap;

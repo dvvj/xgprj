@@ -36,7 +36,7 @@
         <!--</JFXToolbar>-->
     <!--</top>-->
 
-        <JFXTabPane minWidth="800.0">
+        <JFXTabPane minWidth="1000.0">
             <Tab text="%medprofs.tab.customerTable.heading">
                 <HBox>
                     <StackPane fx:id="customersTab">

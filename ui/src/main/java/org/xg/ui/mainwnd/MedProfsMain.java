@@ -59,6 +59,7 @@ public class MedProfsMain {
         () -> UISvcHelpers.updateAllRefedCustomers(profId, token),
         () -> UISvcHelpers.updateAllOrdersOfRefedCustomers(profId, token),
         () -> UISvcHelpers.updatePricePlansOfProf(profId, token),
+        () -> UISvcHelpers.updatePricePlans4Customers(profId, token),
         () -> UISvcHelpers.updateRewardPlans(profId, token)
       },
       30000
@@ -69,7 +70,8 @@ public class MedProfsMain {
       (MOrder[])raw[1],
       (MPricePlan[])raw[2],
       Global.getProductMap(),
-      (TRewardPlan)raw[3]
+      (Map<String, MPricePlan>)raw[3],
+      (TRewardPlan)raw[4]
     );
 
     double totalReward = dataModel.calcTotalReward();
@@ -127,6 +129,12 @@ public class MedProfsMain {
             Global.AllRes,
             150,
             Customer::getMobile
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "customerTable.pricePlanInfo",
+            Global.AllRes,
+            300,
+            Customer::getPricePlanInfo
           )
         );
 
@@ -330,12 +338,13 @@ public class MedProfsMain {
     String token = Global.getCurrToken();
     Object[] raw = Helpers.paraActions(
       new Supplier[] {
-        () -> UISvcHelpers.updateAllRefedCustomers(profId, token)
+        () -> UISvcHelpers.updateAllRefedCustomers(profId, token),
+        () -> UISvcHelpers.updatePricePlans4Customers(profId, token)
       },
       30000
     );
 
-    dataModel.setCustomers((MCustomer[]) raw[0]);
+    dataModel.setCustomers((MCustomer[]) raw[0], (Map<String, MPricePlan>) raw[1]);
 
     customerCtrl.filterAndUpdateTable2(dataModel.getCustomers(), t -> true);
   }

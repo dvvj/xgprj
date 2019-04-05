@@ -19,8 +19,8 @@ object Helpers {
     mps.map(mp => Product.fromMProduct(mp, pricePlan))
   }
 
-  def convCustomers(mcs:Array[MCustomer]):Array[Customer] = {
-    mcs.map(Customer.fromMCustomer)
+  def convCustomers(mcs:Array[MCustomer], planMap:java.util.Map[String, MPricePlan]):Array[Customer] = {
+    mcs.map(c => Customer.fromMCustomer(c, planMap))
   }
 
   def convMedProfs(mcs:Array[MMedProf]):Array[MedProf] = {

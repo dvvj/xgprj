@@ -82,44 +82,6 @@ public class SvcUtils {
   }
   // ========================
 
-  // ======================== price plan map
-  private static CachedData<Map<String, MPricePlanMap>> pricePlanMapCache =
-    CachedData.createJ(
-      () -> getDbOps().allActivePricePlansJ()
-    );
-  public static Map<String, MPricePlanMap> getPricePlanMaps() {
-    return pricePlanMapCache.getData();
-  }
-
-  public static boolean addPricePlanMap(MPricePlanMap ppm) {
-    getDbOps().addPricePlanMap(ppm);
-    pricePlanMapCache.update();
-    return true;
-  }
-  // ========================
-
-  // ======================== price plan
-  private static CachedData<Map<String, MPricePlan>> pricePlanCache =
-    CachedData.createJ(
-      () -> getDbOps().allPricePlansToMapJ()
-    );
-
-  public static Map<String, MPricePlan> getPricePlans() {
-    return pricePlanCache.getData();
-  }
-
-  public static void updatePricePlans() {
-    pricePlanCache.update();
-  }
-
-  public static MPricePlan[] getPricePlansCreatedBy(String creatorId) {
-    Map<String, MPricePlan> plans = new HashMap<>(getPricePlans());
-    MPricePlan[] res = plans.values().stream().filter(p -> p.creator().equals(creatorId))
-      .toArray(MPricePlan[]::new);
-    return res;
-  }
-  // ========================
-
   public static MMedProf[] getMedProfsOf(String orgAgentId) {
     List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgAgentId().equals(orgAgentId))
       .collect(Collectors.toList());
