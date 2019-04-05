@@ -1,6 +1,7 @@
 package org.xg.auth;
 
 import org.xg.SvcUtils;
+import org.xg.gnl.CachedData;
 import org.xg.log.Logging;
 import org.xg.svc.AuthResult;
 
@@ -37,16 +38,23 @@ public final class UserDbAuthority {
     return res.result();
   }
 
+  private final static CachedData<UserDbAuthority> customerAuthDb = CachedData.createJ(
+    () -> {
+      try {
+        Map<String, byte[]> userPassMap = SvcUtils.getDbOps().getUserPassMapJ();
+        return new UserDbAuthority(userPassMap);
+      }
+      catch (Exception ex) {
+        ex.printStackTrace();
+        throw new RuntimeException("Error", ex);
+      }
+    }
+  );
   public static boolean authenticateCustomer(String customerId, String passHashStr) {
-//    AuthResult res = customerInstance._auth.authenticate(customerId, passHashStr);
-//
-//    if (!res.result()) {
-//      logger.info(
-//        String.format("failed to authenticate [%s], reason: %s", customerId, res.msg())
-//      );
-//    }
-//    return res.result();
-    return authenticateUser(customerInstance._auth, customerId, passHashStr);
+    return authenticateUser(customerAuthDb.getData()._auth, customerId, passHashStr);
+  }
+  public static void updateCustomerDb() {
+    customerAuthDb.update();
   }
 
   public static boolean authenticateMedProfs(String profId, String passHashStr) {
@@ -121,18 +129,19 @@ public final class UserDbAuthority {
     }
   }
 
-  private final static InstanceCreation customerDb = new InstanceCreation();
-  private static UserDbAuthority customerInstance =
-    customerDb.getInstance(
-      SvcUtils.getDbOps().getUserPassMapJ()
-    );
-  public static void updateCustomerDb() {
-    Map<String, byte[]> customerPassMap = SvcUtils.getDbOps().getUserPassMapJ();
-    synchronized (customerDb._instanceLock) {
-      customerInstance = createInstasnce(customerPassMap);
-    }
-    logger.info("in updateCustomerDb, updated profPass map size: " + customerPassMap.size());
-  }
+
+//  private final static InstanceCreation customerDb = new InstanceCreation();
+//  private static UserDbAuthority customerInstance =
+//    customerDb.getInstance(
+//      SvcUtils.getDbOps().getUserPassMapJ()
+//    );
+//  public static void updateCustomerDb() {
+//    Map<String, byte[]> customerPassMap = SvcUtils.getDbOps().getUserPassMapJ();
+//    synchronized (customerDb._instanceLock) {
+//      customerInstance = createInstasnce(customerPassMap);
+//    }
+//    logger.info("in updateCustomerDb, updated profPass map size: " + customerPassMap.size());
+//  }
 
   private final static InstanceCreation medProfDb = new InstanceCreation();
   private static UserDbAuthority medProfInstance =

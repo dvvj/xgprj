@@ -3,6 +3,7 @@ package org.xg;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.xg.auth.UserDbAuthority;
 import org.xg.dbModels.*;
+import org.xg.gnl.CachedData;
 import org.xg.gnl.GlobalCfg;
 import org.xg.svc.AddNewCustomer;
 import org.xg.svc.AddNewMedProf;
@@ -45,21 +46,30 @@ public class SvcUtils {
   private static Map<String, MPricePlan> _pricePlans = null;
   private static Object _lockPricePlanMaps = new Object();
   private static Map<String, MPricePlanMap> _pricePlanMaps = null;
-  private static Object _lockCustomers = new Object();
-  private static Map<String, MCustomer> _customers = null;
+//  private static Object _lockCustomers = new Object();
+//  private static Map<String, MCustomer> _customers = null;
   private static Object _lockMedProfs = new Object();
   private static Map<String, MMedProf> _medProfs = null;
 
+  // ======================== customer cache
+  private static CachedData<Map<String, MCustomer>> customerCache =
+    CachedData.createJ(
+      () -> getDbOps().allCustomersToMapJ()
+    );
+
   public static Map<String, MCustomer> getCustomers() {
-    if (_customers == null) {
-      synchronized (_lockCustomers) {
-        if (_customers == null) {
-          _customers = getDbOps().allCustomersToMapJ();
-        }
-      }
-    }
-    return _customers;
+    return customerCache.getData();
   }
+  public static void updateCustomers() {
+    customerCache.update();
+    UserDbAuthority.updateCustomerDb();
+//    synchronized (_lockCustomers) {
+//      _customers = null;
+//    }
+//    UserDbAuthority.updateCustomerDb();
+//    logger.info("updateMedProfs called, current _medProfs: " + _customers);
+  }
+
 
   public static Map<String, MMedProf> getMedProfs() {
     if (_medProfs == null) {
@@ -78,14 +88,6 @@ public class SvcUtils {
     }
     UserDbAuthority.updateMedProfDb();
     logger.info("updateMedProfs called, current _medProfs: " + _medProfs);
-  }
-
-  public static void updateCustomers() {
-    synchronized (_lockCustomers) {
-      _customers = null;
-    }
-    UserDbAuthority.updateCustomerDb();
-    logger.info("updateMedProfs called, current _medProfs: " + _customers);
   }
 
 

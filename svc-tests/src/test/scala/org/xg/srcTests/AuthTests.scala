@@ -4,13 +4,14 @@ import org.xg.auth.{AuthResp, SvcHelpers}
 import org.xg.dbModels._
 import org.xg.gnl.GlobalCfg
 import org.xg.svc.UserOrder
+import org.xg.user.UserType
 
 object AuthTests extends App {
 
   val cfg = GlobalCfg.localTestCfg
   //val authUrl = .authURL // "https://localhost:8443/webapi/auth/userPass"
 
-  val (uid, pass) = "customer1" -> "123"
+  val (uid, pass) = UserType.Customer.genUid("customer1") -> "123"
 //   val (uid, pass) = "customer2" -> "456"
   //val (uid, pass) = "customer3" -> "abcdef"
   //val (uid, pass) = "customer4" -> "acf"
@@ -34,7 +35,7 @@ object AuthTests extends App {
   val pricePlans = SvcHelpers.post(cfg.pricePlanURL, resp.token, uid)
   println(pricePlans)
 
-  val (uid2, pass2) = "customer4" -> "acf"
+  val (uid2, pass2) = UserType.Customer.genUid("customer4") -> "acf"
   val resp2 = SvcHelpers.authReq(cfg.authCustomerURL, uid2, pass2)
 
   val pricePlans2 = SvcHelpers.getPricePlan4User(cfg.pricePlanURL, uid2, resp2.token)
@@ -46,7 +47,11 @@ object AuthTests extends App {
     )
   }
 
-  val rewardPlan = SvcHelpers.getRewardPlan4User(cfg.rewardPlanURL, "prof2", resp2.token)
+  val rewardPlan = SvcHelpers.getRewardPlan4User(
+    cfg.rewardPlanURL,
+    UserType.MedProf.genUid("prof2"),
+    resp2.token
+  )
   println(rewardPlan)
 
   (1 to 4).foreach { prodId =>
