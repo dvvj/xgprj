@@ -34,6 +34,7 @@ import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiModels.PricePlan;
+import org.xg.uiModels.Product;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -96,8 +97,7 @@ public class MedProfsMain {
       "customerTable.toolbar.searchPrompt",
       "customerTable.toolbar.filter",
       "customerTable.emptyPlaceHolder",
-      c -> {
-        Customer customer = (Customer)c;
+      customer -> {
         Set<String> strs = new HashSet<>();
         strs.addAll(Arrays.asList(
           customer.getName(),
@@ -109,15 +109,8 @@ public class MedProfsMain {
     );
 
     customerCtrl.setupColumsAndLoadData(
-      tbl -> {
-        JFXTreeTableView<Customer> theTable = (JFXTreeTableView<Customer>)tbl;
+      theTable -> {
         theTable.getColumns().addAll(
-//            TableViewHelper.jfxTableColumnResBundle(
-//              "customerTable.uid",
-//              Global.AllRes,
-//              100,
-//              Customer::getUid
-//            ),
           TableViewHelper.jfxTableColumnResBundle(
             "customerTable.name",
             Global.AllRes,
@@ -160,8 +153,83 @@ public class MedProfsMain {
     //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
     //System.out.println("data :" + dataModel.getOrderData().length);
     customersTab.getChildren().addAll(table);
+  }
 
+  @FXML
+  StackPane productsTab;
+  private TreeTableViewWithFilterCtrl<Product> productCtrl;
+  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
 
+  private void loadProductTable() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
+    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
+    VBox table;
+
+    //productLoader.setLocation(path);
+    table = tableLoader.load();
+    productCtrl = tableLoader.getController();
+    productCtrl.setup(
+//        "customerTable.toolbar.heading",
+      "customerTable.toolbar.refresh",
+      "customerTable.toolbar.searchPrompt",
+      "customerTable.toolbar.filter",
+      "customerTable.emptyPlaceHolder",
+      product -> {
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          product.getName(),
+          product.getDetailedInfo()
+        ));
+        return strs;
+      }
+    );
+
+    productCtrl.setupColumsAndLoadData(
+      theTable -> {
+        theTable.getColumns().addAll(
+          TableViewHelper.jfxTableColumnResBundle(
+            "customerTable.name",
+            Global.AllRes,
+            100,
+            Product::getName
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "customerTable.mobile",
+            Global.AllRes,
+            150,
+            Product::getPrice0
+          ),
+          TableViewHelper.jfxTableColumnResBundle(
+            "customerTable.pricePlanInfo",
+            Global.AllRes,
+            300,
+            Product::getDetailedInfo
+          )
+        );
+
+        UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
+
+      },
+      () -> dataModel.getProducts(),
+      () -> {
+//        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
+//        maxChartValue.setValue(m);
+        selectedProduct.bind(productCtrl.getSelected());
+      }
+    );
+
+    selectedProduct.addListener((observable, oldValue, newValue) -> {
+      if (newValue != null) {
+        System.out.println(newValue.getName());
+//        String customerId = newValue.getUid();
+//        System.out.println("current customer " + customerId);
+//        createBarChartCurrCustomer(customerId, newValue.getName());
+      }
+    });
+
+    //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
+    //System.out.println("data :" + dataModel.getOrderData().length);
+    productsTab.getChildren().addAll(table);
   }
 
   @FXML
@@ -305,6 +373,7 @@ public class MedProfsMain {
     try {
       loadDataModel();
       loadCustomerOrderTable();
+      loadProductTable();
       loadCustomerTable();
       loadPricePlanTable();
       loadAddNewCustomerTab();

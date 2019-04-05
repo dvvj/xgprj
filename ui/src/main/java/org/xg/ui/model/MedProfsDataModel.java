@@ -33,6 +33,7 @@ public class MedProfsDataModel {
   private final ObservableList<PricePlanOption> pricePlanOptions;
 
   private final Map<Integer, Product> prodMap;
+  private final ObservableList<Product> products;
 
   public void setCustomers(MCustomer[] customers, Map<String, MPricePlan> customerPricePlanMap) {
     this.customerPricePlanMap = customerPricePlanMap;
@@ -61,6 +62,7 @@ public class MedProfsDataModel {
     rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap, rewardPlan);
     this.customerOrders = FXCollections.observableArrayList(rawOrders);
     this.prodMap = prodMap;
+    this.products = FXCollections.observableArrayList(prodMap.values());
     this.rewardPlan = rewardPlan;
   }
 
@@ -93,5 +95,9 @@ public class MedProfsDataModel {
 
   public ObservableList<PricePlanOption> getPricePlanOptions() {
     return pricePlanOptions;
+  }
+
+  public ObservableList<Product> getProducts() {
+    return products;
   }
 }

@@ -47,6 +47,16 @@
                     </VBox>
                 </HBox>
             </Tab>
+            <Tab text="%medprofs.tab.productTable.heading">
+                <HBox>
+                    <StackPane fx:id="productsTab">
+                    </StackPane>
+                    <VBox>
+                        <VBox fx:id="vboxChartByProdCurrCustomer" />
+                        <VBox fx:id="vboxChartByProdAll" />
+                    </VBox>
+                </HBox>
+            </Tab>
             <Tab text="%medprofs.tab.customerOrderTable.heading">
                 <StackPane fx:id="ordersTab">
                 </StackPane>
