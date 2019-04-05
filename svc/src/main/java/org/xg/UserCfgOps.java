@@ -4,7 +4,6 @@ import org.xg.auth.Secured;
 import org.xg.busiLogic.PricePlanLogics;
 import org.xg.busiLogic.RewardPlanLogics;
 import org.xg.dbModels.*;
-import org.xg.pay.pricePlan.TPricePlan;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -74,7 +73,7 @@ public class UserCfgOps {
 
       String planId = dbOps.addPricePlan(plan);
 
-      SvcUtils.invalidatedPricePlans();
+      SvcUtils.updatePricePlans();
 
       return Response.status(Response.Status.CREATED)
         .entity(planId)

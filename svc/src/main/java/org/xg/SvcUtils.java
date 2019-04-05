@@ -44,8 +44,8 @@ public class SvcUtils {
 
   private static Object _lockPricePlans = new Object();
   private static Map<String, MPricePlan> _pricePlans = null;
-  private static Object _lockPricePlanMaps = new Object();
-  private static Map<String, MPricePlanMap> _pricePlanMaps = null;
+//  private static Object _lockPricePlanMaps = new Object();
+//  private static Map<String, MPricePlanMap> _pricePlanMaps = null;
 //  private static Object _lockCustomers = new Object();
 //  private static Map<String, MCustomer> _customers = null;
 //  private static Object _lockMedProfs = new Object();
@@ -64,6 +64,7 @@ public class SvcUtils {
     customerCache.update();
     UserDbAuthority.updateCustomerDb();
   }
+  // ========================
 
   // ======================== med prof cache
   private static CachedData<Map<String, MMedProf>> medProfsCache =
@@ -78,55 +79,37 @@ public class SvcUtils {
   public static void updateMedProfs() {
     medProfsCache.update();
     UserDbAuthority.updateMedProfDb();
-//    synchronized (_lockMedProfs) {
-//      _medProfs = null;
-//    }
-//    UserDbAuthority.updateMedProfDb();
-//    logger.info("updateMedProfs called, current _medProfs: " + _medProfs);
   }
+  // ========================
 
-
-  public static MMedProf[] getMedProfsOf(String orgAgentId) {
-    List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgAgentId().equals(orgAgentId))
-      .collect(Collectors.toList());
-    MMedProf[] res = new MMedProf[medprofs.size()];
-    return medprofs.toArray(res);
-  }
-
+  // ======================== price plan map
+  private static CachedData<Map<String, MPricePlanMap>> pricePlanMapCache =
+    CachedData.createJ(
+      () -> getDbOps().allActivePricePlansJ()
+    );
   public static Map<String, MPricePlanMap> getPricePlanMaps() {
-    if (_pricePlanMaps == null) {
-      synchronized (_lockPricePlanMaps) {
-        if (_pricePlanMaps == null) {
-          _pricePlanMaps = getDbOps().allActivePricePlansJ();
-        }
-      }
-    }
-    return _pricePlanMaps;
+    return pricePlanMapCache.getData();
   }
 
   public static boolean addPricePlanMap(MPricePlanMap ppm) {
     getDbOps().addPricePlanMap(ppm);
-    synchronized (_lockPricePlanMaps) {
-      _pricePlanMaps = getDbOps().allActivePricePlansJ();
-    }
+    pricePlanMapCache.update();
     return true;
   }
+  // ========================
 
+  // ======================== price plan
+  private static CachedData<Map<String, MPricePlan>> pricePlanCache =
+    CachedData.createJ(
+      () -> getDbOps().allPricePlansToMapJ()
+    );
 
   public static Map<String, MPricePlan> getPricePlans() {
-    if (_pricePlans == null) {
-      synchronized (_lockPricePlans) {
-        if (_pricePlans == null) {
-          _pricePlans = getDbOps().allPricePlansToMapJ();
-        }
-      }
-    }
-    return _pricePlans;
+    return pricePlanCache.getData();
   }
 
-  public static void invalidatedPricePlans() {
-    _pricePlans = null;
-    //_pricePlanMaps = null;
+  public static void updatePricePlans() {
+    pricePlanCache.update();
   }
 
   public static MPricePlan[] getPricePlansCreatedBy(String creatorId) {
@@ -134,6 +117,14 @@ public class SvcUtils {
     MPricePlan[] res = plans.values().stream().filter(p -> p.creator().equals(creatorId))
       .toArray(MPricePlan[]::new);
     return res;
+  }
+  // ========================
+
+  public static MMedProf[] getMedProfsOf(String orgAgentId) {
+    List<MMedProf> medprofs = getMedProfs().values().stream().filter(mp -> mp.orgAgentId().equals(orgAgentId))
+      .collect(Collectors.toList());
+    MMedProf[] res = new MMedProf[medprofs.size()];
+    return medprofs.toArray(res);
   }
 
   private static Object _lockRewardPlans = new Object();

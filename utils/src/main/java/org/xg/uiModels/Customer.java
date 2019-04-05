@@ -3,12 +3,14 @@ package org.xg.uiModels;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import org.xg.dbModels.MCustomer;
+import org.xg.dbModels.MPricePlan;
 
 public class Customer extends RecursiveTreeObject<Customer> {
   private String uid;
   private String name;
   private String mobile;
   private String refUid;
+  private MPricePlan pricePlan;
 
   public String getUid() {
     return uid;
@@ -18,12 +20,14 @@ public class Customer extends RecursiveTreeObject<Customer> {
     String uid,
     String name,
     String mobile,
-    String refUid
+    String refUid,
+    MPricePlan pricePlan
   ) {
     this.uid = uid;
     this.name = name;
     this.mobile = mobile;
     this.refUid = refUid;
+    this.pricePlan = pricePlan;
   }
 
   public void setUid(String uid) {
@@ -55,6 +59,6 @@ public class Customer extends RecursiveTreeObject<Customer> {
   }
 
   public static Customer fromMCustomer(MCustomer customer) {
-    return new Customer(customer.uid(), customer.name(), customer.mobile(), customer.refUid());
+    return new Customer(customer.uid(), customer.name(), customer.mobile(), customer.refUid(), null);
   }
 }
