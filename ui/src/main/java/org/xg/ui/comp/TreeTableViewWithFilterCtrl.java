@@ -48,7 +48,6 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
   private ViewFlowContext context;
 
   public void setup(
-//    String headingRes,
     String refreshRes,
     String searchRes,
     String filterRes,
@@ -58,10 +57,9 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     initDrawer();
 
     this.emptyTableRes = emptyTableRes;
-//    Global.setResText(txtHeading, headingRes);
+
     txtSearch.setPromptText(Global.AllRes.getString(searchRes));
     btnRefresh.setText(Global.AllRes.getString(refreshRes));
-//    btnFilter.setText(Global.AllRes.getString(filterRes));
 
     txtSearch.setOnKeyReleased(e -> {
       filterAndUpdateTable2(
@@ -72,12 +70,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
         }
       );
     });
-//    btnFilter.setOnAction(e -> filterAndUpdateTable2(
-//      t -> {
-//        Set<String> strs = searchStringCollector.apply((T)t);
-//        return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
-//      }
-//    ));
+
   }
 
   public void filterAndUpdateTable2(ObservableList<T> updatedData, Predicate<T> filter) {
@@ -118,7 +111,6 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     Supplier<ObservableList<T>> dataRetriever,
     Runnable uiUpdater
   ) {
-    //UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
     columnBuilder.accept(theTable);
 
     theTable.reGroup();
@@ -126,7 +118,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     Task<ObservableList<T>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {
         try {
-          //Thread.sleep(1000);
+
           return dataRetriever.get();
         }
         catch (Exception ex) {
@@ -140,11 +132,6 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
       },
       resp -> {
         if (resp != null) {
-//          UIHelpers.setRoot4TreeView(theTable, dataCache);
-//
-//          if (dataCache.size() > 0) {
-//            theTable.getSelectionModel().select(0);
-//          }
           filterAndUpdateTable(resp);
 
           uiUpdater.run();
@@ -188,13 +175,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
         UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
         selected.setValue(null);
       }
-//
-//      if (!txtSearch.getText().isEmpty()) {
-//        System.out.println("highlighting..." + txtSearch.getText());
-//        highlighter.highlight(theTable, txtSearch.getText());
-//      }
 
-      //theTable.group(theTable.getColumns().get(0));
     }
     else {
       UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);

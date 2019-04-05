@@ -80,13 +80,11 @@ public class MedProfOrgMain {
 //            ),
           TableViewHelper.jfxTableColumnResBundle(
             "orgAgentTable.name",
-            Global.AllRes,
             100,
             ProfOrgAgent::getName
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orgAgentTable.mobile",
-            Global.AllRes,
             150,
             ProfOrgAgent::getPhone
           )

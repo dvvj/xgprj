@@ -81,25 +81,21 @@ public class ProfOrgAgentsMain {
 //            ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderStatsTable.prodName",
-            Global.AllRes,
             150,
             OrgAgentOrderStat::getProdName
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderStatsTable.qty",
-            Global.AllRes,
             100,
             OrgAgentOrderStat::getQty
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderStatsTable.actualCost",
-            Global.AllRes,
             100,
             OrgAgentOrderStat::getActualCost
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderStatsTable.profName",
-            Global.AllRes,
             100,
             OrgAgentOrderStat::getProfName
           )
@@ -168,13 +164,11 @@ public class ProfOrgAgentsMain {
 //            ),
           TableViewHelper.jfxTableColumnResBundle(
             "medprofsTable.name",
-            Global.AllRes,
             100,
             MedProf::getName
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "medprofsTable.mobile",
-            Global.AllRes,
             150,
             MedProf::getMobile
           )
@@ -443,13 +437,11 @@ public class ProfOrgAgentsMain {
 //            ),
           TableViewHelper.jfxTableColumnResBundle(
             "rewardPlanTable.type",
-            Global.AllRes,
             200,
             RewardPlan::getVtag
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "rewardPlanTable.info",
-            Global.AllRes,
             400,
             RewardPlan::getInfo
           )

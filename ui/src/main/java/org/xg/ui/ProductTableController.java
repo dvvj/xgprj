@@ -61,13 +61,11 @@ public class ProductTableController implements Initializable {
 //      ),
       TableViewHelper.<Product, String>jfxTableColumnResBundle(
         "productTable.name",
-        resBundle,
         300,
         Product::getName
       ),
       TableViewHelper.<Product, String>jfxTableColumnResBundle(
         "productTable.srcCountry",
-        resBundle,
         100,
         p -> {
           String resKey = Helpers.srcCountryResKey(p.getDetail().getSrcCountry());
@@ -76,13 +74,11 @@ public class ProductTableController implements Initializable {
       ),
       TableViewHelper.<Product, Double>jfxTableColumnResBundle(
         "productTable.price0",
-        resBundle,
         120,
         Product::getPrice0
       ),
       TableViewHelper.<Product, String>jfxTableColumnResBundle(
         "productTable.price",
-        resBundle,
         120,
         Product::getPriceDetail
       ),
@@ -93,7 +89,6 @@ public class ProductTableController implements Initializable {
 //      ),
       TableViewHelper.<Product, List<String>>jfxTableColumnResBundle(
         "productTable.Keywords",
-        resBundle,
         200,
         Product::getKeywords
       )

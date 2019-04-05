@@ -84,7 +84,7 @@ public class MedProfsMain {
 
   private ObjectProperty<Customer> selectedCustomer = new SimpleObjectProperty<>();
 
-  private void loadCustomerTable() throws Exception {
+  private void loadCustomerTable1() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
     FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
     VBox table;
@@ -114,19 +114,16 @@ public class MedProfsMain {
         theTable.getColumns().addAll(
           TableViewHelper.jfxTableColumnResBundle(
             "customerTable.name",
-            Global.AllRes,
             100,
             Customer::getName
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "customerTable.mobile",
-            Global.AllRes,
             150,
             Customer::getMobile
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "customerTable.pricePlanInfo",
-            Global.AllRes,
             300,
             Customer::getPricePlanInfo
           )
@@ -156,10 +153,55 @@ public class MedProfsMain {
     customersTab.getChildren().addAll(table);
   }
 
+  private void loadCustomerTable() throws Exception {
+
+    customerCtrl = TreeTableViewHelper.loadTableToTab(
+      customersTab,
+      customer -> {
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          customer.getName(),
+          customer.getUid(),
+          customer.getMobile()
+        ));
+        return strs;
+      },
+      () -> dataModel.getCustomers(),
+      () -> {
+        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
+        maxChartValue.setValue(m);
+      },
+      "customerTable",
+      "customerTable.placeHolder",
+      newCustomer -> {
+        String customerId = newCustomer.getUid();
+        System.out.println("current customer " + customerId);
+        createBarChartCurrCustomer(customerId, newCustomer.getName());
+      },
+      Arrays.asList(
+        TableViewHelper.jfxTableColumnResBundle(
+          "customerTable.name",
+          100,
+          Customer::getName
+        ),
+        TableViewHelper.jfxTableColumnResBundle(
+          "customerTable.mobile",
+          150,
+          Customer::getMobile
+        ),
+        TableViewHelper.jfxTableColumnResBundle(
+          "customerTable.pricePlanInfo",
+          300,
+          Customer::getPricePlanInfo
+        )
+      )
+    );
+  }
+
   @FXML
   StackPane productsTab;
   private TreeTableViewWithFilterCtrl<Product> productCtrl;
-  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
+//  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
 
   private void loadProductTable() throws Exception {
 
@@ -176,22 +218,22 @@ public class MedProfsMain {
       () -> dataModel.getProducts(),
       "customerTable",
       "customerTable.placeHolder",
+      selectedProduct -> {
+        System.out.println(selectedProduct.getName());
+      },
       Arrays.asList(
-        TableViewHelper.<Product, String>jfxTableColumnResBundle(
+        TableViewHelper.jfxTableColumnResBundle(
           "customerTable.name",
-          Global.AllRes,
           100,
           Product::getName
         ),
-        TableViewHelper.<Product, Double>jfxTableColumnResBundle(
+        TableViewHelper.jfxTableColumnResBundle(
           "customerTable.mobile",
-          Global.AllRes,
           150,
           Product::getPrice0
         ),
-        TableViewHelper.<Product, String>jfxTableColumnResBundle(
+        TableViewHelper.jfxTableColumnResBundle(
           "customerTable.pricePlanInfo",
-          Global.AllRes,
           300,
           Product::getDetailedInfo
         )
@@ -199,51 +241,6 @@ public class MedProfsMain {
 
     );
 
-//    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
-//    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
-//    VBox table;
-//
-//    //productLoader.setLocation(path);
-//    table = tableLoader.load();
-//    productCtrl = tableLoader.getController();
-//    productCtrl.setup(
-////        "customerTable.toolbar.heading",
-//      "customerTable.toolbar.refresh",
-//      "customerTable.toolbar.searchPrompt",
-//      "customerTable.toolbar.filter",
-//      "customerTable.emptyPlaceHolder",
-//
-//    );
-//
-//    productCtrl.setupColumsAndLoadData(
-//      theTable -> {
-//        theTable.getColumns().addAll(
-//
-//        );
-//
-//        UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
-//
-//      },
-//      () -> dataModel.getProducts(),
-//      () -> {
-////        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
-////        maxChartValue.setValue(m);
-//        selectedProduct.bind(productCtrl.getSelected());
-//      }
-//    );
-//
-//    selectedProduct.addListener((observable, oldValue, newValue) -> {
-//      if (newValue != null) {
-//        System.out.println(newValue.getName());
-////        String customerId = newValue.getUid();
-////        System.out.println("current customer " + customerId);
-////        createBarChartCurrCustomer(customerId, newValue.getName());
-//      }
-//    });
-//
-//    //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
-//    //System.out.println("data :" + dataModel.getOrderData().length);
-//    productsTab.getChildren().addAll(table);
   }
 
   @FXML
@@ -344,25 +341,21 @@ public class MedProfsMain {
         theTable.getColumns().addAll(
           TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
             "refedCustomerOrderTable.customerId",
-            Global.AllRes,
             150,
             CustomerOrder::getCustomerName
           ),
           TableViewHelper.<CustomerOrder, String>jfxTableColumnResBundle(
             "refedCustomerOrderTable.productName",
-            Global.AllRes,
             320,
             (CustomerOrder co) -> co.getOrder().getProdName()
           ),
           TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
             "refedCustomerOrderTable.productQty",
-            Global.AllRes,
             80,
             (CustomerOrder co) -> co.getOrder().getQty()
           ),
           TableViewHelper.<CustomerOrder, Double>jfxTableColumnResBundle(
             "refedCustomerOrderTable.reward",
-            Global.AllRes,
             80,
             CustomerOrder::getReward
           )
@@ -472,13 +465,11 @@ public class MedProfsMain {
 //            ),
           TableViewHelper.jfxTableColumnResBundle(
             "pricePlanTable.type",
-            Global.AllRes,
             200,
             PricePlan::getVtag
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "pricePlanTable.info",
-            Global.AllRes,
             400,
             PricePlan::getInfo
           )

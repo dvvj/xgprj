@@ -7,6 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.xg.ui.comp.*;
+import org.xg.ui.utils.Global;
 import org.xg.uiModels.Order;
 import org.xg.uiModels.Product;
 
@@ -65,12 +66,11 @@ public class TableViewHelper {
 
   public static <TO, T> JFXTreeTableColumn<TO, T> jfxTableColumnResBundle(
     String colNameKey,
-    ResourceBundle resBundle,
     int prefWidth,
     Function<TO, T> fProp
   ) {
     return jfxTableColumn(
-      resBundle.getString(colNameKey),
+      Global.AllRes.getString(colNameKey),
       prefWidth,
       fProp
     );

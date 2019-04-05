@@ -128,25 +128,21 @@ public class CustomerMain {
         theTable.getColumns().addAll(
           TableViewHelper.jfxTableColumnResBundle(
             "orderTable.prodName",
-            Global.AllRes,
             300,
             Order::getProdName
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderTable.qty",
-            Global.AllRes,
             100,
             Order::getQty
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderTable.creationTime",
-            Global.AllRes,
             200,
             Order::getCreationTime
           ),
           TableViewHelper.jfxTableColumnResBundle(
             "orderTable.status",
-            Global.AllRes,
             80,
             Order::getStatusStr
           ),

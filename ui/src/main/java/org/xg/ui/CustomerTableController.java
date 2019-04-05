@@ -24,19 +24,16 @@ public class CustomerTableController implements Initializable {
     tblCustomers.getColumns().addAll(
       TableViewHelper.jfxTableColumnResBundle(
         "customerTable.uid",
-        resources,
         150,
         Customer::getUid
       ),
       TableViewHelper.jfxTableColumnResBundle(
         "customerTable.name",
-        resources,
         150,
         Customer::getName
       ),
       TableViewHelper.jfxTableColumnResBundle(
         "customerTable.mobile",
-        resources,
         150,
         Customer::getMobile
       )

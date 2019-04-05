@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -31,8 +32,10 @@ public class TreeTableViewHelper {
     Pane tab,
     Function<T, Set<String>> getSearchableStrs,
     Supplier<ObservableList<T>> dataRetriever,
+    Runnable uiUpdater,
     String resPfx,
     String resEmptyTablePlaceHold,
+    Consumer<T> selectedListener,
     List<JFXTreeTableColumn<T, ?>> columns
   ) throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
@@ -42,7 +45,6 @@ public class TreeTableViewHelper {
     table = tableLoader.load();
     TreeTableViewWithFilterCtrl<T> tblCtrl = tableLoader.getController();
     tblCtrl.setup(
-//        "customerOrderTable.toolbar.heading",
       resPfx + ResRefresh,
       resPfx + ResSearchPrompt,
       resPfx + ResFilter,
@@ -53,15 +55,35 @@ public class TreeTableViewHelper {
     tblCtrl.setupColumsAndLoadData(
       theTable -> {
         theTable.getColumns().addAll(columns);
-
         UIHelpers.setPlaceHolder4TreeView(theTable, resEmptyTablePlaceHold);
-
       },
-      dataRetriever
+      dataRetriever,
+      uiUpdater
     );
+
+    tblCtrl.getSelected().addListener((observable, oldValue, newValue) -> {
+      if (newValue != null) {
+        selectedListener.accept(newValue);
+      }
+    });
 
     tab.getChildren().addAll(table);
 
     return tblCtrl;
+  }
+
+  public static <T extends RecursiveTreeObject<T>> TreeTableViewWithFilterCtrl<T> loadTableToTab(
+    Pane tab,
+    Function<T, Set<String>> getSearchableStrs,
+    Supplier<ObservableList<T>> dataRetriever,
+    String resPfx,
+    String resEmptyTablePlaceHold,
+    Consumer<T> selectedListener,
+    List<JFXTreeTableColumn<T, ?>> columns
+  ) throws Exception {
+    return loadTableToTab(tab, getSearchableStrs, dataRetriever,
+      () -> {},
+      resPfx, resEmptyTablePlaceHold, selectedListener, columns
+    );
   }
 }
