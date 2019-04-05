@@ -48,8 +48,8 @@ public class SvcUtils {
   private static Map<String, MPricePlanMap> _pricePlanMaps = null;
 //  private static Object _lockCustomers = new Object();
 //  private static Map<String, MCustomer> _customers = null;
-  private static Object _lockMedProfs = new Object();
-  private static Map<String, MMedProf> _medProfs = null;
+//  private static Object _lockMedProfs = new Object();
+//  private static Map<String, MMedProf> _medProfs = null;
 
   // ======================== customer cache
   private static CachedData<Map<String, MCustomer>> customerCache =
@@ -63,31 +63,26 @@ public class SvcUtils {
   public static void updateCustomers() {
     customerCache.update();
     UserDbAuthority.updateCustomerDb();
-//    synchronized (_lockCustomers) {
-//      _customers = null;
-//    }
-//    UserDbAuthority.updateCustomerDb();
-//    logger.info("updateMedProfs called, current _medProfs: " + _customers);
   }
 
+  // ======================== med prof cache
+  private static CachedData<Map<String, MMedProf>> medProfsCache =
+    CachedData.createJ(
+      () -> getDbOps().medProfsMapJ()
+    );
 
   public static Map<String, MMedProf> getMedProfs() {
-    if (_medProfs == null) {
-      synchronized (_lockMedProfs) {
-        if (_medProfs == null) {
-          _medProfs = getDbOps().medProfsMapJ();
-        }
-      }
-    }
-    return _medProfs;
+    return medProfsCache.getData();
   }
 
   public static void updateMedProfs() {
-    synchronized (_lockMedProfs) {
-      _medProfs = null;
-    }
+    medProfsCache.update();
     UserDbAuthority.updateMedProfDb();
-    logger.info("updateMedProfs called, current _medProfs: " + _medProfs);
+//    synchronized (_lockMedProfs) {
+//      _medProfs = null;
+//    }
+//    UserDbAuthority.updateMedProfDb();
+//    logger.info("updateMedProfs called, current _medProfs: " + _medProfs);
   }
 
 
@@ -197,23 +192,22 @@ public class SvcUtils {
     return getDbOps().ordersOfCustomers(customerIds);
   }
 
-  private static Object _lockProfOrgs = new Object();
-  private static Map<String, MProfOrgAgent> _profOrgs = null;
-  public static Map<String, MProfOrgAgent> getProfOrgMaps() {
-    if (_profOrgs == null) {
-      synchronized (_lockProfOrgs) {
-        if (_profOrgs == null) {
-          _profOrgs = getDbOps().profOrgAgentMapJ();
-        }
-      }
-    }
-    return _profOrgs;
-  }
 
-  public static MProfOrgAgent getMedProfOrg(String profId) {
+// ======================== prof org agent cache
+  private static CachedData<Map<String, MProfOrgAgent>> profOrgAgentsCache =
+    CachedData.createJ(
+      () -> getDbOps().profOrgAgentMapJ()
+    );
+
+  public static Map<String, MProfOrgAgent> getProfOrgAgentMaps() {
+    return profOrgAgentsCache.getData();
+  }
+//    public static void updateMedProfs() {
+//    }
+  public static MProfOrgAgent getProfOrgAgent(String profId) {
     MMedProf prof = getMedProfs().get(profId);
-    MProfOrgAgent profOrg = getProfOrgMaps().get(prof.orgAgentId());
-    return profOrg;
+    MProfOrgAgent agent = getProfOrgAgentMaps().get(prof.orgAgentId());
+    return agent;
   }
 
 //  private static Object _lockOrderStats = new Object();

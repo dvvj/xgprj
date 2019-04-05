@@ -13,6 +13,7 @@ import org.xg.ui.model.PricePlanOption;
 import org.xg.ui.model.RewardPlanOption;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.UISvcHelpers;
+import org.xg.user.UserType;
 
 public class AddNewMedProfCtrl {
   @FXML
@@ -31,8 +32,9 @@ public class AddNewMedProfCtrl {
   JFXComboBox cmboRewardPlanType;
 
   public void onAdd() {
+    String uid = UserType.MedProf().genUid(tfUid.getText().trim());
     AddNewMedProf mp = new AddNewMedProf(
-      new MMedProf(tfUid.getText(), tfName.getText(), tfIdCardNo.getText(), tfMobile.getText(), Global.getCurrUid()),
+      new MMedProf(uid, tfName.getText(), tfIdCardNo.getText(), tfMobile.getText(), Global.getCurrUid()),
       pfNew.getText()
     );
     UISvcHelpers.addNewMedProf(mp);

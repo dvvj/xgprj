@@ -38,17 +38,20 @@ public final class UserDbAuthority {
     return res.result();
   }
 
-  private final static CachedData<UserDbAuthority> customerAuthDb = CachedData.createJ(
-    () -> {
-      try {
-        Map<String, byte[]> userPassMap = SvcUtils.getDbOps().getUserPassMapJ();
-        return new UserDbAuthority(userPassMap);
-      }
-      catch (Exception ex) {
-        ex.printStackTrace();
-        throw new RuntimeException("Error", ex);
-      }
+  private static UserDbAuthority createDb(Map<String, byte[]> userPassMap) {
+    try {
+      return new UserDbAuthority(userPassMap);
     }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new RuntimeException("Error", ex);
+    }
+  }
+
+  private final static CachedData<UserDbAuthority> customerAuthDb = CachedData.createJ(
+    () -> createDb(
+      SvcUtils.getDbOps().getUserPassMapJ()
+    )
   );
   public static boolean authenticateCustomer(String customerId, String passHashStr) {
     return authenticateUser(customerAuthDb.getData()._auth, customerId, passHashStr);
@@ -57,15 +60,16 @@ public final class UserDbAuthority {
     customerAuthDb.update();
   }
 
+  private final static CachedData<UserDbAuthority> medProfAuthDb = CachedData.createJ(
+    () -> createDb(
+      SvcUtils.getDbOps().getMedProfPassMapJ()
+    )
+  );
   public static boolean authenticateMedProfs(String profId, String passHashStr) {
-//    AuthResult res = medProfInstance._auth.authenticate(profId, passHashStr);
-//    if (!res.result()) {
-//      logger.info(
-//        String.format("failed to authenticate [%s], reason: %s", profId, res.msg())
-//      );
-//    }
-//    return res.result();
-    return authenticateUser(medProfInstance._auth, profId, passHashStr);
+    return authenticateUser(medProfAuthDb.getData()._auth, profId, passHashStr);
+  }
+  public static void updateMedProfDb() {
+    medProfAuthDb.update();
   }
 
   public static boolean authenticateProfOrgAgent(String orgAgentId, String passHashStr) {
@@ -143,18 +147,18 @@ public final class UserDbAuthority {
 //    logger.info("in updateCustomerDb, updated profPass map size: " + customerPassMap.size());
 //  }
 
-  private final static InstanceCreation medProfDb = new InstanceCreation();
-  private static UserDbAuthority medProfInstance =
-    medProfDb.getInstance(
-      SvcUtils.getDbOps().getMedProfPassMapJ()
-    );
-  public static void updateMedProfDb() {
-    Map<String, byte[]> profPassMap = SvcUtils.getDbOps().getMedProfPassMapJ();
-    synchronized (medProfDb._instanceLock) {
-      medProfInstance = createInstasnce(profPassMap);
-    }
-    logger.info("in updateMedProfDb, updated profPass map size: " + profPassMap.size());
-  }
+//  private final static InstanceCreation medProfDb = new InstanceCreation();
+//  private static UserDbAuthority medProfInstance =
+//    medProfDb.getInstance(
+//      SvcUtils.getDbOps().getMedProfPassMapJ()
+//    );
+//  public static void updateMedProfDb() {
+//    Map<String, byte[]> profPassMap = SvcUtils.getDbOps().getMedProfPassMapJ();
+//    synchronized (medProfDb._instanceLock) {
+//      medProfInstance = createInstasnce(profPassMap);
+//    }
+//    logger.info("in updateMedProfDb, updated profPass map size: " + profPassMap.size());
+//  }
 
   private final static InstanceCreation profOrgAgentDb = new InstanceCreation();
   private static UserDbAuthority profOrgAgentInstance =
