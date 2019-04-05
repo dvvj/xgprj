@@ -24,6 +24,7 @@ import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.AddNewCustomerCtrl;
+import org.xg.ui.comp.TreeTableViewHelper;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.uiModels.Customer;
 import org.xg.uiModels.CustomerOrder;
@@ -161,75 +162,88 @@ public class MedProfsMain {
   private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
 
   private void loadProductTable() throws Exception {
-    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
-    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
-    VBox table;
 
-    //productLoader.setLocation(path);
-    table = tableLoader.load();
-    productCtrl = tableLoader.getController();
-    productCtrl.setup(
-//        "customerTable.toolbar.heading",
-      "customerTable.toolbar.refresh",
-      "customerTable.toolbar.searchPrompt",
-      "customerTable.toolbar.filter",
-      "customerTable.emptyPlaceHolder",
-      product -> {
+    productCtrl = TreeTableViewHelper.loadTableToTab(
+      productsTab,
+      (Product product) -> {
         Set<String> strs = new HashSet<>();
         strs.addAll(Arrays.asList(
           product.getName(),
           product.getDetailedInfo()
         ));
         return strs;
-      }
-    );
-
-    productCtrl.setupColumsAndLoadData(
-      theTable -> {
-        theTable.getColumns().addAll(
-          TableViewHelper.jfxTableColumnResBundle(
-            "customerTable.name",
-            Global.AllRes,
-            100,
-            Product::getName
-          ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "customerTable.mobile",
-            Global.AllRes,
-            150,
-            Product::getPrice0
-          ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "customerTable.pricePlanInfo",
-            Global.AllRes,
-            300,
-            Product::getDetailedInfo
-          )
-        );
-
-        UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
-
       },
       () -> dataModel.getProducts(),
-      () -> {
-//        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
-//        maxChartValue.setValue(m);
-        selectedProduct.bind(productCtrl.getSelected());
-      }
+      "customerTable",
+      "customerTable.placeHolder",
+      Arrays.asList(
+        TableViewHelper.<Product, String>jfxTableColumnResBundle(
+          "customerTable.name",
+          Global.AllRes,
+          100,
+          Product::getName
+        ),
+        TableViewHelper.<Product, Double>jfxTableColumnResBundle(
+          "customerTable.mobile",
+          Global.AllRes,
+          150,
+          Product::getPrice0
+        ),
+        TableViewHelper.<Product, String>jfxTableColumnResBundle(
+          "customerTable.pricePlanInfo",
+          Global.AllRes,
+          300,
+          Product::getDetailedInfo
+        )
+      )
+
     );
 
-    selectedProduct.addListener((observable, oldValue, newValue) -> {
-      if (newValue != null) {
-        System.out.println(newValue.getName());
-//        String customerId = newValue.getUid();
-//        System.out.println("current customer " + customerId);
-//        createBarChartCurrCustomer(customerId, newValue.getName());
-      }
-    });
-
-    //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
-    //System.out.println("data :" + dataModel.getOrderData().length);
-    productsTab.getChildren().addAll(table);
+//    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
+//    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
+//    VBox table;
+//
+//    //productLoader.setLocation(path);
+//    table = tableLoader.load();
+//    productCtrl = tableLoader.getController();
+//    productCtrl.setup(
+////        "customerTable.toolbar.heading",
+//      "customerTable.toolbar.refresh",
+//      "customerTable.toolbar.searchPrompt",
+//      "customerTable.toolbar.filter",
+//      "customerTable.emptyPlaceHolder",
+//
+//    );
+//
+//    productCtrl.setupColumsAndLoadData(
+//      theTable -> {
+//        theTable.getColumns().addAll(
+//
+//        );
+//
+//        UIHelpers.setPlaceHolder4TreeView(theTable, "customerTable.placeHolder");
+//
+//      },
+//      () -> dataModel.getProducts(),
+//      () -> {
+////        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
+////        maxChartValue.setValue(m);
+//        selectedProduct.bind(productCtrl.getSelected());
+//      }
+//    );
+//
+//    selectedProduct.addListener((observable, oldValue, newValue) -> {
+//      if (newValue != null) {
+//        System.out.println(newValue.getName());
+////        String customerId = newValue.getUid();
+////        System.out.println("current customer " + customerId);
+////        createBarChartCurrCustomer(customerId, newValue.getName());
+//      }
+//    });
+//
+//    //StackedBarChart<String, Number> barChart = ChartHelpers.createChart(dataModel.getOrderData());
+//    //System.out.println("data :" + dataModel.getOrderData().length);
+//    productsTab.getChildren().addAll(table);
   }
 
   @FXML
