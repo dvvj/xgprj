@@ -40,10 +40,10 @@ object InsertAllTestData {
 
   def main(args:Array[String]):Unit = {
     //insertAllUsers()
-//    println()
-//    insertOrders()
     println()
-    insertRewardPlans()
+    insertOrders()
+//    println()
+//    insertRewardPlans()
 //    println()
 //    insertRewardPlanMap()
 //    println()
