@@ -72,66 +72,68 @@ public final class UserDbAuthority {
     medProfAuthDb.update();
   }
 
+  private final static CachedData<UserDbAuthority> medProfOrgAgentAuthDb = CachedData.createJ(
+    () -> createDb(
+      SvcUtils.getDbOps().getProfOrgAgentPassMapJ()
+    )
+  );
   public static boolean authenticateProfOrgAgent(String orgAgentId, String passHashStr) {
-//    AuthResult res = profOrgAgentInstance._auth.authenticate(orgAgentId, passHashStr);
-//    if (!res.result()) {
-//      logger.info(
-//        String.format("failed to authenticate [%s], reason: %s", orgAgentId, res.msg())
-//      );
-//    }
-//    return res.result();
-    return authenticateUser(profOrgAgentInstance._auth, orgAgentId, passHashStr);
+    return authenticateUser(medProfOrgAgentAuthDb.getData()._auth, orgAgentId, passHashStr);
+  }
+  public static void updateProfOrgAgentDb() {
+    medProfOrgAgentAuthDb.update();
   }
 
+  private final static CachedData<UserDbAuthority> medProfOrgAuthDb = CachedData.createJ(
+    () -> createDb(
+      SvcUtils.getDbOps().getMedProfOrgPassMapJ()
+    )
+  );
   public static boolean authenticateProfOrg(String orgId, String passHashStr) {
-    return authenticateUser(profOrgInstance._auth, orgId, passHashStr);
+    return authenticateUser(medProfOrgAuthDb.getData()._auth, orgId, passHashStr);
+  }
+  public static void updateProfOrgDb() {
+    medProfOrgAuthDb.update();
   }
 
-  private static UserDbAuthority createInstasnce(Map<String, byte[]> userPassMap) {
-    try {
-//      Logging.debug("Creating UserDbAuthority: connecting %s", cfg.infoDbConnStr());
-//      Connection conn = Utils.tryConnect(cfg.infoDbConnStr());
-//      Logging.debug("Connected!");
+//  private static UserDbAuthority createInstasnce(Map<String, byte[]> userPassMap) {
+//    try {
+//      Logging.debug("userPassMap Size: %d", userPassMap.size());
+//
+//      return new UserDbAuthority(userPassMap);
+//    }
+//    catch (Exception ex) {
+//      ex.printStackTrace();
+//      throw new RuntimeException("Error", ex);
+//    }
+//  }
 
-//      TDbOps dbOps = SvcUtils.getDbOps(); //DbOpsImpl.jdbcImpl(conn);
-//      Map<String, byte[]> userPassMap = dbOps.getUserPassMapJ();
-//      conn.close();
-      Logging.debug("userPassMap Size: %d", userPassMap.size());
-
-      return new UserDbAuthority(userPassMap);
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException("Error", ex);
-    }
-  }
-
-  private static class InstanceCreation {
-    private UserDbAuthority instance;
-    private final Object _instanceLock = new Object();
-
-    private UserDbAuthority getInstance(Map<String, byte[]> userPassMap) {
-      // todo: external config
-      // GlobalCfg cfg = SvcUtils.getCfg();
-      if (instance == null) {
-        synchronized (_instanceLock) {
-          if (instance == null) {
-            instance = createInstasnce(userPassMap);
-//            logger.info(
-//              String.format("in getInstance, userPassMap size: %d, instance: %s", userPassMap.size(), instance)
-//            );
-          }
-        }
-      }
-      return instance;
-    }
-
-    private UserDbAuthority update(Map<String, byte[]> userPassMap) {
-      synchronized (_instanceLock) {
-        return createInstasnce(userPassMap);
-      }
-    }
-  }
+//  private static class InstanceCreation {
+//    private UserDbAuthority instance;
+//    private final Object _instanceLock = new Object();
+//
+//    private UserDbAuthority getInstance(Map<String, byte[]> userPassMap) {
+//      // todo: external config
+//      // GlobalCfg cfg = SvcUtils.getCfg();
+//      if (instance == null) {
+//        synchronized (_instanceLock) {
+//          if (instance == null) {
+//            instance = createInstasnce(userPassMap);
+////            logger.info(
+////              String.format("in getInstance, userPassMap size: %d, instance: %s", userPassMap.size(), instance)
+////            );
+//          }
+//        }
+//      }
+//      return instance;
+//    }
+//
+//    private UserDbAuthority update(Map<String, byte[]> userPassMap) {
+//      synchronized (_instanceLock) {
+//        return createInstasnce(userPassMap);
+//      }
+//    }
+//  }
 
 
 //  private final static InstanceCreation customerDb = new InstanceCreation();
@@ -160,32 +162,32 @@ public final class UserDbAuthority {
 //    logger.info("in updateMedProfDb, updated profPass map size: " + profPassMap.size());
 //  }
 
-  private final static InstanceCreation profOrgAgentDb = new InstanceCreation();
-  private static UserDbAuthority profOrgAgentInstance =
-    profOrgAgentDb.getInstance(
-      SvcUtils.getDbOps().getProfOrgAgentPassMapJ()
-    );
-  public static void updateProfOrgAgentDb() {
-    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getProfOrgAgentPassMapJ();
-    synchronized (profOrgAgentDb._instanceLock) {
-      profOrgAgentInstance = createInstasnce(orgPassMap);
-    }
-    logger.info("in updateProfOrgAgentDb, updated profPass map size: " + orgPassMap.size());
-  }
+//  private final static InstanceCreation profOrgAgentDb = new InstanceCreation();
+//  private static UserDbAuthority profOrgAgentInstance =
+//    profOrgAgentDb.getInstance(
+//      SvcUtils.getDbOps().getProfOrgAgentPassMapJ()
+//    );
+//  public static void updateProfOrgAgentDb() {
+//    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getProfOrgAgentPassMapJ();
+//    synchronized (profOrgAgentDb._instanceLock) {
+//      profOrgAgentInstance = createInstasnce(orgPassMap);
+//    }
+//    logger.info("in updateProfOrgAgentDb, updated profPass map size: " + orgPassMap.size());
+//  }
 
 
-  private final static InstanceCreation profOrgDb = new InstanceCreation();
-  private static UserDbAuthority profOrgInstance =
-    profOrgDb.getInstance(
-      SvcUtils.getDbOps().getMedProfOrgPassMapJ()
-    );
-  public static void updateProfOrgDb() {
-    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getMedProfOrgPassMapJ();
-    synchronized (profOrgDb._instanceLock) {
-      profOrgInstance = createInstasnce(orgPassMap);
-    }
-    logger.info("in updateProfOrgAgentDb, updated profPass map size: " + orgPassMap.size());
-  }
+//  private final static InstanceCreation profOrgDb = new InstanceCreation();
+//  private static UserDbAuthority profOrgInstance =
+//    profOrgDb.getInstance(
+//      SvcUtils.getDbOps().getMedProfOrgPassMapJ()
+//    );
+//  public static void updateProfOrgDb() {
+//    Map<String, byte[]> orgPassMap = SvcUtils.getDbOps().getMedProfOrgPassMapJ();
+//    synchronized (profOrgDb._instanceLock) {
+//      profOrgInstance = createInstasnce(orgPassMap);
+//    }
+//    logger.info("in updateProfOrgAgentDb, updated profPass map size: " + orgPassMap.size());
+//  }
 
 //  private static final String _InvalidToken = "";
 //
