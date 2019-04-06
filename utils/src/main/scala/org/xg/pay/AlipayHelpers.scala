@@ -81,8 +81,9 @@ object AlipayHelpers {
     //  val msg = "{'articles':[{'action_name':'立即查看','desc':'这是图文内容','image_url':'http://pic.alipayobjects.com/e/201311/1PaQ27Go6H_src.jpg','title':'这是标题','url':'https://www.alipay.com/'}],'msg_type':'image-text','to_user_id':'" + uid + "'}"
 
     //val resp = client.pageExecute(req).getBody
-    val resp = client.pageExecute(req).getBody
-    val content = resp //URLDecoder.decode(resp.getBody, "UTF-8")
+    val resp = client.pageExecute(req)
+
+    val content = resp.getBody //URLDecoder.decode(resp.getBody, "UTF-8")
     println(content)
     content
   }

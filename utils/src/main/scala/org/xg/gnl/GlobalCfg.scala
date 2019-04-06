@@ -60,7 +60,7 @@ object GlobalCfg {
   private val ORDERS_BY_REFED_CUSTOMERS = "order/refedCustomerOrders"
   private val MEDPROFS_OF = "profOrgAgent/profs"
   private val PROFORG_AGENTS_OF = "profOrg/agents"
-  private val ORDERSTATS_OF_ORG = "profOrg/orderStats"
+  private val ORDERSTATS_OF_ORG = "profOrg/orderStats4Org"
   private val ORDERSTATS_OF_AGENT = "profOrgAgent/orderStats"
   private val CUSTOMER_PRICEPLANS_OF_PROF = "prof/customerPricePlans"
   private val ADD_NEW_MEDPROF = "profOrgAgent/addNewMedProf"

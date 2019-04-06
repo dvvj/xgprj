@@ -38,7 +38,7 @@ public class ProfOrgOps {
 
   @Secured
   @POST
-  @Path("orderStats")
+  @Path("orderStats4Org")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
   public Response getOrderStats(String orgId) {
