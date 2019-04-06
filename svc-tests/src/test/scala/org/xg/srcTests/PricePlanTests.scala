@@ -42,7 +42,7 @@ object PricePlanTests extends App {
   println(newPPId)
 
   val plansByUser = SvcHelpers.pricePlansBy(
-    cfg.pricePlanCreatedByURL,
+    cfg.pricePlanAccessibleByURL,
     resp.token,
     uid
   )

@@ -41,7 +41,7 @@ object RewardPlanTests extends App {
   println(newRPId)
 
   val plansByUser = SvcHelpers.pricePlansBy(
-    cfg.rewardPlanCreatedByURL,
+    cfg.rewardPlanAccessibleByURL,
     resp.token,
     uid
   )

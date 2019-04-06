@@ -42,12 +42,12 @@ public class UserCfgOps {
 
   @Secured
   @POST
-  @Path("pricePlanCreatedBy")
+  @Path("pricePlanAccessibleBy")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-  public Response getPricePlanCreatedBy(String creatorId) {
+  public Response getPricePlanAccessibleBy(String creatorId) {
     try {
-      MPricePlan[] pricePlans = PricePlanUtils.getPricePlansCreatedBy(creatorId);
+      MPricePlan[] pricePlans = PricePlanUtils.getPricePlansAccessibleBy(creatorId);
 
       String j = MPricePlan.toJsons(pricePlans);
 //      if (pricePlan == null)
@@ -138,12 +138,12 @@ public class UserCfgOps {
 
   @Secured
   @POST
-  @Path("rewardPlanCreatedBy")
+  @Path("rewardPlanAccessibleBy")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-  public Response rewardPlanCreatedBy(String creatorId) {
+  public Response rewardPlanAccessibleBy(String creatorId) {
     try {
-      MRewardPlan[] rewardPlans = RewardPlanUtils.getRewardPlansCreatedBy(creatorId);
+      MRewardPlan[] rewardPlans = RewardPlanUtils.getRewardPlansAccessibleBy(creatorId);
 
       String j = MRewardPlan.toJsons(rewardPlans);
 //      if (pricePlan == null)

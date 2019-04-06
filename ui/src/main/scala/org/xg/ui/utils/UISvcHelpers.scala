@@ -136,7 +136,7 @@ object UISvcHelpers {
 
   def updatePricePlansOfProf(profId:String, token:String):Array[MPricePlan] = {
     val mps = SvcHelpers.postDecArray(
-      serverCfg.pricePlanCreatedByURL,
+      serverCfg.pricePlanAccessibleByURL,
       token,
       profId,
       MPricePlan.fromJsons
@@ -159,7 +159,7 @@ object UISvcHelpers {
 
   def updateRewardPlansCreatedBy(uid:String, token:String):Array[MRewardPlan] = {
     val mps = SvcHelpers.postDecArray(
-      serverCfg.rewardPlanCreatedByURL,
+      serverCfg.rewardPlanAccessibleByURL,
       token,
       uid,
       MRewardPlan.fromJsons

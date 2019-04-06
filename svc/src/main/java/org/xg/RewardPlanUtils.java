@@ -31,9 +31,11 @@ public class RewardPlanUtils {
     return rewardPlanMapCache.getData();
   }
 
-  public static MRewardPlan[] getRewardPlansCreatedBy(String creatorId) {
+  public static MRewardPlan[] getRewardPlansAccessibleBy(String creatorId) {
     Map<String, MRewardPlan> plans = new HashMap<>(getRewardPlans());
-    MRewardPlan[] res = plans.values().stream().filter(p -> p.creator().equals(creatorId))
+    MRewardPlan[] res = plans.values().stream().filter(
+      p -> p.creator().equals(creatorId) || p.creator().equals(MRewardPlan.builtInCreator())
+    )
       .toArray(MRewardPlan[]::new);
     return res;
   }

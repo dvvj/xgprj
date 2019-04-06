@@ -42,9 +42,11 @@ public class PricePlanUtils {
     pricePlanCache.update();
   }
 
-  public static MPricePlan[] getPricePlansCreatedBy(String creatorId) {
+  public static MPricePlan[] getPricePlansAccessibleBy(String creatorId) {
     Map<String, MPricePlan> plans = new HashMap<>(getPricePlans());
-    MPricePlan[] res = plans.values().stream().filter(p -> p.creator().equals(creatorId))
+    MPricePlan[] res = plans.values().stream().filter(
+      p -> p.creator().equals(creatorId) || p.creator().equals(MPricePlan.builtInCreator())
+    )
       .toArray(MPricePlan[]::new);
     return res;
   }
