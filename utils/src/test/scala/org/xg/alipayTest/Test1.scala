@@ -15,5 +15,5 @@ object Test1 extends App {
   val cfg = AlipayHelpers.testLocalCfg("/home/devvj/alipay-keys/rsa_private_key.raw")
 
   val dts = ZonedDateTime.now().toString
-  AlipayHelpers.test1(cfg, dts, "test name", 1.0)
+  AlipayHelpers.test1(cfg, dts, "test name", 1.0, "")
 }

@@ -6,8 +6,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.web.WebView;
+import org.xg.auth.SvcHelpers;
 import org.xg.pay.AlipayCfg;
 import org.xg.pay.AlipayHelpers;
+import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiModels.Product;
 
 import java.net.URL;
@@ -27,7 +29,8 @@ public class AlipayWebviewCtrl implements Initializable {
     String privateKeyPath = "/home/devvj/alipay-keys/rsa_private_key.raw";
     AlipayCfg cfg = AlipayHelpers.testLocalCfg(privateKeyPath);
     Double total = unitPrice * Double.parseDouble(amount.getValue());
-    String pageContent = AlipayHelpers.test1RandTraceNo(cfg, product.getName(), total);
+    String notifyUrl = UISvcHelpers.serverCfg().alipayNotifyURL();
+    String pageContent = AlipayHelpers.test1RandTraceNo(cfg, product.getName(), total, notifyUrl);
     wvAlipay.getEngine().loadContent(pageContent);
   }
 
