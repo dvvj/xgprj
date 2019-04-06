@@ -16,7 +16,8 @@ public class PaymentOps {
 
   @POST
   @Path("alipayNotify")
-  @Consumes(MediaType.TEXT_PLAIN)
+//  @Consumes("application/x-www-form-urlencoded;text/html;charset=utf-8")
+  @Consumes("application/x-www-form-urlencoded;charset=utf-8")
   public Response alipayNotify(String notifyContent) {
     logger.warning("=================================== alipayNotify:");
     logger.warning(notifyContent);
@@ -25,7 +26,8 @@ public class PaymentOps {
 
   @POST
   @Path("alipayReturn")
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Consumes("text/html;charset=utf-8")
+//  @Consumes("text/html;charset=utf-8")
   public Response alipayReturn(String returnContent) {
     logger.warning("=================================== alipayReturn:");
     logger.warning(returnContent);

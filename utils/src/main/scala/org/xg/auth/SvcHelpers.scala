@@ -102,6 +102,22 @@ object SvcHelpers {
     res.body
   }
 
+  def postWithContentType(url:String, token:String, contentType:String, data:String):String = {
+    val header = encodeAuthHeader(token)
+    val res = Http(url)
+      .option(HttpOptions.allowUnsafeSSL)
+      .postData(data)
+      .method("POST")
+      .headers(
+        Map(
+          "content-type" -> contentType,
+          "Authorization" -> header
+        )
+      )
+      .asString
+    res.body
+  }
+
   def post4Bin(url:String, token:String, data:String):Array[Byte] = {
     val header = encodeAuthHeader(token)
     val res = Http(url)
