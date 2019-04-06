@@ -57,12 +57,13 @@ object AlipayHelpers {
     cfg
   }
 
-  def test1RandTraceNo(cfg:AlipayCfg, prodName:String, totalAmount:Double, notifyUrl:String):String = {
+  def test1RandTraceNo(cfg:AlipayCfg, prodName:String, totalAmount:Double, returnUrl:String, notifyUrl:String):String = {
     test1(
       cfg,
       LocalDateTime.now().toString,
       prodName,
       totalAmount,
+      returnUrl,
       notifyUrl
     )
   }
@@ -72,6 +73,7 @@ object AlipayHelpers {
              outTradeNo:String,
              prodName:String,
              totalAmount:Double,
+             returnUrl:String,
              notifyUrl:String
            ):String = {
 
@@ -90,7 +92,7 @@ object AlipayHelpers {
     //  println(resp.getBody)
 
     val req = new AlipayTradePagePayRequest
-    req.setReturnUrl("https://reqres.in//api/users?page=2")
+    req.setReturnUrl(returnUrl)
     req.setNotifyUrl(notifyUrl)
     val currentTime = System.currentTimeMillis()
     val payModel = new AlipayTradeAppPayModel

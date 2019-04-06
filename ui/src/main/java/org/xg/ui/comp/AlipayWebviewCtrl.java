@@ -29,8 +29,12 @@ public class AlipayWebviewCtrl implements Initializable {
     String privateKeyPath = "/home/devvj/alipay-keys/rsa_private_key.raw";
     AlipayCfg cfg = AlipayHelpers.testLocalCfg(privateKeyPath);
     Double total = unitPrice * Double.parseDouble(amount.getValue());
+    String returnUrl = UISvcHelpers.serverCfg().alipayReturnURL();
     String notifyUrl = UISvcHelpers.serverCfg().alipayNotifyURL();
-    String pageContent = AlipayHelpers.test1RandTraceNo(cfg, product.getName(), total, notifyUrl);
+    String pageContent = AlipayHelpers.test1RandTraceNo(
+      cfg, product.getName(), total,
+      returnUrl, notifyUrl
+    );
     wvAlipay.getEngine().loadContent(pageContent);
   }
 

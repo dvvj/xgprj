@@ -22,4 +22,13 @@ public class PaymentOps {
     logger.warning(notifyContent);
     return Response.ok().build();
   }
+
+  @POST
+  @Path("alipayReturn")
+  @Consumes(MediaType.TEXT_PLAIN)
+  public Response alipayReturn(String returnContent) {
+    logger.warning("=================================== alipayReturn:");
+    logger.warning(returnContent);
+    return Response.ok().build();
+  }
 }

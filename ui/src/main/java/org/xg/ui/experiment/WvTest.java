@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import org.xg.pay.AlipayCfg;
 import org.xg.pay.AlipayHelpers;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.UISvcHelpers;
 
 public class WvTest extends Application {
   private static String privateKeyPath;
@@ -36,7 +37,10 @@ public class WvTest extends Application {
     root.getChildren().addAll(btn, wv);
 
     AlipayCfg cfg = AlipayHelpers.testLocalCfg(privateKeyPath);
-    String pageContent = AlipayHelpers.test1RandTraceNo(cfg, "prod name", 0.01);
+    String pageContent = AlipayHelpers.test1RandTraceNo(cfg, "prod name", 0.01,
+      UISvcHelpers.serverCfg().alipayReturnURL(),
+      UISvcHelpers.serverCfg().alipayNotifyURL()
+    );
     wv.getEngine().loadContent(pageContent);
 
     stage.setScene(
