@@ -111,7 +111,7 @@
         </SSLHostConfig>
     </Connector>
     -->
-    <Connector port="8443"
+    <Connector port="443"
        maxThreads="150"
        enableLookups="false"
        disableUploadTimeout="true"

@@ -7,7 +7,7 @@ import org.xg.gnl.GlobalCfg
 object OrderTestsEc2 extends App {
 
   val ec2Cfg = """{
-                 |  "svcSvr": "https://54.229.5.233:8443/webapi",
+                 |  "svcSvr": "https://54.229.5.233:443/webapi",
                  |  "timeOutMs": 1200,
                  |  "infoDbSvr": "jdbc:mysql://172.17.0.1:3306",
                  |  "assetLocalPath": "/appdata/product_assets"

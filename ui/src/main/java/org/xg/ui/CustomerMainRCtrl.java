@@ -86,7 +86,7 @@ public class CustomerMainRCtrl implements Initializable {
 
 //    img.setImage(
 ////      new Image("file:///media/sf_vmshare/assets/4.png", 200, 400, true, true)
-//      new Image("https://localhost:8443/webapi/asset/img?prodId=4&imageName=4.png", 200, 400, true, true)
+//      new Image("https://localhost:443/webapi/asset/img?prodId=4&imageName=4.png", 200, 400, true, true)
 //    );
   }
 }

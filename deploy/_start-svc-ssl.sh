@@ -1,5 +1,5 @@
 docker run -it \
-  -p 8443:8443 \
+  -p 443:443 \
   --name svc_i1 \
   -v $(pwd)/tomcat/svc.war:/usr/local/tomcat/webapps/svc.war \
   -v $(pwd)/tomcat/svc:/usr/local/tomcat/webapps/ROOT \

@@ -9,7 +9,7 @@ import org.xg.user.UserType
 object AuthTests extends App {
 
   val cfg = GlobalCfg.localTestCfg
-  //val authUrl = .authURL // "https://localhost:8443/webapi/auth/userPass"
+  //val authUrl = .authURL // "https://localhost:443/webapi/auth/userPass"
 
   val (uid, pass) = UserType.Customer.genUid("customer1") -> "123"
 //   val (uid, pass) = "customer2" -> "456"

@@ -35,7 +35,7 @@ public class LoginHelpers {
       Task<AuthResp> authTask = Helpers.uiTaskJ(
         () -> {
 //          GlobalCfg cfg = UISvcHelpers.serverCfg();
-//          String authUrl = cfg.authCustomerURL(); //"https://localhost:8443/webapi/auth/userPass";
+//          String authUrl = cfg.authCustomerURL(); //"https://localhost:443/webapi/auth/userPass";
 
           AuthResp resp = SvcHelpers.authReq(_authUrl, userId, pass);
           if (resp.success()) {
@@ -88,7 +88,7 @@ public class LoginHelpers {
 //      Task<AuthResp> authTask = Helpers.uiTaskJ(
 //        () -> {
 //          GlobalCfg cfg = UISvcHelpers.serverCfg();
-//          String authUrl = cfg.authCustomerURL(); //"https://localhost:8443/webapi/auth/userPass";
+//          String authUrl = cfg.authCustomerURL(); //"https://localhost:443/webapi/auth/userPass";
 //
 //          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
 //          if (resp.success()) {
@@ -129,7 +129,7 @@ public class LoginHelpers {
 //  new ILoginAction() {
 //    @Override
 //    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-//      String authUrl = UISvcHelpers.serverCfg().authProfURL(); //"https://localhost:8443/webapi/auth/userPass";
+//      String authUrl = UISvcHelpers.serverCfg().authProfURL(); //"https://localhost:443/webapi/auth/userPass";
 //
 //      Task<AuthResp> authTask = Helpers.uiTaskJ(
 //        () -> {
@@ -167,7 +167,7 @@ public class LoginHelpers {
 //  new ILoginAction() {
 //    @Override
 //    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-//      String authUrl = UISvcHelpers.serverCfg().authOrgURL(); //"https://localhost:8443/webapi/auth/userPass";
+//      String authUrl = UISvcHelpers.serverCfg().authOrgURL(); //"https://localhost:443/webapi/auth/userPass";
 //
 //      Task<AuthResp> authTask = Helpers.uiTaskJ(
 //        () -> {
