@@ -5,7 +5,7 @@
   <jar>./bin/ui-0.0.1-SNAPSHOT.jar</jar>
   <outfile>./bin/l4jt.exe</outfile>
   <errTitle></errTitle>
-  <cmdLine>rsa_key</cmdLine>
+  <cmdLine>ec2</cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
   <downloadUrl>http://java.com/download</downloadUrl>
