@@ -37,8 +37,8 @@ case class GlobalCfg(
   def addPricePlanURL:String = s"$svcSvr/$ADD_PRICE_PLAN"
   def addRewardPlanURL:String = s"$svcSvr/$ADD_REWARD_PLAN"
   def customerPricePlansURL:String = s"$svcSvr/$CUSTOMER_PRICEPLANS_OF_PROF"
-  def alipayNotifyURL: String = s"$infoDbSvr/$ALIPAY_NOTIFY_URL"
-  def alipayReturnURL: String = s"$infoDbSvr/$ALIPAY_RETURN_URL"
+  def alipayNotifyURL: String = s"$svcSvr/$ALIPAY_NOTIFY_URL"
+  def alipayReturnURL: String = s"$svcSvr/$ALIPAY_RETURN_URL"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
