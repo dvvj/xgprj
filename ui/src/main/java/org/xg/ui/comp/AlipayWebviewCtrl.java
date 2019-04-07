@@ -19,6 +19,23 @@ public class AlipayWebviewCtrl implements Initializable {
   @FXML
   private WebView wvAlipay;
 
+  private static final String htmlTemplate = "<!doctype html>\n" +
+    "\n" +
+    "<html lang=\"en\">\n" +
+    "<head>\n" +
+    "  <meta charset=\"utf-8\">\n" +
+    "  <style>\n" +
+    "     html { font-family: 'Noto Sans CJK SC Medium'; }\n" +
+    "  </style>" +
+    "\n" +
+    "  <title>Alipay</title>\n" +
+    "</head>\n" +
+    "\n" +
+    "<body>\n" +
+    "  %s\n" +
+    "</body>\n" +
+    "</html>";
+
   private StringProperty amount = new SimpleStringProperty();
   private double unitPrice;
 
@@ -35,13 +52,14 @@ public class AlipayWebviewCtrl implements Initializable {
       cfg, product.getName(), total,
       returnUrl, notifyUrl
     );
-    wvAlipay.getEngine().loadContent(pageContent);
+    String htmlPage = String.format(htmlTemplate, pageContent);
+    wvAlipay.getEngine().loadContent(htmlPage);
   }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    wvAlipay.getEngine().setUserStyleSheetLocation(
-      getClass().getResource("/default.css").toExternalForm()
-    );
+//    wvAlipay.getEngine().setUserStyleSheetLocation(
+//      getClass().getResource("/default.css").toExternalForm()
+//    );
   }
 }
