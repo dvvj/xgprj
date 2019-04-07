@@ -256,7 +256,17 @@ public class CustomerMain {
     rightSideController.setBinding(
       productTableController.getSelectedProductDetail(),
       productTableController.getSelectedProductImageUrl(),
-      productTableController.getSelectedProduct()
+      productTableController.getSelectedProduct(),
+      () -> {
+        loadDataModel();
+        try {
+          loadOrdersTab();
+        }
+        catch (Exception ex) {
+          Global.loggingTodo("error re-loading orders tab");
+          throw new RuntimeException(ex);
+        }
+      }
     );
 
     rightSide.getChildren().addAll(r);
@@ -268,7 +278,7 @@ public class CustomerMain {
       new Supplier[] {
         () -> UISvcHelpers.updateAllOrders(Global.getCurrToken())
       },
-      30000
+      20000
     );
 
     dataModel = new CustomerDataModel(

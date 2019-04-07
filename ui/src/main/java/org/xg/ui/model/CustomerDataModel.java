@@ -17,17 +17,21 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class CustomerDataModel {
-  private final ObservableList<Order> orders;
+  private ObservableList<Order> orders;
 //  private final ObservableList<Order> filteredOrders;
   private final IntegerProperty filterOptionCode = new SimpleIntegerProperty();
 
   public CustomerDataModel(Order[] orders) {
-    Arrays.stream(orders).forEach(o -> o.setStatusStr(statusStrMap.get(o.getStatus())));
-    this.orders = FXCollections.observableArrayList(orders);
+    updateOrders(orders);
     filterOptionCode.setValue(OrderFilterHelpers.OF_UNPAID);
 //    filteredOrders = FXCollections.observableArrayList(
 //      filterMap.get(filterOptionCode).apply(orders)
 //    );
+  }
+
+  public void updateOrders(Order[] orders) {
+    Arrays.stream(orders).forEach(o -> o.setStatusStr(statusStrMap.get(o.getStatus())));
+    this.orders = FXCollections.observableArrayList(orders);
   }
 
   public void setFilterOptionCode(Integer newCode) {

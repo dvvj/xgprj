@@ -37,13 +37,16 @@ public class PayOrderJFXTableCell extends TreeTableCell<Order, Order> {
           Global.AllRes.getString("orderTable.action.doPayment"),
           e -> {
             Order order = selectedOrder.getValue();
-            PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
-            String resp = SvcHelpers.post(
-              UISvcHelpers.serverCfg().payOrderURL(),
-              Global.getCurrToken(),
-              PayOrder.toJson(postData)
+//            PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
+//            String resp = SvcHelpers.post(
+//              UISvcHelpers.serverCfg().payOrderURL(),
+//              Global.getCurrToken(),
+//              PayOrder.toJson(postData)
+//            );
+//            Global.loggingTodo(resp);
+            AlipayWindow.launch(
+              order.getId(), order.getActualCost(), order.getProdName(), order.getQty()
             );
-            Global.loggingTodo(resp);
           }
         );
         JFXButton btnCancelOrder = createButton(

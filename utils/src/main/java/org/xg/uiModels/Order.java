@@ -12,6 +12,7 @@ import java.util.Map;
 public class Order extends RecursiveTreeObject<Order> {
 
   private Long id;
+  private double actualCost;
   private Integer prodId;
   private String prodName;
   private Double qty;
@@ -46,6 +47,7 @@ public class Order extends RecursiveTreeObject<Order> {
 
   public Order(
     Long id,
+    double actualCost,
     Integer prodId,
     String prodName,
     Double qty,
@@ -54,6 +56,7 @@ public class Order extends RecursiveTreeObject<Order> {
     int status
   ) {
     this.id = id;
+    this.actualCost = actualCost;
     this.prodId = prodId;
     this.prodName = prodName;
     this.qty = qty;
@@ -111,14 +114,18 @@ public class Order extends RecursiveTreeObject<Order> {
     ZonedDateTime pdt =
       mo.payTime().nonEmpty() ? DataUtils.utcTimeFromStr(mo.payTime().get()) : null;
     int status = OrderStatusLogics.status(mo);
-    return new Order(mo.id(), mo.productId(), product.getName(), mo.qty(), dt, pdt, status);
+    return new Order(mo.id(), mo.actualCost(), mo.productId(), product.getName(), mo.qty(), dt, pdt, status);
   }
 
   public Integer getProdId() {
     return prodId;
   }
 
-//  public static int getOrderStatus(MOrder mo) {
+  public double getActualCost() {
+    return actualCost;
+  }
+
+  //  public static int getOrderStatus(MOrder mo) {
 //    if (mo.procTime1S().nonEmpty()) {
 //      return OrderStatusLogics.Status_Locked();
 //    }

@@ -36,23 +36,23 @@ public class AlipayWebviewCtrl implements Initializable {
     "</body>\n" +
     "</html>";
 
-  private StringProperty amount = new SimpleStringProperty();
-  private double unitPrice;
+  private double amount;
+  //private double unitPrice;
   private Long _orderId;
 
-  public void setOrderInfoAndSendReq(Long orderId, Product product, ObservableValue<String> qty) {
-    amount.bind(qty);
+  public void setOrderInfoAndSendReq(Long orderId, double actualCost, String productName, Double qty) {
+    amount = qty;
     _orderId = orderId;
-    this.unitPrice = product.getActualPrice();
+    //this.unitPrice = product.getActualPrice();
 
     //String privateKeyPath = "/home/devvj/alipay-keys/rsa_private_key.raw";
     AlipayCfg cfg = AlipayHelpers.testLocalCfg();
-    Double total = unitPrice * Double.parseDouble(amount.getValue());
+    //Double total = unitPrice * amount; //Double.parseDouble(amount.getValue());
     String returnUrl = UISvcHelpers.serverCfg().alipayReturnURL();
     String notifyUrl = UISvcHelpers.serverCfg().alipayNotifyURL();
     String pageContent = AlipayHelpers.test1RandTraceNo(
       cfg,
-      _orderId, product.getName(), total,
+      _orderId, productName, actualCost,
       returnUrl, notifyUrl
     );
     String htmlPage = String.format(htmlTemplate, pageContent);

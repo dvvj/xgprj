@@ -36,18 +36,20 @@ public class CustomerMainRCtrl implements Initializable {
 
 //  private HBox hbPlaceOrder;
   private PlaceOrderCtrl poCtrl;
-//  public void setSelectedProduct(Product product) {
-//    poCtrl.setSelectedProduct(product);
-//  }
+
+  //private Runnable postPlaceOrder;
 
   public void setBinding(
     ObservableValue<String> details,
     ObservableValue<String> imageUrl,
-    ObservableValue<Product> selectedProduct
+    ObservableValue<Product> selectedProduct,
+    Runnable postProcess
   ) {
     txtDetails.textProperty().bind(details);
     lblUrl.textProperty().bind(imageUrl);
     poCtrl.bindSelectedProduct(selectedProduct);
+    //postPlaceOrder = postProcess;
+    poCtrl.setPostPurchase(postProcess);
   }
 
   @Override

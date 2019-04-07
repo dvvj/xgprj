@@ -47,15 +47,23 @@ public class PlaceOrderCtrl implements Initializable {
     selectedProduct.bind(product);
   }
 
+  private Runnable postPurchase;
+  public void setPostPurchase(Runnable postProcess) {
+    postPurchase = postProcess;
+  }
+
   @FXML
   private void handlePurchase(ActionEvent e) {
     if (selectedProduct.getValue() != null) {
       Long newOrderId = null;
+      Double actualCost = null;
+      Double qty = null;
       try {
-        Double qty = Double.parseDouble(txtQty.getText());
+        qty = Double.parseDouble(txtQty.getText());
         TPricePlan pricePlan = Global.getPricePlan();
         Product prod = selectedProduct.getValue();
-        Double actualCost = pricePlan != null ? pricePlan.adjust(prod.getId(), prod.getPrice0()) : prod.getPrice0();
+        double unitCost = pricePlan != null ? pricePlan.adjust(prod.getId(), prod.getPrice0()) : prod.getPrice0();
+        actualCost = unitCost*qty;
         UserOrder order = new UserOrder(Global.getCurrUid(), selectedProduct.getValue().getId(), qty, actualCost);
         String orderJson = UserOrder.toJson(order);
         String resp = SvcHelpers.reqPut(
@@ -72,25 +80,9 @@ public class PlaceOrderCtrl implements Initializable {
         throw new RuntimeException("Error placing order!", ex);
       }
 
-      FXMLLoader loader = new FXMLLoader(
-        UiLoginController.class.getResource("/ui/AlipayWebview.fxml"),
-        Global.AllRes
-      );
+      AlipayWindow.launch(newOrderId, actualCost, selectedProduct.getValue().getName(), qty);
 
-      try {
-        HBox n = loader.load();
-        AlipayWebviewCtrl ctrl = loader.getController();
-        ctrl.setOrderInfoAndSendReq(newOrderId, selectedProduct.getValue(), txtQty.textProperty());
-        Scene scene = Global.sceneDefStyle(n);
-        Stage payStage = new Stage();
-        payStage.setScene(scene);
-        payStage.show();
-      }
-
-      catch (IOException ex) {
-        Global.loggingTodo(ex.getMessage());
-        throw new RuntimeException("Error launching main window!", ex);
-      }
+      postPurchase.run();
     }
     else {
       System.out.println("Selected product is null");
