@@ -1,6 +1,7 @@
 package org.xg;
 
 import org.xg.auth.Secured;
+import org.xg.auth.SvcHelpers;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.TDbOps;
@@ -96,33 +97,30 @@ public class OrderOps {
       ex.printStackTrace();
       throw new WebApplicationException("Error", ex);
     }
-
   }
 
   @Secured
   @POST
   @Path("payOrder")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response payOrder(String payOrderJson, @Context SecurityContext sc) {
-    PayOrder payOrder = PayOrder.fromJson(payOrderJson);
-    try {
-      TDbOps dbOps = SvcUtils.getDbOps();
-      //String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
+    return SvcUtils.tryOps(
+      () -> {
+        PayOrder payOrder = PayOrder.fromJson(payOrderJson);
+        TDbOps dbOps = SvcUtils.getDbOps();
+        dbOps.payOrder(payOrder.orderId());
 
-      dbOps.payOrder(payOrder.orderId());
+        String msg = String.format("Order (id: %d) payed", payOrder.orderId());
+        logger.info(msg);
 
-      String msg = String.format("Order (id: %d) payed", payOrder.orderId());
-      logger.info(msg);
-
-      return Response.ok(msg)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
-
+        return Response.ok(msg)
+          .build();
+      },
+      String.format(
+        "payOrder error, payOrderJson: %s", payOrderJson
+      )
+    );
   }
 
 }

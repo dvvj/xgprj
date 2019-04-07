@@ -18,7 +18,7 @@ public class ProfOrgAgentOps {
   @POST
   @Path("profs")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getProfsOf(String orgAgentId) {
     try {
       MMedProf[] medprofs = SvcUtils.getMedProfsOf(orgAgentId);
@@ -37,7 +37,7 @@ public class ProfOrgAgentOps {
   @POST
   @Path("orderStats")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getOrderStatsOf(String orgAgentId) {
     try {
       MOrgAgentOrderStat[] orderStats = SvcUtils.getOrgAgentOrderStatsOf(orgAgentId);
@@ -56,7 +56,7 @@ public class ProfOrgAgentOps {
   @POST
   @Path("addNewMedProf")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response addNewMedProf(String addNewMedProfJson) {
     try {
       AddNewMedProf mp = AddNewMedProf.fromJson(addNewMedProfJson);

@@ -8,10 +8,13 @@ import org.xg.gnl.GlobalCfg;
 import org.xg.svc.AddNewCustomer;
 import org.xg.svc.AddNewMedProf;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -161,6 +164,18 @@ public class SvcUtils {
     updateCustomers();
   }
 
+  public static <T> T tryOps(
+    Supplier<T> producer,
+    String errorMsg
+  ) {
+    try {
+      return producer.get();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException(errorMsg, ex);
+    }
+  }
 //
 //  private final static GlobalCfg _cfg = loadCfg();
 //  public final static GlobalCfg getCfg() {

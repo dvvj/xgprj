@@ -18,7 +18,7 @@ public class UserCfgOps {
   @POST
   @Path("pricePlan")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getPricePlan(String uid) {
     try {
       MCustomer customer = SvcUtils.getCustomers().get(uid);
@@ -44,7 +44,7 @@ public class UserCfgOps {
   @POST
   @Path("pricePlanAccessibleBy")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getPricePlanAccessibleBy(String creatorId) {
     try {
       MPricePlan[] pricePlans = PricePlanUtils.getPricePlansAccessibleBy(creatorId);
@@ -65,7 +65,7 @@ public class UserCfgOps {
   @POST
   @Path("addPricePlan")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response addPricePlan(String json) {
     try {
       MPricePlan plan = MPricePlan.fromJson(json);
@@ -89,7 +89,7 @@ public class UserCfgOps {
   @POST
   @Path("rewardPlan")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getRewardPlan(String uid) {
     try {
       //MMedProf prof = SvcUtils.getMedProfs().get(uid);
@@ -115,7 +115,7 @@ public class UserCfgOps {
   @POST
   @Path("addRewardPlan")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response addRewardPlan(String json) {
     try {
       MRewardPlan plan = MRewardPlan.fromJson(json);
@@ -140,7 +140,7 @@ public class UserCfgOps {
   @POST
   @Path("rewardPlanAccessibleBy")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response rewardPlanAccessibleBy(String creatorId) {
     try {
       MRewardPlan[] rewardPlans = RewardPlanUtils.getRewardPlansAccessibleBy(creatorId);

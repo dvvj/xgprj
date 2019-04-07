@@ -20,7 +20,7 @@ public class MedProfsOps {
   @POST
   @Path("customers")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getCustomers(String profId) {
     try {
       //MMedProf prof = SvcUtils.getMedProfs().get(profId);
@@ -40,7 +40,7 @@ public class MedProfsOps {
   @POST
   @Path("newCustomer")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response newCustomer(String newCustomerJson) {
     try {
       //MMedProf prof = SvcUtils.getMedProfs().get(profId);
@@ -77,7 +77,7 @@ public class MedProfsOps {
   @POST
   @Path("customerPricePlans")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getCustomerPricePlans(String agentId) {
     try {
       CustomerPricePlan[] res = PricePlanUtils.getPricePlanMap4Agent(agentId);

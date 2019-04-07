@@ -20,7 +20,7 @@ public class ProfOrgOps {
   @POST
   @Path("agents")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getProfsOf(String orgId) {
     try {
       MProfOrgAgent[] agents = SvcUtils.getProfOrgAgentsOf(orgId);
@@ -40,7 +40,7 @@ public class ProfOrgOps {
   @POST
   @Path("orderStats4Org")
   @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getOrderStats(String orgId) {
     try {
       TDbOps dbOps = SvcUtils.getDbOps();
