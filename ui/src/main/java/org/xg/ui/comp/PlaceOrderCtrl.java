@@ -50,11 +50,7 @@ public class PlaceOrderCtrl implements Initializable {
   @FXML
   private void handlePurchase(ActionEvent e) {
     if (selectedProduct.getValue() != null) {
-      FXMLLoader loader = new FXMLLoader(
-        UiLoginController.class.getResource("/ui/AlipayWebview.fxml"),
-        Global.AllRes
-      );
-
+      Long newOrderId = null;
       try {
         Double qty = Double.parseDouble(txtQty.getText());
         TPricePlan pricePlan = Global.getPricePlan();
@@ -67,6 +63,7 @@ public class PlaceOrderCtrl implements Initializable {
           Global.getCurrToken(),
           orderJson
         );
+        newOrderId = Long.parseLong(resp);
         Global.loggingTodo(resp);
         //Global.updateAllOrders();
       }
@@ -75,10 +72,15 @@ public class PlaceOrderCtrl implements Initializable {
         throw new RuntimeException("Error placing order!", ex);
       }
 
+      FXMLLoader loader = new FXMLLoader(
+        UiLoginController.class.getResource("/ui/AlipayWebview.fxml"),
+        Global.AllRes
+      );
+
       try {
         HBox n = loader.load();
         AlipayWebviewCtrl ctrl = loader.getController();
-        ctrl.setAmountAndSendReq(selectedProduct.getValue(), txtQty.textProperty());
+        ctrl.setOrderInfoAndSendReq(newOrderId, selectedProduct.getValue(), txtQty.textProperty());
         Scene scene = Global.sceneDefStyle(n);
         Stage payStage = new Stage();
         payStage.setScene(scene);

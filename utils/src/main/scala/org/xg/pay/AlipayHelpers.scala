@@ -1,9 +1,5 @@
 package org.xg.pay
 
-import java.io.FileInputStream
-import java.nio.charset.StandardCharsets
-import java.time.LocalDateTime
-
 import com.alipay.api.DefaultAlipayClient
 import com.alipay.api.domain.AlipayTradeAppPayModel
 import com.alipay.api.request.AlipayTradePagePayRequest
@@ -40,7 +36,7 @@ object AlipayHelpers {
                                   |Vx+HA/xWMxpH4djtFyjetZo=
                                   |""".stripMargin
 
-  def testLocalCfg(privateKeyPath:String):AlipayCfg = {
+  def testLocalCfg():AlipayCfg = {
 //    val strm = new FileInputStream(
 //      privateKeyPath
 //      //"/home/devvj/alipay-keys/rsa_private_key.raw"
@@ -57,10 +53,12 @@ object AlipayHelpers {
     cfg
   }
 
-  def test1RandTraceNo(cfg:AlipayCfg, prodName:String, totalAmount:Double, returnUrl:String, notifyUrl:String):String = {
+  private def getOutTradeNo(orderId:Long):String = s"OutTradeNo$orderId"
+  def test1RandTraceNo(cfg:AlipayCfg, orderId:Long, prodName:String, totalAmount:Double, returnUrl:String, notifyUrl:String):String = {
     test1(
       cfg,
-      LocalDateTime.now().toString,
+      getOutTradeNo(orderId),
+      //LocalDateTime.now().toString,
       prodName,
       totalAmount,
       returnUrl,

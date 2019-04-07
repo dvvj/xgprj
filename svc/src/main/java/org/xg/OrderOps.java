@@ -90,7 +90,7 @@ public class OrderOps {
       logger.info(msg);
 
       return Response.status(Response.Status.CREATED)
-        .entity(msg)
+        .entity(orderId)
         .build();
     }
     catch (Exception ex) {
