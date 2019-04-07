@@ -1,6 +1,7 @@
 package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import org.xg.busiLogic.OrderStatusLogics;
 import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
@@ -46,7 +47,7 @@ public class OrgAgentOrderStat extends RecursiveTreeObject<OrgAgentOrderStat> {
   }
 
   public boolean getNotPayed() {
-    return status == MOrgAgentOrderStat.Status_CreatedNotPaid();
+    return status == OrderStatusLogics.Status_CreatedNotPaid();
   }
 
   public String getOrgAgentId() {

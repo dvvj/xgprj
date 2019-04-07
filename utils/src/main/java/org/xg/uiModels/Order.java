@@ -1,6 +1,7 @@
 package org.xg.uiModels;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import org.xg.busiLogic.OrderStatusLogics;
 import org.xg.dbModels.MOrder;
 import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.gnl.DataUtils;
@@ -32,11 +33,11 @@ public class Order extends RecursiveTreeObject<Order> {
   }
 
   public boolean getCanBeModified() {
-    return status != MOrgAgentOrderStat.Status_Locked();
+    return status != OrderStatusLogics.Status_Locked();
   }
 
   public boolean getNotPayed() {
-    return status == MOrgAgentOrderStat.Status_CreatedNotPaid();
+    return status == OrderStatusLogics.Status_CreatedNotPaid();
   }
 
   public Order() {
@@ -109,7 +110,7 @@ public class Order extends RecursiveTreeObject<Order> {
     ZonedDateTime dt = DataUtils.utcTimeFromStr(mo.creationTimeS());
     ZonedDateTime pdt =
       mo.payTime().nonEmpty() ? DataUtils.utcTimeFromStr(mo.payTime().get()) : null;
-    int status = getOrderStatus(mo);
+    int status = OrderStatusLogics.status(mo);
     return new Order(mo.id(), mo.productId(), product.getName(), mo.qty(), dt, pdt, status);
   }
 
@@ -117,15 +118,15 @@ public class Order extends RecursiveTreeObject<Order> {
     return prodId;
   }
 
-  public static int getOrderStatus(MOrder mo) {
-    if (mo.procTime1S().nonEmpty()) {
-      return MOrgAgentOrderStat.Status_Locked();
-    }
-    else if (mo.payTime().nonEmpty()) {
-      return MOrgAgentOrderStat.Status_Paid();
-    }
-    else {
-      return MOrgAgentOrderStat.Status_CreatedNotPaid();
-    }
-  }
+//  public static int getOrderStatus(MOrder mo) {
+//    if (mo.procTime1S().nonEmpty()) {
+//      return OrderStatusLogics.Status_Locked();
+//    }
+//    else if (mo.payTime().nonEmpty()) {
+//      return OrderStatusLogics.Status_Paid();
+//    }
+//    else {
+//      return OrderStatusLogics.Status_CreatedNotPaid();
+//    }
+//  }
 }

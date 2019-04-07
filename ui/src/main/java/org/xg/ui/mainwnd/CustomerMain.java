@@ -20,7 +20,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.xg.gnl.DataUtils;
 import org.xg.ui.*;
+import org.xg.ui.comp.TreeTableViewHelper;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.ui.model.ComboOptionData;
 import org.xg.ui.model.CustomerDataModel;
@@ -30,6 +32,7 @@ import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
+import org.xg.uiModels.Customer;
 import org.xg.uiModels.CustomerOrder;
 import org.xg.uiModels.Order;
 
@@ -97,73 +100,120 @@ public class CustomerMain {
 //  }
   private TreeTableViewWithFilterCtrl<Order> orderTableCtrl;
 
-  private void loadOrdersTable() throws Exception {
-    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
-    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
-    VBox table;
-
-    //productLoader.setLocation(path);
-    table = tableLoader.load();
-    orderTableCtrl = tableLoader.getController();
-    orderTableCtrl.setup(
-//        "customerOrderTable.toolbar.heading",
-      "orderTable.toolbar.refresh",
-      "orderTable.toolbar.searchPrompt",
-      "orderTable.toolbar.filter",
-      "orderTable.emptyPlaceHolder",
-      c -> {
-        Order order = (Order)c;
+  private void loadOrdersTab() throws Exception {
+    orderTableCtrl = TreeTableViewHelper.loadTableToTab(
+      ordersTab,
+      order -> {
         Set<String> strs = new HashSet<>();
         strs.addAll(Arrays.asList(
           order.getProdName(),
           order.getStatusStr()
         ));
         return strs;
-      }
-    );
-
-    orderTableCtrl.setupColumsAndLoadData(
-      tbl -> {
-        JFXTreeTableView<Order> theTable = (JFXTreeTableView<Order>)tbl;
-        theTable.getColumns().addAll(
-          TableViewHelper.jfxTableColumnResBundle(
-            "orderTable.prodName",
-            300,
-            Order::getProdName
-          ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "orderTable.qty",
-            100,
-            Order::getQty
-          ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "orderTable.creationTime",
-            200,
-            Order::getCreationTime
-          ),
-          TableViewHelper.jfxTableColumnResBundle(
-            "orderTable.status",
-            80,
-            Order::getStatusStr
-          ),
-          jfxOrderTableOpsColumn(
-            Global.AllRes.getString("orderTable.action"),
-            80
-          )
-
-        );
-
-        UIHelpers.setPlaceHolder4TreeView(theTable, "refedCustomerOrderTable.placeHolder");
-
       },
-      () -> dataModel.getOrders()
+      () -> dataModel.getOrders(),
+      "orderTable",
+      "orderTable.placeHolder",
+      newOrder -> {
+      },
+      Arrays.asList(
+        TableViewHelper.jfxTableColumnResBundle(
+          "orderTable.prodName",
+          300,
+          Order::getProdName
+        ),
+        TableViewHelper.jfxTableColumnResBundle(
+          "orderTable.qty",
+          100,
+          Order::getQty
+        ),
+        TableViewHelper.jfxTableColumnResBundle(
+          "orderTable.creationTime",
+          200,
+          Order::getCreationTime
+        ),
+        TableViewHelper.jfxTableColumnResBundle(
+          "orderTable.status",
+          80,
+          Order::getStatusStr
+        ),
+        jfxOrderTableOpsColumn(
+          Global.AllRes.getString("orderTable.action"),
+          180
+        )
+      )
     );
 
     orderTableCtrl.addExtraComponents(createOrderFilterCombo());
-
-    ordersTab.getChildren().addAll(table);
-
   }
+
+//  private void loadOrdersTable() throws Exception {
+//    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
+//    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
+//    VBox table;
+//
+//    //productLoader.setLocation(path);
+//    table = tableLoader.load();
+//    orderTableCtrl = tableLoader.getController();
+//    orderTableCtrl.setup(
+////        "customerOrderTable.toolbar.heading",
+//      "orderTable.toolbar.refresh",
+//      "orderTable.toolbar.searchPrompt",
+//      "orderTable.toolbar.filter",
+//      "orderTable.emptyPlaceHolder",
+//      c -> {
+//        Order order = (Order)c;
+//        Set<String> strs = new HashSet<>();
+//        strs.addAll(Arrays.asList(
+//          order.getProdName(),
+//          order.getStatusStr()
+//        ));
+//        return strs;
+//      }
+//    );
+//
+//    orderTableCtrl.setupColumsAndLoadData(
+//      tbl -> {
+//        JFXTreeTableView<Order> theTable = (JFXTreeTableView<Order>)tbl;
+//        theTable.getColumns().addAll(
+//          TableViewHelper.jfxTableColumnResBundle(
+//            "orderTable.prodName",
+//            300,
+//            Order::getProdName
+//          ),
+//          TableViewHelper.jfxTableColumnResBundle(
+//            "orderTable.qty",
+//            100,
+//            Order::getQty
+//          ),
+//          TableViewHelper.jfxTableColumnResBundle(
+//            "orderTable.creationTime",
+//            200,
+//            Order::getCreationTime
+//          ),
+//          TableViewHelper.jfxTableColumnResBundle(
+//            "orderTable.status",
+//            80,
+//            Order::getStatusStr
+//          ),
+//          jfxOrderTableOpsColumn(
+//            Global.AllRes.getString("orderTable.action"),
+//            80
+//          )
+//
+//        );
+//
+//        UIHelpers.setPlaceHolder4TreeView(theTable, "refedCustomerOrderTable.placeHolder");
+//
+//      },
+//      () -> dataModel.getOrders()
+//    );
+//
+//    orderTableCtrl.addExtraComponents(createOrderFilterCombo());
+//
+//    ordersTab.getChildren().addAll(table);
+//
+//  }
 
   private Node createOrderFilterCombo() {
     Integer filterCode = OrderFilterHelpers.OF_UNPAID;
@@ -233,7 +283,8 @@ public class CustomerMain {
       loadDataModel();
       loadLeftSide();
       loadRightSide();
-      loadOrdersTable();
+      //loadOrdersTable();
+      loadOrdersTab();
 
     }
     catch (Exception ex) {

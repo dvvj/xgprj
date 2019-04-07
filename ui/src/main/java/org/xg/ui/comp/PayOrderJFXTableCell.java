@@ -1,9 +1,15 @@
 package org.xg.ui.comp;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeTableCell;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
 import org.xg.svc.PayOrder;
@@ -24,23 +30,54 @@ public class PayOrderJFXTableCell extends TreeTableCell<Order, Order> {
     }
     else {
       if (item.getNotPayed()) {
-        Button btnPayOrder;
         selectedOrder.setValue(item);
-        btnPayOrder = new Button();
-        btnPayOrder.setText(
-          Global.AllRes.getString("orderTable.action.doPayment")
+        HBox hb = new HBox();
+        hb.setSpacing(5);
+        JFXButton btnPayOrder = createButton(
+          Global.AllRes.getString("orderTable.action.doPayment"),
+          e -> {
+            Order order = selectedOrder.getValue();
+            PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
+            String resp = SvcHelpers.post(
+              UISvcHelpers.serverCfg().payOrderURL(),
+              Global.getCurrToken(),
+              PayOrder.toJson(postData)
+            );
+            Global.loggingTodo(resp);
+          }
         );
-        Order order = selectedOrder.getValue();
-        PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
-        btnPayOrder.setOnAction(e -> {
-          String resp = SvcHelpers.post(
-            UISvcHelpers.serverCfg().payOrderURL(),
-            Global.getCurrToken(),
-            PayOrder.toJson(postData)
-          );
-          Global.loggingTodo(resp);
-        });
-        setGraphic(btnPayOrder);
+        JFXButton btnCancelOrder = createButton(
+          Global.AllRes.getString("orderTable.action.doCancel"),
+          e -> {
+            Order order = selectedOrder.getValue();
+            System.out.println("cancel pressed");
+//            PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
+//            String resp = SvcHelpers.post(
+//              UISvcHelpers.serverCfg().payOrderURL(),
+//              Global.getCurrToken(),
+//              PayOrder.toJson(postData)
+//            );
+//            Global.loggingTodo(resp);
+          }
+        );
+        hb.getChildren().addAll(btnPayOrder, btnCancelOrder);
+//        JFXButton btnPayOrder;
+//        btnPayOrder = new JFXButton();
+//        btnPayOrder.setText(
+//          Global.AllRes.getString("orderTable.action.doPayment")
+//        );
+//        btnPayOrder.getStyleClass().add("button-raised");
+//        Order order = selectedOrder.getValue();
+//        PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
+//        btnPayOrder.setOnAction(e -> {
+//          String resp = SvcHelpers.post(
+//            UISvcHelpers.serverCfg().payOrderURL(),
+//            Global.getCurrToken(),
+//            PayOrder.toJson(postData)
+//          );
+//          Global.loggingTodo(resp);
+//        });
+        setGraphic(hb);
       }
       else {
         Text txtStatus = new Text();
@@ -50,5 +87,17 @@ public class PayOrderJFXTableCell extends TreeTableCell<Order, Order> {
         setGraphic(txtStatus);
       }
     }
+  }
+
+  private JFXButton createButton(
+    String text,
+    EventHandler<ActionEvent> onAction
+  ) {
+    JFXButton btn;
+    btn = new JFXButton();
+    btn.setText(text);
+    btn.getStyleClass().add("button-raised");
+    btn.setOnAction(onAction);
+    return btn;
   }
 }

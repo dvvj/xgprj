@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -15,10 +16,7 @@ import org.xg.ui.utils.UIHelpers;
 import org.xg.uiModels.CustomerOrder;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -36,7 +34,8 @@ public class TreeTableViewHelper {
     String resPfx,
     String resEmptyTablePlaceHold,
     Consumer<T> selectedListener,
-    List<JFXTreeTableColumn<T, ?>> columns
+    List<JFXTreeTableColumn<T, ?>> columns,
+    List<Node> extraComponents
   ) throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
     FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
@@ -66,10 +65,30 @@ public class TreeTableViewHelper {
       uiUpdater
     );
 
+    tblCtrl.addExtraComponents(extraComponents);
+
     tab.getChildren().addAll(table);
 
     return tblCtrl;
   }
+
+  public static <T extends RecursiveTreeObject<T>> TreeTableViewWithFilterCtrl<T> loadTableToTab(
+    Pane tab,
+    Function<T, Set<String>> getSearchableStrs,
+    Supplier<ObservableList<T>> dataRetriever,
+    Runnable uiUpdater,
+    String resPfx,
+    String resEmptyTablePlaceHold,
+    Consumer<T> selectedListener,
+    List<JFXTreeTableColumn<T, ?>> columns
+  ) throws Exception {
+    return loadTableToTab(tab, getSearchableStrs, dataRetriever,
+      uiUpdater,
+      resPfx, resEmptyTablePlaceHold, selectedListener, columns,
+      new ArrayList<>(0)
+    );
+  }
+
 
   public static <T extends RecursiveTreeObject<T>> TreeTableViewWithFilterCtrl<T> loadTableToTab(
     Pane tab,
@@ -82,7 +101,25 @@ public class TreeTableViewHelper {
   ) throws Exception {
     return loadTableToTab(tab, getSearchableStrs, dataRetriever,
       () -> {},
-      resPfx, resEmptyTablePlaceHold, selectedListener, columns
+      resPfx, resEmptyTablePlaceHold, selectedListener, columns,
+      new ArrayList<>(0)
+    );
+  }
+
+  public static <T extends RecursiveTreeObject<T>> TreeTableViewWithFilterCtrl<T> loadTableToTab(
+    Pane tab,
+    Function<T, Set<String>> getSearchableStrs,
+    Supplier<ObservableList<T>> dataRetriever,
+    String resPfx,
+    String resEmptyTablePlaceHold,
+    Consumer<T> selectedListener,
+    List<JFXTreeTableColumn<T, ?>> columns,
+    Node extraComponent
+  ) throws Exception {
+    return loadTableToTab(tab, getSearchableStrs, dataRetriever,
+      () -> {},
+      resPfx, resEmptyTablePlaceHold, selectedListener, columns,
+      Arrays.asList(extraComponent)
     );
   }
 }

@@ -9,7 +9,7 @@ object PayOrderTests extends App {
   val orders = testHbnOps.ordersOf(uid)
 
   orders.foreach { o =>
-    if (o.canBePayed)
+    if (o.canBePaid)
       testHbnOps.payOrder(o.id)
   }
 

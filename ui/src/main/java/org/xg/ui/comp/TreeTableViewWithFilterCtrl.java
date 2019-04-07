@@ -27,6 +27,7 @@ import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.*;
 
@@ -248,5 +249,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
   public void addExtraComponents(Node... components) {
     exComps.getChildren().addAll(components);
   }
-
+  public void addExtraComponents(List<Node> components) {
+    exComps.getChildren().addAll(components);
+  }
 }

@@ -8,6 +8,7 @@ import java.util.Date
 import javax.persistence.TemporalType
 import org.hibernate.{Session, SessionFactory}
 import org.xg.auth.AuthHelpers
+import org.xg.busiLogic.OrderStatusLogics
 import org.xg.dbModels.TDbOps
 import org.xg.dbModels._
 import org.xg.gnl.DataUtils
@@ -268,28 +269,28 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def updateOrder(orderId: Long, newQty:Double): Boolean = {
-      val updateTime = DataUtils.utcTimeNow
-      runInTransaction(
-        sessFactory,
-        { sess =>
-          val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
-          val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
-          val morder = convertOrder(order)
-          if (morder.canBeModified) {
-            val histEntry = new OrderHistory(order.getId, DataUtils.utcTimeNow, order.getQty)
-            order.setQty(newQty)
-            sess.update(order)
-            sess.save(histEntry)
-            true
-          }
-          else {
-            loggingTodo("Order locked (cannot be modified anymore)!")
-            false
-          }
-        }
-      )
-    }
+//    override def updateOrder(orderId: Long, newQty:Double): Boolean = {
+//      val updateTime = DataUtils.utcTimeNow
+//      runInTransaction(
+//        sessFactory,
+//        { sess =>
+//          val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
+//          val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
+//          val morder = convertOrder(order)
+//          if (morder.canBeModified) {
+//            val histEntry = new OrderHistory(order.getId, DataUtils.utcTimeNow, order.getQty)
+//            order.setQty(newQty)
+//            sess.update(order)
+//            sess.save(histEntry)
+//            true
+//          }
+//          else {
+//            loggingTodo("Order locked (cannot be modified anymore)!")
+//            false
+//          }
+//        }
+//      )
+//    }
 
     override def lockOrders: Array[MOrder] = {
       val currTime = DataUtils.utcTimeNow
@@ -316,17 +317,43 @@ object HbnDbOpsImpl {
           val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
           val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
           val morder = convertOrder(order)
-          if (morder.canBePayed) {
+          if (morder.canBePaid) {
             order.setPayTime(payTime)
             sess.update(order)
             val orgOrderStatQuery = s"Select o from ${classOf[OrgAgentOrderStat].getName} o where o.orderId = $orderId"
             val orderStat = sess.createQuery(orgOrderStatQuery).getResultList.get(0).asInstanceOf[OrgAgentOrderStat]
-            orderStat.setStatus(MOrgAgentOrderStat.Status_Paid)
+            orderStat.setStatus(OrderStatusLogics.Status_Paid)
             sess.update(orderStat)
             true
           }
           else {
             loggingTodo("Order locked (cannot be modified anymore)!")
+            false
+          }
+        }
+      )
+    }
+
+    override def cancelOrder(orderId: Long): Boolean = {
+      val cancelTime = DataUtils.utcTimeNow
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
+          val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
+          val morder = convertOrder(order)
+          if (morder.canBeCancelled) {
+            order.setProcTime2(cancelTime)
+            sess.update(order)
+            val orgOrderStatQuery = s"Select o from ${classOf[OrgAgentOrderStat].getName} o where o.orderId = $orderId"
+            val orderStat = sess.createQuery(orgOrderStatQuery).getResultList.get(0).asInstanceOf[OrgAgentOrderStat]
+            orderStat.setStatus(OrderStatusLogics.Status_Paid)
+            sess.update(orderStat)
+            true
+          }
+          else {
+            val orderStatus = OrderStatusLogics.status(morder)
+            loggingTodo("Order cannot be cancelled, status: " + orderStatus)
             false
           }
         }
@@ -355,7 +382,7 @@ object HbnDbOpsImpl {
             order.getQty,
             order.getActualCost,
             order.getCreationTime,
-            MOrgAgentOrderStat.Status_CreatedNotPaid
+            OrderStatusLogics.Status_CreatedNotPaid
           )
 
           sess.save(orgOrderStat)

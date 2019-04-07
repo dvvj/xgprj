@@ -1,5 +1,7 @@
 package org.xg.dbModels
 
+import org.xg.busiLogic.OrderStatusLogics
+
 case class MOrder(
   id:Long,
   uid:String,
@@ -31,8 +33,9 @@ case class MOrder(
 //            payTime:String
 //          ) = this(id, uid, productId, qty, creationTimeS, Option(payTime), None, None, None)
 
-  def canBeModified:Boolean = procTime1S == null || procTime1S.isEmpty
-  def canBePayed:Boolean = payTime == null || payTime.isEmpty
+  //def canBeModified:Boolean = procTime1S == null || procTime1S.isEmpty
+  def canBePaid:Boolean = OrderStatusLogics.orderCanBePaid(this)
+  def canBeCancelled:Boolean = OrderStatusLogics.orderCanBeCancelled(this)
 }
 
 object MOrder {

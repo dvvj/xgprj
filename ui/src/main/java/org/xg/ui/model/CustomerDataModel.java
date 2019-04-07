@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.xg.busiLogic.OrderStatusLogics;
 import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.gnl.DataUtils;
 import org.xg.ui.utils.Global;
@@ -69,16 +70,16 @@ public class CustomerDataModel {
 
     statusStrMap = new HashMap<>();
     statusStrMap.put(
-      MOrgAgentOrderStat.Status_CreatedNotPaid(), Global.AllRes.getString("orderTable.status.createdNotPaid")
+      OrderStatusLogics.Status_CreatedNotPaid(), Global.AllRes.getString("orderTable.status.createdNotPaid")
     );
     statusStrMap.put(
-      MOrgAgentOrderStat.Status_Paid(), Global.AllRes.getString("orderTable.status.paid")
+      OrderStatusLogics.Status_Paid(), Global.AllRes.getString("orderTable.status.paid")
     );
     statusStrMap.put(
-      MOrgAgentOrderStat.Status_Cancelled(), Global.AllRes.getString("orderTable.status.cancelled")
+      OrderStatusLogics.Status_Cancelled(), Global.AllRes.getString("orderTable.status.cancelled")
     );
     statusStrMap.put(
-      MOrgAgentOrderStat.Status_Locked(), Global.AllRes.getString("orderTable.status.locked")
+      OrderStatusLogics.Status_Locked(), Global.AllRes.getString("orderTable.status.locked")
     );
   }
 

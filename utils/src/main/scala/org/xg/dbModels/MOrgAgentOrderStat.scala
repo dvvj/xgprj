@@ -14,10 +14,7 @@ case class MOrgAgentOrderStat(
 )
 
 object MOrgAgentOrderStat {
-  val Status_Cancelled:Int = -1
-  val Status_CreatedNotPaid:Int = 1
-  val Status_Paid:Int = 2
-  val Status_Locked:Int = 3
+
 
   def toJsons(stats:Array[MOrgAgentOrderStat]):String = {
     CommonUtils._toJsons(stats)
