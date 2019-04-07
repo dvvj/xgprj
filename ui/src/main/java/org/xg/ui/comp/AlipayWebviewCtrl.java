@@ -58,8 +58,8 @@ public class AlipayWebviewCtrl implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-//    wvAlipay.getEngine().setUserStyleSheetLocation(
-//      getClass().getResource("/default.css").toExternalForm()
-//    );
+    wvAlipay.getEngine().setUserStyleSheetLocation(
+      getClass().getResource("/default.css").toExternalForm()
+    );
   }
 }
