@@ -9,6 +9,7 @@ import javafx.scene.web.WebView;
 import org.xg.auth.SvcHelpers;
 import org.xg.pay.AlipayCfg;
 import org.xg.pay.AlipayHelpers;
+import org.xg.ui.utils.Global;
 import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiModels.Product;
 
@@ -48,8 +49,13 @@ public class AlipayWebviewCtrl implements Initializable {
     //String privateKeyPath = "/home/devvj/alipay-keys/rsa_private_key.raw";
     AlipayCfg cfg = AlipayHelpers.testLocalCfg();
     //Double total = unitPrice * amount; //Double.parseDouble(amount.getValue());
+    //String returnUrl = "http://wonder4.life/webapi/payment/alipayReturn";
     String returnUrl = UISvcHelpers.serverCfg().alipayReturnURL();
     String notifyUrl = UISvcHelpers.serverCfg().alipayNotifyURL();
+    //String notifyUrl = "http://wonder4.life/webapi/payment/alipayNotify";
+    Global.loggingTodo(
+      String.format("return url: %s\nnotify url: %s", returnUrl, notifyUrl)
+    );
     String pageContent = AlipayHelpers.test1RandTraceNo(
       cfg,
       _orderId, productName, actualCost,
