@@ -2,9 +2,7 @@ package org.xg;
 
 import org.xg.auth.UserDbAuthority;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
@@ -24,13 +22,13 @@ public class PaymentOps {
     return Response.ok().build();
   }
 
-  @POST
+  @GET
   @Path("alipayReturn")
-  @Consumes("text/html;charset=utf-8")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
 //  @Consumes("text/html;charset=utf-8")
-  public Response alipayReturn(String returnContent) {
+  public Response alipayReturn(@QueryParam("out_trade_no") String outTradeNo) {
     logger.warning("=================================== alipayReturn:");
-    logger.warning(returnContent);
-    return Response.ok().build();
+    logger.warning("outTradeNo: " + outTradeNo);
+    return Response.ok(outTradeNo).build();
   }
 }
