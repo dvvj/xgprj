@@ -31,11 +31,9 @@ public class OrderOps {
       logger.warning(
         String.format("Getting orders for user [%s]", uid)
       );
-//      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
-//      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
+
       TDbOps dbOps = SvcUtils.getDbOps();
       MOrder[] orders = dbOps.ordersOf(uid);
-//      conn.close();
       return Response.ok(
         MOrder.toJsons(orders)
       ).build();
@@ -119,6 +117,30 @@ public class OrderOps {
       },
       String.format(
         "payOrder error, payOrderJson: %s", payOrderJson
+      )
+    );
+  }
+
+  @Secured
+  @POST
+  @Path("cancelOrder")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response cancelOrder(String orderId, @Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        TDbOps dbOps = SvcUtils.getDbOps();
+        dbOps.cancelOrder(Long.parseLong(orderId));
+
+        String uid = sc.getUserPrincipal().getName();
+        String msg = String.format("Order (id: %s for user: %s) cancelled", orderId, uid);
+        logger.info(msg);
+
+        return Response.ok(msg)
+          .build();
+      },
+      String.format(
+        "cancelOrder error, orderId: %s", orderId
       )
     );
   }
