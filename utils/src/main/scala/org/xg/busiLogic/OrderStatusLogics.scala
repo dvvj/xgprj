@@ -18,6 +18,9 @@ object OrderStatusLogics {
     else
       Status_CreatedNotPaid
   }
+
+  def isCancelled(mo:MOrder):Boolean = status(mo) == Status_Cancelled
+  def isUnpaid(mo:MOrder):Boolean = status(mo) == Status_CreatedNotPaid
   def orderCanBePaid(morder:MOrder):Boolean = status(morder) == Status_CreatedNotPaid
   def orderCanBeCancelled(morder:MOrder):Boolean = status(morder) == Status_CreatedNotPaid
 }

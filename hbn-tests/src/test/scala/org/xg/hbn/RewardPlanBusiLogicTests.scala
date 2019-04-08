@@ -38,8 +38,8 @@ object RewardPlanBusiLogicTests extends App {
     }
   }
 
-  val allOrgs = testHbnOps.allProfOrgs
-  allOrgs.foreach { org =>
+  val allAgents = testHbnOps.allProfOrgAgents
+  allAgents.foreach { org =>
     val plan = getPlan4(org.orgAgentId)
     if (plan.nonEmpty) {
       println(s"Plan found for med prof [${org.orgAgentId}]")

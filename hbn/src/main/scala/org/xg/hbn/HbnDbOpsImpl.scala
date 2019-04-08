@@ -488,19 +488,19 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def ordersOf_Unpaid(uid: String): Array[MOrder] = {
-      runInTransaction(
-        sessFactory,
-        { sess =>
-          val ql = s"Select o from ${classOf[Order].getName} o where o.customerId = '$uid' and o.payTime is null "
-          val q = sess.createQuery(ql)
-          val res = q.getResultList.asScala
-            .toArray.map(c => convertOrder(c.asInstanceOf[Order]))
-          res
-        }
-      )
-
-    }
+//    override def ordersOf_Unpaid(uid: String): Array[MOrder] = {
+//      runInTransaction(
+//        sessFactory,
+//        { sess =>
+//          val ql = s"Select o from ${classOf[Order].getName} o where o.customerId = '$uid' and o.payTime is null "
+//          val q = sess.createQuery(ql)
+//          val res = q.getResultList.asScala
+//            .toArray.map(c => convertOrder(c.asInstanceOf[Order]))
+//          res
+//        }
+//      )
+//
+//    }
 
     override def ordersOf_CreationTimeWithin(uid: String, days: Int): Array[MOrder] = {
       val zdtNow = DataUtils.utcTimeNow

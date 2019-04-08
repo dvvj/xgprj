@@ -3,7 +3,7 @@ package org.xg.dbModels
 import java.time.{Period, ZonedDateTime}
 import java.time.temporal.ChronoUnit
 
-import org.xg.busiLogic.{PricePlanLogics, RewardPlanLogics}
+import org.xg.busiLogic.{OrderStatusLogics, PricePlanLogics, RewardPlanLogics}
 import org.xg.gnl.DataUtils
 
 trait TDbOps {
@@ -74,7 +74,12 @@ trait TDbOps {
   }
   // order related
   def ordersOf(uid:String):Array[MOrder]
-  def ordersOf_Unpaid(uid:String):Array[MOrder]
+  def ordersOf_Unpaid(uid:String):Array[MOrder] = {
+    ordersOf(uid).filter(OrderStatusLogics.isUnpaid)
+  }
+  def ordersOf_Cancelled(uid:String):Array[MOrder] = {
+    ordersOf(uid).filter(OrderStatusLogics.isCancelled)
+  }
 
   def ordersOf_CreationTimeWithin(uid:String, days:Int):Array[MOrder]
   def ordersOf_CreatedThisMonth(uid:String):Array[MOrder] = {
