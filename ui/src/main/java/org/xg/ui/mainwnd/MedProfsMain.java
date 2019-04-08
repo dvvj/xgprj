@@ -26,6 +26,7 @@ import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.AddNewCustomerCtrl;
 import org.xg.ui.comp.TreeTableViewHelper;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
+import org.xg.ui.comp.UpdatePasswordCtrl;
 import org.xg.uiModels.Customer;
 import org.xg.uiModels.CustomerOrder;
 import org.xg.ui.model.MedProfsDataModel;
@@ -313,6 +314,7 @@ public class MedProfsMain {
       loadCustomerTable();
       loadPricePlanTable();
       loadAddNewCustomerTab();
+      loadUpdatePasswordTab();
     }
     catch (Exception ex) {
       throw new RuntimeException(ex);
@@ -386,5 +388,11 @@ public class MedProfsMain {
         )
       )
     );
+  }
+
+  @FXML
+  VBox updatePasswordTab;
+  private void loadUpdatePasswordTab() throws Exception {
+    UpdatePasswordCtrl.load2Tab(updatePasswordTab);
   }
 }

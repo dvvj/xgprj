@@ -21,6 +21,7 @@ import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.AddNewMedProfCtrl;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
+import org.xg.ui.comp.UpdatePasswordCtrl;
 import org.xg.uiModels.MedProf;
 import org.xg.ui.model.ProfOrgAgentDataModel;
 import org.xg.ui.model.TableViewHelper;
@@ -390,12 +391,12 @@ public class ProfOrgAgentsMain {
   @FXML
   VBox updatePasswordTab;
   private void loadUpdatePasswordTab() throws Exception {
-    URL path = UiLoginController.class.getResource("/ui/comp/UpdatePassword.fxml");
-    FXMLLoader updatePassLoader = new FXMLLoader(path, Global.AllRes);
-    VBox updatePass = updatePassLoader.load();
-
-    updatePasswordTab.getChildren().addAll(updatePass);
-
+    UpdatePasswordCtrl.load2Tab(updatePasswordTab);
+//    URL path = UiLoginController.class.getResource("/ui/comp/UpdatePassword.fxml");
+//    FXMLLoader updatePassLoader = new FXMLLoader(path, Global.AllRes);
+//    VBox updatePass = updatePassLoader.load();
+//
+//    updatePasswordTab.getChildren().addAll(updatePass);
   }
 
   @FXML

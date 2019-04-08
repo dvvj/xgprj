@@ -19,6 +19,7 @@ import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
+import org.xg.ui.comp.UpdatePasswordCtrl;
 import org.xg.ui.model.MedProfOrgDataModel;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
@@ -284,5 +285,9 @@ public class MedProfOrgMain {
     );
   }
 
-
+  @FXML
+  VBox updatePasswordTab;
+  private void loadUpdatePasswordTab() throws Exception {
+    UpdatePasswordCtrl.load2Tab(updatePasswordTab);
+  }
 }

@@ -24,6 +24,7 @@ import org.xg.gnl.DataUtils;
 import org.xg.ui.*;
 import org.xg.ui.comp.TreeTableViewHelper;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
+import org.xg.ui.comp.UpdatePasswordCtrl;
 import org.xg.ui.model.ComboOptionData;
 import org.xg.ui.model.CustomerDataModel;
 import org.xg.ui.model.OrderFilterHelpers;
@@ -295,11 +296,18 @@ public class CustomerMain {
       loadRightSide();
       //loadOrdersTable();
       loadOrdersTab();
+      loadUpdatePasswordTab();
 
     }
     catch (Exception ex) {
       throw new RuntimeException("Error launching main window!", ex);
     }
+  }
+
+  @FXML
+  VBox updatePasswordTab;
+  private void loadUpdatePasswordTab() throws Exception {
+    UpdatePasswordCtrl.load2Tab(updatePasswordTab);
   }
 
 //  public static final class SettingsController {
