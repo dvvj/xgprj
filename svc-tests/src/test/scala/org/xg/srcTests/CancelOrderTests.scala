@@ -25,6 +25,8 @@ object CancelOrderTests extends App {
   )
   val unpaidOrders = allOrders.filter(OrderStatusLogics.isUnpaid)
 
-  unpaidOrders.foreach( o => SvcHelpers.post(cfg.cancelOrderURL, resp.token, o.id.toString) )
+  println(unpaidOrders.length)
+
+  //unpaidOrders.foreach( o => SvcHelpers.post(cfg.cancelOrderURL, resp.token, o.id.toString) )
 
 }

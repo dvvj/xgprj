@@ -1,5 +1,5 @@
 cd ./docker-mysql/
-sh ./start.sh /home/devvj/db-backup
+sh ./start.sh $PWD/../backup
 cd ..
 rm -rf tomcat
 mkdir ./tomcat
