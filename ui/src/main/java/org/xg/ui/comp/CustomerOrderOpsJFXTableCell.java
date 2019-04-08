@@ -17,7 +17,7 @@ import org.xg.uiModels.Order;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.UISvcHelpers;
 
-public class PayOrderJFXTableCell extends TreeTableCell<Order, Order> {
+public class CustomerOrderOpsJFXTableCell extends TreeTableCell<Order, Order> {
   private ObjectProperty<Order> selectedOrder = new SimpleObjectProperty<>();
 
   //private Button btnPayOrder;
@@ -54,6 +54,12 @@ public class PayOrderJFXTableCell extends TreeTableCell<Order, Order> {
           e -> {
             Order order = selectedOrder.getValue();
             System.out.println("cancel pressed");
+            String resp = SvcHelpers.post(
+              UISvcHelpers.serverCfg().cancelOrderURL(),
+              Global.getCurrToken(),
+              order.getId().toString()
+            );
+            Global.loggingTodo(resp);
 //            PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
 //            String resp = SvcHelpers.post(
 //              UISvcHelpers.serverCfg().payOrderURL(),
@@ -64,22 +70,7 @@ public class PayOrderJFXTableCell extends TreeTableCell<Order, Order> {
           }
         );
         hb.getChildren().addAll(btnPayOrder, btnCancelOrder);
-//        JFXButton btnPayOrder;
-//        btnPayOrder = new JFXButton();
-//        btnPayOrder.setText(
-//          Global.AllRes.getString("orderTable.action.doPayment")
-//        );
-//        btnPayOrder.getStyleClass().add("button-raised");
-//        Order order = selectedOrder.getValue();
-//        PayOrder postData = new PayOrder(order.getId(), Global.getCurrUid());
-//        btnPayOrder.setOnAction(e -> {
-//          String resp = SvcHelpers.post(
-//            UISvcHelpers.serverCfg().payOrderURL(),
-//            Global.getCurrToken(),
-//            PayOrder.toJson(postData)
-//          );
-//          Global.loggingTodo(resp);
-//        });
+
         setGraphic(hb);
       }
       else {

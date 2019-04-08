@@ -104,7 +104,7 @@ public class TableViewHelper {
     JFXTreeTableColumn<Order, Order> col = new JFXTreeTableColumn<>(colName);
     col.setPrefWidth(prefWidth);
     col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getValue()));
-    col.setCellFactory(c -> new PayOrderJFXTableCell());
+    col.setCellFactory(c -> new CustomerOrderOpsJFXTableCell());
     return col;
   }
 
