@@ -71,7 +71,7 @@ object NotifyUtils {
       |</head>
       |
       |<body>
-      |  <h5>付款成功 （共计：%s元）</h5>
+      |  <h5>付款成功 （共计：%s元），请关闭本窗口</h5>
       |</body>
       |</html>
     """.stripMargin
