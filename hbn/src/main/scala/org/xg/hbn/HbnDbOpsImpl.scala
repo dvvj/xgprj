@@ -628,6 +628,25 @@ object HbnDbOpsImpl {
       )
 
     }
+
+    override def updateCustomerPass(customerId:String, newPassHash:Array[Byte]):Boolean = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val ql = s"Select c from ${classOf[Customer].getName} c where c.uid = '$customerId'"
+          val q = sess.createQuery(ql)
+          val res = q.getResultList
+          if (res.isEmpty)
+            throw new IllegalStateException(s"Customer [$customerId] not found")
+          else {
+            val c = res.get(0).asInstanceOf[Customer]
+            c.setPassHash(newPassHash)
+            sess.update(c)
+            true
+          }
+        }
+      )
+    }
   }
 
   def hbnOps(cfgFile:String):TDbOps = new OpsImpl(

@@ -1,5 +1,6 @@
 package org.xg;
 
+import org.xg.auth.AuthHelpers;
 import org.xg.auth.Secured;
 import org.xg.busiLogic.PricePlanLogics;
 import org.xg.busiLogic.RewardPlanLogics;
@@ -160,13 +161,15 @@ public class UserCfgOps {
 
   @Secured
   @POST
-  @Path("updatePassword")
+  @Path("updateCustomerPassword")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response updatePassword(String updatePasswordJson, @Context SecurityContext sc) {
     return SvcUtils.tryOps(
       () -> {
         UpdatePassword up = UpdatePassword.fromJson(updatePasswordJson);
+
+        byte[] passHash = AuthHelpers.str2Hash(up.newpassHash());
 
         return Response.ok("password updated")
           .build();

@@ -18,6 +18,21 @@ object AuthHelpers {
     }.mkString
   }
 
+  def str2Hash(str:String):Array[Byte] = {
+    if (str.length % 2 != 0)
+      throw new IllegalArgumentException(s"Expecting even length")
+    else {
+      val len = str.length / 2
+      val res = new Array[Byte](len)
+      (0 until len).foreach { idx =>
+        val hex = str.substring(idx*2, idx*2+2)
+        val i = Integer.parseInt(hex, 16)
+        res(idx) = (i & 0xff).asInstanceOf[Byte]
+      }
+      res
+    }
+  }
+
   private val MsgConnector = "d=3+5*@UsjTE*z23"
   type TokenEncoder = Array[String] => Array[Byte]
 

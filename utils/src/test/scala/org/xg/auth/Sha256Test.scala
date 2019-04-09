@@ -11,6 +11,10 @@ object Sha256Test extends App {
     val res = AuthHelpers.sha512(msg)
     val passHash = AuthHelpers.hash2Str(res)
     println(s"${res.length}: $passHash")
+    val revPass = AuthHelpers.str2Hash(passHash)
+    val same = revPass.sameElements(res)
+    assert(same)
+    println(same)
   }
 
   val token = AuthHelpers.generateToken(

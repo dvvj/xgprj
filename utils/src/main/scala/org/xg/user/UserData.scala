@@ -7,6 +7,7 @@ object UserData {
   def uidPrefix(ut:String):String = s"$ut$UnderScoreUnicode"
 
   private def userTypeMap:Map[Int, UserType] = UserType.values.map(v => v.code -> v).toMap
+  private def pfx2UserTypeMap:Map[String, UserType] = UserType.values.flatMap(v => v.uidPfx.map(_ -> v)).toMap
   //def typeFromCode(userTypeCode:Int):UserType = userTypeMap(userTypeCode)
 
   def genUid(userTypeCode:Int, idPart:String):String = {
