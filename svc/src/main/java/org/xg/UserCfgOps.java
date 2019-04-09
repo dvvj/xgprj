@@ -4,10 +4,13 @@ import org.xg.auth.Secured;
 import org.xg.busiLogic.PricePlanLogics;
 import org.xg.busiLogic.RewardPlanLogics;
 import org.xg.dbModels.*;
+import org.xg.svc.UpdatePassword;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.util.logging.Logger;
 
 @Path("user")
@@ -146,8 +149,6 @@ public class UserCfgOps {
       MRewardPlan[] rewardPlans = RewardPlanUtils.getRewardPlansAccessibleBy(creatorId);
 
       String j = MRewardPlan.toJsons(rewardPlans);
-//      if (pricePlan == null)
-//        logger.info(String.format("No price plan found for user [%s]", uid));
 
       return Response.ok(j).build();
     }
@@ -157,4 +158,22 @@ public class UserCfgOps {
     }
   }
 
+  @Secured
+  @POST
+  @Path("updatePassword")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response updatePassword(String updatePasswordJson, @Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        UpdatePassword up = UpdatePassword.fromJson(updatePasswordJson);
+
+        return Response.ok("password updated")
+          .build();
+      },
+      String.format(
+        "updatePassword error, updatePasswordJson: %s", updatePasswordJson
+      )
+    );
+  }
 }
