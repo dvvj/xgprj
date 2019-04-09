@@ -309,11 +309,12 @@ object HbnDbOpsImpl {
       )
     }
 
-    override def payOrder(orderId: Long): Boolean = {
+    override def saveAlipayNotifyRawAndPayOrder(notifyRaw:String, orderId:Long, tradeDt:String): Boolean = {
       val payTime = DataUtils.utcTimeNow
       runInTransaction(
         sessFactory,
         { sess =>
+
           val orderQuery = s"Select o from ${classOf[Order].getName} o where o.id = $orderId"
           val order = sess.createQuery(orderQuery).getResultList.get(0).asInstanceOf[Order]
           val morder = convertOrder(order)
@@ -324,12 +325,33 @@ object HbnDbOpsImpl {
             val orderStat = sess.createQuery(orgOrderStatQuery).getResultList.get(0).asInstanceOf[OrgAgentOrderStat]
             orderStat.setStatus(OrderStatusLogics.Status_Paid)
             sess.update(orderStat)
+
+            val alipayNotifyRaw = new AlipayNotifyRaw(
+              orderId, tradeDt, notifyRaw
+            )
+            sess.save(alipayNotifyRaw)
+
             true
           }
           else {
-            loggingTodo("Order locked (cannot be modified anymore)!")
-            false
+            val msg = s"Order cannot be paid: $morder"
+            loggingTodo(msg)
+            throw new IllegalStateException(msg)
           }
+        }
+      )
+    }
+
+    override def saveAlipayNotifyRawButDoNotPay(notifyRaw:String):Boolean = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+
+          val alipayNotifyRaw = new AlipayNotifyRaw(
+            null, null, notifyRaw
+          )
+          sess.save(alipayNotifyRaw)
+          true
         }
       )
     }

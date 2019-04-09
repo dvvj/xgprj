@@ -109,6 +109,15 @@ CREATE TABLE reward_plans (
   PRIMARY KEY (id)
 );
 
+
+CREATE TABLE alipay_notify_raw (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  raw VARCHAR(4095) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  order_id BIGINT,
+  trade_dt VARCHAR(31),
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE reward_plan_map (
   id BIGINT NOT NULL AUTO_INCREMENT,
   uid VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,

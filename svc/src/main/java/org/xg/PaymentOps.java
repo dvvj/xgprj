@@ -1,10 +1,12 @@
 package org.xg;
 
+import org.xg.alipay.NotifyUtils;
 import org.xg.auth.UserDbAuthority;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Path("payment")
@@ -19,16 +21,36 @@ public class PaymentOps {
   public Response alipayNotify(String notifyContent) {
     logger.warning("=================================== alipayNotify:");
     logger.warning(notifyContent);
-    return Response.ok().build();
+
+    return SvcUtils.tryOps(
+      () -> {
+        NotifyUtils.parseNotifyResultAndSave2Db(notifyContent, SvcUtils.getDbOps());
+        logger.info("Successfully processed notification: " + notifyContent);
+        return Response.ok().build();
+      },
+      "Failed to processing notification: " + notifyContent
+    );
   }
 
   @GET
   @Path("alipayReturn")
-  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  @Produces(SvcUtils.MediaType_HTML_UTF8)
 //  @Consumes("text/html;charset=utf-8")
-  public Response alipayReturn(@QueryParam("out_trade_no") String outTradeNo) {
+  public Response alipayReturn(
+    @QueryParam("out_trade_no") String outTradeNo,
+    @QueryParam("total_amount") String totalAmount
+  ) {
     logger.warning("=================================== alipayReturn:");
     logger.warning("outTradeNo: " + outTradeNo);
-    return Response.ok(outTradeNo).build();
+//    return SvcUtils.tryOps(
+//      () -> {
+//        NotifyUtils.parseNotifyResultAndSave2Db(
+//
+//        );
+//      }
+//    );
+    return Response.ok(
+      String.format(NotifyUtils.returnMsgTemplate(), totalAmount)
+    ).build();
   }
 }

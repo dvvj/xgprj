@@ -111,7 +111,8 @@ trait TDbOps {
   def placeOrder(uid:String, refUid:String, orgAgentId:String, productId:Int, qty:Double, actualCost:Double):Long
 //  def updateOrder(orderId:Long, newQty:Double):Boolean
   def cancelOrder(orderId: Long): Boolean
-  def payOrder(orderId:Long):Boolean
+  def saveAlipayNotifyRawAndPayOrder(notifyRaw:String, orderId:Long, tradeDt:String):Boolean
+  def saveAlipayNotifyRawButDoNotPay(notifyRaw:String):Boolean
 
   def testAllOrderHistory:Array[MOrderHistory]
   def lockOrders:Array[MOrder]
@@ -194,6 +195,7 @@ trait TDbOps {
   def addPricePlanMap(ppm: MPricePlanMap):Boolean
 
   def addRewardPlanMap(ppm: MRewardPlanMap):Boolean
+
 }
 
 object TDbOps {

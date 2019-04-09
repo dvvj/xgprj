@@ -97,29 +97,29 @@ public class OrderOps {
     }
   }
 
-  @Secured
-  @POST
-  @Path("payOrder")
-  @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response payOrder(String payOrderJson, @Context SecurityContext sc) {
-    return SvcUtils.tryOps(
-      () -> {
-        PayOrder payOrder = PayOrder.fromJson(payOrderJson);
-        TDbOps dbOps = SvcUtils.getDbOps();
-        dbOps.payOrder(payOrder.orderId());
-
-        String msg = String.format("Order (id: %d) payed", payOrder.orderId());
-        logger.info(msg);
-
-        return Response.ok(msg)
-          .build();
-      },
-      String.format(
-        "payOrder error, payOrderJson: %s", payOrderJson
-      )
-    );
-  }
+//  @Secured
+//  @POST
+//  @Path("payOrder")
+//  @Consumes(MediaType.TEXT_PLAIN)
+//  @Produces(SvcUtils.MediaType_TXT_UTF8)
+//  public Response payOrder(String payOrderJson, @Context SecurityContext sc) {
+//    return SvcUtils.tryOps(
+//      () -> {
+//        PayOrder payOrder = PayOrder.fromJson(payOrderJson);
+//        TDbOps dbOps = SvcUtils.getDbOps();
+//        dbOps.payOrder(payOrder.orderId());
+//
+//        String msg = String.format("Order (id: %d) payed", payOrder.orderId());
+//        logger.info(msg);
+//
+//        return Response.ok(msg)
+//          .build();
+//      },
+//      String.format(
+//        "payOrder error, payOrderJson: %s", payOrderJson
+//      )
+//    );
+//  }
 
   @Secured
   @POST

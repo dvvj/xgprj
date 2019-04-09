@@ -5,6 +5,7 @@ import com.alipay.api.domain.AlipayTradeAppPayModel
 import com.alipay.api.request.AlipayTradePagePayRequest
 import jdk.nashorn.internal.objects.Global
 import org.apache.commons.io.IOUtils
+import org.xg.alipay.NotifyUtils
 import org.xg.gnl.DataUtils
 
 object AlipayHelpers {
@@ -54,11 +55,10 @@ object AlipayHelpers {
     cfg
   }
 
-  private def getOutTradeNo(orderId:Long, dateTime:String):String = s"OutTradeNo$orderId-$dateTime"
   def test1RandTraceNo(cfg:AlipayCfg, orderId:Long, prodName:String, totalAmount:Double, returnUrl:String, notifyUrl:String):String = {
     test1(
       cfg,
-      getOutTradeNo(orderId, DataUtils.utcTimeNowStr),
+      NotifyUtils.genOutTradeNo(orderId, DataUtils.utcTimeNowStr),
       //LocalDateTime.now().toString,
       prodName,
       totalAmount,
