@@ -196,7 +196,7 @@ trait TDbOps {
 
   def addRewardPlanMap(ppm: MRewardPlanMap):Boolean
 
-  def updateCustomerPass(customerId:String, newPassHash:Array[Byte]):Boolean
+  def updateCustomerPass(customerId:String, oldPassHash:Array[Byte], newPassHash:Array[Byte]):OpResp
 }
 
 object TDbOps {

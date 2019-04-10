@@ -12,8 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.xg.auth.AuthHelpers;
+import org.xg.svc.UpdatePassword;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.utils.Global;
+import org.xg.ui.utils.UISvcHelpers;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -55,6 +58,14 @@ public class UpdatePasswordCtrl {
 
   public void onUpdatePass(ActionEvent e) {
     Global.loggingTodo("updading pass");
+    byte[] oldPassHash = AuthHelpers.sha512(pfOld.getText());
+    String oldPassHashStr = AuthHelpers.hash2Str(oldPassHash);
+    byte[] newPassHash = AuthHelpers.sha512(pfNew1.getText());
+    String newPassHashStr = AuthHelpers.hash2Str(newPassHash);
+    UISvcHelpers.updateCustomerPassword(
+      new UpdatePassword(oldPassHashStr, newPassHashStr),
+      Global.getCurrToken()
+    );
   }
 
   private BooleanProperty newpassMismatch = new SimpleBooleanProperty();

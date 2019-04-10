@@ -629,20 +629,25 @@ object HbnDbOpsImpl {
 
     }
 
-    override def updateCustomerPass(customerId:String, newPassHash:Array[Byte]):Boolean = {
+    override def updateCustomerPass(customerId:String, oldPassHash:Array[Byte], newPassHash:Array[Byte]):OpResp = {
       runInTransaction(
         sessFactory,
         { sess =>
           val ql = s"Select c from ${classOf[Customer].getName} c where c.uid = '$customerId'"
           val q = sess.createQuery(ql)
           val res = q.getResultList
-          if (res.isEmpty)
-            throw new IllegalStateException(s"Customer [$customerId] not found")
+          if (res.size() != 1)
+            throw new IllegalStateException(s"Found ${res.size} customer with id [$customerId], (expecting exactly one)!")
           else {
             val c = res.get(0).asInstanceOf[Customer]
-            c.setPassHash(newPassHash)
-            sess.update(c)
-            true
+            if (oldPassHash.sameElements(c.getPassHash)) {
+              c.setPassHash(newPassHash)
+              sess.update(c)
+              OpResp.Success
+            }
+            else {
+              OpResp.failed("Old pass not match")
+            }
           }
         }
       )

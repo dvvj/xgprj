@@ -6,7 +6,7 @@ import org.xg.svc.{SvcCommonUtils, UserPass}
 import scalaj.http.{Http, HttpOptions}
 import java.util.function.{Function => JFunc}
 
-import org.xg.dbModels.{MPricePlan, MRewardPlan}
+import org.xg.dbModels.{MPricePlan, MRewardPlan, OpResp}
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.pricePlan.v1.PrPlFixedRate
 import org.xg.pay.rewardPlan.TRewardPlan
@@ -100,6 +100,28 @@ object SvcHelpers {
       )
       .asString
     res.body
+  }
+
+  def postCheckStatus(url:String, token:String, data:String):OpResp = {
+    val header = encodeAuthHeader(token)
+    val res = Http(url)
+      .option(HttpOptions.allowUnsafeSSL)
+      .postData(data)
+      .method("POST")
+      .headers(
+        Map(
+          "content-type" -> "text/plain",
+          "Authorization" -> header
+        )
+      )
+      .asString
+    if (res.isSuccess)
+      OpResp.Success
+    else {
+      OpResp.failed(
+        s"Error code [${res.code}], msg: [${res.body}]"
+      )
+    }
   }
 
   def postWithContentType(url:String, token:String, contentType:String, data:String):String = {

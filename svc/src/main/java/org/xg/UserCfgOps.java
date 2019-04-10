@@ -169,10 +169,25 @@ public class UserCfgOps {
       () -> {
         UpdatePassword up = UpdatePassword.fromJson(updatePasswordJson);
 
-        byte[] passHash = AuthHelpers.str2Hash(up.newpassHash());
+        byte[] oldPassHash = AuthHelpers.str2Hash(up.oldpassHash());
+        byte[] newPassHash = AuthHelpers.str2Hash(up.newpassHash());
+        String uid = sc.getUserPrincipal().getName();
 
-        return Response.ok("password updated")
-          .build();
+        OpResp dbResp = SvcUtils.getDbOps().updateCustomerPass(
+          uid, oldPassHash, newPassHash
+        );
+
+        if (dbResp.success()) {
+          SvcUtils.updateCustomers();
+          return Response.ok("password updated for " + uid)
+            .build();
+        }
+        else {
+          return Response
+            .status(Response.Status.BAD_REQUEST)
+            .entity(dbResp.errMsgJ())
+            .build();
+        }
       },
       String.format(
         "updatePassword error, updatePasswordJson: %s", updatePasswordJson

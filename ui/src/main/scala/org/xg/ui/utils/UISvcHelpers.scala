@@ -7,7 +7,7 @@ import org.xg.dbModels._
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
-import org.xg.svc.{AddNewCustomer, AddNewMedProf, CustomerPricePlan}
+import org.xg.svc.{AddNewCustomer, AddNewMedProf, CustomerPricePlan, UpdatePassword}
 import org.xg.uiModels.Order
 
 object UISvcHelpers {
@@ -79,6 +79,21 @@ object UISvcHelpers {
     )
 
     MMedProf.fromJsons(j)
+  }
+
+  def updateCustomerPassword(up:UpdatePassword, userToken:String):Unit = {
+    val j = UpdatePassword.toJson(up)
+    val resp = SvcHelpers.postCheckStatus(
+      serverCfg.updateCustomerPasswordURL,
+      userToken,
+      j
+    )
+    if (!resp.success) Global.loggingTodo(resp.errMsgJ)
+    else {
+      Global.loggingTodo(
+        s"pass updated for user ${Global.getCurrUid}"
+      )
+    }
   }
 
   def updateProfOrgAgentsOf(orgId:String, userToken:String):Array[MProfOrgAgent] = {
