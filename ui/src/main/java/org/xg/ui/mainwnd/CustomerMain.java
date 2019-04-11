@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTreeTableView;
 import io.datafx.controller.ViewController;
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -101,7 +103,7 @@ public class CustomerMain {
 //  }
   private TreeTableViewWithFilterCtrl<Order> orderTableCtrl;
 
-  private void loadOrdersTab() throws Exception {
+  private void loadOrdersTab(Integer filterCode) throws Exception {
     orderTableCtrl = TreeTableViewHelper.loadTableToTab(
       ordersTab,
       order -> {
@@ -113,6 +115,7 @@ public class CustomerMain {
         return strs;
       },
       () -> dataModel.getOrders(),
+      this::reloadOrdersTab,
       "orderTable",
       "orderTable.placeHolder",
       newOrder -> {
@@ -145,79 +148,13 @@ public class CustomerMain {
       )
     );
 
-    orderTableCtrl.addExtraComponents(createOrderFilterCombo());
+    orderTableCtrl.addExtraComponents(createOrderFilterCombo(filterCode));
   }
 
-//  private void loadOrdersTable() throws Exception {
-//    URL path = UiLoginController.class.getResource("/ui/comp/TreeTableViewWithFilter.fxml");
-//    FXMLLoader tableLoader = new FXMLLoader(path, Global.AllRes);
-//    VBox table;
-//
-//    //productLoader.setLocation(path);
-//    table = tableLoader.load();
-//    orderTableCtrl = tableLoader.getController();
-//    orderTableCtrl.setup(
-////        "customerOrderTable.toolbar.heading",
-//      "orderTable.toolbar.refresh",
-//      "orderTable.toolbar.searchPrompt",
-//      "orderTable.toolbar.filter",
-//      "orderTable.emptyPlaceHolder",
-//      c -> {
-//        Order order = (Order)c;
-//        Set<String> strs = new HashSet<>();
-//        strs.addAll(Arrays.asList(
-//          order.getProdName(),
-//          order.getStatusStr()
-//        ));
-//        return strs;
-//      }
-//    );
-//
-//    orderTableCtrl.setupColumsAndLoadData(
-//      tbl -> {
-//        JFXTreeTableView<Order> theTable = (JFXTreeTableView<Order>)tbl;
-//        theTable.getColumns().addAll(
-//          TableViewHelper.jfxTableColumnResBundle(
-//            "orderTable.prodName",
-//            300,
-//            Order::getProdName
-//          ),
-//          TableViewHelper.jfxTableColumnResBundle(
-//            "orderTable.qty",
-//            100,
-//            Order::getQty
-//          ),
-//          TableViewHelper.jfxTableColumnResBundle(
-//            "orderTable.creationTime",
-//            200,
-//            Order::getCreationTime
-//          ),
-//          TableViewHelper.jfxTableColumnResBundle(
-//            "orderTable.status",
-//            80,
-//            Order::getStatusStr
-//          ),
-//          jfxOrderTableOpsColumn(
-//            Global.AllRes.getString("orderTable.action"),
-//            80
-//          )
-//
-//        );
-//
-//        UIHelpers.setPlaceHolder4TreeView(theTable, "refedCustomerOrderTable.placeHolder");
-//
-//      },
-//      () -> dataModel.getOrders()
-//    );
-//
-//    orderTableCtrl.addExtraComponents(createOrderFilterCombo());
-//
-//    ordersTab.getChildren().addAll(table);
-//
-//  }
+  private ObjectProperty<ComboOptionData> currComboSelection = new SimpleObjectProperty<>();
 
-  private Node createOrderFilterCombo() {
-    Integer filterCode = OrderFilterHelpers.OF_UNPAID;
+  private Node createOrderFilterCombo(Integer filterCode) {
+    //Integer filterCode = OrderFilterHelpers.OF_UNPAID;
     JFXComboBox<ComboOptionData> cmboFilter = new JFXComboBox<>();
     cmboFilter.getItems().addAll(OrderFilterHelpers.FilterOptionsMap.values());
 //    dataModel.bindFilterOption();
@@ -237,8 +174,22 @@ public class CustomerMain {
       }
     });
     cmboFilter.setValue(OrderFilterHelpers.FilterOptionsMap.get(filterCode));
+    currComboSelection.bind(cmboFilter.getSelectionModel().selectedItemProperty());
 
     return cmboFilter;
+  }
+
+  private void reloadOrdersTab() {
+    loadDataModel();
+    try {
+      Integer filterCode = currComboSelection.getValue().getCode();
+      currComboSelection.unbind();
+      loadOrdersTab(filterCode);
+    }
+    catch (Exception ex) {
+      Global.loggingTodo("error re-loading orders tab");
+      throw new RuntimeException(ex);
+    }
   }
 
   @FXML
@@ -258,16 +209,7 @@ public class CustomerMain {
       productTableController.getSelectedProductDetail(),
       productTableController.getSelectedProductImageUrl(),
       productTableController.getSelectedProduct(),
-      () -> {
-        loadDataModel();
-        try {
-          loadOrdersTab();
-        }
-        catch (Exception ex) {
-          Global.loggingTodo("error re-loading orders tab");
-          throw new RuntimeException(ex);
-        }
-      }
+      this::reloadOrdersTab
     );
 
     rightSide.getChildren().addAll(r);
@@ -295,7 +237,7 @@ public class CustomerMain {
       loadLeftSide();
       loadRightSide();
       //loadOrdersTable();
-      loadOrdersTab();
+      loadOrdersTab(OrderFilterHelpers.OF_UNPAID);
       loadUpdatePasswordTab();
 
     }

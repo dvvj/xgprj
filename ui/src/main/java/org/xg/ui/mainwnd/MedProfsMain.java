@@ -101,6 +101,9 @@ public class MedProfsMain {
         double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
         maxChartValue.setValue(m);
       },
+      () -> {
+        System.out.println("todo");
+      },
       "customerTable",
       "customerTable.placeHolder",
       newCustomer -> {
@@ -146,6 +149,9 @@ public class MedProfsMain {
         return strs;
       },
       () -> dataModel.getProducts(),
+      () -> {
+        System.out.println("todo");
+      },
       "customerTable",
       "customerTable.placeHolder",
       selectedProduct -> {
@@ -372,6 +378,9 @@ public class MedProfsMain {
         return strs;
       },
       () -> dataModel.getPricePlans(),
+      () -> {
+        System.out.println("todo");
+      },
       "pricePlanTable",
       "pricePlanTable.placeHolder",
       selected -> { },

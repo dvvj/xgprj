@@ -53,6 +53,36 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     String searchRes,
     String filterRes,
     String emptyTableRes,
+    Function<T, Set<String>> searchStringCollector,
+    Runnable runRefresh
+  ) throws Exception {
+    initDrawer();
+
+    this.emptyTableRes = emptyTableRes;
+
+    txtSearch.setPromptText(Global.AllRes.getString(searchRes));
+    btnRefresh.setText(Global.AllRes.getString(refreshRes));
+    btnRefresh.setOnAction(e -> {
+      runRefresh.run();
+    });
+
+    txtSearch.setOnKeyReleased(e -> {
+      filterAndUpdateTable2(
+        null,
+        t -> {
+          Set<String> strs = searchStringCollector.apply((T)t);
+          return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
+        }
+      );
+    });
+
+  }
+
+  public void setup(
+    String refreshRes,
+    String searchRes,
+    String filterRes,
+    String emptyTableRes,
     Function<T, Set<String>> searchStringCollector
   ) throws Exception {
     initDrawer();
@@ -61,6 +91,9 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
 
     txtSearch.setPromptText(Global.AllRes.getString(searchRes));
     btnRefresh.setText(Global.AllRes.getString(refreshRes));
+    btnRefresh.setOnAction(e -> {
+      Global.loggingTodo("[todo] refresh button pressed");
+    });
 
     txtSearch.setOnKeyReleased(e -> {
       filterAndUpdateTable2(

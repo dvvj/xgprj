@@ -31,6 +31,7 @@ public class TreeTableViewHelper {
     Function<T, Set<String>> getSearchableStrs,
     Supplier<ObservableList<T>> dataRetriever,
     Runnable uiUpdater,
+    Runnable runRefresh,
     String resPfx,
     String resEmptyTablePlaceHold,
     Consumer<T> selectedListener,
@@ -48,7 +49,8 @@ public class TreeTableViewHelper {
       resPfx + ResSearchPrompt,
       resPfx + ResFilter,
       resPfx + ResEmptyPlaceHolder,
-      getSearchableStrs
+      getSearchableStrs,
+      runRefresh
     );
     tblCtrl.getSelected().addListener((observable, oldValue, newValue) -> {
       if (newValue != null) {
@@ -77,6 +79,7 @@ public class TreeTableViewHelper {
     Function<T, Set<String>> getSearchableStrs,
     Supplier<ObservableList<T>> dataRetriever,
     Runnable uiUpdater,
+    Runnable runRefresh,
     String resPfx,
     String resEmptyTablePlaceHold,
     Consumer<T> selectedListener,
@@ -84,6 +87,7 @@ public class TreeTableViewHelper {
   ) throws Exception {
     return loadTableToTab(tab, getSearchableStrs, dataRetriever,
       uiUpdater,
+      runRefresh,
       resPfx, resEmptyTablePlaceHold, selectedListener, columns,
       new ArrayList<>(0)
     );
@@ -94,6 +98,7 @@ public class TreeTableViewHelper {
     Pane tab,
     Function<T, Set<String>> getSearchableStrs,
     Supplier<ObservableList<T>> dataRetriever,
+    Runnable runRefresh,
     String resPfx,
     String resEmptyTablePlaceHold,
     Consumer<T> selectedListener,
@@ -101,6 +106,7 @@ public class TreeTableViewHelper {
   ) throws Exception {
     return loadTableToTab(tab, getSearchableStrs, dataRetriever,
       () -> {},
+      runRefresh,
       resPfx, resEmptyTablePlaceHold, selectedListener, columns,
       new ArrayList<>(0)
     );
@@ -110,6 +116,7 @@ public class TreeTableViewHelper {
     Pane tab,
     Function<T, Set<String>> getSearchableStrs,
     Supplier<ObservableList<T>> dataRetriever,
+    Runnable runRefresh,
     String resPfx,
     String resEmptyTablePlaceHold,
     Consumer<T> selectedListener,
@@ -118,6 +125,7 @@ public class TreeTableViewHelper {
   ) throws Exception {
     return loadTableToTab(tab, getSearchableStrs, dataRetriever,
       () -> {},
+      runRefresh,
       resPfx, resEmptyTablePlaceHold, selectedListener, columns,
       Arrays.asList(extraComponent)
     );
