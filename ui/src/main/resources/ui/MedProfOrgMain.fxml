@@ -7,30 +7,32 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.jfoenix.controls.JFXTabPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml">
-    <JFXTabPane minWidth="1000.0">
-        <Tab text="%medproforg.tab.agentTable.heading">
-            <HBox>
-                <StackPane fx:id="orgAgentsTab">
-                </StackPane>
-                <VBox>
-                    <VBox fx:id="vboxCostChartCurrAgent" />
-                    <VBox fx:id="vboxCostChartAll" />
+<BorderPane xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml">
+    <center>
+        <JFXTabPane minWidth="1000.0">
+            <Tab text="%medproforg.tab.agentTable.heading">
+                <HBox>
+                    <StackPane fx:id="orgAgentsTab">
+                    </StackPane>
+                    <VBox>
+                        <VBox fx:id="vboxCostChartCurrAgent" />
+                        <VBox fx:id="vboxCostChartAll" />
+                    </VBox>
+                    <VBox>
+                        <VBox fx:id="vboxRewardChartCurrAgent" />
+                        <VBox fx:id="vboxRewardChartAll" />
+                    </VBox>
+                </HBox>
+            </Tab>
+            <Tab text="%medproforg.tab.addNewAgent.heading">
+                <VBox fx:id="addNewCustomerTab">
                 </VBox>
-                <VBox>
-                    <VBox fx:id="vboxRewardChartCurrAgent" />
-                    <VBox fx:id="vboxRewardChartAll" />
+            </Tab>
+            <Tab text="%medproforg.tab.updatePassword.heading">
+                <VBox fx:id="updatePasswordTab">
                 </VBox>
-            </HBox>
-        </Tab>
-        <Tab text="%medproforg.tab.addNewAgent.heading">
-            <VBox fx:id="addNewCustomerTab">
-            </VBox>
-        </Tab>
-        <Tab text="%medproforg.tab.updatePassword.heading">
-            <VBox fx:id="updatePasswordTab">
-            </VBox>
-        </Tab>
-    </JFXTabPane>
-</AnchorPane>
+            </Tab>
+        </JFXTabPane>
+    </center>
+</BorderPane>

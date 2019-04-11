@@ -91,7 +91,7 @@ public class CustomerMain {
 
   }
   @FXML
-  StackPane ordersTab;
+  VBox ordersTab;
 //  private void loadOrdersTab() throws IOException {
 //    URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
 //    FXMLLoader orderLoader = new FXMLLoader(pathOrders, Global.AllRes);

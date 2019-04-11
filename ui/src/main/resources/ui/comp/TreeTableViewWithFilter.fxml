@@ -15,33 +15,41 @@
 <?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
 <?import com.jfoenix.controls.JFXRippler?>
 <?import com.jfoenix.controls.JFXDrawer?>
+<?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
-    <JFXToolbar styleClass="jfx-tool-bar2">
-        <leftItems>
-            <!--<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">-->
-                <!--<StackPane fx:id="titleBurgerContainer">-->
-                    <!--<JFXHamburger fx:id="titleBurger">-->
-                        <!--<HamburgerBackArrowBasicTransition/>-->
-                    <!--</JFXHamburger>-->
-                <!--</StackPane>-->
-            <!--</JFXRippler>-->
-            <!--<Text fx:id="txtHeading" />-->
-            <JFXButton fx:id="btnRefresh"
-                       maxWidth="50" minWidth="50"
-                       styleClass="button-raised" />
-            <Separator orientation="VERTICAL" />
-            <HBox fx:id="exComps" />
-        </leftItems>
-        <rightItems>
-            <StackPane maxWidth="100">
-                <JFXTextField fx:id="txtSearch" />
-            </StackPane>
-        </rightItems>
-    </JFXToolbar>
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.xg.ui.comp.TreeTableViewWithFilterCtrl">
 
-    <JFXTreeTableView fx:id="theTable" prefHeight="700" />
+    <StackPane>
+        <padding>
+            <Insets top="5" bottom="5" />
+        </padding>
+        <JFXToolbar styleClass="jfx-tool-bar2">
+            <leftItems>
+                <!--<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">-->
+                <!--<StackPane fx:id="titleBurgerContainer">-->
+                <!--<JFXHamburger fx:id="titleBurger">-->
+                <!--<HamburgerBackArrowBasicTransition/>-->
+                <!--</JFXHamburger>-->
+                <!--</StackPane>-->
+                <!--</JFXRippler>-->
+                <!--<Text fx:id="txtHeading" />-->
+                <JFXButton fx:id="btnRefresh"
+                           maxWidth="50" minWidth="50"
+                           styleClass="button-raised" />
+                <Separator orientation="VERTICAL" />
+                <HBox fx:id="exComps" />
+            </leftItems>
+            <rightItems>
+                <StackPane maxWidth="100">
+                    <JFXTextField fx:id="txtSearch" />
+                </StackPane>
+            </rightItems>
+        </JFXToolbar>
+    </StackPane>
+
+
+    <JFXTreeTableView fx:id="theTable" prefHeight="10000" />
 
     <!--<JFXDrawer fx:id="drawer" defaultDrawerSize="250" direction="LEFT">-->
         <!--<styleClass>-->

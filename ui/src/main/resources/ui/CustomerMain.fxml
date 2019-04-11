@@ -13,7 +13,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
-    prefHeight="690.0">
+    prefHeight="700.0">
     <!--<padding>-->
         <!--<Insets bottom="0.0" left="5.0" right="5.0" top="0.0" />-->
     <!--</padding>-->
@@ -50,8 +50,8 @@
                 </HBox>
             </Tab>
             <Tab text="%customers.tab.ordersTab.heading">
-                <StackPane fx:id="ordersTab">
-                </StackPane>
+                <VBox fx:id="ordersTab">
+                </VBox>
             </Tab>
             <Tab text="%customers.tab.updatePassword.heading">
                 <VBox fx:id="updatePasswordTab">
