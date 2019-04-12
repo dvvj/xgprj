@@ -104,6 +104,7 @@ public class CustomerMain {
   private TreeTableViewWithFilterCtrl<Order> orderTableCtrl;
 
   private void loadOrdersTab(Integer filterCode) throws Exception {
+    ordersTab.getChildren().clear();
     orderTableCtrl = TreeTableViewHelper.loadTableToTab(
       ordersTab,
       order -> {
@@ -167,7 +168,6 @@ public class CustomerMain {
 //        System.out.println("New selection: " + newVal);
         //dataModel.setFilterOptionCode(newVal);
         orderTableCtrl.filterAndUpdateTable2(
-          null,
           CustomerDataModel.filterMap.get(newVal)
         );
         //refreshOrderList(newVal);
@@ -180,10 +180,11 @@ public class CustomerMain {
   }
 
   private void reloadOrdersTab() {
-    loadDataModel();
+    Integer filterCode = currComboSelection.getValue().getCode();
+    System.out.println("filterCode: " + filterCode);
+    currComboSelection.unbind();
     try {
-      Integer filterCode = currComboSelection.getValue().getCode();
-      currComboSelection.unbind();
+      loadDataModel();
       loadOrdersTab(filterCode);
     }
     catch (Exception ex) {

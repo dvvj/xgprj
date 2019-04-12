@@ -122,7 +122,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     new Thread(task).start();
   }
 
-  private void filterAndUpdateTable2(Predicate<T> filter) {
+  public void filterAndUpdateTable2(Predicate<T> filter) {
     filterAndUpdateTable2(null, filter);
   }
 
