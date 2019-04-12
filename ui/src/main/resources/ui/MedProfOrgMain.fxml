@@ -8,7 +8,8 @@
 
 <?import com.jfoenix.controls.JFXTabPane?>
 <BorderPane xmlns="http://javafx.com/javafx"
-    xmlns:fx="http://javafx.com/fxml">
+    xmlns:fx="http://javafx.com/fxml"
+    prefHeight="700.0">
     <center>
         <JFXTabPane minWidth="1000.0">
             <Tab text="%medproforg.tab.agentTable.heading">
