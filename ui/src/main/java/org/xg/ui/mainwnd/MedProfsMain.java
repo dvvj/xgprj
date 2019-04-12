@@ -349,17 +349,24 @@ public class MedProfsMain {
   private void updateCustomers() {
     String profId = Global.getCurrUid();
     String token = Global.getCurrToken();
-    Object[] raw = Helpers.paraActions(
-      new Supplier[] {
-        () -> UISvcHelpers.updateAllRefedCustomers(profId, token),
-        () -> UISvcHelpers.updatePricePlans4Customers(profId, token)
+
+    customerCtrl.updateDataAndFilter(
+      () -> {
+        Object[] raw = Helpers.paraActions(
+          new Supplier[] {
+            () -> UISvcHelpers.updateAllRefedCustomers(profId, token),
+            () -> UISvcHelpers.updatePricePlans4Customers(profId, token)
+          },
+          30000
+        );
+
+        dataModel.setCustomers((MCustomer[]) raw[0], (Map<String, MPricePlan>) raw[1]);
+        return dataModel.getCustomers();
       },
-      30000
+      t -> true
     );
 
-    dataModel.setCustomers((MCustomer[]) raw[0], (Map<String, MPricePlan>) raw[1]);
-
-    customerCtrl.filterAndUpdateTable2(dataModel.getCustomers(), t -> true);
+    //customerCtrl.filterAndUpdateTable2(dataModel.getCustomers(), t -> true);
   }
 
 

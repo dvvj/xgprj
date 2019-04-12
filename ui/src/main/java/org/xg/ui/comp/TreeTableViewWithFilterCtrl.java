@@ -67,8 +67,14 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     });
 
     txtSearch.setOnKeyReleased(e -> {
-      filterAndUpdateTable2(
-        null,
+//      filterAndUpdateTable2(
+//        null,
+//        t -> {
+//          Set<String> strs = searchStringCollector.apply((T)t);
+//          return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
+//        }
+//      );
+      filterExisting(
         t -> {
           Set<String> strs = searchStringCollector.apply((T)t);
           return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
@@ -85,49 +91,71 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     String emptyTableRes,
     Function<T, Set<String>> searchStringCollector
   ) throws Exception {
-    initDrawer();
-
-    this.emptyTableRes = emptyTableRes;
-
-    txtSearch.setPromptText(Global.AllRes.getString(searchRes));
-    btnRefresh.setText(Global.AllRes.getString(refreshRes));
-    btnRefresh.setOnAction(e -> {
-      Global.loggingTodo("[todo] refresh button pressed");
-    });
-
-    txtSearch.setOnKeyReleased(e -> {
-      filterAndUpdateTable2(
-        null,
-        t -> {
-          Set<String> strs = searchStringCollector.apply((T)t);
-          return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
-        }
-      );
-    });
-
+    setup(refreshRes, searchRes, filterRes, emptyTableRes, searchStringCollector, () -> {});
   }
 
-  public void filterAndUpdateTable2(ObservableList<T> updatedData, Predicate<T> filter) {
-    Task<Integer> task = Helpers.uiTaskJ(
-      () -> {
-        return 0;
-      },
-      resp -> {
-        filterAndUpdateTable(updatedData, filter);
-        //highlighter.highlight(theTable, txtSearch.getText());
-        return null;
-      },
-      1000
-    );
-    new Thread(task).start();
-  }
 
-  public void filterAndUpdateTable2(Predicate<T> filter) {
-    filterAndUpdateTable2(null, filter);
-  }
+//  public void setup(
+//    String refreshRes,
+//    String searchRes,
+//    String filterRes,
+//    String emptyTableRes,
+//    Function<T, Set<String>> searchStringCollector
+//  ) throws Exception {
+//    initDrawer();
+//
+//    this.emptyTableRes = emptyTableRes;
+//
+//    txtSearch.setPromptText(Global.AllRes.getString(searchRes));
+//    btnRefresh.setText(Global.AllRes.getString(refreshRes));
+//    btnRefresh.setOnAction(e -> {
+//      Global.loggingTodo("[todo] refresh button pressed");
+//    });
+//
+//    txtSearch.setOnKeyReleased(e -> {
+//      filterExisting(
+//        t -> {
+//          Set<String> strs = searchStringCollector.apply((T)t);
+//          return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
+//        }
+//      );
+////      filterAndUpdateTable2(
+////        null,
+////        t -> {
+////          Set<String> strs = searchStringCollector.apply((T)t);
+////          return strs.stream().anyMatch(s -> s.toLowerCase().contains(txtSearch.getText()));
+////        }
+////      );
+//    });
+//
+//  }
+
+//  public void filterAndUpdateTable2(ObservableList<T> updatedData, Predicate<T> filter) {
+//    Task<Integer> task = Helpers.uiTaskJ(
+//      () -> {
+//        return 0;
+//      },
+//      resp -> {
+//        updateAndFilter(updatedData, filter);
+//        //highlighter.highlight(theTable, txtSearch.getText());
+//        return null;
+//      },
+//      1000
+//    );
+//    new Thread(task).start();
+//  }
+//
+//  public void filterAndUpdateTable2(Predicate<T> filter) {
+//    filterAndUpdateTable2(null, filter);
+//  }
 
   private ObservableList<T> dataCache;
-  private ObservableList<T> activeDataCache;
+  //private ObservableList<T> activeDataCache;
+  private SimpleObjectProperty<TreeItem<T>> theRoot = new SimpleObjectProperty<>();
+  public void updateActiveData(ObservableList<T> activeData) {
+    TreeItem<T> tr = new RecursiveTreeItem<T>(activeData, RecursiveTreeObject::getChildren);
+    theRoot.setValue(tr);
+  }
 
   public void setupColumsAndLoadData(
     Consumer<JFXTreeTableView<T>> columnBuilder,
@@ -147,7 +175,14 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
   ) {
     columnBuilder.accept(theTable);
 
-    theTable.reGroup();
+    //theTable.reGroup();
+    theTable.rootProperty().bind(theRoot);
+    theTable.setShowRoot(false);
+    theTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+      //System.out.println(newValue.getValue());
+      if (newValue != null)
+        selected.setValue(newValue.getValue());
+    });
 
     Task<ObservableList<T>> fetchCustomersTask = Helpers.uiTaskJ(
       () -> {
@@ -167,7 +202,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
       resp -> {
         if (resp != null) {
           uiUpdater.run();
-          filterAndUpdateTable(resp);
+          updateAndFilter(resp, o -> true);
         }
         else {
           // todo: show error
@@ -180,25 +215,82 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
     new Thread(fetchCustomersTask).start();
   }
 
-  private void filterAndUpdateTable(ObservableList<T> data) {
-    filterAndUpdateTable(data, t -> true);
+//  private void filterAndUpdateTable(ObservableList<T> data) {
+//    filterAndUpdateTable(data, t -> true);
+//  }
+//
+//  private void filterAndUpdateTable(Predicate<T> filter) {
+//    filterAndUpdateTable(null, filter);
+//  }
+
+//  private void filterAndUpdateTable(ObservableList<T> data, Predicate<T> filter) {
+//    if (data != null)
+//      dataCache = data;
+//    if (dataCache != null && dataCache.size() > 0) {
+//      highlighter.clear();
+//      ObservableList<T> activeData = dataCache.filtered(filter);
+//      updateActiveData(activeData);
+//      theTable.rootProperty().bind(theRoot);
+//
+//      //UIHelpers.setRoot4TreeView(theTable, activeDataCache);
+//      Global.loggingTodo(String.format("found %d entries", activeData.size()));
+//      //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+//      if (activeData.size() > 0) {
+//        TreeItem<T> first =  theTable.getTreeItem(0);
+//        theTable.getSelectionModel().select(first);
+//        selected.setValue(first.getValue());
+//        //updateSelection(first.getValue());
+//      }
+//      else {
+//        UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
+//        selected.setValue(null);
+//      }
+//
+//    }
+//    else {
+//      UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
+//      selected.setValue(null);
+//    }
+//
+//    theTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+//      //System.out.println(newValue.getValue());
+//      if (newValue != null)
+//        selected.setValue(newValue.getValue());
+//    });
+//  }
+
+  public void updateDataNoFilter(Supplier<ObservableList<T>> dataUpdater) {
+    updateDataAndFilter(dataUpdater, t -> true);
   }
 
-  private void filterAndUpdateTable(Predicate<T> filter) {
-    filterAndUpdateTable(null, filter);
+  public void updateDataAndFilter(
+    Supplier<ObservableList<T>> dataUpdater,
+    Predicate<T> filter
+  ) {
+    Task<ObservableList<T>> task = Helpers.uiTaskJ(
+      dataUpdater::get,
+      updatedData -> {
+        updateAndFilter(updatedData, filter);
+        //filterAndUpdateTable(updatedData, filter);
+        //highlighter.highlight(theTable, txtSearch.getText());
+        return null;
+      },
+      1000
+    );
+    new Thread(task).start();
   }
 
-  private void filterAndUpdateTable(ObservableList<T> data, Predicate<T> filter) {
-    if (data != null)
-      dataCache = data;
+  private void updateAndFilter(ObservableList<T> updatedData, Predicate<T> filter) {
+    dataCache = updatedData;
     if (dataCache != null && dataCache.size() > 0) {
       highlighter.clear();
-      activeDataCache = dataCache.filtered(filter);
-
-      UIHelpers.setRoot4TreeView(theTable, activeDataCache);
-      Global.loggingTodo(String.format("found %d entries", activeDataCache.size()));
+      ObservableList<T> activeData = dataCache.filtered(filter);
+      updateActiveData(activeData);
+//      theTable.rootProperty().bind(theRoot);
+//      UIHelpers.setRoot4TreeView(theTable, activeDataCache);
+      Global.loggingTodo(String.format("Filter: found %d entries", activeData.size()));
       //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
-      if (activeDataCache.size() > 0) {
+      if (activeData.size() > 0) {
         TreeItem<T> first =  theTable.getTreeItem(0);
         theTable.getSelectionModel().select(first);
         selected.setValue(first.getValue());
@@ -214,12 +306,33 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
       UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
       selected.setValue(null);
     }
+  }
 
-    theTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-      //System.out.println(newValue.getValue());
-      if (newValue != null)
-        selected.setValue(newValue.getValue());
-    });
+  public void filterExisting(Predicate<T> filter) {
+    if (dataCache != null && dataCache.size() > 0) {
+      highlighter.clear();
+      ObservableList<T> activeData = dataCache.filtered(filter);
+      updateActiveData(activeData);
+//      theTable.rootProperty().bind(theRoot);
+//      UIHelpers.setRoot4TreeView(theTable, activeDataCache);
+      Global.loggingTodo(String.format("Filter: found %d entries", activeData.size()));
+      //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
+      if (activeData.size() > 0) {
+        TreeItem<T> first =  theTable.getTreeItem(0);
+        theTable.getSelectionModel().select(first);
+        selected.setValue(first.getValue());
+        //updateSelection(first.getValue());
+      }
+      else {
+        UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
+        selected.setValue(null);
+      }
+
+    }
+    else {
+      UIHelpers.setPlaceHolder4EmptyTreeView(theTable, emptyTableRes);
+      selected.setValue(null);
+    }
   }
 
   @FXML

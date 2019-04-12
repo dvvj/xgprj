@@ -63,23 +63,6 @@ public class CustomerMain {
   private VBox leftSide;
   private Node loadLeftSide() throws IOException {
 
-//    VBox leftSide = new VBox();
-//    leftSide.setPadding(
-//      new Insets(5)
-//    );
-//    leftSide.setSpacing(5);
-
-//    HBox greetings = new HBox();
-//    greetings.setSpacing(10);
-//    Text txtWelcome = new Text();
-//    txtWelcome.setText(resBundle.getString("greeting.welcome"));
-//    Text txtUserInfo = new Text();
-//    txtUserInfo.setText(userInfo);
-//    txtUserInfo.setStroke(Color.GREEN);
-//    greetings.getChildren().addAll(txtWelcome, txtUserInfo);
-//    txtUserName.setText(Global.getCurrUid()); // todo use name instead
-//    txtUserName.setFill(Color.WHEAT);
-
     URL path = UiLoginController.class.getResource("/ui/ProductTable.fxml");
     FXMLLoader productLoader = new FXMLLoader(path, Global.AllRes);
     //productLoader.setLocation(path);
@@ -92,15 +75,7 @@ public class CustomerMain {
   }
   @FXML
   VBox ordersTab;
-//  private void loadOrdersTab() throws IOException {
-//    URL pathOrders = UiLoginController.class.getResource("/ui/ExistingOrders.fxml");
-//    FXMLLoader orderLoader = new FXMLLoader(pathOrders, Global.AllRes);
-//    VBox orderCtrl = orderLoader.load();
-//    ordersTab.getChildren().addAll(orderCtrl);
-//
-//    orderController = orderLoader.getController();
-//
-//  }
+
   private TreeTableViewWithFilterCtrl<Order> orderTableCtrl;
 
   private void loadOrdersTab(Integer filterCode) throws Exception {
@@ -165,9 +140,9 @@ public class CustomerMain {
 
       if (hasUpdate) {
         int newVal = newValue.getCode();
-//        System.out.println("New selection: " + newVal);
+        System.out.println("New selection: " + newVal);
         //dataModel.setFilterOptionCode(newVal);
-        orderTableCtrl.filterAndUpdateTable2(
+        orderTableCtrl.filterExisting(
           CustomerDataModel.filterMap.get(newVal)
         );
         //refreshOrderList(newVal);
@@ -180,12 +155,17 @@ public class CustomerMain {
   }
 
   private void reloadOrdersTab() {
-    Integer filterCode = currComboSelection.getValue().getCode();
-    System.out.println("filterCode: " + filterCode);
-    currComboSelection.unbind();
+    ComboOptionData filterOption = currComboSelection.getValue();
+    System.out.println("filterCode: " + filterOption.getCode());
+    //currComboSelection.unbind();
     try {
-      loadDataModel();
-      loadOrdersTab(filterCode);
+      orderTableCtrl.updateDataAndFilter(
+        () -> {
+          loadDataModel();
+          return dataModel.getOrders();
+        },
+        CustomerDataModel.filterMap.get(filterOption.getCode())
+      );
     }
     catch (Exception ex) {
       Global.loggingTodo("error re-loading orders tab");

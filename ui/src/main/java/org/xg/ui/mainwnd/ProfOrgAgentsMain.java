@@ -376,16 +376,20 @@ public class ProfOrgAgentsMain {
   private void updateMedProfs() {
     String agentId = Global.getCurrUid();
     String token = Global.getCurrToken();
-    Object[] raw = Helpers.paraActions(
-      new Supplier[] {
-        () -> UISvcHelpers.updateMedProfsOf(agentId, token)
-      },
-      10000
+
+    profCtrl.updateDataNoFilter(
+      () -> {
+        Object[] raw = Helpers.paraActions(
+          new Supplier[] {
+            () -> UISvcHelpers.updateMedProfsOf(agentId, token)
+          },
+          10000
+        );
+
+        dataModel.setMedProfs((MMedProf[])raw[0]);
+        return dataModel.getMedProfs();
+      }
     );
-
-    dataModel.setMedProfs((MMedProf[])raw[0]);
-
-    profCtrl.filterAndUpdateTable2(dataModel.getMedProfs(), t -> true);
   }
 
   @FXML
