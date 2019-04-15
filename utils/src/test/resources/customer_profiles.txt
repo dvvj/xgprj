@@ -1,0 +1,5 @@
+this is not used in code
+{
+  "productIds": [1, 2],
+  "creationTime": "2018-08-12 18:30:44"
+},

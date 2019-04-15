@@ -59,6 +59,17 @@ CREATE TABLE med_profs (
   PRIMARY KEY (prof_id)
 );
 
+
+CREATE TABLE customer_profiles (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  prof_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  customer_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  detailed_info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  version VARCHAR(31) NOT NULL,
+  PRIMARY KEY (id),
+  INDEX(prof_id)
+);
+
 CREATE TABLE prof_org_agents (
   agent_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   org_id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
