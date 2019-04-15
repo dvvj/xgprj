@@ -53,7 +53,7 @@
                     <StackPane fx:id="productsTab">
                     </StackPane>
                     <VBox>
-                        <VBox fx:id="vboxChartByProdCurrCustomer" />
+                        <VBox fx:id="vboxChartCurrProduct" />
                         <VBox fx:id="vboxChartByProdAll" />
                     </VBox>
                 </HBox>

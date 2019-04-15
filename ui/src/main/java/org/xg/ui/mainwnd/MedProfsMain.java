@@ -98,11 +98,11 @@ public class MedProfsMain {
       },
       () -> dataModel.getCustomers(),
       () -> {
-        double m = DataUtils.chartMaxY(createBarChartsAll(), 100);
+        double m = DataUtils.chartMaxY(createBarChartsAll(vboxChartAll), 100);
         maxChartValue.setValue(m);
       },
       () -> {
-        System.out.println("todo");
+        System.out.println("refresh: todo");
       },
       "customerTable",
       "customerTable.placeHolder",
@@ -150,28 +150,32 @@ public class MedProfsMain {
       },
       () -> dataModel.getProducts(),
       () -> {
-        System.out.println("todo");
+        double m = DataUtils.chartMaxY(createBarChartsAll(vboxChartByProdAll), 100);
+        maxChartValue.setValue(m);
       },
-      "customerTable",
-      "customerTable.placeHolder",
+      () -> {
+        System.out.println("refresh: todo");
+      },
+      "profProductTable",
+      "profProductTable.placeHolder",
       selectedProduct -> {
         System.out.println(selectedProduct.getName());
       },
       Arrays.asList(
         TableViewHelper.jfxTableColumnResBundle(
-          "customerTable.name",
-          100,
+          "profProductTable.name",
+          300,
           Product::getName
         ),
         TableViewHelper.jfxTableColumnResBundle(
-          "customerTable.mobile",
+          "profProductTable.price0",
           150,
           Product::getPrice0
         ),
         TableViewHelper.jfxTableColumnResBundle(
-          "customerTable.pricePlanInfo",
-          300,
-          Product::getDetailedInfo
+          "profProductTable.srcCountry",
+          80,
+          prod -> prod.getDetail().getSrcCountry()
         )
       )
 
@@ -180,27 +184,56 @@ public class MedProfsMain {
   }
 
   @FXML
+  private VBox vboxChartByProdAll;
+  @FXML
+  private VBox vboxChartCurrProduct;
+
+
+//  private void createBarChartCurrProduct(Integer currProdId, String currProdName) {
+//    vboxChartCurrCustomer.getChildren().clear();
+//
+//    CustomerOrder[] currCustomerOrders = Arrays.stream(dataModel.getOrderData())
+//      .filter(o -> o.getCustomerId().equals(currCustomerId)).toArray(CustomerOrder[]::new);
+//    StackedBarChart<String, Number> barChartCurrUser = ChartHelpers.createChartFromCustomerOrders(
+//      currCustomerOrders,
+//      new String[] {
+//        Global.AllRes.getString("profitBarChart.category.paid"),
+//        Global.AllRes.getString("profitBarChart.category.unpaid"),
+//      },
+//      String.format(
+//        "%s(%s)", Global.AllRes.getString("customerBarChart.title"), currCustomerName
+//      ),
+//      maxChartValue.getValue()
+//    );
+//    barChartCurrUser.setMaxHeight(350);
+//
+//    vboxChartCurrCustomer.getChildren().addAll(barChartCurrUser);
+//
+//  }
+
+
+  @FXML
   private VBox vboxChartAll;
   @FXML
   private VBox vboxChartCurrCustomer;
 
   private DoubleProperty maxChartValue = new SimpleDoubleProperty();
 
-  private double createBarChartsAll() {
-    vboxChartAll.getChildren().clear();
+  private double createBarChartsAll(VBox vboxChart) {
+    vboxChart.getChildren().clear();
 
     StackedBarChart<String, Number> barChartAll = ChartHelpers.createChartFromCustomerOrders(
       dataModel.getOrderData(),
       new String[] {
-        Global.AllRes.getString("customerBarChart.category.paid"),
-        Global.AllRes.getString("customerBarChart.category.unpaid"),
+        Global.AllRes.getString("profitBarChart.category.paid"),
+        Global.AllRes.getString("profitBarChart.category.unpaid"),
       },
       Global.AllRes.getString("customerBarChart.title"),
       null
     );
     barChartAll.setMaxHeight(350);
 
-    vboxChartAll.getChildren().addAll(barChartAll);
+    vboxChart.getChildren().addAll(barChartAll);
 
     List<Double> sums = new ArrayList<>();
     for (int i = 0; i < barChartAll.getData().size(); i++) {
@@ -232,8 +265,8 @@ public class MedProfsMain {
     StackedBarChart<String, Number> barChartCurrUser = ChartHelpers.createChartFromCustomerOrders(
       currCustomerOrders,
       new String[] {
-        Global.AllRes.getString("customerBarChart.category.paid"),
-        Global.AllRes.getString("customerBarChart.category.unpaid"),
+        Global.AllRes.getString("profitBarChart.category.paid"),
+        Global.AllRes.getString("profitBarChart.category.unpaid"),
       },
       String.format(
         "%s(%s)", Global.AllRes.getString("customerBarChart.title"), currCustomerName
