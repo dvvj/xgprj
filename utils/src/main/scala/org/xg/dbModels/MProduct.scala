@@ -6,9 +6,14 @@ case class MProduct(
   price0:Double,
   detailedInfo:String,
   keywords:String,
+  categories:String,
   assets:AssetCfg
 ) {
   def keywordsArr:Array[String] = keywords.split(",").map(_.trim).filter(!_.isEmpty)
+  private val _cats:Array[Int] = categories.split(",")
+    .map(_.trim).filter(!_.isEmpty)
+    .map(_.toInt)
+  def getCategories:Array[Int] = _cats
   def prodDetail:MProdDetail = MProdDetail.fromJson(detailedInfo)
 }
 

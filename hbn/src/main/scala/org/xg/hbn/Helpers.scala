@@ -48,7 +48,15 @@ object Helpers {
 
   def convertProduct(prod:Product, asset:Asset):MProduct = {
     val assetItems = AssetCfg.assetsFromJsons(asset.getAssetJson)
-    MProduct(prod.getId, prod.getName, prod.getPrice0, prod.getDetailedInfo, prod.getKeywords, AssetCfg(prod.getId, assetItems))
+    MProduct(
+      prod.getId,
+      prod.getName,
+      prod.getPrice0,
+      prod.getDetailedInfo,
+      prod.getKeywords,
+      prod.getCategories,
+      AssetCfg(prod.getId, assetItems)
+    )
   }
 
   def convertCustomer(c:Customer):MCustomer = {

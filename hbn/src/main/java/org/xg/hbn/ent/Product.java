@@ -14,10 +14,12 @@ public class Product {
   private String name;
   @Column(name="price0", nullable = false)
   private Double price0;
-  @Column(name="detailed_info", length = 16383)
+  @Column(name="detailed_info", length = 8191)
   private String detailedInfo;
   @Column(name="keywords", length = 511)
   private String keywords;
+  @Column(name="categories", length = 1023)
+  private String categories;
 
   public Product() { }
 
@@ -26,13 +28,15 @@ public class Product {
     String name,
     Double price0,
     String detailedInfo,
-    String keywords
+    String keywords,
+    String categories
   ) {
     this.id = id;
     this.name = name;
     this.price0 = price0;
     this.detailedInfo = detailedInfo;
     this.keywords = keywords;
+    this.categories = categories;
   }
 
 
@@ -70,5 +74,13 @@ public class Product {
   }
   public void setKeywords(String keywords) {
     this.keywords = keywords;
+  }
+
+  public String getCategories() {
+    return categories;
+  }
+
+  public void setCategories(String categories) {
+    this.categories = categories;
   }
 }

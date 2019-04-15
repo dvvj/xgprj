@@ -1,0 +1,43 @@
+1000000|||Eye Health|||[ {"cc": "en", "v": "Eye Health"}, {"cc":"zhs", "v": "视觉保健"} ]
+
+2000000|||Liver/Detoxification|||[ {"cc": "en", "v": "Liver/Detoxification"}, {"cc":"zhs", "v": "肝脏保健/解毒"} ]
+
+3000000|||Musculoskeletal|||[ {"cc": "en", "v": "Musculoskeletal"}, {"cc":"zhs", "v": "肌肉骨骼保健"} ]
+3001000|||Bone|||[ {"cc": "en", "v": "Bone"}, {"cc":"zhs", "v": "骨骼保健"} ]
+3002000|||Joints|||[ {"cc": "en", "v": "Joints"}, {"cc":"zhs", "v": "关节保健"} ]
+3003000|||Muscle|||[ {"cc": "en", "v": "Muscle"}, {"cc":"zhs", "v": "肌肉保健"} ]
+
+4000000|||Brain Health|||[ {"cc": "en", "v": "Brain Health"}, {"cc":"zhs", "v": "脑健康"} ]
+
+5000000|||Cardiovascular|||[ {"cc": "en", "v": "Cardiovascular"}, {"cc":"zhs", "v": "心血管保健"} ]
+5001000|||Lipid Support|||[ {"cc": "en", "v": "Lipid Support"}, {"cc":"zhs", "v": "脂类辅助保健"} ]
+
+6000000|||Digestion/GI Health|||[ {"cc": "en", "v": "Digestion/GI Health"}, {"cc":"zhs", "v": "消化系统保健"} ]
+
+7000000|||Endocrine/Metabolism|||[ {"cc": "en", "v": "Endocrine/Metabolism"}, {"cc":"zhs", "v": "内分泌/新陈代谢"} ]
+7001000|||Andrenal Support|||[ {"cc": "en", "v": "Andrenal Support"}, {"cc":"zhs", "v": "肾上腺辅助保健"} ]
+7002000|||Blood Sugar Support|||[ {"cc": "en", "v": "Blood Sugar Support"}, {"cc":"zhs", "v": "血糖辅助保健"} ]
+7003000|||Thyroid Support|||[ {"cc": "en", "v": "Thyroid Support"}, {"cc":"zhs", "v": "甲状腺辅助保健"} ]
+
+8000000|||Functional|||[ {"cc": "en", "v": "Functional"}, {"cc":"zhs", "v": "通用保健"} ]
+8001000|||Animo Acids|||[ {"cc": "en", "v": "Animo Acids"}, {"cc":"zhs", "v": "氨基酸"} ]
+8002000|||Antioxidants|||[ {"cc": "en", "v": "Antioxidants"}, {"cc":"zhs", "v": "抗氧化剂"} ]
+8003000|||Herbal|||[ {"cc": "en", "v": "Herbal"}, {"cc":"zhs", "v": "中草药"} ]
+8004000|||Bars|||[ {"cc": "en", "v": "Bars"}, {"cc":"zhs", "v": "蛋白棒/能量棒"} ]
+8005000|||Essential Fatty Acids|||[ {"cc": "en", "v": "Essential Fatty Acids"}, {"cc":"zhs", "v": "必需脂肪酸"} ]
+8006000|||Minerals|||[ {"cc": "en", "v": "Minerals"}, {"cc":"zhs", "v": "矿物质"} ]
+8007000|||Multivitamins|||[ {"cc": "en", "v": "Multivitamins"}, {"cc":"zhs", "v": "多维他命"} ]
+8008000|||Protein|||[ {"cc": "en", "v": "Protein"}, {"cc":"zhs", "v": "蛋白粉"} ]
+8009000|||Vitamins|||[ {"cc": "en", "v": "Vitamins"}, {"cc":"zhs", "v": "维他命"} ]
+8009001|||B Vitamins|||[ {"cc": "en", "v": "B Vitamins"}, {"cc":"zhs", "v": "维他命B"} ]
+8009002|||Vitamin C|||[ {"cc": "en", "v": "Vitamin C"}, {"cc":"zhs", "v": "维他命C"} ]
+8009003|||Vitamin D|||[ {"cc": "en", "v": "Vitamin D"}, {"cc":"zhs", "v": "维他命D"} ]
+8009004|||Vitamin E|||[ {"cc": "en", "v": "Vitamin E"}, {"cc":"zhs", "v": "维他命E"} ]
+8009005|||Vitamin K|||[ {"cc": "en", "v": "Vitamin K"}, {"cc":"zhs", "v": "维他命K"} ]
+
+9000000|||Immunity|||[ {"cc": "en", "v": "Immunity"}, {"cc":"zhs", "v": "免疫力"} ]
+10000000|||Kidney/Urinary Health|||[ {"cc": "en", "v": "Kidney/Urinary Health"}, {"cc":"zhs", "v": "肾脏/尿路健康"} ]
+11000000|||Lung|||[ {"cc": "en", "v": "Lung"}, {"cc":"zhs", "v": "肺健康"} ]
+12000000|||Men's Health|||[ {"cc": "en", "v": "Men's Health"}, {"cc":"zhs", "v": "男性健康"} ]
+13000000|||Weight Management|||[ {"cc": "en", "v": "Weight Management"}, {"cc":"zhs", "v": "体重控制"} ]
+14000000|||Women's Health|||[ {"cc": "en", "v": "Women's Health"}, {"cc":"zhs", "v": "女性健康"} ]

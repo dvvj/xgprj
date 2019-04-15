@@ -4,6 +4,14 @@ CREATE TABLE products (
   price0 FLOAT NOT NULL,
   detailed_info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   keywords VARCHAR(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  categories VARCHAR(1023) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE prod_categories (
+  id BIGINT NOT NULL,
+  name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  detailed_info VARCHAR(8191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (id)
 );
 
