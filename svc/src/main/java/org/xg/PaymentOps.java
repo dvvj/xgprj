@@ -28,6 +28,8 @@ public class PaymentOps {
         logger.info("Successfully processed notification: " + notifyContent);
         return Response.ok().build();
       },
+      null,
+      "alipayNotify",
       "Failed to processing notification: " + notifyContent
     );
   }

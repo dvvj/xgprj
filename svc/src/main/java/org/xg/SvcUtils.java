@@ -167,14 +167,38 @@ public class SvcUtils {
 
   public static <T> T tryOps(
     Supplier<T> producer,
+    String uid,
+    String ops,
     String errorMsg
-  ) {
+    ) {
+    Long ms0 = System.currentTimeMillis();
+    int auditStatus = MSvcAudit.StatusOK();
     try {
       return producer.get();
     }
     catch (Exception ex) {
+      auditStatus = MSvcAudit.StatusException();
       ex.printStackTrace();
       throw new WebApplicationException(errorMsg, ex);
+    }
+    finally {
+      Long diff = System.currentTimeMillis() - ms0;
+      try {
+        getDbOps().svcAudit_Status(
+          ops,
+          auditStatus,
+          diff.intValue(),
+          uid
+        );
+        logger.info("================= Audited");
+      }
+      catch (Exception ex) {
+        logger.warning(
+          String.format("Error adding auditting record: [uid:%s, ops:%s, status:%d, duration:%d]",
+            uid, ops, auditStatus, diff.intValue()
+          )
+        );
+      }
     }
   }
 //

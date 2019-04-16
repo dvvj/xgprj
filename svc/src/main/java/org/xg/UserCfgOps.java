@@ -165,13 +165,13 @@ public class UserCfgOps {
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response updatePassword(String updatePasswordJson, @Context SecurityContext sc) {
+    String uid = sc.getUserPrincipal().getName();
     return SvcUtils.tryOps(
       () -> {
         UpdatePassword up = UpdatePassword.fromJson(updatePasswordJson);
 
         byte[] oldPassHash = AuthHelpers.str2Hash(up.oldpassHash());
         byte[] newPassHash = AuthHelpers.str2Hash(up.newpassHash());
-        String uid = sc.getUserPrincipal().getName();
 
         OpResp dbResp = SvcUtils.getDbOps().updateCustomerPass(
           uid, oldPassHash, newPassHash
@@ -189,6 +189,8 @@ public class UserCfgOps {
             .build();
         }
       },
+      uid,
+      "updatePassword",
       String.format(
         "updatePassword error, updatePasswordJson: %s", updatePasswordJson
       )

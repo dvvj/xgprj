@@ -151,6 +151,15 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def allSvcAudit:Array[MSvcAudit] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          queryAndConvert(sess, classOf[SvcAudit].getName, convertSvcAudit)
+        }
+      )
+    }
+
     override def orderStatsOfOrg(orgId: String): Array[MOrgOrderStat] = {
       runInTransaction(
         sessFactory,
@@ -424,6 +433,28 @@ object HbnDbOpsImpl {
           sess.save(orgOrderStat)
 
           orderId.asInstanceOf[Long]
+        }
+      )
+    }
+
+    override def svcAuditEx(ops: String, status: Int, duration: Int, uid: String, extra: String): OpResp = {
+      val ts = DataUtils.utcTimeNow
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val audit = new SvcAudit(
+            ops,
+            ts,
+            status,
+            duration,
+            uid,
+            extra
+          )
+
+          val auditId = sess.save(audit)
+          println(s"Audit added: $auditId")
+
+          OpResp.Success
         }
       )
     }

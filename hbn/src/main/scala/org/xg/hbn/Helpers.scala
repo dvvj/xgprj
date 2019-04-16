@@ -79,6 +79,16 @@ object Helpers {
     )
   }
 
+  def convertSvcAudit(sa:SvcAudit):MSvcAudit = {
+    MSvcAudit(
+      sa.getId, sa.getOps,
+      DataUtils.zonedDateTime2Str(sa.getTs),
+      sa.getStatus, sa.getDuration,
+      if (sa.getUid != null) Option(sa.getUid) else None,
+      if (sa.getExtra != null) Option(sa.getExtra) else None
+    )
+  }
+
   def convertCustomerProfile(cp:CustomerProfile):MCustomerProfile = {
     MCustomerProfile(
       cp.getId,

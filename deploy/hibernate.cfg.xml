@@ -33,6 +33,7 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
+        <mapping class="org.xg.hbn.ent.SvcAudit" />
         <mapping class="org.xg.hbn.ent.CustomerProfile" />
         <mapping class="org.xg.hbn.ent.ProdCategory" />
         <mapping class="org.xg.hbn.ent.AlipayNotifyRaw" />

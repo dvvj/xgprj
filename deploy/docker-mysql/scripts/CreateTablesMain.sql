@@ -159,6 +159,18 @@ CREATE TABLE org_agent_order_stats (
   INDEX(org_agent_id)
 );
 
+CREATE TABLE svc_audit (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  ops VARCHAR(127) NOT NULL,
+  ts TIMESTAMP NOT NULL,
+  status INT NOT NULL,
+  duration INT NOT NULL,
+  uid VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  extra VARCHAR(1023),
+
+  PRIMARY KEY (id)
+);
+
 CREATE VIEW org_order_stats AS
   SELECT
     orderstats.*, agents.org_id

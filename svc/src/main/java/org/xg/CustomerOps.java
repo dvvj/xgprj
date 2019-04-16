@@ -1,6 +1,7 @@
 package org.xg;
 
 import org.xg.auth.Secured;
+import org.xg.dbModels.MCustomerProfile;
 import org.xg.dbModels.TDbOps;
 import org.xg.dbModels.MCustomer;
 
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.logging.Logger;
 
+import static org.xg.SvcUtils.*;
 @Path("customer")
 public class CustomerOps {
   private final static Logger logger = Logger.getLogger(CustomerOps.class.getName());
@@ -23,21 +25,43 @@ public class CustomerOps {
   @RolesAllowed("user")
   @Produces(SvcUtils.MediaType_JSON_UTF8)
   public Response allCustomers(@Context SecurityContext sc) {
-    logger.warning("(To be removed) " + sc.getUserPrincipal());
-    try {
-//      Connection conn = Utils.tryConnect(SvcUtils.getCfg().infoDbConnStr());
-//      TDbOps dbOps = DbOpsImpl.jdbcImpl(conn);
-      TDbOps dbOps = SvcUtils.getDbOps();
-      MCustomer[] customers = dbOps.allCustomers();
+    String uid = sc.getUserPrincipal().getName();
+    return tryOps(
+      () -> {
+        TDbOps dbOps = SvcUtils.getDbOps();
+        MCustomer[] customers = dbOps.allCustomers();
 //      conn.close();
-      return Response.ok(
-        MCustomer.toJsons(customers)
-      ).build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException("Error", ex);
-    }
+        return Response.ok(
+          MCustomer.toJsons(customers)
+        ).build();
+      },
+      uid,
+      "get all customers",
+      "Error running 'allCustomers'"
 
+    );
   }
+
+  @Secured
+  @GET
+  @Path("profiles")
+  @RolesAllowed("user")
+  @Produces(SvcUtils.MediaType_JSON_UTF8)
+  public Response getProfiles(@Context SecurityContext sc) {
+    String uid = sc.getUserPrincipal().getName();
+    return tryOps(
+      () -> {
+        TDbOps dbOps = SvcUtils.getDbOps();
+        MCustomerProfile[] profiles = dbOps.getCustomerProfiles(uid);
+//      conn.close();
+        return Response.ok(
+          MCustomerProfile.toJsons(profiles)
+        ).build();
+      },
+      uid,
+      "getProfiles",
+      String.format("Error getting profiles for '%s'", uid)
+    );
+  }
+
 }

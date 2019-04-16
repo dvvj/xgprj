@@ -8,11 +8,11 @@ import org.xg.user.UserType
 
 object AuthTests extends App {
 
-  //val cfg = GlobalCfg.localTestCfg
-  val cfg = GlobalCfg("http://63.35.96.58/webapi", 20000, "", "")
-  //val authUrl = .authURL // "https://localhost:443/webapi/auth/userPass"
+  val cfg = GlobalCfg.localTestCfg
+  //val cfg = GlobalCfg("http://63.35.96.58/webapi", 20000, "", "")
+  val authUrl = "https://localhost:443/webapi/auth/userPass"
 
-  val (uid, pass) = UserType.Customer.genUid("customer1") -> "123"
+  val (uid, pass) = UserType.Customer.genUid("o1a1p1_customer1") -> "123"
 //   val (uid, pass) = "customer2" -> "456"
   //val (uid, pass) = "customer3" -> "abcdef"
   //val (uid, pass) = "customer4" -> "acf"
@@ -25,6 +25,14 @@ object AuthTests extends App {
 
   val products = SvcHelpers.getDecArray(cfg.allProductsURL, resp.token, MProduct.fromJsons)
   println(s"products:\n${products.mkString("\n")}")
+
+  val profiles = SvcHelpers.getDecArray(
+    cfg.customerProfilesURL,
+    resp.token,
+    MCustomerProfile.fromJsons
+  )
+
+  println(profiles.mkString("\n"))
 
 //  val customers1 = SvcHelpers.get(cfg.allCustomersURL)
 //  println(s"customers: $customers1")

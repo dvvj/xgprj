@@ -199,6 +199,40 @@ trait TDbOps {
   def updateCustomerPass(customerId:String, oldPassHash:Array[Byte], newPassHash:Array[Byte]):OpResp
 
   def getCustomerProfiles(uid:String):Array[MCustomerProfile]
+
+  def svcAudit(
+    ops:String,
+    duration:Int,
+    uid:String
+  ):OpResp = {
+    svcAudit_Status(ops, MSvcAudit.StatusOK, duration, uid)
+  }
+
+  def svcAudit_Status(
+    ops:String,
+    status:Int,
+    duration:Int,
+    uid:String
+  ):OpResp = {
+    svcAuditEx(ops, status, duration, uid, null)
+  }
+
+  def svcAuditEx(
+    ops:String,
+    status:Int,
+    duration:Int,
+    uid:String,
+    extra:String
+  ):OpResp
+
+  def svcAudit_NoUid(
+    ops:String,
+    duration:Int
+  ):OpResp = {
+    svcAudit(ops, duration, null)
+  }
+
+  def allSvcAudit:Array[MSvcAudit]
 }
 
 object TDbOps {

@@ -127,18 +127,20 @@ public class OrderOps {
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response cancelOrder(String orderId, @Context SecurityContext sc) {
+    String uid = sc.getUserPrincipal().getName();
     return SvcUtils.tryOps(
       () -> {
         TDbOps dbOps = SvcUtils.getDbOps();
         dbOps.cancelOrder(Long.parseLong(orderId));
 
-        String uid = sc.getUserPrincipal().getName();
         String msg = String.format("Order (id: %s for user: %s) cancelled", orderId, uid);
         logger.info(msg);
 
         return Response.ok(msg)
           .build();
       },
+      uid,
+      "cancelOrder",
       String.format(
         "cancelOrder error, orderId: %s", orderId
       )
