@@ -79,6 +79,16 @@ object Helpers {
     )
   }
 
+  def convertCustomerProfile(cp:CustomerProfile):MCustomerProfile = {
+    MCustomerProfile(
+      cp.getId,
+      cp.getProfId,
+      cp.getCustomerId,
+      cp.getDetailedInfo,
+      cp.getVersion
+    )
+  }
+
   import DataUtils._
   def convertPricePlanMap(ppm:PricePlanMap):MPricePlanMap = {
     MPricePlanMap.createJ(ppm.getUid, ppm.getPlanIds,

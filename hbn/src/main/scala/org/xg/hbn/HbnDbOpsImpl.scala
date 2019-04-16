@@ -75,6 +75,20 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def getCustomerProfiles(uid: String): Array[MCustomerProfile] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          queryWhereAndConvert(
+            sess,
+            classOf[CustomerProfile].getName,
+            s"x.customerId = '$uid'",
+            convertCustomerProfile
+          )
+        }
+      )
+    }
+
     override def addRewardPlan(rwPlan:MRewardPlan):String = {
       runInTransaction(
         sessFactory,
