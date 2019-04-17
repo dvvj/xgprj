@@ -160,6 +160,9 @@ public class MedProfsMain {
       "profProductTable.placeHolder",
       selectedProduct -> {
         System.out.println(selectedProduct.getName());
+        createBarChartCurrProduct(
+          selectedProduct.getId(), selectedProduct.getName()
+        );
       },
       Arrays.asList(
         TableViewHelper.jfxTableColumnResBundle(
@@ -189,27 +192,27 @@ public class MedProfsMain {
   private VBox vboxChartCurrProduct;
 
 
-//  private void createBarChartCurrProduct(Integer currProdId, String currProdName) {
-//    vboxChartCurrCustomer.getChildren().clear();
-//
-//    CustomerOrder[] currCustomerOrders = Arrays.stream(dataModel.getOrderData())
-//      .filter(o -> o.getCustomerId().equals(currCustomerId)).toArray(CustomerOrder[]::new);
-//    StackedBarChart<String, Number> barChartCurrUser = ChartHelpers.createChartFromCustomerOrders(
-//      currCustomerOrders,
-//      new String[] {
-//        Global.AllRes.getString("profitBarChart.category.paid"),
-//        Global.AllRes.getString("profitBarChart.category.unpaid"),
-//      },
-//      String.format(
-//        "%s(%s)", Global.AllRes.getString("customerBarChart.title"), currCustomerName
-//      ),
-//      maxChartValue.getValue()
-//    );
-//    barChartCurrUser.setMaxHeight(350);
-//
-//    vboxChartCurrCustomer.getChildren().addAll(barChartCurrUser);
-//
-//  }
+  private void createBarChartCurrProduct(Integer currProdId, String currProdName) {
+    vboxChartCurrProduct.getChildren().clear();
+
+    CustomerOrder[] currCustomerOrders = Arrays.stream(dataModel.getOrderData())
+      .filter(o -> o.getOrder().getProdId().equals(currProdId)).toArray(CustomerOrder[]::new);
+    StackedBarChart<String, Number> barChartCurrUser = ChartHelpers.createChartFromCustomerOrders(
+      currCustomerOrders,
+      new String[] {
+        Global.AllRes.getString("profitBarChart.category.paid"),
+        Global.AllRes.getString("profitBarChart.category.unpaid"),
+      },
+      String.format(
+        "%s(%s)", Global.AllRes.getString("profitBarChart.title"), currProdName
+      ),
+      maxChartValue.getValue()
+    );
+    barChartCurrUser.setMaxHeight(350);
+
+    vboxChartCurrProduct.getChildren().addAll(barChartCurrUser);
+
+  }
 
 
   @FXML
