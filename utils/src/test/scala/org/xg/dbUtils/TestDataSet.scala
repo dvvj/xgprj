@@ -256,25 +256,30 @@ object TestDataSet {
   val customerId1114 = customerId(1, 1, 1, 4)
   val customerId1121 = customerId(1, 1, 2, 1)
   val customerId1122 = customerId(1, 1, 2, 2)
+  val customerId1211 = customerId(1, 2, 1, 1)
   private[dbUtils] val orderData =
     genMonthlyOrders(
-      1000L, customerId1111, 2, 2.0, 299.99,
+      1000L, customerId1211, 2, 2.0, 2299.99,
+      "%d-%02d-01 13:30:44", "%d-%02d-01 13:50:44",
+      2018 -> 10, 2019 -> 4
+    ) ++ genMonthlyOrders(
+      1100L, customerId1111, 2, 2.0, 299.99,
       "%d-%02d-02 18:30:44", "%d-%02d-02 18:50:44",
       2018 -> 10, 2019 -> 4
     ) ++ genMonthlyOrders(
-      1100L, customerId1111, 1, 2.0, 2399.99,
+      1200L, customerId1111, 1, 2.0, 2399.99,
       "%d-%02d-02 19:30:44", "%d-%02d-02 19:50:44",
       2018 -> 1, 2019 -> 4
     ) ++ genMonthlyOrders(
-      1200L, customerId1112, 1, 1.0, 1499.99,
+      1300L, customerId1112, 1, 1.0, 1499.99,
       "%d-%02d-02 16:30:44", "%d-%02d-02 16:50:44",
       2017 -> 1, 2019 -> 4
     ) ++ genMonthlyOrders(
-      1300L, customerId1114, 2, 2.0, 149.99,
+      1400L, customerId1114, 2, 2.0, 149.99,
       "%d-%02d-02 16:30:44", "%d-%02d-02 16:50:44",
       2017 -> 1, 2019 -> 4
     ) ++ genMonthlyOrders(
-      1400L, customerId1121, 1, 2.0, 2399.99,
+      1500L, customerId1121, 1, 2.0, 2399.99,
       "%d-%02d-12 18:30:44", "%d-%02d-12 18:50:44",
       2018 -> 6, 2019 -> 4
     ) ++ Array(
