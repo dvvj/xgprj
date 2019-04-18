@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 import org.xg.chart.ChartHelpers;
 import org.xg.dbModels.MOrgOrderStat;
 import org.xg.dbModels.MProfOrgAgent;
+import org.xg.dbModels.MRewardPlan;
+import org.xg.dbModels.MRewardPlanMap;
 import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
@@ -108,7 +110,7 @@ public class MedProfOrgMain {
       if (newValue != null) {
         String agentId = newValue.getAgentId();
         createCostBarChartCurrAgent(agentId, newValue.getName());
-        createRewardBarChartCurrProf(agentId, newValue.getName());
+        createRewardBarChartCurrAgent(agentId, newValue.getName());
       }
     });
 
@@ -129,9 +131,10 @@ public class MedProfOrgMain {
     String token = Global.getCurrToken();
     Object[] raw = Helpers.paraActions(
       new Supplier[] {
-        () -> UISvcHelpers.updateProfOrgAgentsOf(orgId, token),
-        () -> UISvcHelpers.updateOrgOrderStats(orgId, token),
-        () -> UISvcHelpers.updateRewardPlans(orgId, token)
+        () -> UISvcHelpers.updateProfOrgAgentsOf(token),
+        () -> UISvcHelpers.updateOrgOrderStats(token),
+        () -> UISvcHelpers.updateRewardPlans(token),
+        () -> UISvcHelpers.updateAgentRewardPlans(token)
       },
       30000
     );
@@ -140,7 +143,8 @@ public class MedProfOrgMain {
       (MProfOrgAgent[])raw[0],
       (MOrgOrderStat[])raw[1],
       Global.getProductMap(),
-      (TRewardPlan)raw[2]
+      (MRewardPlan[]) raw[2],
+      (MRewardPlanMap[])raw[3]
     );
 
     double totalReward = dataModel.calcTotalReward();
@@ -275,9 +279,9 @@ public class MedProfOrgMain {
   @FXML
   private VBox vboxRewardChartCurrAgent;
 
-  private void createRewardBarChartCurrProf(String profId, String profName) {
+  private void createRewardBarChartCurrAgent(String profId, String agentName) {
     updateBarChartCurrAgent(
-      profId, profName,
+      profId, agentName,
       vboxRewardChartCurrAgent,
       "orderStatsRewardBarChart.title",
       o -> o.getAgentOrderStat().getReward(),

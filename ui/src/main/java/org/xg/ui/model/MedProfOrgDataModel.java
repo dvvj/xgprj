@@ -2,8 +2,12 @@ package org.xg.ui.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.xg.busiLogic.RewardPlanLogics;
 import org.xg.dbModels.MOrgOrderStat;
 import org.xg.dbModels.MProfOrgAgent;
+import org.xg.dbModels.MRewardPlan;
+import org.xg.dbModels.MRewardPlanMap;
+import org.xg.pay.rewardPlan.RewardPlanSettings;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Helpers;
 import org.xg.uiModels.OrgOrderStat;
@@ -20,13 +24,15 @@ public class MedProfOrgDataModel {
   private final OrgOrderStat[] rawOrderStat;
   private final Map<String, ProfOrgAgent> agentMap;
   private final Map<Integer, Product> prodMap;
-  private final TRewardPlan rewardPlan;
+  private final Map<String, MRewardPlan> rewardPlanNameMap;
+  private final Map<String, TRewardPlan> rewardPlans4Agents;
 
   public MedProfOrgDataModel(
     MProfOrgAgent[] agents,
     MOrgOrderStat[] rawOrderStat,
     Map<Integer, Product> prodMap,
-    TRewardPlan rewardPlan
+    MRewardPlan[] rewardPlans,
+    MRewardPlanMap[] agentRewardPlanMaps
   ) {
     ProfOrgAgent[] agentsTmp = Arrays.stream(agents).map(ProfOrgAgent::fromM).toArray(ProfOrgAgent[]::new);
     this.agents = FXCollections.observableArrayList(agentsTmp);
@@ -34,8 +40,27 @@ public class MedProfOrgDataModel {
       ProfOrgAgent::getAgentId, Function.identity()
     ));
     this.prodMap = prodMap;
-    this.rewardPlan = rewardPlan;
-    this.rawOrderStat = Helpers.convOrgOrderStats(rawOrderStat, agentMap, rewardPlan);
+    //this.agentRewardPlans = agentRewardPlans;
+    rewardPlanNameMap = Arrays.stream(rewardPlans).collect(
+      Collectors.toMap(MRewardPlan::id, Function.identity())
+    );
+    Map<String, MRewardPlanMap> relRpms = Arrays.stream(agentRewardPlanMaps)
+      .filter(rpm -> agentMap.keySet().contains(rpm.uid()))
+      .collect(
+        Collectors.toMap(
+          MRewardPlanMap::uid,
+          Function.identity()
+        )
+      );
+    rewardPlans4Agents = relRpms.keySet().stream().collect(
+      Collectors.toMap(
+        Function.identity(),
+        uid -> RewardPlanLogics.rewardPlanForJ(
+          uid, relRpms, rewardPlanNameMap
+        )
+      )
+    );
+    this.rawOrderStat = Helpers.convOrgOrderStats(rawOrderStat, agentMap, rewardPlans4Agents);
   }
 
   public ObservableList<ProfOrgAgent> getAgents() {
@@ -43,10 +68,11 @@ public class MedProfOrgDataModel {
   }
 
   public double calcTotalReward() {
-    if (rewardPlan != null)
-      return Helpers.calcRewards(rewardPlan, rawOrderStat, prodMap);
-    else
-      return 0.0;
+    return Helpers.calcRewards(rewardPlans4Agents, rawOrderStat, prodMap);
+//    if (rewardPlan != null)
+//      return Helpers.calcRewards(rewardPlans4Agents, rawOrderStat, prodMap);
+//    else
+//      return 0.0;
   }
 
   public OrgOrderStat[] getRawOrderStat() {
@@ -61,7 +87,7 @@ public class MedProfOrgDataModel {
     return prodMap;
   }
 
-  public TRewardPlan getRewardPlan() {
-    return rewardPlan;
-  }
+//  public TRewardPlan getRewardPlan() {
+//    return rewardPlan;
+//  }
 }

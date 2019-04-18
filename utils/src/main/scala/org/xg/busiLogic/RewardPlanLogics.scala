@@ -41,8 +41,15 @@ object RewardPlanLogics {
       Option(res)
     }
     else None
-
   }
+
+  import collection.JavaConverters._
+  def rewardPlanForJ(uid:String, planMapJ:java.util.Map[String, MRewardPlanMap], plansJ:java.util.Map[String, MRewardPlan]):TRewardPlan = {
+    val planMap = planMapJ.asScala.toMap
+    val plans = plansJ.asScala.toMap
+    rewardPlanFor(uid, planMap, plans).orNull
+  }
+
   def rewardPlanJsonFor(
     uid:String,
     planMap:Map[String,

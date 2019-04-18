@@ -216,7 +216,7 @@ public class ProfOrgAgentsMain {
         () -> UISvcHelpers.updateMedProfsOf(orgAgentId, token),
         () -> UISvcHelpers.updateOrgAgentOrderStats(orgAgentId, token),
         () -> UISvcHelpers.updateRewardPlansCreatedBy(orgAgentId, token),
-        () -> UISvcHelpers.updateRewardPlans(orgAgentId, token)
+        () -> UISvcHelpers.updateRewardPlan4User(orgAgentId, token)
       },
       30000
     );

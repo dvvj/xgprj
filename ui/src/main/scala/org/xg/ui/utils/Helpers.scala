@@ -38,9 +38,9 @@ object Helpers {
   def convOrgOrderStats(
     os:Array[MOrgOrderStat],
     agentMap:java.util.Map[String, ProfOrgAgent],
-    rewardPlan: TRewardPlan
+    rewardPlanMap: java.util.Map[String, TRewardPlan]
   ):Array[OrgOrderStat] = {
-    os.map(o => OrgOrderStat.fromM(o, Global.getProductMap, agentMap, rewardPlan))
+    os.map(o => OrgOrderStat.fromM(o, Global.getProductMap, agentMap, rewardPlanMap.get(o.orgAgentId)))
   }
 
 
@@ -155,7 +155,9 @@ object Helpers {
   def srcCountryResKey(countryCode:String):String = countryCode2ResName(countryCode)
 
   def calcReward(rewardPlan:TRewardPlan, prodId:Integer, prodPrice0:Double): Double = {
-    rewardPlan.reward(prodId, prodPrice0)
+    if (rewardPlan != null)
+      rewardPlan.reward(prodId, prodPrice0)
+    else 0.0
   }
 
   def calcRewards(rewardPlan:TRewardPlan, orders: Array[CustomerOrder], prodMap:java.util.Map[Integer, Product]): Double = {
@@ -166,7 +168,7 @@ object Helpers {
     orders.map(os => calcReward(rewardPlan, os.getProductId, prodMap.get(os.getProductId).getPrice0)).sum
   }
 
-  def calcRewards(rewardPlan:TRewardPlan, orders: Array[OrgOrderStat], prodMap:java.util.Map[Integer, Product]): Double = {
-    orders.map(os => calcReward(rewardPlan, os.getAgentOrderStat.getProductId, prodMap.get(os.getAgentOrderStat.getProductId).getPrice0)).sum
+  def calcRewards(rewardPlans:java.util.Map[String, TRewardPlan], orders: Array[OrgOrderStat], prodMap:java.util.Map[Integer, Product]): Double = {
+    orders.map(os => calcReward(rewardPlans.get(os.getAgentOrderStat.getOrgAgentId), os.getAgentOrderStat.getProductId, prodMap.get(os.getAgentOrderStat.getProductId).getPrice0)).sum
   }
 }

@@ -63,7 +63,7 @@ public class MedProfsMain {
         () -> UISvcHelpers.updateAllOrdersOfRefedCustomers(profId, token),
         () -> UISvcHelpers.updatePricePlansOfProf(profId, token),
         () -> UISvcHelpers.updatePricePlans4Customers(profId, token),
-        () -> UISvcHelpers.updateRewardPlans(profId, token)
+        () -> UISvcHelpers.updateRewardPlan4User(profId, token)
       },
       30000
     );

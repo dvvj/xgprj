@@ -6,7 +6,7 @@ import org.xg.svc.{SvcCommonUtils, UserPass}
 import scalaj.http.{Http, HttpOptions}
 import java.util.function.{Function => JFunc}
 
-import org.xg.dbModels.{MPricePlan, MRewardPlan, OpResp}
+import org.xg.dbModels.{MPricePlan, MRewardPlan, MRewardPlanMap, OpResp}
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.pricePlan.v1.PrPlFixedRate
 import org.xg.pay.rewardPlan.TRewardPlan
@@ -29,6 +29,9 @@ object SvcHelpers {
   }
   def getRewardPlan4UserJ(url:String, uid:String, token:String):TRewardPlan = {
     getRewardPlan4User(url, uid, token).orNull
+  }
+  def getRewardPlan4Org(url:String, token:String):Array[MRewardPlanMap] = {
+    getDecArray(url, token, MRewardPlanMap.fromJsons)
   }
 
   def authReq(url:String, uid:String, pass:String):AuthResp = {

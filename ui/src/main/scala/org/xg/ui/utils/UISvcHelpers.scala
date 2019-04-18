@@ -96,14 +96,12 @@ object UISvcHelpers {
     }
   }
 
-  def updateProfOrgAgentsOf(orgId:String, userToken:String):Array[MProfOrgAgent] = {
-    val j = SvcHelpers.post(
+  def updateProfOrgAgentsOf(userToken:String):Array[MProfOrgAgent] = {
+    SvcHelpers.getDecArray(
       serverCfg.profOrgAgentsOfURL,
       userToken,
-      orgId
+      MProfOrgAgent.fromJsons
     )
-
-    MProfOrgAgent.fromJsons(j)
   }
 
   def updateOrgAgentOrderStats(orgAgentId:String, userToken:String):Array[MOrgAgentOrderStat] = {
@@ -116,14 +114,12 @@ object UISvcHelpers {
     MOrgAgentOrderStat.fromJsons(j)
   }
 
-  def updateOrgOrderStats(orgId:String, userToken:String):Array[MOrgOrderStat] = {
-    val j = SvcHelpers.post(
+  def updateOrgOrderStats(userToken:String):Array[MOrgOrderStat] = {
+    SvcHelpers.getDecArray(
       serverCfg.orderStatsOfOrgURL,
       userToken,
-      orgId
+      MOrgOrderStat.fromJsons
     )
-
-    MOrgOrderStat.fromJsons(j)
   }
 
 
@@ -146,8 +142,14 @@ object UISvcHelpers {
     orders
   }
 
-  def updateRewardPlans(uid:String, userToken:String):TRewardPlan =
+  def updateAgentRewardPlans(userToken:String):Array[MRewardPlanMap] =
+    SvcHelpers.getRewardPlan4Org(serverCfg.agentRewardPlansURL, userToken)
+
+  def updateRewardPlan4User(uid:String, userToken:String):TRewardPlan =
     SvcHelpers.getRewardPlan4UserJ(serverCfg.rewardPlanURL, uid, userToken)
+
+  def updateRewardPlans(userToken:String):Array[MRewardPlan] =
+    SvcHelpers.getDecArray(serverCfg.orgRewardPlansURL, userToken, MRewardPlan.fromJsons)
 
   def updatePricePlansOfProf(profId:String, token:String):Array[MPricePlan] = {
     val mps = SvcHelpers.postDecArray(

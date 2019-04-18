@@ -4,6 +4,7 @@ import java.time.ZonedDateTime
 
 import org.xg.gnl.DataUtils
 import org.xg.gnl.DataUtils.utcTimeFromStr
+import org.xg.json.CommonUtils
 
 case class MRewardPlanMap(
                       uid:String,
@@ -32,4 +33,7 @@ object MRewardPlanMap {
       uid, planIds, startTime, noneIfNull(expireTime)
     )
   }
+
+  def fromJsons(j:String):Array[MRewardPlanMap] = CommonUtils._fromJsons(j)
+  def toJsons(planMaps:Array[MRewardPlanMap]):String = CommonUtils._toJsons(planMaps)
 }
