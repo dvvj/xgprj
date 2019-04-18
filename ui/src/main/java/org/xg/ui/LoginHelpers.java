@@ -74,7 +74,6 @@ public class LoginHelpers {
     protected void extraAction() {
       TPricePlan pp = SvcHelpers.getPricePlan4UserJ(
         UISvcHelpers.serverCfg().pricePlanURL(),
-        Global.getCurrUid(),
         Global.getCurrToken()
       );
       if (pp != null)

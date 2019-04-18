@@ -34,13 +34,13 @@ public class CustomerDataModel {
     this.orders = FXCollections.observableArrayList(orders);
   }
 
-  public void setFilterOptionCode(Integer newCode) {
-    this.filterOptionCode.setValue(newCode);
-  }
-
-  public void bindFilterOption() {
-
-  }
+//  public void setFilterOptionCode(Integer newCode) {
+//    this.filterOptionCode.setValue(newCode);
+//  }
+//
+//  public void bindFilterOption() {
+//
+//  }
 
   public static final Map<Integer, Predicate<Order>> filterMap;
   public static final Map<Integer, String> statusStrMap;

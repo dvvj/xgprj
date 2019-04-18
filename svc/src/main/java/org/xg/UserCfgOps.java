@@ -19,29 +19,30 @@ public class UserCfgOps {
   private final static Logger logger = Logger.getLogger(UserCfgOps.class.getName());
 
   @Secured
-  @POST
+  @GET
   @Path("pricePlan")
-  @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response getPricePlan(String uid) {
-    try {
-      MCustomer customer = SvcUtils.getCustomers().get(uid);
-      String plansJson = PricePlanLogics.pricePlanJsonForJ(
-        customer,
-        PricePlanUtils.getPricePlanMaps(),
-        PricePlanUtils.getPricePlans()
-      );
+  public Response getPricePlan(@Context SecurityContext sc) {
+    String uid = sc.getUserPrincipal().getName();
+    return SvcUtils.tryOps(
+      () -> {
+        MCustomer customer = SvcUtils.getCustomers().get(uid);
+        String plansJson = PricePlanLogics.pricePlanJsonForJ(
+          customer,
+          PricePlanUtils.getPricePlanMaps(),
+          PricePlanUtils.getPricePlans()
+        );
 
 //      if (pricePlan == null)
 //        logger.info(String.format("No price plan found for user [%s]", uid));
 
-      return Response.ok(plansJson)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        return Response.ok(plansJson)
+          .build();
+      },
+      uid,
+      "getUserPricePlan",
+      String.format("Error getting price plan for [%s]", uid)
+    );
   }
 
   @Secured

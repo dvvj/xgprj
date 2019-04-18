@@ -16,12 +16,12 @@ object SvcHelpers {
   import AuthResp._
 
   //def dbgGetPricePlanViaSvc = PrPlFixedRate(0.7)
-  def getPricePlan4User(url:String, uid:String, token:String):Option[TPricePlan] = {
-    val plansJson = post(url, token, uid)
+  def getPricePlan4User(url:String, token:String):Option[TPricePlan] = {
+    val plansJson = get(url, token)
     SvcCommonUtils.decodePricePlanJson(plansJson)
   }
-  def getPricePlan4UserJ(url:String, uid:String, token:String):TPricePlan = {
-    getPricePlan4User(url, uid, token).orNull
+  def getPricePlan4UserJ(url:String, token:String):TPricePlan = {
+    getPricePlan4User(url, token).orNull
   }
   def getRewardPlan4User(url:String, uid:String, token:String):Option[TRewardPlan] = {
     val plansJson = post(url, token, uid)

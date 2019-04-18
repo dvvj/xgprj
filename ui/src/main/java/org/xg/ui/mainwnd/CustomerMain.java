@@ -35,6 +35,8 @@ import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
+import org.xg.uiDataModels.CustomerDM;
+import org.xg.uiDataModels.DataLoaders;
 import org.xg.uiModels.Customer;
 import org.xg.uiModels.CustomerOrder;
 import org.xg.uiModels.Order;
@@ -57,7 +59,8 @@ public class CustomerMain {
   private ExistingOrdersCtrl orderController;
   private ProductTableController productTableController;
 
-  private CustomerDataModel dataModel;
+  //private CustomerDataModel dataModel;
+  private CustomerDM dataModel;
 
   @FXML
   private VBox leftSide;
@@ -198,16 +201,21 @@ public class CustomerMain {
   }
 
   private void loadDataModel() {
-    Object[] raw = Helpers.paraActions(
-      new Supplier[] {
-        () -> UISvcHelpers.updateAllOrders(Global.getCurrToken())
-      },
-      20000
-    );
+//    Object[] raw = Helpers.paraActions(
+//      new Supplier[] {
+//        () -> UISvcHelpers.updateAllOrders(Global.getCurrToken())
+//      },
+//      20000
+//    );
 
-    dataModel = new CustomerDataModel(
-      (Order[])raw[0]
-    );
+//    dataModel = new CustomerDataModel(
+//      (Order[])raw[0]
+//    );
+    dataModel = DataLoaders.customerDataLoaderJ(
+      UISvcHelpers.serverCfg(),
+      Global.getCurrToken(),
+      CustomerDataModel.statusStrMap
+    ).loadAndConstruct(20000);
   }
 
   @PostConstruct
