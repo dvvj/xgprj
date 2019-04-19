@@ -1,16 +1,21 @@
 package org.xg.uiDataModels
 
 import javafx.collections.{FXCollections, ObservableList}
-import org.xg.dbModels.{MOrder, MProduct}
+import org.xg.dbModels.{MCustomerProfile, MOrder, MProduct}
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.uiModels.Order
 
 class CustomerDM(
-                orders:Array[MOrder],
-                products:Array[MProduct],
-                pricePlan: TPricePlan,
-                statusStrMap:Map[Int, String]
-                ) {
+  profiles:Array[MCustomerProfile],
+  orders:Array[MOrder],
+  products:Array[MProduct],
+  pricePlan: TPricePlan,
+  statusStrMap:Map[Int, String]
+) {
+
+  private var product2PricePlan:Map[Int, String] = {
+    profiles.flatMap(pf => pf.getDetail.productIds.map(_ -> pf.getDetail.pricePlanId)).toMap
+  }
 
   import DataTransformers._
   private val productMap = getProductMapJ(products, pricePlan)
@@ -28,9 +33,13 @@ class CustomerDM(
     _orders = createOrders(newOrders)
   }
 
-  private def createProducts(raw:Array[Product]):ObservableList[Product] = {
-    FXCollections.observableArrayList(raw.toSeq.asJava)
-  }
+  import org.xg.uiModels.{Product => UiProduct}
+//  private def createProducts(raw:Array[MProduct]):ObservableList[Product] = {
+//    val prods = raw.map(mp => UiProduct.fromMProduct())
+//    FXCollections.observableArrayList(raw.toSeq.asJava)
+//  }
+//
+//  private var _accessibleProducts:ObservableList[Product] = createProducts(products)
 
 //
 //  private var _products:ObservableList[Product] = createProducts(products)

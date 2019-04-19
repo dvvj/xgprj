@@ -22,11 +22,13 @@ object MCustomerProfile {
 
   trait TProfileDetail {
     def productIds:Array[Int]
+    def pricePlanId:String
     def creationTime:String
   }
 
   case class ProfileDetailV1_00(
     productIds:Array[Int],
+    pricePlanId:String,
     creationTime:String
   ) extends TProfileDetail
 

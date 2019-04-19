@@ -318,8 +318,8 @@ INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrProdBased-Ba
 INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrProdBased-Basic_P111','【商品1】9折，【商品2】85折，其余95折','{"globalRate":0.95,"prodRates":{"1":0.9,"2":0.85}}','ProductBasedRates','mp＿o1a1_prof1');
 INSERT INTO price_plans (id, info, defi, vtag, creator)  VALUES ('PrProdBased-Advanced','【商品1】8折，【商品2】85折，其余9折','{"globalRate":0.9,"prodRates":{"1":0.8,"2":0.85}}','ProductBasedRates','＿global');
 
-INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof1','c＿o1a1p1_customer1','{  "productIds": [1, 2],  "creationTime": "2018-08-12 18:30:44"}','1.00');
-INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof1','c＿o1a1p1_customer2','{  "productIds": [1, 2],  "creationTime": "2018-08-11 18:30:44"}','1.00');
-INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof1','c＿o1a1p1_customer4','{  "productIds": [1],  "creationTime": "2018-08-14 18:30:44"}','1.00');
-INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof2','c＿o1a1p1_customer1','{  "productIds": [3],  "creationTime": "2018-08-12 13:30:44"}','1.00');
-INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof2','c＿o1a1p2_customer1','{  "productIds": [3, 4],  "creationTime": "2018-07-12 13:30:44"}','1.00');
+INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof1','c＿o1a1p1_customer1','{  "productIds": [1, 2], "pricePlanId": "PrFixed-0.9_P111", "creationTime": "2018-08-12 18:30:44"}','1.00');
+INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof1','c＿o1a1p1_customer2','{  "productIds": [1, 2], "pricePlanId": "PrFixed-0.9_P111",  "creationTime": "2018-08-11 18:30:44"}','1.00');
+INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof1','c＿o1a1p1_customer4','{  "productIds": [1], "pricePlanId": "PrFixed-0.9_P111",  "creationTime": "2018-08-14 18:30:44"}','1.00');
+INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof2','c＿o1a1p1_customer1','{  "productIds": [3],  "pricePlanId": "PrFixed-0.95",  "creationTime": "2018-08-12 13:30:44"}','1.00');
+INSERT INTO customer_profiles (prof_id, customer_id, detailed_info, version)  VALUES ('mp＿o1a1_prof2','c＿o1a1p2_customer1','{  "productIds": [3, 4],  "pricePlanId": "PrFixed-0.95",  "creationTime": "2018-07-12 13:30:44"}','1.00');

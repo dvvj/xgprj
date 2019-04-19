@@ -3,7 +3,7 @@ package org.xg.uiDataModels
 import java.util.concurrent.TimeoutException
 
 import org.xg.auth.SvcHelpers
-import org.xg.dbModels.{MOrder, MProduct}
+import org.xg.dbModels.{MCustomerProfile, MOrder, MProduct}
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.uiModels.Order
@@ -54,6 +54,7 @@ object DataLoaders {
   def customerDataLoader(serverCfg:GlobalCfg, currToken:String, statusStrMap:Map[Int, String]): TDataLoader[CustomerDM] = new TDataLoader[CustomerDM] {
     override val cfg: GlobalCfg = serverCfg
     override val dataRetrievers: Seq[DataRetriever] = Seq(
+      () => SvcHelpers.getDecArray(serverCfg.customerProfilesURL, currToken, MCustomerProfile.fromJsons),
       () => SvcHelpers.getDecArray(serverCfg.currOrdersURL, currToken, MOrder.fromJsons),
       () => SvcHelpers.getDecArray(serverCfg.allProductsURL, currToken, MProduct.fromJsons),
       () => SvcHelpers.getPricePlan4UserJ(serverCfg.pricePlanURL, currToken)
@@ -61,9 +62,10 @@ object DataLoaders {
 
     override protected def construct(rawData: Array[AnyRef]): CustomerDM = {
       new CustomerDM(
-        rawData(0).asInstanceOf[Array[MOrder]],
-        rawData(1).asInstanceOf[Array[MProduct]],
-        rawData(2).asInstanceOf[TPricePlan],
+        rawData(0).asInstanceOf[Array[MCustomerProfile]],
+        rawData(1).asInstanceOf[Array[MOrder]],
+        rawData(2).asInstanceOf[Array[MProduct]],
+        rawData(3).asInstanceOf[TPricePlan],
         statusStrMap
       )
     }

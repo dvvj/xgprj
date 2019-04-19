@@ -133,14 +133,14 @@ object UISvcHelpers {
     MOrder.fromJsons(j)
   }
 
-  def updateAllOrders(token:String): Array[Order] = {
-    val cfg = serverCfg
-
-    val j = SvcHelpers.get(cfg.currOrdersURL, token)
-    val morders = MOrder.fromJsons(j)
-    val orders = Helpers.convOrders(morders, Global.getProductMap)
-    orders
-  }
+//  def updateAllOrders(token:String): Array[Order] = {
+//    val cfg = serverCfg
+//
+//    val j = SvcHelpers.get(cfg.currOrdersURL, token)
+//    val morders = MOrder.fromJsons(j)
+//    val orders = Helpers.convOrders(morders, Global.getProductMap)
+//    orders
+//  }
 
   def updateAgentRewardPlans(userToken:String):Array[MRewardPlanMap] =
     SvcHelpers.getRewardPlan4Org(serverCfg.agentRewardPlansURL, userToken)
