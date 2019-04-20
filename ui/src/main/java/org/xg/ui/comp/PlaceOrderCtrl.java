@@ -6,22 +6,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import org.xg.auth.SvcHelpers;
 import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.svc.UserOrder;
-import org.xg.ui.UiLoginController;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.UISvcHelpers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,9 +35,9 @@ public class PlaceOrderCtrl implements Initializable {
 
   private BooleanProperty invalidNumber = new SimpleBooleanProperty();
 
-  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
+  private ObjectProperty<UIProduct> selectedProduct = new SimpleObjectProperty<>();
 
-  public void bindSelectedProduct(ObservableValue<Product> product) {
+  public void bindSelectedProduct(ObservableValue<UIProduct> product) {
     selectedProduct.bind(product);
   }
 
@@ -61,7 +55,7 @@ public class PlaceOrderCtrl implements Initializable {
       try {
         qty = Double.parseDouble(txtQty.getText());
         TPricePlan pricePlan = Global.getPricePlan();
-        Product prod = selectedProduct.getValue();
+        UIProduct prod = selectedProduct.getValue();
         double unitCost = pricePlan != null ? pricePlan.adjust(prod.getId(), prod.getPrice0()) : prod.getPrice0();
         actualCost = unitCost*qty;
         UserOrder order = new UserOrder(Global.getCurrUid(), selectedProduct.getValue().getId(), qty, actualCost);

@@ -1,17 +1,12 @@
 package org.xg.ui.comp;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.web.WebView;
-import org.xg.auth.SvcHelpers;
 import org.xg.pay.AlipayCfg;
 import org.xg.pay.AlipayHelpers;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.UISvcHelpers;
-import org.xg.uiModels.Product;
 
 import java.net.URL;
 import java.util.ResourceBundle;

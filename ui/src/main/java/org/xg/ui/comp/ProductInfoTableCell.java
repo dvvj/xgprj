@@ -5,15 +5,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.layout.VBox;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 import org.xg.ui.utils.Global;
 
 import java.io.IOException;
 
-public class ProductInfoTableCell extends TreeTableCell<Product, Product> {
-  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
+public class ProductInfoTableCell extends TreeTableCell<UIProduct, UIProduct> {
+  private ObjectProperty<UIProduct> selectedProduct = new SimpleObjectProperty<>();
   @Override
-  protected void updateItem(Product item, boolean empty) {
+  protected void updateItem(UIProduct item, boolean empty) {
     super.updateItem(item, empty);
 
     //System.out.println("item: " + item);

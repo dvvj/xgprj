@@ -112,11 +112,11 @@ public class OrgAgentOrderStat extends RecursiveTreeObject<OrgAgentOrderStat> {
 
   public static OrgAgentOrderStat fromM(
     MOrgAgentOrderStat os,
-    Map<Integer, Product> prodMap,
+    Map<Integer, UIProduct> prodMap,
     Map<String, MedProf> profMap,
     TRewardPlan rewardPlan
   ) {
-    Product product = prodMap.get(os.productId());
+    UIProduct product = prodMap.get(os.productId());
     Double reward = rewardPlan != null ?
       rewardPlan.reward(product.getId(), product.getPrice0()) : 0.0;
     return new OrgAgentOrderStat(

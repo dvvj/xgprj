@@ -15,8 +15,8 @@ import org.xg.uiModels._
 import scala.concurrent.{Await, Future}
 
 object Helpers {
-  def convProducts(mps:Array[MProduct], pricePlan:TPricePlan):Array[uiModels.Product] = {
-    mps.map(mp => Product.fromMProduct(mp, pricePlan))
+  def convProducts(mps:Array[MProduct], pricePlan:TPricePlan):Array[UIProduct] = {
+    mps.map(mp => UIProduct.fromMProduct(mp, pricePlan))
   }
 
   def convCustomers(mcs:Array[MCustomer], planMap:java.util.Map[String, MPricePlan]):Array[Customer] = {
@@ -44,14 +44,14 @@ object Helpers {
   }
 
 
-  def convOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, Product]):Array[Order] = {
+  def convOrders(morders:Array[MOrder], prodMap: java.util.Map[Integer, UIProduct]):Array[Order] = {
     morders.map(mo => Order.fromMOrder(mo, prodMap))
   }
 
   def convCustomerOrders(
                           morders:Array[MOrder],
                           customerMap: java.util.Map[String, Customer],
-                          prodMap: java.util.Map[Integer, Product],
+                          prodMap: java.util.Map[Integer, UIProduct],
                           rewardPlan:TRewardPlan
                         ):Array[CustomerOrder] = {
     morders.map(mo => CustomerOrder.fromMOrder(mo, customerMap, Global.getProductMap, rewardPlan))
@@ -139,7 +139,7 @@ object Helpers {
   }
 
   import collection.JavaConverters._
-  def productMapFromJ(products:Array[Product]):java.util.Map[Integer, Product] = {
+  def productMapFromJ(products:Array[UIProduct]):java.util.Map[Integer, UIProduct] = {
     products.map(p => p.getId -> p).toMap.asJava
   }
 
@@ -160,15 +160,15 @@ object Helpers {
     else 0.0
   }
 
-  def calcRewards(rewardPlan:TRewardPlan, orders: Array[CustomerOrder], prodMap:java.util.Map[Integer, Product]): Double = {
+  def calcRewards(rewardPlan:TRewardPlan, orders: Array[CustomerOrder], prodMap:java.util.Map[Integer, UIProduct]): Double = {
     orders.map(order => calcReward(rewardPlan, order.getOrder.getProdId, prodMap.get(order.getOrder.getProdId).getPrice0)).sum
   }
 
-  def calcRewards(rewardPlan:TRewardPlan, orders: Array[OrgAgentOrderStat], prodMap:java.util.Map[Integer, Product]): Double = {
+  def calcRewards(rewardPlan:TRewardPlan, orders: Array[OrgAgentOrderStat], prodMap:java.util.Map[Integer, UIProduct]): Double = {
     orders.map(os => calcReward(rewardPlan, os.getProductId, prodMap.get(os.getProductId).getPrice0)).sum
   }
 
-  def calcRewards(rewardPlans:java.util.Map[String, TRewardPlan], orders: Array[OrgOrderStat], prodMap:java.util.Map[Integer, Product]): Double = {
+  def calcRewards(rewardPlans:java.util.Map[String, TRewardPlan], orders: Array[OrgOrderStat], prodMap:java.util.Map[Integer, UIProduct]): Double = {
     orders.map(os => calcReward(rewardPlans.get(os.getAgentOrderStat.getOrgAgentId), os.getAgentOrderStat.getProductId, prodMap.get(os.getAgentOrderStat.getProductId).getPrice0)).sum
   }
 }

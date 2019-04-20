@@ -1,6 +1,5 @@
 package org.xg.uiModels;
 
-import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.dbModels.MOrgOrderStat;
 import org.xg.pay.rewardPlan.TRewardPlan;
 
@@ -41,11 +40,11 @@ public class OrgOrderStat {
   private final static String ProfNameNA = "N/A";
   public static OrgOrderStat fromM(
     MOrgOrderStat os,
-    Map<Integer, Product> prodMap,
+    Map<Integer, UIProduct> prodMap,
     Map<String, ProfOrgAgent> agentMap,
     TRewardPlan rewardPlan
   ) {
-    Product product = prodMap.get(os.productId());
+    UIProduct product = prodMap.get(os.productId());
     Double reward = rewardPlan != null ?
       rewardPlan.reward(product.getId(), product.getPrice0()) : 0.0;
     OrgAgentOrderStat agentOrderStat = new OrgAgentOrderStat(

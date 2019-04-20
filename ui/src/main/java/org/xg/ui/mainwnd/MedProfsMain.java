@@ -3,16 +3,11 @@ package org.xg.ui.mainwnd;
 import com.jfoenix.controls.*;
 import io.datafx.controller.ViewController;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.xg.chart.ChartHelpers;
@@ -20,7 +15,6 @@ import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
 import org.xg.dbModels.MPricePlan;
 import org.xg.gnl.DataUtils;
-import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.comp.AddNewCustomerCtrl;
@@ -36,7 +30,7 @@ import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiModels.PricePlan;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -134,13 +128,13 @@ public class MedProfsMain {
 
   @FXML
   StackPane productsTab;
-  private TreeTableViewWithFilterCtrl<Product> productCtrl;
+  private TreeTableViewWithFilterCtrl<UIProduct> productCtrl;
 
   private void loadProductTable() throws Exception {
 
     productCtrl = TreeTableViewHelper.loadTableToTab(
       productsTab,
-      (Product product) -> {
+      (UIProduct product) -> {
         Set<String> strs = new HashSet<>();
         strs.addAll(Arrays.asList(
           product.getName(),
@@ -168,12 +162,12 @@ public class MedProfsMain {
         TableViewHelper.jfxTableColumnResBundle(
           "profProductTable.name",
           300,
-          Product::getName
+          UIProduct::getName
         ),
         TableViewHelper.jfxTableColumnResBundle(
           "profProductTable.price0",
           150,
-          Product::getPrice0
+          UIProduct::getPrice0
         ),
         TableViewHelper.jfxTableColumnResBundle(
           "profProductTable.srcCountry",

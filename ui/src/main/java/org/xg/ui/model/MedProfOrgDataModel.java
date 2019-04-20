@@ -7,11 +7,10 @@ import org.xg.dbModels.MOrgOrderStat;
 import org.xg.dbModels.MProfOrgAgent;
 import org.xg.dbModels.MRewardPlan;
 import org.xg.dbModels.MRewardPlanMap;
-import org.xg.pay.rewardPlan.RewardPlanSettings;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Helpers;
 import org.xg.uiModels.OrgOrderStat;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 import org.xg.uiModels.ProfOrgAgent;
 
 import java.util.Arrays;
@@ -23,14 +22,14 @@ public class MedProfOrgDataModel {
   private final ObservableList<ProfOrgAgent> agents;
   private final OrgOrderStat[] rawOrderStat;
   private final Map<String, ProfOrgAgent> agentMap;
-  private final Map<Integer, Product> prodMap;
+  private final Map<Integer, UIProduct> prodMap;
   private final Map<String, MRewardPlan> rewardPlanNameMap;
   private final Map<String, TRewardPlan> rewardPlans4Agents;
 
   public MedProfOrgDataModel(
     MProfOrgAgent[] agents,
     MOrgOrderStat[] rawOrderStat,
-    Map<Integer, Product> prodMap,
+    Map<Integer, UIProduct> prodMap,
     MRewardPlan[] rewardPlans,
     MRewardPlanMap[] agentRewardPlanMaps
   ) {
@@ -83,7 +82,7 @@ public class MedProfOrgDataModel {
     return agentMap;
   }
 
-  public Map<Integer, Product> getProdMap() {
+  public Map<Integer, UIProduct> getProdMap() {
     return prodMap;
   }
 

@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.xg.svc.ImageInfo;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
@@ -27,7 +27,7 @@ import static org.xg.ui.utils.Global.getAllProducts;
 
 public class ProductTableController implements Initializable {
   @FXML
-  private JFXTreeTableView<Product> tblProducts;
+  private JFXTreeTableView<UIProduct> tblProducts;
 
   private StringProperty selectedProductDetail = new SimpleStringProperty();
   public StringProperty getSelectedProductDetail() {
@@ -45,8 +45,8 @@ public class ProductTableController implements Initializable {
 //  }
   private JFXHighlighter highlighter = new JFXHighlighter();
 
-  private ObservableList<Product> productsCache;
-  private ObservableList<Product> activeProducts;
+  private ObservableList<UIProduct> productsCache;
+  private ObservableList<UIProduct> activeProducts;
 
   private void setupAndFetchProductTable(ResourceBundle resBundle) {
     tblProducts.getColumns().addAll(
@@ -59,12 +59,12 @@ public class ProductTableController implements Initializable {
 //        "productTable.name",
 //        300
 //      ),
-      TableViewHelper.<Product, String>jfxTableColumnResBundle(
+      TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
         "productTable.name",
         300,
-        Product::getName
+        UIProduct::getName
       ),
-      TableViewHelper.<Product, String>jfxTableColumnResBundle(
+      TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
         "productTable.srcCountry",
         100,
         p -> {
@@ -72,25 +72,25 @@ public class ProductTableController implements Initializable {
           return Global.AllRes.getString(resKey);
         }
       ),
-      TableViewHelper.<Product, Double>jfxTableColumnResBundle(
+      TableViewHelper.<UIProduct, Double>jfxTableColumnResBundle(
         "productTable.price0",
         120,
-        Product::getPrice0
+        UIProduct::getPrice0
       ),
-      TableViewHelper.<Product, String>jfxTableColumnResBundle(
+      TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
         "productTable.price",
         120,
-        Product::getPriceDetail
+        UIProduct::getPriceDetail
       ),
 //      tableColumnResBundle("productTable.detailedInfo",
 //        resBundle,
 //        "detailedInfo",
 //        80
 //      ),
-      TableViewHelper.<Product, List<String>>jfxTableColumnResBundle(
+      TableViewHelper.<UIProduct, List<String>>jfxTableColumnResBundle(
         "productTable.Keywords",
         200,
-        Product::getKeywords
+        UIProduct::getKeywords
       )
     );
 
@@ -100,7 +100,7 @@ public class ProductTableController implements Initializable {
 
     tblProducts.setColumnResizePolicy(TreeTableView.UNCONSTRAINED_RESIZE_POLICY);
 
-    Task<ObservableList<Product>> fetchProductsTask = Helpers.uiTaskJ(
+    Task<ObservableList<UIProduct>> fetchProductsTask = Helpers.uiTaskJ(
       () -> {
         try {
           Thread.sleep(1000);
@@ -122,7 +122,7 @@ public class ProductTableController implements Initializable {
 //          Global.loggingTodo(String.format("found %d products", productsCache.size()));
 //          //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
 //          if (productsCache.size() > 0) {
-//            TreeItem<Product> first =  tblProducts.getTreeItem(0);
+//            TreeItem<UIProduct> first =  tblProducts.getTreeItem(0);
 //            tblProducts.getSelectionModel().select(first);
 //            updateSelection(first.getValue());
 //          }
@@ -145,7 +145,7 @@ public class ProductTableController implements Initializable {
     new Thread(fetchProductsTask).start();
   }
 
-  private void filterAndUpdateProductTable1(Predicate<Product> filter) {
+  private void filterAndUpdateProductTable1(Predicate<UIProduct> filter) {
     if (productsCache != null && productsCache.size() > 0) {
       activeProducts = productsCache.filtered(filter);
 
@@ -153,7 +153,7 @@ public class ProductTableController implements Initializable {
       Global.loggingTodo(String.format("found %d products", activeProducts.size()));
       //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
       if (activeProducts.size() > 0) {
-        TreeItem<Product> first =  tblProducts.getTreeItem(0);
+        TreeItem<UIProduct> first =  tblProducts.getTreeItem(0);
         tblProducts.getSelectionModel().select(first);
         updateSelection(first.getValue());
       }
@@ -162,7 +162,7 @@ public class ProductTableController implements Initializable {
       }
     }
   }
-  private void filterAndUpdateProductTable2(Predicate<Product> filter) {
+  private void filterAndUpdateProductTable2(Predicate<UIProduct> filter) {
     Task<Integer> task = Helpers.uiTaskJ(
       () -> {
         return 0;
@@ -181,7 +181,7 @@ public class ProductTableController implements Initializable {
 //      Global.loggingTodo(String.format("found %d products", activeProducts.size()));
 //      //tblProducts.getSelectionModel().selectedIndexProperty().addListener(new RowSelectChangeListener(productsCache));
 //      if (activeProducts.size() > 0) {
-//        TreeItem<Product> first =  tblProducts.getTreeItem(0);
+//        TreeItem<UIProduct> first =  tblProducts.getTreeItem(0);
 //        tblProducts.getSelectionModel().select(first);
 //        updateSelection(first.getValue());
 //      }
@@ -211,9 +211,9 @@ public class ProductTableController implements Initializable {
 //      }
 //    ));
 
-//    tblProducts.onSortProperty().setValue(new EventHandler<SortEvent<TableView<Product>>>() {
+//    tblProducts.onSortProperty().setValue(new EventHandler<SortEvent<TableView<UIProduct>>>() {
 //      @Override
-//      public void handle(SortEvent<TableView<Product>> event) {
+//      public void handle(SortEvent<TableView<UIProduct>> event) {
 //        System.out.println("sorted, first prod: " + productsCache.getValue().get(0).getName());
 //      }
 //    });
@@ -221,13 +221,13 @@ public class ProductTableController implements Initializable {
 
   }
 
-  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
-  public ObservableValue<Product> getSelectedProduct() {
+  private ObjectProperty<UIProduct> selectedProduct = new SimpleObjectProperty<>();
+  public ObservableValue<UIProduct> getSelectedProduct() {
     return selectedProduct;
   }
 
-  private class ItemSelectChangeListener<T extends TreeItem<Product>> implements ChangeListener<T> {
-//    private final ObservableList<Product> products;
+  private class ItemSelectChangeListener<T extends TreeItem<UIProduct>> implements ChangeListener<T> {
+//    private final ObservableList<UIProduct> products;
     ItemSelectChangeListener() { }
     @Override
     public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
@@ -235,7 +235,7 @@ public class ProductTableController implements Initializable {
       boolean hasUpdate = newValue != null && oldValue != null && !oldValue.getValue().getId().equals(newValue.getValue().getId());
 
       if (hasUpdate) {
-        Product prod = newValue.getValue();
+        UIProduct prod = newValue.getValue();
         System.out.println("new selection: " + prod.getName());
         updateSelection(prod);
 //        selectedProductDetail.setValue(prod.getDetail().getDesc());
@@ -260,7 +260,7 @@ public class ProductTableController implements Initializable {
     }
   }
 
-  private void updateSelection(Product prod) {
+  private void updateSelection(UIProduct prod) {
     selectedProductDetail.setValue(prod.getDetail().getDesc());
     ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
     String url = imgInfo.getUrl(UISvcHelpers.serverCfg());
@@ -269,8 +269,8 @@ public class ProductTableController implements Initializable {
   }
 
   private class RowSelectChangeListener implements ChangeListener<Number> {
-    private final ObservableList<Product> products;
-    RowSelectChangeListener(ObservableList<Product> products) {
+    private final ObservableList<UIProduct> products;
+    RowSelectChangeListener(ObservableList<UIProduct> products) {
       this.products = products;
     }
     @Override
@@ -280,7 +280,7 @@ public class ProductTableController implements Initializable {
       boolean hasUpdate = oldValue != null && oldValue.intValue() != nv;
 
       if (nv >= 0 && nv < products.size() && hasUpdate) {
-        Product prod = products.get(nv);
+        UIProduct prod = products.get(nv);
         System.out.println("new selection: " + prod.getName());
         selectedProductDetail.setValue(prod.getDetail().getDesc());
         ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());

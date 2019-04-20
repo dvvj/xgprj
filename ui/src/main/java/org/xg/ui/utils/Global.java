@@ -7,12 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
-import org.xg.dbModels.MOrder;
 import org.xg.dbModels.MProduct;
 import org.xg.gnl.GlobalCfg;
 import org.xg.pay.pricePlan.TPricePlan;
-import org.xg.uiModels.Order;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 
 import java.util.*;
 
@@ -72,10 +70,10 @@ public class Global {
     return _pricePlan;
   }
 
-  private static ObservableList<Product> allProducts = null;
-  private static Map<Integer, Product> productMap = null;
+  private static ObservableList<UIProduct> allProducts = null;
+  private static Map<Integer, UIProduct> productMap = null;
   private static Object _productLock = new Object();
-  public static Map<Integer, Product> getProductMap() {
+  public static Map<Integer, UIProduct> getProductMap() {
     if (productMap == null) {
       synchronized (_productLock) {
         if (productMap == null) {
@@ -85,7 +83,7 @@ public class Global {
     }
     return productMap;
   }
-  public static ObservableList<Product> updateAllProducts() {
+  public static ObservableList<UIProduct> updateAllProducts() {
     try {
       GlobalCfg cfg = UISvcHelpers.serverCfg();
       String j = SvcHelpers.get(
@@ -93,7 +91,7 @@ public class Global {
         Global.getCurrToken()
       );
       MProduct[] products = MProduct.fromJsons(j);
-      Product[] prods = Helpers.convProducts(products, getPricePlan());
+      UIProduct[] prods = Helpers.convProducts(products, getPricePlan());
       productMap = Helpers.productMapFromJ(prods);
       return FXCollections.observableArrayList(prods);
     }
@@ -105,7 +103,7 @@ public class Global {
     }
   }
 
-  public static ObservableList<Product> getAllProducts() {
+  public static ObservableList<UIProduct> getAllProducts() {
     if (allProducts == null || allProducts.isEmpty()) {
       allProducts = updateAllProducts();
     }

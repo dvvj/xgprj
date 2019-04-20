@@ -3,7 +3,6 @@ package org.xg.uiModels;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.xg.busiLogic.OrderStatusLogics;
 import org.xg.dbModels.MOrder;
-import org.xg.dbModels.MOrgAgentOrderStat;
 import org.xg.gnl.DataUtils;
 
 import java.time.ZonedDateTime;
@@ -108,8 +107,8 @@ public class Order extends RecursiveTreeObject<Order> {
     this.prodName = prodName;
   }
 
-  public static Order fromMOrder(MOrder mo, Map<Integer, Product> productMap) {
-    Product product = productMap.get(mo.productId());
+  public static Order fromMOrder(MOrder mo, Map<Integer, UIProduct> productMap) {
+    UIProduct product = productMap.get(mo.productId());
     ZonedDateTime dt = DataUtils.utcTimeFromStr(mo.creationTimeS());
     ZonedDateTime pdt =
       mo.payTime().nonEmpty() ? DataUtils.utcTimeFromStr(mo.payTime().get()) : null;

@@ -61,11 +61,11 @@ public class CustomerOrder extends RecursiveTreeObject<CustomerOrder> {
   public static CustomerOrder fromMOrder(
     MOrder order,
     Map<String, Customer> customerMap,
-    Map<Integer, Product> productMap,
+    Map<Integer, UIProduct> productMap,
     TRewardPlan rewardPlan
   ) {
     Order o = Order.fromMOrder(order, productMap);
-    Product prod = productMap.get(o.getProdId());
+    UIProduct prod = productMap.get(o.getProdId());
     Double reward =
       rewardPlan.reward(order.productId(), prod.getPrice0());
     return new CustomerOrder(

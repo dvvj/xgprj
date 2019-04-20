@@ -8,7 +8,7 @@ import org.xg.pay.pricePlan.TPricePlan;
 import java.util.Arrays;
 import java.util.List;
 
-public class Product extends RecursiveTreeObject<Product> {
+public class UIProduct extends RecursiveTreeObject<UIProduct> {
   private Integer id;
   private String name;
   private Double price0; //todo
@@ -82,8 +82,8 @@ public class Product extends RecursiveTreeObject<Product> {
 
   private List<AssetItem> assets;
 
-  public Product() { }
-  public Product(
+  public UIProduct() { }
+  public UIProduct(
     int id, String name, double price0,
     TPricePlan pricePlan,
     String detailedInfo,
@@ -99,9 +99,9 @@ public class Product extends RecursiveTreeObject<Product> {
     this.assets = assets;
   }
 
-  public static Product fromMProduct(MProduct mp, TPricePlan pricePlan) {
+  public static UIProduct fromMProduct(MProduct mp, TPricePlan pricePlan) {
     double roundPrice = DataUtils.roundMoney(mp.price0()); //Math.round(mp.price0() * 100) / 100.0;
-    return new Product(
+    return new UIProduct(
       mp.id(),
       mp.name(),
       roundPrice,

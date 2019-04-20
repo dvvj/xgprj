@@ -6,7 +6,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.xg.ui.UiLoginController;
 import org.xg.ui.utils.Global;
-import org.xg.uiModels.Product;
 
 import java.io.IOException;
 

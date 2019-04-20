@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import org.xg.auth.SvcHelpers;
 import org.xg.ui.comp.PlaceOrderCtrl;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 import org.xg.ui.utils.Global;
 
 import java.io.ByteArrayInputStream;
@@ -42,7 +42,7 @@ public class CustomerMainRCtrl implements Initializable {
   public void setBinding(
     ObservableValue<String> details,
     ObservableValue<String> imageUrl,
-    ObservableValue<Product> selectedProduct,
+    ObservableValue<UIProduct> selectedProduct,
     Runnable postProcess
   ) {
     txtDetails.textProperty().bind(details);

@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MOrgAgentOrderStat;
-import org.xg.dbModels.MPricePlan;
 import org.xg.dbModels.MRewardPlan;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Helpers;
@@ -24,7 +23,7 @@ public class ProfOrgAgentDataModel {
   private final ObservableList<RewardPlan> ownedRewardPlans;
   private final ObservableList<RewardPlanOption> rewardPlanOptions;
   private final TRewardPlan rewardPlan;
-  private final Map<Integer, Product> prodMap;
+  private final Map<Integer, UIProduct> prodMap;
 
   public ObservableList<RewardPlan> getOwnedRewardPlans() {
     return ownedRewardPlans;
@@ -44,7 +43,7 @@ public class ProfOrgAgentDataModel {
     MMedProf[] medProfs,
     MOrgAgentOrderStat[] orderStats,
     MRewardPlan[] rewardPlans,
-    Map<Integer, Product> prodMap,
+    Map<Integer, UIProduct> prodMap,
     TRewardPlan rewardPlan
   ) {
     setMedProfs(medProfs);

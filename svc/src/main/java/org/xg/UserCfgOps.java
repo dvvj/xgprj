@@ -12,6 +12,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Path("user")
@@ -37,6 +39,30 @@ public class UserCfgOps {
 //        logger.info(String.format("No price plan found for user [%s]", uid));
 
         return Response.ok(plansJson)
+          .build();
+      },
+      uid,
+      "getUserPricePlan",
+      String.format("Error getting price plan for [%s]", uid)
+    );
+  }
+
+  @Secured
+  @GET
+  @Path("allPricePlans")
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response getAllPricePlans(@Context SecurityContext sc) {
+    String uid = sc.getUserPrincipal().getName();
+    return SvcUtils.tryOps(
+      () -> {
+        Map<String, MPricePlan> planMap = PricePlanUtils.getPricePlans();
+        MPricePlan[] allPlans = new MPricePlan[planMap.size()];
+        ArrayList<MPricePlan> t = new ArrayList<>(planMap.size());
+        t.addAll(planMap.values());
+        allPlans = t.toArray(allPlans);
+        String json = MPricePlan.toJsons(allPlans);
+
+        return Response.ok(json)
           .build();
       },
       uid,

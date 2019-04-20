@@ -1,12 +1,12 @@
 package org.xg.ui.comp;
 
 import javafx.scene.control.TableCell;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 
-public class ProductPlaceOrderTableCell extends TableCell<Product, Product> {
-//  private ObjectProperty<Product> selectedProduct = new SimpleObjectProperty<>();
+public class ProductPlaceOrderTableCell extends TableCell<UIProduct, UIProduct> {
+//  private ObjectProperty<UIProduct> selectedProduct = new SimpleObjectProperty<>();
 //  @Override
-//  protected void updateItem(Product item, boolean empty) {
+//  protected void updateItem(UIProduct item, boolean empty) {
 //    super.updateItem(item, empty);
 //
 //    //System.out.println("item: " + item);

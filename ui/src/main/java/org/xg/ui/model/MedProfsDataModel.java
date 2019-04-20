@@ -5,14 +5,13 @@ import javafx.collections.ObservableList;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MOrder;
 import org.xg.dbModels.MPricePlan;
-import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.uiModels.Customer;
 import org.xg.uiModels.CustomerOrder;
 import org.xg.uiModels.PricePlan;
-import org.xg.uiModels.Product;
+import org.xg.uiModels.UIProduct;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -32,8 +31,8 @@ public class MedProfsDataModel {
   private final ObservableList<PricePlan> pricePlans;
   private final ObservableList<PricePlanOption> pricePlanOptions;
 
-  private final Map<Integer, Product> prodMap;
-  private final ObservableList<Product> products;
+  private final Map<Integer, UIProduct> prodMap;
+  private final ObservableList<UIProduct> products;
 
   public void setCustomers(MCustomer[] customers, Map<String, MPricePlan> customerPricePlanMap) {
     this.customerPricePlanMap = customerPricePlanMap;
@@ -49,7 +48,7 @@ public class MedProfsDataModel {
     MCustomer[] customers,
     MOrder[] customerOrders,
     MPricePlan[] pricePlans,
-    Map<Integer, Product> prodMap,
+    Map<Integer, UIProduct> prodMap,
     Map<String, MPricePlan> customerPricePlanMap,
     TRewardPlan rewardPlan
   ) {
@@ -97,7 +96,7 @@ public class MedProfsDataModel {
     return pricePlanOptions;
   }
 
-  public ObservableList<Product> getProducts() {
+  public ObservableList<UIProduct> getProducts() {
     return products;
   }
 }
