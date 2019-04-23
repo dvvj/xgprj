@@ -44,7 +44,8 @@ public class ProductTableController2 {
     @Override
     public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
 
-      boolean hasUpdate = newValue != null && oldValue != null && !oldValue.getId().equals(newValue.getId());
+      boolean hasUpdate = newValue != null &&
+        (oldValue == null || (oldValue != null && !oldValue.getId().equals(newValue.getId())));
 
       if (hasUpdate) {
         UIProduct prod = newValue;
