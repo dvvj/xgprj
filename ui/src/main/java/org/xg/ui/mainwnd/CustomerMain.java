@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.xg.gnl.DataUtils;
 import org.xg.ui.*;
+import org.xg.ui.comp.ProductTableController2;
 import org.xg.ui.comp.TreeTableViewHelper;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.ui.comp.UpdatePasswordCtrl;
@@ -40,15 +41,13 @@ import org.xg.uiDataModels.DataLoaders;
 import org.xg.uiModels.Customer;
 import org.xg.uiModels.CustomerOrder;
 import org.xg.uiModels.Order;
+import org.xg.uiModels.UIProduct;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static org.xg.ui.model.TableViewHelper.jfxOrderTableOpsColumn;
@@ -57,25 +56,91 @@ import static org.xg.ui.model.TableViewHelper.jfxOrderTableOpsColumn;
 public class CustomerMain {
   private CustomerMainRCtrl rightSideController;
   private ExistingOrdersCtrl orderController;
-  private ProductTableController productTableController;
-
+  //private ProductTableController productTableController;
+  private ProductTableController2 productTableController;
   //private CustomerDataModel dataModel;
   private CustomerDM dataModel;
 
   @FXML
   private VBox leftSide;
-  private Node loadLeftSide() throws IOException {
+//  private Node loadLeftSide() throws IOException {
+//
+//    URL path = UiLoginController.class.getResource("/ui/ProductTable.fxml");
+//    FXMLLoader productLoader = new FXMLLoader(path, Global.AllRes);
+//    //productLoader.setLocation(path);
+//    VBox productTableCtrl = productLoader.load();
+//    productTableController = productLoader.getController();
+//
+//    leftSide.getChildren().addAll(productTableCtrl);
+//    return leftSide;
+//
+//  }
 
-    URL path = UiLoginController.class.getResource("/ui/ProductTable.fxml");
-    FXMLLoader productLoader = new FXMLLoader(path, Global.AllRes);
-    //productLoader.setLocation(path);
-    VBox productTableCtrl = productLoader.load();
-    productTableController = productLoader.getController();
+  private Node loadLeftSide() throws Exception {
 
-    leftSide.getChildren().addAll(productTableCtrl);
+//    URL path = UiLoginController.class.getResource("/ui/ProductTable.fxml");
+//    FXMLLoader productLoader = new FXMLLoader(path, Global.AllRes);
+//    //productLoader.setLocation(path);
+//    VBox productTable = productLoader.load();
+    TreeTableViewWithFilterCtrl<UIProduct> treeTableCtrl = TreeTableViewHelper.loadTableToTab(
+      leftSide,
+      product -> {
+        Set<String> strs = new HashSet<>();
+        strs.addAll(Arrays.asList(
+          product.getName()
+        ));
+        return strs;
+      },
+      () -> dataModel.getProducts(),
+      () -> {
+        System.out.println("todo");
+      },
+      "productTable",
+      "productTable.placeHolder",
+      newProd -> { },
+      Arrays.asList(
+        TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
+          "productTable.name",
+          300,
+          UIProduct::getName
+        ),
+        TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
+          "productTable.srcCountry",
+          100,
+          p -> {
+            String resKey = Helpers.srcCountryResKey(p.getDetail().getSrcCountry());
+            return Global.AllRes.getString(resKey);
+          }
+        ),
+        TableViewHelper.<UIProduct, Double>jfxTableColumnResBundle(
+          "productTable.price0",
+          120,
+          UIProduct::getPrice0
+        ),
+        TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
+          "productTable.price",
+          120,
+          UIProduct::getPriceDetail
+        ),
+//      tableColumnResBundle("productTable.detailedInfo",
+//        resBundle,
+//        "detailedInfo",
+//        80
+//      ),
+        TableViewHelper.<UIProduct, List<String>>jfxTableColumnResBundle(
+          "productTable.Keywords",
+          200,
+          UIProduct::getKeywords
+        )
+      )
+    );
+
+    productTableController = new ProductTableController2(treeTableCtrl);
+    //leftSide.getChildren().addAll(productTable);
     return leftSide;
 
   }
+
   @FXML
   VBox ordersTab;
 

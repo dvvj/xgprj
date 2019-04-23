@@ -73,7 +73,7 @@ public class CustomerMainRCtrl implements Initializable {
     lblUrl.textProperty().addListener(new ChangeListener<String>() {
       @Override
       public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        System.out.println("New value: " + newValue);
+        //System.out.println("New value: " + newValue);
         if (newValue != null && !newValue.equals(oldValue)) {
           System.out.println("updating image");
 //          Image image = new Image(lblUrl.getText(), 200, 400, true, true);
