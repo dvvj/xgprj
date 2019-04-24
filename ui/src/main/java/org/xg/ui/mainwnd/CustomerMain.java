@@ -80,12 +80,17 @@ public class CustomerMain {
       "productTable.placeHolder",
       newProd -> { },
       Arrays.asList(
-        TableViewHelper.<CustomerProduct, String>jfxTableColumnResBundle(
+        TableViewHelper.jfxTableColumnResBundle(
           "productTable.name",
           300,
           cp -> cp.getProduct().getName()
         ),
-        TableViewHelper.<CustomerProduct, String>jfxTableColumnResBundle(
+        TableViewHelper.jfxTableColumnResBundle(
+          "productTable.referringProfName",
+          100,
+          cp -> cp.getRefProf().getName()
+        ),
+        TableViewHelper.jfxTableColumnResBundle(
           "productTable.srcCountry",
           100,
           cp -> {
@@ -93,12 +98,12 @@ public class CustomerMain {
             return Global.AllRes.getString(resKey);
           }
         ),
-        TableViewHelper.<CustomerProduct, Double>jfxTableColumnResBundle(
+        TableViewHelper.jfxTableColumnResBundle(
           "productTable.price0",
           120,
           cp -> cp.getProduct().getPrice0()
         ),
-        TableViewHelper.<CustomerProduct, String>jfxTableColumnResBundle(
+        TableViewHelper.jfxTableColumnResBundle(
           "productTable.price",
           120,
           cp -> cp.getPriceDetail()
@@ -108,7 +113,7 @@ public class CustomerMain {
 //        "detailedInfo",
 //        80
 //      ),
-        TableViewHelper.<CustomerProduct, List<String>>jfxTableColumnResBundle(
+        TableViewHelper.jfxTableColumnResBundle(
           "productTable.Keywords",
           200,
           cp -> cp.getProduct().getKeywords()
