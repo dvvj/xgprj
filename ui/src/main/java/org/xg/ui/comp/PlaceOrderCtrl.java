@@ -57,7 +57,7 @@ public class PlaceOrderCtrl implements Initializable {
       UIProduct product = prod.getProduct();
       try {
         qty = Double.parseDouble(txtQty.getText());
-        TPricePlan pricePlan = Global.getPricePlan();
+        TPricePlan pricePlan = prod.getPricePlan(); //Global.getPricePlan();
         double unitCost = pricePlan != null ?
           pricePlan.adjust(
             product.getId(),
