@@ -49,7 +49,6 @@ public class ProductTableController2 {
 
       if (hasUpdate) {
         UIProduct prod = newValue;
-
         updateSelection(prod);
       }
 

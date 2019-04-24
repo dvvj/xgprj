@@ -1,28 +1,13 @@
 package org.xg.ui.mainwnd;
 
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXPopup;
-import com.jfoenix.controls.JFXTreeTableView;
 import io.datafx.controller.ViewController;
-import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import org.xg.gnl.DataUtils;
 import org.xg.ui.*;
 import org.xg.ui.comp.ProductTableController2;
 import org.xg.ui.comp.TreeTableViewHelper;
@@ -34,21 +19,16 @@ import org.xg.ui.model.OrderFilterHelpers;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
-import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
-import org.xg.uiDataModels.CustomerDM;
 import org.xg.uiDataModels.DataLoaders;
-import org.xg.uiModels.Customer;
-import org.xg.uiModels.CustomerOrder;
+import org.xg.uiDataModels.DMCustomer;
+import org.xg.uiDataModels.TDMCustomer;
 import org.xg.uiModels.Order;
 import org.xg.uiModels.UIProduct;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.URL;
-import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.function.Supplier;
 
 import static org.xg.ui.model.TableViewHelper.jfxOrderTableOpsColumn;
 
@@ -59,7 +39,7 @@ public class CustomerMain {
   //private ProductTableController productTableController;
   private ProductTableController2 productTableController;
   //private CustomerDataModel dataModel;
-  private CustomerDM dataModel;
+  private TDMCustomer dataModel;
 
   @FXML
   private VBox leftSide;

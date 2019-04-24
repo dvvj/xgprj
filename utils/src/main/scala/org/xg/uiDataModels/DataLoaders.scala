@@ -51,7 +51,8 @@ object DataLoaders {
     }
   }
 
-  def customerDataLoader(serverCfg:GlobalCfg, currToken:String, statusStrMap:Map[Int, String]): TDataLoader[CustomerDM] = new TDataLoader[CustomerDM] {
+  def customerDataLoader(serverCfg:GlobalCfg, currToken:String, statusStrMap:Map[Int, String]): TDataLoader[TDMCustomer] =
+    new TDataLoader[TDMCustomer] {
     override val cfg: GlobalCfg = serverCfg
     override val dataRetrievers: Seq[DataRetriever] = Seq(
       () => SvcHelpers.getDecArray(serverCfg.customerProfilesURL, currToken, MCustomerProfile.fromJsons),
@@ -61,8 +62,8 @@ object DataLoaders {
       //,() => SvcHelpers.getPricePlan4UserJ(serverCfg.pricePlanURL, currToken)
     )
 
-    override protected def construct(rawData: Array[AnyRef]): CustomerDM = {
-      new CustomerDM(
+    override protected def construct(rawData: Array[AnyRef]): TDMCustomer = {
+      DMCustomer.create(
         rawData(0).asInstanceOf[Array[MCustomerProfile]],
         rawData(1).asInstanceOf[Array[MOrder]],
         rawData(2).asInstanceOf[Array[MProduct]],
@@ -74,7 +75,11 @@ object DataLoaders {
   }
 
   import collection.JavaConverters._
-  def customerDataLoaderJ(serverCfg:GlobalCfg, currToken:String, statusStrMap:java.util.Map[Integer, String]): TDataLoader[CustomerDM] =
+  def customerDataLoaderJ(
+                           serverCfg:GlobalCfg,
+                           currToken:String,
+                           statusStrMap:java.util.Map[Integer, String]
+                         ): TDataLoader[TDMCustomer] =
     customerDataLoader(serverCfg, currToken, statusStrMap.asScala.map(p => p._1.toInt -> p._2).toMap)
 
 }
