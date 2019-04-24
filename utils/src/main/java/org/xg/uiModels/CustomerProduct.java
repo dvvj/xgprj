@@ -8,30 +8,30 @@ public class CustomerProduct extends RecursiveTreeObject<CustomerProduct> {
 
   private TPricePlan pricePlan;
 
+  private MedProf refProf;
+
   public CustomerProduct() { }
 
   public CustomerProduct(
     UIProduct product,
-    TPricePlan pricePlan
+    TPricePlan pricePlan,
+    MedProf refProf
   ) {
     this.product = product;
     this.pricePlan = pricePlan;
+    this.refProf = refProf;
   }
 
   public UIProduct getProduct() {
     return product;
   }
 
-  public void setProduct(UIProduct product) {
-    this.product = product;
-  }
-
   public TPricePlan getPricePlan() {
     return pricePlan;
   }
 
-  public void setPricePlan(TPricePlan pricePlan) {
-    this.pricePlan = pricePlan;
+  public MedProf getRefProf() {
+    return refProf;
   }
 
 

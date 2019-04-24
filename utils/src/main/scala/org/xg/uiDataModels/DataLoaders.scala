@@ -3,7 +3,7 @@ package org.xg.uiDataModels
 import java.util.concurrent.TimeoutException
 
 import org.xg.auth.SvcHelpers
-import org.xg.dbModels.{MCustomerProfile, MOrder, MPricePlan, MProduct}
+import org.xg.dbModels._
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.uiModels.Order
@@ -58,7 +58,8 @@ object DataLoaders {
       () => SvcHelpers.getDecArray(serverCfg.customerProfilesURL, currToken, MCustomerProfile.fromJsons),
       () => SvcHelpers.getDecArray(serverCfg.currOrdersURL, currToken, MOrder.fromJsons),
       () => SvcHelpers.getDecArray(serverCfg.allProductsURL, currToken, MProduct.fromJsons),
-      () => SvcHelpers.getDecArray(serverCfg.allPricePlansURL, currToken, MPricePlan.fromJsons)
+      () => SvcHelpers.getDecArray(serverCfg.allPricePlansURL, currToken, MPricePlan.fromJsons),
+      () => SvcHelpers.getDecArray(serverCfg.customerProfsURL, currToken, MMedProf.fromJsons)
       //,() => SvcHelpers.getPricePlan4UserJ(serverCfg.pricePlanURL, currToken)
     )
 
@@ -68,6 +69,7 @@ object DataLoaders {
         rawData(1).asInstanceOf[Array[MOrder]],
         rawData(2).asInstanceOf[Array[MProduct]],
         rawData(3).asInstanceOf[Array[MPricePlan]],
+        rawData(4).asInstanceOf[Array[MMedProf]],
         //rawData(3).asInstanceOf[TPricePlan],
         statusStrMap
       )

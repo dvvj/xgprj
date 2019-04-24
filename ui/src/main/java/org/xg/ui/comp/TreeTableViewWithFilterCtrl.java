@@ -294,7 +294,7 @@ public class TreeTableViewWithFilterCtrl<T extends RecursiveTreeObject<T>> {
         TreeItem<T> first =  theTable.getTreeItem(0);
         theTable.getSelectionModel().select(first);
         selected.setValue(first.getValue());
-        Global.loggingTodo(String.format("selected: %s", first.getValue().toString()));
+        //Global.loggingTodo(String.format("selected: %s", first.getValue().toString()));
         //updateSelection(first.getValue());
       }
       else {

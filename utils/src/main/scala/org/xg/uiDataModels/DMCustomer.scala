@@ -1,7 +1,7 @@
 package org.xg.uiDataModels
 
 import javafx.collections.{FXCollections, ObservableList}
-import org.xg.dbModels.{MCustomerProfile, MOrder, MPricePlan, MProduct}
+import org.xg.dbModels._
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.uiModels.{CustomerProduct, Order, UIProduct}
 
@@ -17,11 +17,13 @@ object DMCustomer {
                              orders:Array[MOrder],
                              products:Array[MProduct],
                              pricePlans:Array[MPricePlan],
+                             medprofs:Array[MMedProf],
                              //  pricePlan: TPricePlan,
                              statusStrMap:Map[Int, String]
                            ) extends TDMCustomer {
 
     private val accessibleProducts = profiles.flatMap(_.getDetail.productIds).toSet
+    private val referringProfs = profiles.map(_.profId).toSet
 
     private def checkNoProductOverlapInProfiles():Unit = {
       // make sure no overlapping of products in profiles
@@ -32,6 +34,11 @@ object DMCustomer {
         productIds ++= prf.getDetail.productIds
       }
     }
+
+    private val medprofMap:Map[String, MMedProf] = medprofs
+      .filter(mp => referringProfs.contains(mp.profId))
+      .map(mp => mp.profId -> mp).toMap
+    private val prod2Profs = profiles.flatMap(pr => pr.getDetail.productIds.map(_ -> medprofMap(pr.profId))).toMap
 
     private val product2PricePlan:Map[Integer, TPricePlan] = {
       checkNoProductOverlapInProfiles()
@@ -46,7 +53,8 @@ object DMCustomer {
     import DataTransformers._
     private val productMap:Map[Integer, CustomerProduct] = getProductMapJ(
       products.filter(p => accessibleProducts.contains(p.id)),
-      product2PricePlan
+      product2PricePlan,
+      prod2Profs,
     )
     private val _products:ObservableList[CustomerProduct] = {
       val seq = productMap.values
@@ -86,6 +94,7 @@ object DMCustomer {
     orders:Array[MOrder],
     products:Array[MProduct],
     pricePlans:Array[MPricePlan],
+    medprofs:Array[MMedProf],
     statusStrMap:Map[Int, String]
-  ):TDMCustomer = new CustomerDM(profiles, orders, products, pricePlans, statusStrMap)
+  ):TDMCustomer = new CustomerDM(profiles, orders, products, pricePlans, medprofs, statusStrMap)
 }

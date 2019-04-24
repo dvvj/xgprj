@@ -633,6 +633,19 @@ object HbnDbOpsImpl {
 
     }
 
+    override def medprofsByIds(profIds:Array[String]):Array[MMedProf] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          //          val param = "customerList"
+          val paramVal = profIds.mkString("'", "','", "'")
+          val q = sess.createQuery(s"Select x from ${classOf[MedProf].getName} x where x.profId in ($paramVal)")
+          val t = q.getResultList.asScala.map(_.asInstanceOf[MedProf])
+          t.map(convertMedProf).toArray
+        }
+      )
+    }
+
 
     override def customersOf(profId: String): Array[MCustomer] = {
       runInTransaction(

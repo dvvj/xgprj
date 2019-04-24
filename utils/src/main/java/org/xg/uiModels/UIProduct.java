@@ -69,7 +69,6 @@ public class UIProduct extends RecursiveTreeObject<UIProduct> {
   public UIProduct() { }
   public UIProduct(
     int id, String name, double price0,
-    TPricePlan pricePlan,
     String detailedInfo,
     Detail detail,
     List<String> keywords, List<AssetItem> assets) {
@@ -83,13 +82,12 @@ public class UIProduct extends RecursiveTreeObject<UIProduct> {
     this.assets = assets;
   }
 
-  public static UIProduct fromMProduct(MProduct mp, TPricePlan pricePlan) {
+  public static UIProduct fromMProduct(MProduct mp) {
     double roundPrice = DataUtils.roundMoney(mp.price0()); //Math.round(mp.price0() * 100) / 100.0;
     return new UIProduct(
       mp.id(),
       mp.name(),
       roundPrice,
-      pricePlan,
       mp.detailedInfo(),
       Detail.from(mp.prodDetail()),
       Arrays.asList(mp.keywordsArr()),

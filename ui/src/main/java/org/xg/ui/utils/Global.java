@@ -91,7 +91,7 @@ public class Global {
         Global.getCurrToken()
       );
       MProduct[] products = MProduct.fromJsons(j);
-      UIProduct[] prods = Helpers.convProducts(products, getPricePlan());
+      UIProduct[] prods = Helpers.convProducts(products);
       productMap = Helpers.productMapFromJ(prods);
       return FXCollections.observableArrayList(prods);
     }

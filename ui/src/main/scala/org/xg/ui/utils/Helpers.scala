@@ -15,8 +15,8 @@ import org.xg.uiModels._
 import scala.concurrent.{Await, Future}
 
 object Helpers {
-  def convProducts(mps:Array[MProduct], pricePlan:TPricePlan):Array[UIProduct] = {
-    mps.map(mp => UIProduct.fromMProduct(mp, pricePlan))
+  def convProducts(mps:Array[MProduct]):Array[UIProduct] = {
+    mps.map(mp => UIProduct.fromMProduct(mp))
   }
 
   def convCustomers(mcs:Array[MCustomer], planMap:java.util.Map[String, MPricePlan]):Array[Customer] = {

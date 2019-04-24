@@ -164,6 +164,8 @@ trait TDbOps {
     profMapOf(profOrgAgentId).asJava
   }
 
+  def medprofsByIds(profIds:Array[String]):Array[MMedProf]
+
 
   // authentication related
   def getUserPassMap:Map[String, Array[Byte]]
