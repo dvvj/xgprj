@@ -101,7 +101,7 @@ public class CustomerMain {
         TableViewHelper.<CustomerProduct, String>jfxTableColumnResBundle(
           "productTable.price",
           120,
-          cp -> cp.getProduct().getPriceDetail()
+          cp -> cp.getPriceDetail()
         ),
 //      tableColumnResBundle("productTable.detailedInfo",
 //        resBundle,

@@ -12,7 +12,7 @@ public class UIProduct extends RecursiveTreeObject<UIProduct> {
   private Integer id;
   private String name;
   private Double price0; //todo
-  private TPricePlan pricePlan;
+  //private TPricePlan pricePlan;
   private String detailedInfo;
   private List<String> keywords;
 
@@ -20,22 +20,6 @@ public class UIProduct extends RecursiveTreeObject<UIProduct> {
     return price0;
   }
 
-  public Double getActualPrice() {
-    return pricePlan != null ? pricePlan.adjust(getId(), getPrice0()) : getPrice0();
-  }
-
-  public String getPriceDetail() {
-    if (pricePlan != null) {
-      Double actualPrice = getActualPrice();
-      Long discount = Math.round((1 - actualPrice / getPrice0())*100);
-      return String.format(
-        "%.2f (省%d%%)", actualPrice, discount
-      );
-    }
-    else {
-      return getPrice0().toString();
-    }
-  }
 
   public void setPrice0(Double price0) {
     this.price0 = price0;
@@ -92,7 +76,7 @@ public class UIProduct extends RecursiveTreeObject<UIProduct> {
     this.id = id;
     this.name = name;
     this.price0 = price0;
-    this.pricePlan = pricePlan;
+    //this.pricePlan = pricePlan;
     this.detailedInfo = detailedInfo;
     this.detail = detail;
     this.keywords = keywords;

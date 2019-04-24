@@ -33,4 +33,24 @@ public class CustomerProduct extends RecursiveTreeObject<CustomerProduct> {
   public void setPricePlan(TPricePlan pricePlan) {
     this.pricePlan = pricePlan;
   }
+
+
+  public Double getActualPrice() {
+    return pricePlan != null ? pricePlan.adjust(
+      getProduct().getId(), getProduct().getPrice0()
+    ) : getProduct().getPrice0();
+  }
+
+  public String getPriceDetail() {
+    if (pricePlan != null) {
+      Double actualPrice = getActualPrice();
+      Long discount = Math.round((1 - actualPrice / getProduct().getPrice0())*100);
+      return String.format(
+        "%.2f (省%d%%)", actualPrice, discount
+      );
+    }
+    else {
+      return getProduct().getPrice0().toString();
+    }
+  }
 }

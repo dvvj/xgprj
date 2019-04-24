@@ -77,16 +77,12 @@ public class ProductTableController implements Initializable {
         120,
         UIProduct::getPrice0
       ),
-      TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
-        "productTable.price",
-        120,
-        UIProduct::getPriceDetail
-      ),
-//      tableColumnResBundle("productTable.detailedInfo",
-//        resBundle,
-//        "detailedInfo",
-//        80
+//      TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
+//        "productTable.price",
+//        120,
+//        UIProduct::getPriceDetail
 //      ),
+
       TableViewHelper.<UIProduct, List<String>>jfxTableColumnResBundle(
         "productTable.Keywords",
         200,
