@@ -72,12 +72,12 @@ public class LoginHelpers {
   ) {
     @Override
     protected void extraAction() {
-      TPricePlan pp = SvcHelpers.getPricePlan4UserJ(
-        UISvcHelpers.serverCfg().pricePlanURL(),
-        Global.getCurrToken()
-      );
-      if (pp != null)
-        Global.setPricePlan(pp);
+//      TPricePlan pp = SvcHelpers.getPricePlan4UserJ(
+//        UISvcHelpers.serverCfg().pricePlanURL(),
+//        Global.getCurrToken()
+//      );
+//      if (pp != null)
+//        Global.setPricePlan(pp);
     }
   };
 //    new ILoginAction() {

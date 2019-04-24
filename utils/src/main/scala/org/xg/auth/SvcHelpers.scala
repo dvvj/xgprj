@@ -20,9 +20,9 @@ object SvcHelpers {
     val plansJson = get(url, token)
     SvcCommonUtils.decodePricePlanJson(plansJson)
   }
-  def getPricePlan4UserJ(url:String, token:String):TPricePlan = {
-    getPricePlan4User(url, token).orNull
-  }
+//  def getPricePlan4UserJ(url:String, token:String):TPricePlan = {
+//    getPricePlan4User(url, token).orNull
+//  }
   def getRewardPlan4User(url:String, uid:String, token:String):Option[TRewardPlan] = {
     val plansJson = post(url, token, uid)
     SvcCommonUtils.decodeRewardPlanJson(plansJson)

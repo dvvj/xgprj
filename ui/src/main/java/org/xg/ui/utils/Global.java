@@ -62,13 +62,13 @@ public class Global {
     System.out.println(msg);
   }
 
-  private static TPricePlan _pricePlan;
-  public static void setPricePlan(TPricePlan pricePlan) {
-    _pricePlan = pricePlan;
-  }
-  public static TPricePlan getPricePlan() {
-    return _pricePlan;
-  }
+//  private static TPricePlan _pricePlan;
+//  public static void setPricePlan(TPricePlan pricePlan) {
+//    _pricePlan = pricePlan;
+//  }
+//  public static TPricePlan getPricePlan() {
+//    return _pricePlan;
+//  }
 
   private static ObservableList<UIProduct> allProducts = null;
   private static Map<Integer, UIProduct> productMap = null;
