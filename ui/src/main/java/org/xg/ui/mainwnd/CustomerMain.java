@@ -23,6 +23,7 @@ import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiDataModels.DataLoaders;
 import org.xg.uiDataModels.DMCustomer;
 import org.xg.uiDataModels.TDMCustomer;
+import org.xg.uiModels.CustomerProduct;
 import org.xg.uiModels.Order;
 import org.xg.uiModels.UIProduct;
 
@@ -62,12 +63,12 @@ public class CustomerMain {
 //    FXMLLoader productLoader = new FXMLLoader(path, Global.AllRes);
 //    //productLoader.setLocation(path);
 //    VBox productTable = productLoader.load();
-    TreeTableViewWithFilterCtrl<UIProduct> treeTableCtrl = TreeTableViewHelper.loadTableToTab(
+    TreeTableViewWithFilterCtrl<CustomerProduct> treeTableCtrl = TreeTableViewHelper.loadTableToTab(
       leftSide,
       product -> {
         Set<String> strs = new HashSet<>();
         strs.addAll(Arrays.asList(
-          product.getName()
+          product.getProduct().getName()
         ));
         return strs;
       },
@@ -79,38 +80,38 @@ public class CustomerMain {
       "productTable.placeHolder",
       newProd -> { },
       Arrays.asList(
-        TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
+        TableViewHelper.<CustomerProduct, String>jfxTableColumnResBundle(
           "productTable.name",
           300,
-          UIProduct::getName
+          cp -> cp.getProduct().getName()
         ),
-        TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
+        TableViewHelper.<CustomerProduct, String>jfxTableColumnResBundle(
           "productTable.srcCountry",
           100,
-          p -> {
-            String resKey = Helpers.srcCountryResKey(p.getDetail().getSrcCountry());
+          cp -> {
+            String resKey = Helpers.srcCountryResKey(cp.getProduct().getDetail().getSrcCountry());
             return Global.AllRes.getString(resKey);
           }
         ),
-        TableViewHelper.<UIProduct, Double>jfxTableColumnResBundle(
+        TableViewHelper.<CustomerProduct, Double>jfxTableColumnResBundle(
           "productTable.price0",
           120,
-          UIProduct::getPrice0
+          cp -> cp.getProduct().getPrice0()
         ),
-        TableViewHelper.<UIProduct, String>jfxTableColumnResBundle(
+        TableViewHelper.<CustomerProduct, String>jfxTableColumnResBundle(
           "productTable.price",
           120,
-          UIProduct::getPriceDetail
+          cp -> cp.getProduct().getPriceDetail()
         ),
 //      tableColumnResBundle("productTable.detailedInfo",
 //        resBundle,
 //        "detailedInfo",
 //        80
 //      ),
-        TableViewHelper.<UIProduct, List<String>>jfxTableColumnResBundle(
+        TableViewHelper.<CustomerProduct, List<String>>jfxTableColumnResBundle(
           "productTable.Keywords",
           200,
-          UIProduct::getKeywords
+          cp -> cp.getProduct().getKeywords()
         )
       )
     );

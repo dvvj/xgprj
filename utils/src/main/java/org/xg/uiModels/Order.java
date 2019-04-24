@@ -115,6 +115,14 @@ public class Order extends RecursiveTreeObject<Order> {
     int status = OrderStatusLogics.status(mo);
     return new Order(mo.id(), mo.actualCost(), mo.productId(), product.getName(), mo.qty(), dt, pdt, status);
   }
+  public static Order fromCustomerOrder(MOrder mo, Map<Integer, CustomerProduct> productMap) {
+    CustomerProduct product = productMap.get(mo.productId());
+    ZonedDateTime dt = DataUtils.utcTimeFromStr(mo.creationTimeS());
+    ZonedDateTime pdt =
+      mo.payTime().nonEmpty() ? DataUtils.utcTimeFromStr(mo.payTime().get()) : null;
+    int status = OrderStatusLogics.status(mo);
+    return new Order(mo.id(), mo.actualCost(), mo.productId(), product.getProduct().getName(), mo.qty(), dt, pdt, status);
+  }
 
   public Integer getProdId() {
     return prodId;

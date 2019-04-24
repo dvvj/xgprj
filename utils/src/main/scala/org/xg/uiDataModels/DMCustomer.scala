@@ -3,10 +3,10 @@ package org.xg.uiDataModels
 import javafx.collections.{FXCollections, ObservableList}
 import org.xg.dbModels.{MCustomerProfile, MOrder, MPricePlan, MProduct}
 import org.xg.pay.pricePlan.TPricePlan
-import org.xg.uiModels.{Order, UIProduct}
+import org.xg.uiModels.{CustomerProduct, Order, UIProduct}
 
 trait TDMCustomer {
-  def getProducts:ObservableList[UIProduct]
+  def getProducts:ObservableList[CustomerProduct]
 
   def getOrders:ObservableList[Order]
 }
@@ -44,18 +44,19 @@ object DMCustomer {
     }
     import collection.JavaConverters._
     import DataTransformers._
-    private val productMap:Map[Integer, UIProduct] = getProductMapJ(
+    private val productMap:Map[Integer, CustomerProduct] = getProductMapJ(
       products.filter(p => accessibleProducts.contains(p.id)),
       product2PricePlan
     )
-    private val _products:ObservableList[UIProduct] = {
-      val seq = productMap.values.toSeq.sortBy(_.getName)
+    private val _products:ObservableList[CustomerProduct] = {
+      val seq = productMap.values
+        .toSeq.sortBy(_.getProduct.getId)
       FXCollections.observableArrayList(seq.asJava)
     }
-    def getProducts:ObservableList[UIProduct] = _products
+    def getProducts:ObservableList[CustomerProduct] = _products
 
     private def createOrders(raw:Array[MOrder]):ObservableList[Order] = {
-      val ords = raw.map(mo => Order.fromMOrder(mo, productMap.asJava))
+      val ords = raw.map(mo => Order.fromCustomerOrder(mo, productMap.asJava))
       ords.foreach(o => o.setStatusStr(statusStrMap(o.getStatus)))
       FXCollections.observableArrayList(ords.toSeq.asJava)
     }

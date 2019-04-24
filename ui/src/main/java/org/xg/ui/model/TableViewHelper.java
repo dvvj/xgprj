@@ -84,13 +84,13 @@ public class TableViewHelper {
     return col;
   }
 
-  public static JFXTreeTableColumn<UIProduct, UIProduct> jfxProdcutTableOpsColumn(String colName, int prefWidth) {
-    JFXTreeTableColumn<UIProduct, UIProduct> col = new JFXTreeTableColumn<>(colName);
-    col.setPrefWidth(prefWidth);
-    col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getValue()));
-    col.setCellFactory(c -> new ProductPlaceOrderJFXTableCell());
-    return col;
-  }
+//  public static JFXTreeTableColumn<UIProduct, UIProduct> jfxProdcutTableOpsColumn(String colName, int prefWidth) {
+//    JFXTreeTableColumn<UIProduct, UIProduct> col = new JFXTreeTableColumn<>(colName);
+//    col.setPrefWidth(prefWidth);
+//    col.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getValue()));
+//    col.setCellFactory(c -> new ProductPlaceOrderJFXTableCell());
+//    return col;
+//  }
 
   public static JFXTreeTableColumn<UIProduct, UIProduct> jfxProdcutTableInfoColumn(String colName, int prefWidth) {
     JFXTreeTableColumn<UIProduct, UIProduct> col = new JFXTreeTableColumn<>(colName);

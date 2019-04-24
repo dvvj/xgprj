@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import org.xg.auth.SvcHelpers;
 import org.xg.ui.comp.PlaceOrderCtrl;
+import org.xg.uiModels.CustomerProduct;
 import org.xg.uiModels.UIProduct;
 import org.xg.ui.utils.Global;
 
@@ -42,7 +43,7 @@ public class CustomerMainRCtrl implements Initializable {
   public void setBinding(
     ObservableValue<String> details,
     ObservableValue<String> imageUrl,
-    ObservableValue<UIProduct> selectedProduct,
+    ObservableValue<CustomerProduct> selectedProduct,
     Runnable postProcess
   ) {
     txtDetails.textProperty().bind(details);

@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import org.xg.svc.ImageInfo;
 import org.xg.ui.utils.UISvcHelpers;
-import org.xg.uiModels.UIProduct;
+import org.xg.uiModels.CustomerProduct;
 
 public class ProductTableController2 {
   private StringProperty selectedProductDetail = new SimpleStringProperty();
@@ -23,14 +23,14 @@ public class ProductTableController2 {
     return selectedProductImageUrl;
   }
 
-  private ObjectProperty<UIProduct> selectedProduct = new SimpleObjectProperty<>();
-  public ObservableValue<UIProduct> getSelectedProduct() {
+  private ObjectProperty<CustomerProduct> selectedProduct = new SimpleObjectProperty<>();
+  public ObservableValue<CustomerProduct> getSelectedProduct() {
     return selectedProduct;
   }
 
-  private final TreeTableViewWithFilterCtrl<UIProduct> treeTableCtrl;
+  private final TreeTableViewWithFilterCtrl<CustomerProduct> treeTableCtrl;
 
-  public ProductTableController2(TreeTableViewWithFilterCtrl<UIProduct> treeTableCtrl) {
+  public ProductTableController2(TreeTableViewWithFilterCtrl<CustomerProduct> treeTableCtrl) {
     this.treeTableCtrl = treeTableCtrl;
     selectedProduct.addListener(new ItemSelectChangeListener<>());
     selectedProduct.bind(this.treeTableCtrl.getSelected());
@@ -38,28 +38,28 @@ public class ProductTableController2 {
       updateSelection(this.treeTableCtrl.getSelected().getValue());
   }
 
-  private class ItemSelectChangeListener<T extends UIProduct> implements ChangeListener<T> {
+  private class ItemSelectChangeListener<T extends CustomerProduct> implements ChangeListener<T> {
     //    private final ObservableList<UIProduct> products;
     ItemSelectChangeListener() { }
     @Override
     public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
 
       boolean hasUpdate = newValue != null &&
-        (oldValue == null || (oldValue != null && !oldValue.getId().equals(newValue.getId())));
+        (oldValue == null || (oldValue != null && !oldValue.getProduct().getId().equals(newValue.getProduct().getId())));
 
       if (hasUpdate) {
-        UIProduct prod = newValue;
+        CustomerProduct prod = newValue;
         updateSelection(prod);
       }
 
     }
   }
 
-  private void updateSelection(UIProduct prod) {
-    selectedProductDetail.setValue(prod.getDetail().getDesc());
-    System.out.println("new selection: " + prod.getName());
-    System.out.println("\timage: " + prod.getAssets().get(0).url());
-    ImageInfo imgInfo = new ImageInfo(prod.getId(), prod.getAssets().get(0).url());
+  private void updateSelection(CustomerProduct prod) {
+    selectedProductDetail.setValue(prod.getProduct().getDetail().getDesc());
+    System.out.println("new selection: " + prod.getProduct().getName());
+    System.out.println("\timage: " + prod.getProduct().getAssets().get(0).url());
+    ImageInfo imgInfo = new ImageInfo(prod.getProduct().getId(), prod.getProduct().getAssets().get(0).url());
     String url = imgInfo.getUrl(UISvcHelpers.serverCfg());
     //selectedProduct.setValue(prod);
     selectedProductImageUrl.setValue(url);

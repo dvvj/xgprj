@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import org.xg.auth.SvcHelpers;
 import org.xg.pay.pricePlan.TPricePlan;
 import org.xg.svc.UserOrder;
+import org.xg.uiModels.CustomerProduct;
 import org.xg.uiModels.UIProduct;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.UISvcHelpers;
@@ -35,9 +36,9 @@ public class PlaceOrderCtrl implements Initializable {
 
   private BooleanProperty invalidNumber = new SimpleBooleanProperty();
 
-  private ObjectProperty<UIProduct> selectedProduct = new SimpleObjectProperty<>();
+  private ObjectProperty<CustomerProduct> selectedProduct = new SimpleObjectProperty<>();
 
-  public void bindSelectedProduct(ObservableValue<UIProduct> product) {
+  public void bindSelectedProduct(ObservableValue<CustomerProduct> product) {
     selectedProduct.bind(product);
   }
 
@@ -52,13 +53,18 @@ public class PlaceOrderCtrl implements Initializable {
       Long newOrderId = null;
       Double actualCost = null;
       Double qty = null;
+      CustomerProduct prod = selectedProduct.getValue();
+      UIProduct product = prod.getProduct();
       try {
         qty = Double.parseDouble(txtQty.getText());
         TPricePlan pricePlan = Global.getPricePlan();
-        UIProduct prod = selectedProduct.getValue();
-        double unitCost = pricePlan != null ? pricePlan.adjust(prod.getId(), prod.getPrice0()) : prod.getPrice0();
+        double unitCost = pricePlan != null ?
+          pricePlan.adjust(
+            product.getId(),
+            product.getPrice0()
+          ) : product.getPrice0();
         actualCost = unitCost*qty;
-        UserOrder order = new UserOrder(Global.getCurrUid(), selectedProduct.getValue().getId(), qty, actualCost);
+        UserOrder order = new UserOrder(Global.getCurrUid(), product.getId(), qty, actualCost);
         String orderJson = UserOrder.toJson(order);
         String resp = SvcHelpers.reqPut(
           UISvcHelpers.serverCfg().placeOrderURL(),
@@ -74,7 +80,7 @@ public class PlaceOrderCtrl implements Initializable {
         throw new RuntimeException("Error placing order!", ex);
       }
 
-      AlipayWindow.launch(newOrderId, actualCost, selectedProduct.getValue().getName(), qty);
+      AlipayWindow.launch(newOrderId, actualCost, product.getName(), qty);
 
       postPurchase.run();
     }
