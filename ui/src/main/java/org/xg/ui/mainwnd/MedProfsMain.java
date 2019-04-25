@@ -21,6 +21,7 @@ import org.xg.ui.comp.AddNewCustomerCtrl;
 import org.xg.ui.comp.TreeTableViewHelper;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.ui.comp.UpdatePasswordCtrl;
+import org.xg.uiDataModels.TDMMedProf;
 import org.xg.uiModels.Customer;
 import org.xg.uiModels.CustomerOrder;
 import org.xg.ui.model.MedProfsDataModel;
@@ -46,7 +47,7 @@ public class MedProfsMain {
   @FXML
   private StackPane customersTab;
 
-  private MedProfsDataModel dataModel = null;
+  private TDMMedProf dataModel = null;
 
   private void loadDataModel() {
     String profId = Global.getCurrUid();
@@ -390,7 +391,7 @@ public class MedProfsMain {
           30000
         );
 
-        dataModel.setCustomers((MCustomer[]) raw[0], (Map<String, MPricePlan>) raw[1]);
+        dataModel.setCustomersJ((MCustomer[]) raw[0], (Map<String, MPricePlan>) raw[1]);
         return dataModel.getCustomers();
       },
       t -> true

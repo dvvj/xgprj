@@ -32,7 +32,7 @@ public class MedProfsDataModel implements TDMMedProf {
   private final Map<Integer, UIProduct> prodMap;
   private final ObservableList<UIProduct> products;
 
-  public void setCustomers(MCustomer[] customers, Map<String, MPricePlan> customerPricePlanMap) {
+  public void setCustomersJ(MCustomer[] customers, Map<String, MPricePlan> customerPricePlanMap) {
     this.customerPricePlanMap = customerPricePlanMap;
     this.customers = FXCollections.observableArrayList(
       Helpers.convCustomers(customers, this.customerPricePlanMap)
@@ -55,7 +55,7 @@ public class MedProfsDataModel implements TDMMedProf {
     this.pricePlans = FXCollections.observableArrayList(plans);
     this.pricePlanOptions = MedProfWndHelper.pricePlanOptionsIncludingNone(pricePlans);
 
-    setCustomers(customers, customerPricePlanMap);
+    setCustomersJ(customers, customerPricePlanMap);
     rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap, rewardPlan);
     this.customerOrders = FXCollections.observableArrayList(rawOrders);
     this.prodMap = prodMap;
