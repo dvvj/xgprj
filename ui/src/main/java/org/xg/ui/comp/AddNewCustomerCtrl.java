@@ -12,11 +12,12 @@ import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MPricePlanMap;
 import org.xg.gnl.DataUtils;
 import org.xg.svc.AddNewCustomer;
-import org.xg.ui.model.PricePlanOption;
+import org.xg.ui.model.MedProfWndHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiModels.PricePlan;
+import org.xg.uiModels.PricePlanOption;
 import org.xg.user.UserType;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class AddNewCustomerCtrl {
     try {
       PricePlanOption pricePlanOption = cmboPricePlanType.getSelectionModel().getSelectedItem();
       String uid = UserType.Customer().genUid(tfUid.getText().trim());
-      MPricePlanMap ppm = PricePlanOption.isValidPlan(pricePlanOption) ?
+      MPricePlanMap ppm = MedProfWndHelper.isValidPlan(pricePlanOption) ?
         MPricePlanMap.createJ(uid, pricePlanOption.getPlan().id(), DataUtils.utcTimeNowStr(), null) : null;
       System.out.println("MPricePlanMap: " + ppm);
       AddNewCustomer newCustomer = new AddNewCustomer(

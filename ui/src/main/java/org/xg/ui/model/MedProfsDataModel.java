@@ -8,17 +8,15 @@ import org.xg.dbModels.MPricePlan;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
-import org.xg.uiModels.Customer;
-import org.xg.uiModels.CustomerOrder;
-import org.xg.uiModels.PricePlan;
-import org.xg.uiModels.UIProduct;
+import org.xg.uiDataModels.TDMMedProf;
+import org.xg.uiModels.*;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MedProfsDataModel {
+public class MedProfsDataModel implements TDMMedProf {
 
   private ObservableList<Customer> customers;
   private Map<String, Customer> customerMap;
@@ -55,7 +53,7 @@ public class MedProfsDataModel {
     Global.loggingTodo("price plans: " + pricePlans.length);
     PricePlan[] plans = Arrays.stream(pricePlans).map(PricePlan::fromM).toArray(PricePlan[]::new);
     this.pricePlans = FXCollections.observableArrayList(plans);
-    this.pricePlanOptions = PricePlanOption.pricePlanOptionsIncludingNone(pricePlans);
+    this.pricePlanOptions = MedProfWndHelper.pricePlanOptionsIncludingNone(pricePlans);
 
     setCustomers(customers, customerPricePlanMap);
     rawOrders = Helpers.convCustomerOrders(customerOrders, customerMap, prodMap, rewardPlan);

@@ -13,14 +13,13 @@ trait TDMCustomer {
 
 object DMCustomer {
   private class CustomerDM (
-                             profiles:Array[MCustomerProfile],
-                             orders:Array[MOrder],
-                             products:Array[MProduct],
-                             pricePlans:Array[MPricePlan],
-                             medprofs:Array[MMedProf],
-                             //  pricePlan: TPricePlan,
-                             statusStrMap:Map[Int, String]
-                           ) extends TDMCustomer {
+    profiles:Array[MCustomerProfile],
+    orders:Array[MOrder],
+    products:Array[MProduct],
+    pricePlans:Array[MPricePlan],
+    medprofs:Array[MMedProf],
+    statusStrMap:Map[Int, String]
+  ) extends TDMCustomer {
 
     private val accessibleProducts = profiles.flatMap(_.getDetail.productIds).toSet
     private val referringProfs = profiles.map(_.profId).toSet
