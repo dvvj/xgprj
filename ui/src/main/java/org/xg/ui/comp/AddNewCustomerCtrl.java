@@ -1,8 +1,7 @@
 package org.xg.ui.comp;
 
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -42,6 +41,13 @@ public class AddNewCustomerCtrl {
   @FXML
   JFXComboBox<PricePlanOption> cmboPricePlanType;
 
+  @FXML
+  JFXCheckBox cbIsNewCustomer;
+
+  public void onCheckExisting() {
+    System.out.println("todo");
+  }
+
   public void onAdd() {
     try {
       PricePlanOption pricePlanOption = cmboPricePlanType.getSelectionModel().getSelectedItem();
@@ -76,6 +82,20 @@ public class AddNewCustomerCtrl {
   //private ListProperty<PricePlan> pricePlanList;
   private ListProperty<PricePlanOption> pricePlanOptionList;
 
+  @FXML
+  JFXButton btnCheckExisting;
+  private void bindControls() {
+    btnCheckExisting.disableProperty().bind(cbIsNewCustomer.selectedProperty());
+    BooleanBinding notNewCustomer = cbIsNewCustomer.selectedProperty().not();
+    tfName.disableProperty().bind(notNewCustomer);
+    tfIdCardNo.disableProperty().bind(notNewCustomer);
+    tfMobile.disableProperty().bind(notNewCustomer);
+    tfPostalAddr.disableProperty().bind(notNewCustomer);
+    tfBDay.disableProperty().bind(notNewCustomer);
+    pfNew.disableProperty().bind(notNewCustomer);
+    pfNew2.disableProperty().bind(notNewCustomer);
+  }
+
 //  private final static Integer NA = 0;
   public void setup(
     ObservableList<PricePlanOption> pricePlans,
@@ -86,6 +106,7 @@ public class AddNewCustomerCtrl {
     pricePlanOptionList = new SimpleListProperty<>(pricePlans);
     cmboPricePlanType.itemsProperty().bind(pricePlanOptionList);
     newCustomerCallback = callback;
+    bindControls();
 //    Helpers.uiTaskJ(
 //      () -> NA,
 //      na -> {
