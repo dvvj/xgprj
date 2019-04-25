@@ -153,7 +153,7 @@ public class MedProfOrgMain {
 
   @PostConstruct
   public void launch() {
-    System.out.println("in @PostConstruct");
+    //System.out.println("in @PostConstruct");
     //setupAndFetchCustomerTable();
 
     //setupAndFetchCustomerOrderTable();

@@ -339,7 +339,7 @@ public class MedProfsMain {
 
   @PostConstruct
   public void launch() {
-    System.out.println("in @PostConstruct");
+    //System.out.println("in @PostConstruct");
     //setupAndFetchCustomerTable();
 
     //setupAndFetchCustomerOrderTable();

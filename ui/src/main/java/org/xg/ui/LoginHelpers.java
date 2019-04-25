@@ -125,36 +125,7 @@ public class LoginHelpers {
 
     }
   };
-//  new ILoginAction() {
-//    @Override
-//    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-//      String authUrl = UISvcHelpers.serverCfg().authProfURL(); //"https://localhost:443/webapi/auth/userPass";
-//
-//      Task<AuthResp> authTask = Helpers.uiTaskJ(
-//        () -> {
-//          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
-//          if (resp.success()) {
-//            //System.out.println(resp.token());
-//            Global.updateUidToken(userId, resp.token());
-//          }
-//          return resp;
-//        },
-//        resp -> {
-//          if (resp != null && resp.success()) {
-//            onSuccess.run();
-//          }
-//          else {
-//            onFailure.run();
-//          }
-//          return null;
-//        },
-//        30000
-//      );
-//
-//      new Thread(authTask).start();
-//
-//    }
-//  };
+
   private final static ILoginAction profOrgAgentLogin = new LoginActionBase(
     UISvcHelpers.serverCfg().authProfOrgAgentURL()
   ) {
@@ -163,36 +134,6 @@ public class LoginHelpers {
 
     }
   };
-//  new ILoginAction() {
-//    @Override
-//    public void run(String userId, String pass, Runnable onSuccess, Runnable onFailure) {
-//      String authUrl = UISvcHelpers.serverCfg().authOrgURL(); //"https://localhost:443/webapi/auth/userPass";
-//
-//      Task<AuthResp> authTask = Helpers.uiTaskJ(
-//        () -> {
-//          AuthResp resp = SvcHelpers.authReq(authUrl, userId, pass);
-//          if (resp.success()) {
-//            //System.out.println(resp.token());
-//            Global.updateUidToken(userId, resp.token());
-//          }
-//          return resp;
-//        },
-//        resp -> {
-//          if (resp != null && resp.success()) {
-//            onSuccess.run();
-//          }
-//          else {
-//            onFailure.run();
-//          }
-//          return null;
-//        },
-//        30000
-//      );
-//
-//      new Thread(authTask).start();
-//
-//    }
-//  };
 
   private final static ILoginAction profOrgsLogin = new LoginActionBase(
     UISvcHelpers.serverCfg().authProfOrgURL()
