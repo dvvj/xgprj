@@ -3,6 +3,7 @@ package org.xg.ui.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.xg.dbModels.MPricePlan;
+import org.xg.ui.utils.Global;
 import org.xg.uiModels.PricePlanOption;
 
 import java.util.Arrays;
@@ -11,7 +12,7 @@ public class MedProfWndHelper {
   private final static String _NoPricePlanId = "c49a2438-fc30-4103-8e83-86f410a31ed4";
   private final static org.xg.uiModels.PricePlanOption _NoPricePlan = new PricePlanOption(
     _NoPricePlanId,
-    "",
+    Global.AllRes.getString("addNewCustomer.pricePlanType.noPricePlan"),
     null
   );
 

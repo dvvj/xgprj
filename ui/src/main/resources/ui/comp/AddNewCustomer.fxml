@@ -11,6 +11,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.xg.ui.comp.AddNewCustomerCtrl"
@@ -18,7 +19,10 @@
     <padding>
         <Insets top="20" left="20" right="20" bottom="20" />
     </padding>
+
     <JFXTextField fx:id="tfUid" text="customer200" promptText="%addCustomer.uid.prompt"/>
+    <JFXCheckBox fx:id="tfIsNewCustomer" text="%addCustomer.isNewCustomer" selected="true" />
+
     <JFXTextField fx:id="tfName" text="test1" promptText="%addCustomer.name.prompt"/>
     <JFXTextField fx:id="tfIdCardNo" text="cardno200" promptText="%addCustomer.idCardNo.prompt"/>
     <JFXTextField fx:id="tfMobile" text="12342134" promptText="%addCustomer.mobile.prompt"/>
