@@ -16,23 +16,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class CustomerDataModel {
-  private ObservableList<Order> orders;
-//  private final ObservableList<Order> filteredOrders;
-  private final IntegerProperty filterOptionCode = new SimpleIntegerProperty();
-
-  public CustomerDataModel(Order[] orders) {
-    updateOrders(orders);
-    filterOptionCode.setValue(OrderFilterHelpers.OF_UNPAID);
-//    filteredOrders = FXCollections.observableArrayList(
-//      filterMap.get(filterOptionCode).apply(orders)
-//    );
-  }
-
-  public void updateOrders(Order[] orders) {
-    Arrays.stream(orders).forEach(o -> o.setStatusStr(statusStrMap.get(o.getStatus())));
-    this.orders = FXCollections.observableArrayList(orders);
-  }
+public class CustomerWndHelper {
+//  private ObservableList<Order> orders;
+////  private final ObservableList<Order> filteredOrders;
+//  private final IntegerProperty filterOptionCode = new SimpleIntegerProperty();
+//
+//  public CustomerWndHelper(Order[] orders) {
+//    updateOrders(orders);
+//    filterOptionCode.setValue(OrderFilterHelpers.OF_UNPAID);
+////    filteredOrders = FXCollections.observableArrayList(
+////      filterMap.get(filterOptionCode).apply(orders)
+////    );
+//  }
+//
+//  public void updateOrders(Order[] orders) {
+//    Arrays.stream(orders).forEach(o -> o.setStatusStr(statusStrMap.get(o.getStatus())));
+//    this.orders = FXCollections.observableArrayList(orders);
+//  }
 
 //  public void setFilterOptionCode(Integer newCode) {
 //    this.filterOptionCode.setValue(newCode);
@@ -87,7 +87,7 @@ public class CustomerDataModel {
     );
   }
 
-  public ObservableList<Order> getOrders() {
-    return orders;
-  }
+//  public ObservableList<Order> getOrders() {
+//    return orders;
+//  }
 }

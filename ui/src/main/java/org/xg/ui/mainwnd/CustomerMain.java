@@ -14,18 +14,16 @@ import org.xg.ui.comp.TreeTableViewHelper;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.ui.comp.UpdatePasswordCtrl;
 import org.xg.ui.model.ComboOptionData;
-import org.xg.ui.model.CustomerDataModel;
+import org.xg.ui.model.CustomerWndHelper;
 import org.xg.ui.model.OrderFilterHelpers;
 import org.xg.ui.model.TableViewHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiDataModels.DataLoaders;
-import org.xg.uiDataModels.DMCustomer;
 import org.xg.uiDataModels.TDMCustomer;
 import org.xg.uiModels.CustomerProduct;
 import org.xg.uiModels.Order;
-import org.xg.uiModels.UIProduct;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -39,7 +37,7 @@ public class CustomerMain {
   private ExistingOrdersCtrl orderController;
   //private ProductTableController productTableController;
   private ProductTableController2 productTableController;
-  //private CustomerDataModel dataModel;
+  //private CustomerWndHelper dataModel;
   private TDMCustomer dataModel;
 
   @FXML
@@ -197,7 +195,7 @@ public class CustomerMain {
         System.out.println("New selection: " + newVal);
         //dataModel.setFilterOptionCode(newVal);
         orderTableCtrl.filterExisting(
-          CustomerDataModel.filterMap.get(newVal)
+          CustomerWndHelper.filterMap.get(newVal)
         );
         //refreshOrderList(newVal);
       }
@@ -218,7 +216,7 @@ public class CustomerMain {
           loadDataModel();
           return dataModel.getOrders();
         },
-        CustomerDataModel.filterMap.get(filterOption.getCode())
+        CustomerWndHelper.filterMap.get(filterOption.getCode())
       );
     }
     catch (Exception ex) {
@@ -259,13 +257,13 @@ public class CustomerMain {
 //      20000
 //    );
 
-//    dataModel = new CustomerDataModel(
+//    dataModel = new CustomerWndHelper(
 //      (Order[])raw[0]
 //    );
     dataModel = DataLoaders.customerDataLoaderJ(
       UISvcHelpers.serverCfg(),
       Global.getCurrToken(),
-      CustomerDataModel.statusStrMap
+      CustomerWndHelper.statusStrMap
     ).loadAndConstruct(20000);
   }
 
