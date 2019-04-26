@@ -98,6 +98,10 @@ public class SvcUtils {
     return getDbOps().customersRefedBy(profId);
   }
 
+  public static MCustomer getCustomerById(String customerId) {
+    return getDbOps().customerByIdJ(customerId);
+  }
+
   public static MProfOrgAgent[] getProfOrgAgentsOf(String orgId) {
     return getDbOps().profOrg2AgentMapJ().get(orgId);
   }

@@ -5,10 +5,13 @@ import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MMedProf;
 import org.xg.svc.AddNewCustomer;
 import org.xg.svc.CustomerPricePlan;
+import org.xg.user.UserType;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.util.logging.Logger;
 
 @Path("prof")
@@ -26,6 +29,27 @@ public class MedProfsOps {
       //MMedProf prof = SvcUtils.getMedProfs().get(profId);
       MCustomer[] customers = SvcUtils.getCustomersRefedBy(profId);
       String j = MCustomer.toJsons(customers);
+
+      return Response.ok(j)
+        .build();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      throw new WebApplicationException("Error", ex);
+    }
+  }
+
+  @Secured
+  @POST
+  @Path("findCustomerById")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response findCustomerById(String customerId, @Context SecurityContext sc) {
+    try {
+      //MMedProf prof = SvcUtils.getMedProfs().get(profId);
+      String cid = UserType.Customer().genUid(customerId);
+      MCustomer customer = SvcUtils.getCustomerById(cid);
+      String j = (customer != null) ? MCustomer.toJson(customer) : "";
 
       return Response.ok(j)
         .build();

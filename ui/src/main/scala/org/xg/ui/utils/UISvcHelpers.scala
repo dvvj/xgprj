@@ -25,8 +25,8 @@ object UISvcHelpers {
   )
 
   def trySvcTF(
-            action:() => Boolean
-            ):Boolean = {
+                action:() => Boolean
+              ):Boolean = {
     try {
       action()
     }
@@ -34,6 +34,20 @@ object UISvcHelpers {
       case t:Throwable => {
         Global.loggingTodo(s"Error adding new med prof: ${t.getMessage}")
         false
+      }
+    }
+  }
+
+  def trySvc[T](
+    action:() => T
+  ):T = {
+    try {
+      action()
+    }
+    catch {
+      case t:Throwable => {
+        Global.loggingTodo(s"Error adding new med prof: ${t.getMessage}")
+        throw t
       }
     }
   }
@@ -61,6 +75,17 @@ object UISvcHelpers {
   }
 
 
+  def findCustomerById(customerId:String):MCustomer = {
+    trySvc { () =>
+      val j = SvcHelpers.post(
+        serverCfg.customerByIdURL,
+        Global.getCurrToken,
+        customerId
+      )
+      if (j.isEmpty) null
+      else MCustomer.fromJson(j)
+    }
+  }
   def updateAllRefedCustomers(profId:String, userToken:String):Array[MCustomer] = {
     val j = SvcHelpers.post(
       serverCfg.customersRefedByURL,

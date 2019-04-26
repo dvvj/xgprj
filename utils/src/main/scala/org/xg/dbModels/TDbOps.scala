@@ -165,7 +165,8 @@ trait TDbOps {
   }
 
   def medprofsByIds(profIds:Array[String]):Array[MMedProf]
-
+  def customerById(customerId:String):Option[MCustomer]
+  def customerByIdJ(customerId:String):MCustomer = customerById(customerId).orNull
 
   // authentication related
   def getUserPassMap:Map[String, Array[Byte]]

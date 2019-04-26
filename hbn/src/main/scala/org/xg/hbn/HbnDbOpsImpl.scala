@@ -646,6 +646,28 @@ object HbnDbOpsImpl {
       )
     }
 
+    override def customerById(customerId:String):Option[MCustomer] = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val c = queryWhereAndConvert(
+            sess,
+            classOf[Customer].getName,
+            s"x.uid = '$customerId'",
+            convertCustomer
+          )
+          if (c.length == 1)
+            Option(c(0))
+          else {
+            if (c.isEmpty) None
+            else {
+              throw new IllegalStateException("customerId should be unique!")
+            }
+          }
+        }
+      )
+    }
+
 
     override def customersOf(profId: String): Array[MCustomer] = {
       runInTransaction(

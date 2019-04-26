@@ -46,6 +46,9 @@ public class AddNewCustomerCtrl {
 
   public void onCheckExisting() {
     System.out.println("todo");
+    String uid = tfUid.getText().trim();
+    MCustomer c = UISvcHelpers.findCustomerById(uid);
+    System.out.println(c.name());
   }
 
   public void onAdd() {

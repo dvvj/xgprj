@@ -12,7 +12,9 @@ case class MCustomer(
 
 object MCustomer {
   import org.xg.json.CommonUtils._
+  def toJson(customer:MCustomer):String = _toJson(customer)
   def toJsons(customers:Array[MCustomer]):String = _toJsons(customers)
+  def fromJson(j:String):MCustomer = _fromJson[MCustomer](j)
   def fromJsons(j:String):Array[MCustomer] = _fromJsons(j)
   //
 //  def fromJsons(j:String):Array[MCustomer] = {
