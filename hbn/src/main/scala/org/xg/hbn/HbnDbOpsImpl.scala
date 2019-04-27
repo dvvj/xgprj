@@ -89,6 +89,25 @@ object HbnDbOpsImpl {
       )
     }
 
+    def createCustomerProfile(
+                               profId:String,
+                               customerId:String,
+                               detailedInfo:String,
+                               version:String
+                             ):Long = {
+      runInTransaction(
+        sessFactory,
+        { sess =>
+          val profile = new CustomerProfile(
+            profId, customerId, detailedInfo, version
+          )
+
+          sess.save(profile)
+          profile.getId
+        }
+      )
+    }
+
     override def addRewardPlan(rwPlan:MRewardPlan):String = {
       runInTransaction(
         sessFactory,

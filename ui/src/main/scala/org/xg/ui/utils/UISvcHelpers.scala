@@ -3,8 +3,10 @@ package org.xg.ui.utils
 import javafx.collections.{FXCollections, ObservableList}
 import org.xg.auth.SvcHelpers
 import org.xg.busiLogic.PricePlanLogics
+import org.xg.dbModels.MCustomerProfile.ProfileDetailV1_00
 import org.xg.dbModels._
-import org.xg.gnl.GlobalCfg
+import org.xg.gnl.{DataUtils, GlobalCfg}
+import org.xg.json.CommonUtils
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.svc.{AddNewCustomer, AddNewMedProf, CustomerPricePlan, UpdatePassword}
@@ -74,6 +76,21 @@ object UISvcHelpers {
     }
   }
 
+  private val NewCustomerProfileID_NA = -1
+  def createProfileV1_00(
+                          profId:String,
+                          customerId:String,
+                          productIds:Array[Int],
+                          pricePlanId:String
+                        ):Long = {
+    val creationTime = DataUtils.utcTimeNowStr
+    val detail = ProfileDetailV1_00(productIds, pricePlanId, creationTime)
+    val detailStr = CommonUtils._toJson(detail)
+    val customerProfile = MCustomerProfile(NewCustomerProfileID_NA, profId, customerId, detailStr, MCustomerProfile.DetailVersion1_00)
+    val postJson = CommonUtils._toJson(customerProfile)
+    val newProfileId = SvcHelpers.post(serverCfg.newProfileExistingCustomerURL, Global.getCurrToken, postJson)
+    newProfileId.toLong
+  }
 
   def findCustomerById(customerId:String):MCustomer = {
     trySvc { () =>

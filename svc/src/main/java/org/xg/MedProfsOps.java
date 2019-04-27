@@ -2,7 +2,9 @@ package org.xg;
 
 import org.xg.auth.Secured;
 import org.xg.dbModels.MCustomer;
+import org.xg.dbModels.MCustomerProfile;
 import org.xg.dbModels.MMedProf;
+import org.xg.json.CommonUtils;
 import org.xg.svc.AddNewCustomer;
 import org.xg.svc.CustomerPricePlan;
 import org.xg.user.UserType;
@@ -63,7 +65,7 @@ public class MedProfsOps {
   @Secured
   @POST
   @Path("newCustomer")
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Consumes(SvcUtils.MediaType_TXT_UTF8)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response newCustomer(String newCustomerJson) {
     try {
@@ -96,22 +98,45 @@ public class MedProfsOps {
     }
   }
 
+  @Secured
+  @POST
+  @Path("newProfileExistingCustomer")
+  @Consumes(SvcUtils.MediaType_TXT_UTF8)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response newProfileExistingCustomer(String newProfileExistingCustomerJson, @Context SecurityContext sc) {
+    String profId = sc.getUserPrincipal().getName();
+
+    return SvcUtils.tryOps(
+      () -> {
+        MCustomerProfile cp = MCustomerProfile.fromJson(newProfileExistingCustomerJson);
+        long newProfileId = SvcUtils.getDbOps().createCustomerProfile(
+          cp.profId(), cp.customerId(), cp.detailedInfo(), cp.version()
+        );
+        return Response.ok(newProfileId).build();
+      },
+      profId,
+      "newProfileExistingCustomer",
+      "Error newProfileExistingCustomer"
+    );
+  }
 
   @Secured
   @POST
   @Path("customerPricePlans")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response getCustomerPricePlans(String agentId) {
-    try {
-      CustomerPricePlan[] res = PricePlanUtils.getPricePlanMap4Agent(agentId);
-      String j = CustomerPricePlan.toJsons(res);
+  public Response getCustomerPricePlans(String agentId, @Context SecurityContext sc) {
+    String profId = sc.getUserPrincipal().getName();
+    return SvcUtils.tryOps(
+      () -> {
+        CustomerPricePlan[] res = PricePlanUtils.getPricePlanMap4Agent(agentId);
+        String j = CustomerPricePlan.toJsons(res);
 
-      return Response.ok(j).build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        return Response.ok(j).build();
+      },
+      profId,
+      "getCustomerPricePlans",
+      "Failed to get CustomerPricePlans"
+    );
   }
 }

@@ -20,12 +20,12 @@
         <Insets top="20" left="20" right="20" bottom="20" />
     </padding>
 
-    <JFXTextField fx:id="tfUid" text="customer200" promptText="%addCustomer.uid.prompt"/>
+    <JFXTextField fx:id="tfUid" text="o1a1p2_customer2" promptText="%addCustomer.uid.prompt"/>
     <HBox spacing="10">
         <padding>
             <Insets top="10" left="5" right="5" bottom="10" />
         </padding>
-        <JFXCheckBox fx:id="cbIsNewCustomer" text="%addCustomer.isNewCustomer" selected="true" />
+        <JFXCheckBox fx:id="cbIsNewCustomer" text="%addCustomer.isNewCustomer" selected="false" />
         <JFXButton text="%addCustomer.checkExistingCustomer" fx:id="btnCheckExisting" onAction="#onCheckExisting"
                    styleClass="button-raised" maxWidth="120" minWidth="120" />
     </HBox>

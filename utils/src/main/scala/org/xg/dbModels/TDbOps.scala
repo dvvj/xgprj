@@ -203,6 +203,13 @@ trait TDbOps {
 
   def getCustomerProfiles(uid:String):Array[MCustomerProfile]
 
+  def createCustomerProfile(
+                           profId:String,
+                           customerId:String,
+                           detailedInfo:String,
+                           version:String
+                           ):Long
+
   def svcAudit(
     ops:String,
     duration:Int,

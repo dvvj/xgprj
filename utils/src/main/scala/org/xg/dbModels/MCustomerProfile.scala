@@ -18,6 +18,7 @@ case class MCustomerProfile(
 
 object MCustomerProfile {
   def fromJsons(j:String):Array[MCustomerProfile] = CommonUtils._fromJsons(j)
+  def fromJson(j:String):MCustomerProfile = CommonUtils._fromJson[MCustomerProfile](j)
   def toJsons(profiles:Array[MCustomerProfile]):String = CommonUtils._toJsons(profiles)
 
   trait TProfileDetail {
@@ -33,11 +34,13 @@ object MCustomerProfile {
   ) extends TProfileDetail
 
   type ProfileDecoder = String => TProfileDetail
+  val DetailVersion1_00:String = "1.00"
   private val decoderMap:Map[String, ProfileDecoder] = Map(
-    "1.00" -> (j => CommonUtils._fromJson[ProfileDetailV1_00](j))
+    DetailVersion1_00 -> (j => CommonUtils._fromJson[ProfileDetailV1_00](j))
   )
 
   def decodeProfile(ver:String, profileDetail:String):TProfileDetail = {
     decoderMap(ver)(profileDetail)
   }
+
 }
