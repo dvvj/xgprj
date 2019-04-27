@@ -19,6 +19,7 @@ import org.xg.uiModels.PricePlan;
 import org.xg.uiModels.PricePlanOption;
 import org.xg.user.UserType;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class AddNewCustomerCtrl {
@@ -44,11 +45,20 @@ public class AddNewCustomerCtrl {
   @FXML
   JFXCheckBox cbIsNewCustomer;
 
+
+  private void updateExistingCustomerInfo(MCustomer customer) {
+    tfName.setText(DataUtils.maskStrStart(customer.name(), 1));
+    tfMobile.setText(DataUtils.maskStr(customer.mobile(), 3, 2));
+    tfIdCardNo.setText(DataUtils.maskStrAll(customer.idCardNo()));
+  }
+
   public void onCheckExisting() {
     System.out.println("todo");
     String uid = tfUid.getText().trim();
     MCustomer c = UISvcHelpers.findCustomerById(uid);
-    System.out.println(c.name());
+    if (c != null) {
+      updateExistingCustomerInfo(c);
+    }
   }
 
   public void onAdd() {

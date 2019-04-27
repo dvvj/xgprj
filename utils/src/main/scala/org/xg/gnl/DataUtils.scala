@@ -50,4 +50,22 @@ object DataUtils {
   def roundMoney(price:Double):Double = math.round(price * 100) / 100.0
 
   def chartMaxY(valueMax:Double, roundTo:Int):Double = ((valueMax-1).toInt/roundTo + 1) * roundTo
+
+  def maskStr(str:String, startC:Int, endC:Int):String = {
+    if (startC + endC >= str.length)
+      str
+    else {
+      val p1Len = math.min(startC, str.length)
+      val p1 = str.substring(0, p1Len)
+      val p2Len = math.min(endC, str.length)
+      val p2 = str.substring(str.length-p2Len, str.length)
+
+      val pm = (0 until str.length-p1Len-p2Len).map(_ => '*').mkString
+      p1 + pm + p2
+    }
+  }
+
+  def maskStrStart(str:String, startC:Int):String = maskStr(str, startC, 0)
+  def maskStrEnd(str:String, endC:Int):String = maskStr(str, 0, endC)
+  def maskStrAll(str:String):String = maskStr(str, 0, 0)
 }

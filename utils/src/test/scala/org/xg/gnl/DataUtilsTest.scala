@@ -63,4 +63,25 @@ class DataUtilsTest extends TestNGSuite with Matchers with TableDrivenPropertyCh
       res shouldBe expStr
     }
   }
-}
+
+  private val maskStrTestData = Table(
+    ( "str", "startC", "endC", "exp" ),
+    ( "abc", 1, 0, "a**"),
+    ( "abc", 1, 1, "a*c"),
+    ( "abc", 4, 0, "abc"),
+    ( "abc", 0, 1, "**c"),
+    ( "abc", 0, 4, "abc"),
+    ( "abc", 2, 1, "abc"),
+    ( "abc", 2, 2, "abc"),
+    ( "abc", 1, 2, "abc")
+  )
+  @Test
+  def maskStrTest():Unit = {
+    forAll(maskStrTestData) { (str, startC, endC, exp) =>
+      val res = DataUtils.maskStr(str, startC, endC)
+      res shouldBe exp
+    }
+  }
+
+
+  }
