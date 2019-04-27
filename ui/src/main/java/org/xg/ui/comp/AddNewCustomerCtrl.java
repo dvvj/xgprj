@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MPricePlanMap;
+import org.xg.dbModels.OpResp;
 import org.xg.gnl.DataUtils;
 import org.xg.svc.AddNewCustomer;
 import org.xg.ui.model.MedProfWndHelper;
@@ -90,17 +91,24 @@ public class AddNewCustomerCtrl {
           ppm
         );
 
-        UISvcHelpers.addNewCustomer(newCustomer);
-        newCustomerCallback.run();
+        OpResp resp = UISvcHelpers.addNewCustomer(newCustomer);
+        if (resp.success()) {
+          newCustomerCallback.run();
+          Global.loggingTodo("New customer added: " + uid);
+        }
+        else {
+          Global.loggingTodo("Failed to add new customer: " + resp.errMsgJ());
+        }
       }
-      else {
-        long newProfileId = UISvcHelpers.createProfileV1_00(
-          Global.getCurrUid(), uid,
-          new int[] { 1, 3 }, // todo
-          pricePlanOption.getPlan().id()
-        );
-        Global.loggingTodo("New profile created: " + newProfileId);
-      }
+
+      long newProfileId = UISvcHelpers.createProfileV1_00(
+        Global.getCurrUid(), uid,
+        new int[] { 1, 3 }, // todo
+        pricePlanOption.getPlan().id()
+      );
+      Global.loggingTodo(
+        String.format("New profile created for customer [%s]: %d", uid, newProfileId)
+      );
     }
     catch (Exception ex) {
       Global.loggingTodo("Error adding customer: " + ex.getMessage());

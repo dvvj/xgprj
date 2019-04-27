@@ -65,14 +65,14 @@ object UISvcHelpers {
     }
   }
 
-  def addNewCustomer(nc:AddNewCustomer):Boolean = {
-    trySvcTF { () =>
-      SvcHelpers.post(
+  def addNewCustomer(nc:AddNewCustomer):OpResp = {
+    trySvc { () =>
+      val res = SvcHelpers.postCheckStatus(
         serverCfg.addNewCustomerURL,
         Global.getCurrToken,
         AddNewCustomer.toJson(nc)
       )
-      true
+      res
     }
   }
 
