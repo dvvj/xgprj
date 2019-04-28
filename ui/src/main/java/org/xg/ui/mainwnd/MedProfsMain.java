@@ -371,6 +371,7 @@ public class MedProfsMain {
 
     addNewCustomerCtrl.setup(
       dataModel.getPricePlanOptions(),
+      dataModel.getProducts(),
       () -> updateCustomers()
     );
 
