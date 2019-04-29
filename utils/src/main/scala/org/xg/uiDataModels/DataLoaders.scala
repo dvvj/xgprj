@@ -6,6 +6,7 @@ import org.xg.auth.SvcHelpers
 import org.xg.dbModels._
 import org.xg.gnl.GlobalCfg
 import org.xg.pay.pricePlan.TPricePlan
+import org.xg.uiDataModels.DMRepo.DMFindCustomer
 import org.xg.uiModels.Order
 
 import scala.concurrent.{Await, Future}

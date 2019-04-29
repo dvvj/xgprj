@@ -9,15 +9,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import org.xg.dbModels.MCustomer;
+import org.xg.dbModels.MCustomerProfile;
 import org.xg.dbModels.MPricePlanMap;
 import org.xg.dbModels.OpResp;
 import org.xg.gnl.DataUtils;
 import org.xg.svc.AddNewCustomer;
 import org.xg.ui.model.MedProfWndHelper;
+import org.xg.ui.model.NewCustomerProfileUiData;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UISvcHelpers;
-import org.xg.uiDataModels.DMFindCustomer;
+import org.xg.uiDataModels.DMRepo.DMFindCustomer;
 import org.xg.uiDataModels.DataLoaders;
 import org.xg.uiModels.PricePlan;
 import org.xg.uiModels.PricePlanOption;
@@ -25,10 +27,7 @@ import org.xg.uiModels.UIProduct;
 import org.xg.user.UserType;
 
 import javax.xml.crypto.Data;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.xg.gnl.DataUtils.*;
 
@@ -58,7 +57,7 @@ public class AddNewCustomerCtrl {
   @FXML
   JFXListView<JFXCheckBox> lstProducts;
 
-  private Map<Integer, UIProduct> productIdxMap = new HashMap<>();
+  private Map<Integer, NewCustomerProfileUiData> productIdxMap = new HashMap<>();
 
   private static String productText(UIProduct product) {
     String srcCountry = Helpers.srcCountryResKey(product.getDetail().getSrcCountry());
@@ -71,29 +70,39 @@ public class AddNewCustomerCtrl {
     productIdxMap.clear();
 
     for (Integer idx = 0; idx < products.size(); idx ++) {
-      UIProduct product = products.get(idx);
-      productIdxMap.put(idx, product);
-      lstProducts.getItems().add(
-        new JFXCheckBox(productText(product))
-      );
+      NewCustomerProfileUiData prodData = new NewCustomerProfileUiData(products.get(idx));
+
+      productIdxMap.put(idx, prodData);
+      JFXCheckBox cb = new JFXCheckBox(productText(prodData.getProd()));
+      cb.selectedProperty().bindBidirectional(prodData.isCheckedProperty());
+      cb.disableProperty().bindBidirectional(prodData.isInExistingProfileProperty());
+      lstProducts.getItems().add(cb);
     }
   }
 
   private int[] getSelectedProducts() {
     List<Integer> selectedProdIds = new ArrayList<>();
-    for (Integer idx = 0; idx < lstProducts.getItems().size(); idx++) {
-      if (lstProducts.getItems().get(idx).isSelected())
-        selectedProdIds.add(idx);
+//    for (Integer idx = 0; idx < lstProducts.getItems().size(); idx++) {
+//      if (lstProducts.getItems().get(idx).isSelected())
+//        selectedProdIds.add(idx);
+//    }
+//    int[] res = new int[selectedProdIds.size()];
+//    for (int idx = 0; idx < selectedProdIds.size(); idx ++) {
+//      res[idx] = productIdxMap.get(selectedProdIds.get(idx)).getId();
+//    }
+    for (NewCustomerProfileUiData d : productIdxMap.values()) {
+      if (!d.isIsInExistingProfile() && d.isChecked())
+        selectedProdIds.add(d.getProd().getId());
     }
     int[] res = new int[selectedProdIds.size()];
     for (int idx = 0; idx < selectedProdIds.size(); idx ++) {
-      res[idx] = productIdxMap.get(selectedProdIds.get(idx)).getId();
+      res[idx] = selectedProdIds.get(idx);
     }
-
     return res;
   }
 
-  private void updateExistingCustomerInfo(MCustomer customer) {
+  private void updateExistingCustomerInfo(DMFindCustomer fc) {
+    MCustomer customer = fc.customer();
     tfName.setText(maskStrStart(customer.name(), 1));
     tfMobile.setText(maskStr(customer.mobile(), 3, 2));
     tfIdCardNo.setText(maskStrAll(customer.idCardNo()));
@@ -101,7 +110,27 @@ public class AddNewCustomerCtrl {
     tfPostalAddr.setText(maskStrAll(customer.postalAddr()));
     pfNew.setText("***");
     pfNew2.setText("***");
+
+    MCustomerProfile[] profiles = fc.profiles();
+    Set<Integer> existingProdIds = new HashSet<>();
+    Arrays.stream(profiles).forEach( p -> {
+        for (int id: p.getDetail().productIds()) {
+          existingProdIds.add(id);
+        }
+      });
+    for (NewCustomerProfileUiData d : productIdxMap.values()) {
+      UIProduct prod = d.getProd();
+      if (existingProdIds.contains(prod.getId())) {
+        d.setIsChecked(true);
+        d.setIsInExistingProfile(true);
+      }
+    }
   }
+
+//  private static void checkAndDisable(JFXCheckBox cb) {
+//    cb.setDisable(true);
+//    cb.setSelected(true);
+//  }
 
   public void onCheckExisting() {
     //System.out.println("todo");
@@ -110,10 +139,10 @@ public class AddNewCustomerCtrl {
       DataLoaders.findCustomerDataLoader(
         UISvcHelpers.serverCfg(), Global.getCurrToken(), uid
       ).loadAndConstruct(20000);
-    MCustomer c = fc.customer();
+    //MCustomer c = fc.customer();
     //MCustomer c = UISvcHelpers.findCustomerById(uid);
-    if (c != null) {
-      updateExistingCustomerInfo(c);
+    if (fc.customer() != null) {
+      updateExistingCustomerInfo(fc);
     }
   }
 
