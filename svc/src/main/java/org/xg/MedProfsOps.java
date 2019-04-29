@@ -4,6 +4,7 @@ import org.xg.auth.Secured;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MCustomerProfile;
 import org.xg.dbModels.MMedProf;
+import org.xg.dbModels.TDbOps;
 import org.xg.json.CommonUtils;
 import org.xg.svc.AddNewCustomer;
 import org.xg.svc.CustomerPricePlan;
@@ -117,6 +118,34 @@ public class MedProfsOps {
       profId,
       "newProfileExistingCustomer",
       "Error newProfileExistingCustomer"
+    );
+  }
+
+
+  @Secured
+  @POST
+  @Path("existingCustomerProfiles")
+  @Consumes(SvcUtils.MediaType_TXT_UTF8)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response existingCustomerProfiles(String customerId, @Context SecurityContext sc) {
+    String profId = sc.getUserPrincipal().getName();
+//    logger.warning(
+//      String.format("querying customer profiles: %s, %s", customerId, profId)
+//    );
+
+    return SvcUtils.tryOps(
+      () -> {
+        TDbOps dbOps = SvcUtils.getDbOps();
+        String cid = UserType.Customer().genUid(customerId);
+        MCustomerProfile[] profiles = dbOps.getCustomerProfiles(cid);
+
+        return Response.ok(
+          MCustomerProfile.toJsons(profiles)
+        ).build();
+      },
+      profId,
+      "existingCustomerProfiles",
+      "existingCustomerProfiles"
     );
   }
 

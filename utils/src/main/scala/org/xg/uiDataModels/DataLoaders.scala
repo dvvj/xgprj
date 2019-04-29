@@ -76,6 +76,32 @@ object DataLoaders {
     }
   }
 
+  def findCustomerDataLoader(serverCfg:GlobalCfg, currToken:String, customerId:String): TDataLoader[DMFindCustomer] =
+    new TDataLoader[DMFindCustomer] {
+      override val cfg: GlobalCfg = serverCfg
+
+      override protected def dataRetrievers: Seq[DataRetriever] = Seq(
+        () => {
+          val j = SvcHelpers.post(
+            serverCfg.customerByIdURL,
+            currToken,
+            customerId
+          )
+          if (j.isEmpty) null
+          else MCustomer.fromJson(j)
+        },
+        () => SvcHelpers.postDecArray(serverCfg.existingCustomerProfileURL, currToken, customerId, MCustomerProfile.fromJsons)
+      )
+
+      override protected def construct(rawData: Array[AnyRef]): DMFindCustomer = {
+        val customer:MCustomer = if (rawData(0) != null) rawData(0).asInstanceOf[MCustomer] else null
+        new DMFindCustomer(
+          rawData(0).asInstanceOf[MCustomer],
+          rawData(1).asInstanceOf[Array[MCustomerProfile]]
+        )
+      }
+    }
+
   import collection.JavaConverters._
   def customerDataLoaderJ(
                            serverCfg:GlobalCfg,

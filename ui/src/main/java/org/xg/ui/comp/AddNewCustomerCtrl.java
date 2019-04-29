@@ -17,6 +17,8 @@ import org.xg.ui.model.MedProfWndHelper;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
 import org.xg.ui.utils.UISvcHelpers;
+import org.xg.uiDataModels.DMFindCustomer;
+import org.xg.uiDataModels.DataLoaders;
 import org.xg.uiModels.PricePlan;
 import org.xg.uiModels.PricePlanOption;
 import org.xg.uiModels.UIProduct;
@@ -104,7 +106,12 @@ public class AddNewCustomerCtrl {
   public void onCheckExisting() {
     //System.out.println("todo");
     String uid = tfUid.getText().trim();
-    MCustomer c = UISvcHelpers.findCustomerById(uid);
+    DMFindCustomer fc =
+      DataLoaders.findCustomerDataLoader(
+        UISvcHelpers.serverCfg(), Global.getCurrToken(), uid
+      ).loadAndConstruct(20000);
+    MCustomer c = fc.customer();
+    //MCustomer c = UISvcHelpers.findCustomerById(uid);
     if (c != null) {
       updateExistingCustomerInfo(c);
     }
