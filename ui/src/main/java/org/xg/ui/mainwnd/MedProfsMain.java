@@ -366,7 +366,7 @@ public class MedProfsMain {
   private void loadAddNewCustomerTab() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/AddNewCustomer.fxml");
     FXMLLoader addNewCustomerLoader = new FXMLLoader(path, Global.AllRes);
-    VBox addNewProf = addNewCustomerLoader.load();
+    StackPane addNewProf = addNewCustomerLoader.load();
     addNewCustomerCtrl = addNewCustomerLoader.getController();
 
     addNewCustomerCtrl.setup(

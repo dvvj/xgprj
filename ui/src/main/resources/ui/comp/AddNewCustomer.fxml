@@ -13,40 +13,43 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXListView?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.xg.ui.comp.AddNewCustomerCtrl"
-      spacing="10"
-      prefHeight="400.0" prefWidth="600.0">
-    <padding>
-        <Insets top="20" left="20" right="20" bottom="20" />
-    </padding>
+<StackPane xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.xg.ui.comp.AddNewCustomerCtrl"
+    fx:id="rootStackPane"
+    prefHeight="400.0" prefWidth="600.0">
+    <VBox spacing="10">
+        <padding>
+            <Insets top="20" left="20" right="20" bottom="20" />
+        </padding>
 
-    <HBox spacing="10">
-        <VBox spacing="5">
-            <JFXTextField fx:id="tfUid" text="o1a2p2_customer1" promptText="%addCustomer.uid.prompt"/>
-            <HBox spacing="10">
-                <padding>
-                    <Insets top="10" left="5" right="5" bottom="10" />
-                </padding>
-                <JFXCheckBox fx:id="cbIsNewCustomer" text="%addCustomer.isNewCustomer" selected="false" />
-                <JFXButton text="%addCustomer.checkExistingCustomer" fx:id="btnCheckExisting" onAction="#onCheckExisting"
-                           styleClass="button-raised" maxWidth="120" minWidth="120" />
-            </HBox>
+        <HBox spacing="10">
+            <VBox spacing="5">
+                <JFXTextField fx:id="tfUid" text="o1a2p2_customer1" promptText="%addCustomer.uid.prompt"/>
+                <HBox spacing="10">
+                    <padding>
+                        <Insets top="10" left="5" right="5" bottom="10" />
+                    </padding>
+                    <JFXCheckBox fx:id="cbIsNewCustomer" text="%addCustomer.isNewCustomer" selected="false" />
+                    <JFXButton text="%addCustomer.checkExistingCustomer" fx:id="btnCheckExisting" onAction="#onCheckExisting"
+                               styleClass="button-raised" maxWidth="120" minWidth="120" />
+                </HBox>
 
-            <JFXTextField fx:id="tfName" text="test1" promptText="%addCustomer.name.prompt"/>
-            <JFXTextField fx:id="tfIdCardNo" text="cardno200" promptText="%addCustomer.idCardNo.prompt"/>
-            <JFXTextField fx:id="tfMobile" text="12342134" promptText="%addCustomer.mobile.prompt"/>
-            <JFXTextField fx:id="tfPostalAddr" text="addr1" promptText="%addCustomer.postalAddr.prompt"/>
-            <JFXTextField fx:id="tfBDay" text="bday1" promptText="%addCustomer.bDay.prompt"/>
-            <JFXPasswordField fx:id="pfNew" text="123" promptText="%addCustomer.newPassowrd.prompt" />
-            <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addCustomer.repeatPassowrd.prompt" />
-            <JFXComboBox fx:id="cmboPricePlanType" promptText="%addNewCustomer.pricePlanType.prompt" />
-        </VBox>
-        <JFXListView fx:id="lstProducts" prefWidth="550">
-        </JFXListView>
-    </HBox>
-    <HBox alignment="BOTTOM_LEFT">
-        <JFXButton text="%addCustomer.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
-    </HBox>
-</VBox>
+                <JFXTextField fx:id="tfName" text="test1" promptText="%addCustomer.name.prompt"/>
+                <JFXTextField fx:id="tfIdCardNo" text="cardno200" promptText="%addCustomer.idCardNo.prompt"/>
+                <JFXTextField fx:id="tfMobile" text="12342134" promptText="%addCustomer.mobile.prompt"/>
+                <JFXTextField fx:id="tfPostalAddr" text="addr1" promptText="%addCustomer.postalAddr.prompt"/>
+                <JFXTextField fx:id="tfBDay" text="bday1" promptText="%addCustomer.bDay.prompt"/>
+                <JFXPasswordField fx:id="pfNew" text="123" promptText="%addCustomer.newPassowrd.prompt" />
+                <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addCustomer.repeatPassowrd.prompt" />
+                <JFXComboBox fx:id="cmboPricePlanType" promptText="%addNewCustomer.pricePlanType.prompt" />
+            </VBox>
+            <JFXListView fx:id="lstProducts" prefWidth="550">
+            </JFXListView>
+        </HBox>
+        <HBox alignment="BOTTOM_LEFT">
+            <JFXButton text="%addCustomer.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
+        </HBox>
+
+    </VBox>
+</StackPane>

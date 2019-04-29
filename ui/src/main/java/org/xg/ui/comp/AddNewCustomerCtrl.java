@@ -7,6 +7,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MCustomerProfile;
@@ -18,6 +20,7 @@ import org.xg.ui.model.MedProfWndHelper;
 import org.xg.ui.model.NewCustomerProfileUiData;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.Helpers;
+import org.xg.ui.utils.UIHelpers;
 import org.xg.ui.utils.UISvcHelpers;
 import org.xg.uiDataModels.DMRepo.DMFindCustomer;
 import org.xg.uiDataModels.DataLoaders;
@@ -120,17 +123,15 @@ public class AddNewCustomerCtrl {
       });
     for (NewCustomerProfileUiData d : productIdxMap.values()) {
       UIProduct prod = d.getProd();
-      if (existingProdIds.contains(prod.getId())) {
-        d.setIsChecked(true);
-        d.setIsInExistingProfile(true);
-      }
+      boolean isInExisting = existingProdIds.contains(prod.getId());
+      setStatus(d, isInExisting);
     }
   }
 
-//  private static void checkAndDisable(JFXCheckBox cb) {
-//    cb.setDisable(true);
-//    cb.setSelected(true);
-//  }
+  private static void setStatus(NewCustomerProfileUiData d, boolean isInExistingProfile) {
+    d.setIsInExistingProfile(isInExistingProfile);
+    d.setIsChecked(isInExistingProfile);
+  }
 
   public void onCheckExisting() {
     //System.out.println("todo");
@@ -145,6 +146,9 @@ public class AddNewCustomerCtrl {
       updateExistingCustomerInfo(fc);
     }
   }
+
+  @FXML
+  StackPane rootStackPane;
 
   public void onAdd() {
     try {
@@ -184,9 +188,17 @@ public class AddNewCustomerCtrl {
         getSelectedProducts(), //new int[] { 1, 3 }, // todo
         pricePlanOption.getPlan().id()
       );
-      Global.loggingTodo(
-        String.format("New profile created for customer [%s]: %d", uid, newProfileId)
+//      Global.loggingTodo(
+//        String.format("New profile created for customer [%s]: %d", uid, newProfileId)
+//      );
+
+      String msg = String.format("New profile created for customer [%s]: %d", uid, newProfileId);
+
+      JFXDialog dialog = new JFXDialog();
+      dialog.setContent(
+        UIHelpers.loadDialog("/ui/comp/dialogs/AddNewCustomerProfile_Success.fxml")
       );
+      dialog.show(rootStackPane);
     }
     catch (Exception ex) {
       Global.loggingTodo("Error adding customer: " + ex.getMessage());

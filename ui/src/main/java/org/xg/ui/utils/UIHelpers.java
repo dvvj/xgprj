@@ -5,10 +5,16 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import org.xg.ui.UiLoginController;
+
+import java.net.URL;
 
 public class UIHelpers {
 
@@ -49,4 +55,15 @@ public class UIHelpers {
     table.setPlaceholder(p);
   }
 
+  public static Region loadDialog(String fxmlPath) {
+    try {
+      URL path = UiLoginController.class.getResource(fxmlPath);
+      FXMLLoader loader = new FXMLLoader(path, Global.AllRes);
+      return loader.load();
+    }
+    catch (Exception ex) {
+      Global.loggingTodo("failed to load FXML from: " + fxmlPath);
+      throw new RuntimeException(ex);
+    }
+  }
 }
