@@ -2,8 +2,8 @@ package org.xg.uiDataModels
 
 import javafx.collections.{FXCollections, ObservableList}
 import org.xg.dbModels._
-import org.xg.pay.pricePlan.TPricePlan
-import org.xg.uiModels.{CustomerProduct, Order, UIProduct}
+import org.xg.pay.pricePlan.{PricePlanSettings, TPricePlan}
+import org.xg.uiModels.{CustomerProduct, Order}
 
 trait TDMCustomer {
   def getProducts:ObservableList[CustomerProduct]
@@ -21,7 +21,8 @@ object DMCustomer {
     statusStrMap:Map[Int, String]
   ) extends TDMCustomer {
 
-    private val accessibleProducts = profiles.flatMap(_.getDetail.productIds).toSet
+    private val recommendedProducts = profiles.flatMap(_.getDetail.productIds).toSet
+    private val allProducts = products.map(_.id).toSet
     private val referringProfs = profiles.map(_.profId).toSet
 
     private def checkNoProductOverlapInProfiles():Unit = {
@@ -44,14 +45,18 @@ object DMCustomer {
       val pricePlanMap = pricePlans.map(pp => pp.id -> pp.getPlan).toMap
       profiles.flatMap(pf => pf.getDetail.productIds.map { pid =>
         val prodIdJ = new Integer(pid)
-        val plan = pricePlanMap(pf.getDetail.pricePlanId)
+        val plan =
+          if (pf.getDetail.pricePlanId != null)
+            pricePlanMap(pf.getDetail.pricePlanId)
+          else
+            PricePlanSettings.NoDiscount
         prodIdJ -> plan
       }).toMap
     }
     import collection.JavaConverters._
     import DataTransformers._
     private val productMap:Map[Integer, CustomerProduct] = getProductMapJ(
-      products.filter(p => accessibleProducts.contains(p.id)),
+      products, //.filter(p => recommendedProducts.contains(p.id)),
       product2PricePlan,
       prod2Profs,
     )

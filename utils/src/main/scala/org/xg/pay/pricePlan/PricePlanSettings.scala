@@ -11,6 +11,8 @@ object PricePlanSettings {
     val FixedRate, ProductBasedRates = Value
   }
 
+  val NoDiscount:TPricePlan = PrPlFixedRate(1.0)
+
   import VTag._
 
   type PricePlanDecoder = String => TPricePlan

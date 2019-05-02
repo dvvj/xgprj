@@ -21,8 +21,9 @@ object DataTransformers {
     products.map {mp =>
       val pricePlan = pricePlanMap.get(mp.id).orNull
       val p = UIProduct.fromMProduct(mp)
-      val prof = prod2Prof(mp.id)
-      val cp = new CustomerProduct(p, pricePlan, MedProf.fromMMedProf(prof))
+      val mprof = prod2Prof.get(mp.id)
+      val prof = mprof.map(MedProf.fromMMedProf).orNull
+      val cp = new CustomerProduct(p, pricePlan, prof)
       p.getId -> cp
     }.toMap
   }

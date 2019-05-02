@@ -10,10 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import org.xg.dbModels.MCustomer;
-import org.xg.dbModels.MCustomerProfile;
-import org.xg.dbModels.MPricePlanMap;
-import org.xg.dbModels.OpResp;
+import org.xg.dbModels.*;
 import org.xg.gnl.DataUtils;
 import org.xg.svc.AddNewCustomer;
 import org.xg.ui.model.MedProfWndHelper;
@@ -183,10 +180,13 @@ public class AddNewCustomerCtrl {
         }
       }
 
+      if (ppm != null && ppm.getPlanIds().length > 1)
+        throw new UnsupportedOperationException("Not supported: multiple plan ids");
+      String planId = ppm != null ? ppm.getPlanIds()[0] : null;
       long newProfileId = UISvcHelpers.createProfileV1_00(
         Global.getCurrUid(), uid,
         getSelectedProducts(), //new int[] { 1, 3 }, // todo
-        pricePlanOption.getPlan().id()
+        planId
       );
 //      Global.loggingTodo(
 //        String.format("New profile created for customer [%s]: %d", uid, newProfileId)

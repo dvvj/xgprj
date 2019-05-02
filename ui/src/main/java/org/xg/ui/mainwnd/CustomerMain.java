@@ -86,7 +86,8 @@ public class CustomerMain {
         TableViewHelper.jfxTableColumnResBundle(
           "productTable.referringProfName",
           100,
-          cp -> cp.getRefProf().getName()
+          cp -> cp.getRefProf() != null ?
+              cp.getRefProf().getName() : "-"
         ),
         TableViewHelper.jfxTableColumnResBundle(
           "productTable.srcCountry",
