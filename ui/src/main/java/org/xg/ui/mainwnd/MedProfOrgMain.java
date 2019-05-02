@@ -20,6 +20,7 @@ import org.xg.dbModels.MRewardPlanMap;
 import org.xg.gnl.DataUtils;
 import org.xg.pay.rewardPlan.TRewardPlan;
 import org.xg.ui.UiLoginController;
+import org.xg.ui.comp.AddNewProfOrgAgentCtrl;
 import org.xg.ui.comp.TreeTableViewWithFilterCtrl;
 import org.xg.ui.comp.UpdatePasswordCtrl;
 import org.xg.ui.model.MedProfOrgDataModel;
@@ -161,7 +162,7 @@ public class MedProfOrgMain {
       loadDataModel();
 
       loadAgentTable();
-
+      loadAddNewAgentTab();
     }
     catch (Exception ex) {
       throw new RuntimeException(ex);
@@ -293,5 +294,22 @@ public class MedProfOrgMain {
   VBox updatePasswordTab;
   private void loadUpdatePasswordTab() throws Exception {
     UpdatePasswordCtrl.load2Tab(updatePasswordTab);
+  }
+
+  @FXML
+  VBox addNewAgentTab;
+
+  private void loadAddNewAgentTab() throws Exception {
+    URL path = UiLoginController.class.getResource("/ui/comp/AddNewProfOrgAgent.fxml");
+    FXMLLoader loader = new FXMLLoader(path, Global.AllRes);
+    VBox vbAddNewAgent = loader.load();
+//    AddNewProfOrgAgentCtrl ctrl = loader.getController();
+//    ctrl.setup(
+//      dataModel.getRewardPlanOptions(),
+//      () -> updateMedProfs()
+//    );
+
+    addNewAgentTab.getChildren().addAll(vbAddNewAgent);
+
   }
 }

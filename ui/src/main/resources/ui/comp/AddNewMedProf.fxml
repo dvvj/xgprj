@@ -25,7 +25,7 @@
     <JFXPasswordField fx:id="pfNew" text="123" promptText="%addMedProf.newPassowrd.prompt" />
     <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addMedProf.repeatPassowrd.prompt" />
     <HBox spacing="10">
-        <JFXComboBox fx:id="cmboRewardPlanType" promptText="%addNewMedProf.rewardPlanType.prompt" />
+        <JFXComboBox fx:id="cmboRewardPlanType" promptText="%addMedProf.rewardPlanType.prompt" />
         <JFXButton text="%addMedProf.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
     </HBox>
 

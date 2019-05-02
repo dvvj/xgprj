@@ -39,7 +39,7 @@ public class RewardPlanOption {
   private final static String _NoRewardPlanId = "d49a2438-fc30-4103-8e83-86f410a31ed4";
   private final static RewardPlanOption _NoRewardPlan = new RewardPlanOption(
     _NoRewardPlanId,
-    Global.AllRes.getString("addNewMedProf.pricePlanType.noPricePlan"),
+    Global.AllRes.getString("addMedProf.rewardPlanType.noRewardPlan"),
     null
   );
 

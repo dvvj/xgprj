@@ -18,5 +18,7 @@ trait TDMMedProf {
 }
 
 object DMMedProf {
-
+//  private class MedProfDM extends TDMMedProf {
+//
+//  }
 }

@@ -27,7 +27,7 @@
                 </HBox>
             </Tab>
             <Tab text="%medproforg.tab.addNewAgent.heading">
-                <VBox fx:id="addNewCustomerTab">
+                <VBox fx:id="addNewAgentTab">
                 </VBox>
             </Tab>
             <Tab text="%medproforg.tab.updatePassword.heading">

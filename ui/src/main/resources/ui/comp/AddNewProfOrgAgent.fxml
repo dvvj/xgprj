@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      fx:controller="org.xg.ui.comp.AddNewProfOrgAgentCtrl">
+    <padding>
+        <Insets top="20" left="20" right="20" bottom="20" />
+    </padding>
+    <JFXTextField fx:id="tfUid" text="agent200" promptText="%addProfOrgAgent.uid.prompt"/>
+    <JFXTextField fx:id="tfName" text="test1" promptText="%addProfOrgAgent.name.prompt"/>
+    <JFXTextField fx:id="tfInfo" text="info11" promptText="%addProfOrgAgent.info.prompt"/>
+    <JFXTextField fx:id="tfMobile" text="12342134" promptText="%addProfOrgAgent.mobile.prompt"/>
+    <JFXPasswordField fx:id="pfNew" text="123" promptText="%addProfOrgAgent.newPassowrd.prompt" />
+    <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addProfOrgAgent.repeatPassowrd.prompt" />
+    <HBox spacing="10">
+        <JFXComboBox fx:id="cmboRewardPlanType" promptText="%addProfOrgAgent.rewardPlanType.prompt" />
+        <JFXButton text="%addProfOrgAgent.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
+    </HBox>
+
+</VBox>
