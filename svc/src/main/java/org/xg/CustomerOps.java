@@ -2,10 +2,7 @@ package org.xg;
 
 import org.xg.audit.SvcAuditUtils;
 import org.xg.auth.Secured;
-import org.xg.dbModels.MCustomerProfile;
-import org.xg.dbModels.MMedProf;
-import org.xg.dbModels.TDbOps;
-import org.xg.dbModels.MCustomer;
+import org.xg.dbModels.*;
 import org.xg.svc.UserOrder;
 
 import javax.annotation.security.RolesAllowed;
@@ -116,4 +113,52 @@ public class CustomerOps {
       SvcAuditUtils.Customer_PlaceOrder()
     );
   }
+
+  @Secured
+  @POST
+  @Path("cancelOrder")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response cancelOrder(String orderId, @Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        TDbOps dbOps = SvcUtils.getDbOps();
+        dbOps.cancelOrder(Long.parseLong(orderId));
+
+        String msg = String.format("Order (id: %s for user: %s) cancelled", orderId, sc.getUserPrincipal().getName());
+        logger.info(msg);
+
+        return Response.ok(msg)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.Customer_CancelOrder()
+    );
+  }
+
+  @Secured
+  @GET
+  @Path("currOrders")
+  @Produces(SvcUtils.MediaType_JSON_UTF8)
+  public Response userOrders(@Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        String uid = sc.getUserPrincipal().getName();
+        logger.warning(
+          String.format("Getting orders for user [%s]", uid)
+        );
+
+        TDbOps dbOps = SvcUtils.getDbOps();
+        MOrder[] orders = dbOps.ordersOf(uid);
+        return Response.ok(
+          MOrder.toJsons(orders)
+        ).build();
+      },
+      sc,
+      SvcAuditUtils.Customer_CurrentOrders()
+    );
+
+  }
+
+
 }

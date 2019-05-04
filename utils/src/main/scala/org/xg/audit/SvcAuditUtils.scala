@@ -32,6 +32,8 @@ object SvcAuditUtils {
   val Customer_GetProfiles:SvcAuditEntry = customerAudit("getProfiles")
   val Customer_ReferringMedProfs:SvcAuditEntry = customerAudit("referringMedProfs")
   val Customer_PlaceOrder:SvcAuditEntry = customerAudit("placeOrder")
+  val Customer_CancelOrder:SvcAuditEntry = customerAudit("cancelOrder")
+  val Customer_CurrentOrders:SvcAuditEntry = customerAudit("currOrders")
 
   val UserCfg_GetPricePlan:SvcAuditEntry = userCfgAudit("getPricePlan")
   val UserCfg_GetAllPricePlan:SvcAuditEntry = userCfgAudit("allPricePlans")
