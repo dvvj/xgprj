@@ -145,13 +145,11 @@ object UISvcHelpers {
   }
 
   def updateOrgAgentOrderStats(orgAgentId:String, userToken:String):Array[MOrgAgentOrderStat] = {
-    val j = SvcHelpers.post(
+    SvcHelpers.getDecArray(
       serverCfg.orderStatsOfAgentURL,
       userToken,
-      orgAgentId
+      MOrgAgentOrderStat.fromJsons
     )
-
-    MOrgAgentOrderStat.fromJsons(j)
   }
 
   def updateOrgOrderStats(userToken:String):Array[MOrgOrderStat] = {

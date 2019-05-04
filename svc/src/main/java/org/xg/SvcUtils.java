@@ -183,6 +183,8 @@ public class SvcUtils {
     return tryOps(producer, uid, auditEntry.getOpStr(), auditEntry.errMsg());
   }
 
+  private final static int MaxExceptionMsgLength = 8000;
+
   public static <T> T tryOps(
     Supplier<T> producer,
     String uid,
@@ -199,7 +201,8 @@ public class SvcUtils {
       auditStatus = MSvcAudit.StatusException();
       StringWriter errors = new StringWriter();
       ex.printStackTrace(new PrintWriter(errors));
-      errMsg = errors.toString().substring(0, 511); // length determined by db table def
+      String err = errors.toString();
+      errMsg = err.length() < MaxExceptionMsgLength ? err : err.substring(0, MaxExceptionMsgLength); // length determined by db table def
       //System.out.println("errMsg::::::::::: " + errMsg);
       throw new WebApplicationException(errorMsg, ex);
     }

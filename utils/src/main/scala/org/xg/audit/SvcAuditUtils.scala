@@ -10,6 +10,7 @@ object SvcAuditUtils {
 
   val ProfOrgAgent_GetProfs:SvcAuditEntry = profOrgAgentAudit("getProfs")
   val ProfOrgAgent_AddNewMedProf:SvcAuditEntry = profOrgAgentAudit("addNewMedProf")
+  val ProfOrgAgent_GetOrderStatsOf:SvcAuditEntry = profOrgAgentAudit("getOrderStatsOf")
   //val ProfOrgAgentGetProfs:SvcAuditEntry = profOrgAgentAudit("getProfs")
 
 }

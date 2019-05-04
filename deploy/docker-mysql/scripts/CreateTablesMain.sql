@@ -166,7 +166,7 @@ CREATE TABLE svc_audit (
   status INT NOT NULL,
   duration INT NOT NULL,
   uid VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  extra VARCHAR(1023),
+  extra VARCHAR(8191),
 
   PRIMARY KEY (id)
 );

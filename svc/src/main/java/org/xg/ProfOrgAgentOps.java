@@ -37,22 +37,23 @@ public class ProfOrgAgentOps {
   }
 
   @Secured
-  @POST
+  @GET
   @Path("orderStats")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response getOrderStatsOf(String orgAgentId) {
-    try {
-      MOrgAgentOrderStat[] orderStats = SvcUtils.getOrgAgentOrderStatsOf(orgAgentId);
-      String j = MOrgAgentOrderStat.toJsons(orderStats);
+  public Response getOrderStatsOf(@Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        MOrgAgentOrderStat[] orderStats = SvcUtils.getOrgAgentOrderStatsOf(sc.getUserPrincipal().getName());
+        String j = MOrgAgentOrderStat.toJsons(orderStats);
 
-      return Response.ok(j)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        return Response.ok(j)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.ProfOrgAgent_GetOrderStatsOf()
+    );
+
   }
 
   @Secured
