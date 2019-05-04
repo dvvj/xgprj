@@ -188,13 +188,11 @@ object UISvcHelpers {
 
 
   def updateAllOrdersOfRefedCustomers(profId:String, userToken:String):Array[MOrder] = {
-    val j = SvcHelpers.post(
+    SvcHelpers.getDecArray(
       serverCfg.refedCustomerOrdersURL,
       userToken,
-      profId
+      MOrder.fromJsons
     )
-
-    MOrder.fromJsons(j)
   }
 
 //  def updateAllOrders(token:String): Array[Order] = {

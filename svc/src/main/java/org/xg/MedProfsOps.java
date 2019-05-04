@@ -2,10 +2,7 @@ package org.xg;
 
 import org.xg.audit.SvcAuditUtils;
 import org.xg.auth.Secured;
-import org.xg.dbModels.MCustomer;
-import org.xg.dbModels.MCustomerProfile;
-import org.xg.dbModels.MMedProf;
-import org.xg.dbModels.TDbOps;
+import org.xg.dbModels.*;
 import org.xg.json.CommonUtils;
 import org.xg.svc.AddNewCustomer;
 import org.xg.svc.CustomerPricePlan;
@@ -155,6 +152,26 @@ public class MedProfsOps {
       },
       sc,
       SvcAuditUtils.MedProf_GetCustomerPricePlans()
+    );
+  }
+
+
+  @Secured
+  @GET
+  @Path("refedCustomerOrders")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response refedCustomerOrders(@Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        MOrder[] orders = SvcUtils.getRefedCustomerOrders(sc.getUserPrincipal().getName());
+
+        return Response.ok(
+          MOrder.toJsons(orders)
+        ).build();
+      },
+      sc,
+      SvcAuditUtils.MedProf_OrdersByrefedCustomer()
     );
   }
 }

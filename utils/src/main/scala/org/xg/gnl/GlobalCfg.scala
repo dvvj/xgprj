@@ -73,7 +73,7 @@ object GlobalCfg {
   private val REWARD_PLAN_ACCESSIBLEBY = "user/rewardPlanAccessibleBy"
   private val ADD_REWARD_PLAN = "user/addRewardPlan"
   private val CUSTOMERS_REFED_BY = "prof/customers"
-  private val ORDERS_BY_REFED_CUSTOMERS = "order/refedCustomerOrders"
+  private val ORDERS_BY_REFED_CUSTOMERS = "prof/refedCustomerOrders"
   private val MEDPROFS_OF = "profOrgAgent/profs"
   private val PROFORG_AGENTS_OF = "profOrg/agents"
   private val ORDERSTATS_OF_ORG = "profOrg/orderStats4Org"

@@ -23,6 +23,7 @@ object SvcAuditUtils {
   val MedProf_NewProfileExistingCustomer:SvcAuditEntry = medProfAudit("newProfileExistingCustomer")
   val MedProf_ExistingCustomerProfiles:SvcAuditEntry = medProfAudit("existingCustomerProfiles")
   val MedProf_GetCustomerPricePlans:SvcAuditEntry = medProfAudit("getCustomerPricePlans")
+  val MedProf_OrdersByrefedCustomer:SvcAuditEntry = medProfAudit("ordersByrefedCustomer")
 
   private def customerAudit(op:String):SvcAuditEntry =
     fromUserType(UserType.Customer, op)

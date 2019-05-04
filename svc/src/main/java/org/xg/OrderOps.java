@@ -1,13 +1,12 @@
 package org.xg;
 
+import org.xg.audit.SvcAuditUtils;
 import org.xg.auth.Secured;
 import org.xg.auth.SvcHelpers;
-import org.xg.dbModels.MCustomer;
-import org.xg.dbModels.MMedProf;
-import org.xg.dbModels.TDbOps;
-import org.xg.dbModels.MOrder;
+import org.xg.dbModels.*;
 import org.xg.svc.PayOrder;
 import org.xg.svc.UserOrder;
+import org.xg.user.UserType;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -43,26 +42,6 @@ public class OrderOps {
       throw new WebApplicationException("Error", ex);
     }
   }
-
-  @Secured
-  @POST
-  @Path("refedCustomerOrders")
-  @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response refedCustomerOrders(String profId, @Context SecurityContext sc) {
-    try {
-      MOrder[] orders = SvcUtils.getRefedCustomerOrders(profId);
-
-      return Response.ok(
-        MOrder.toJsons(orders)
-      ).build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
-  }
-
 
 
   @Secured
