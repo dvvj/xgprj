@@ -227,6 +227,16 @@ trait TDbOps {
     svcAuditEx(ops, status, duration, uid, null)
   }
 
+  def svcAudit_Error(
+                       ops:String,
+                       status:Int,
+                       duration:Int,
+                       uid:String,
+                       err:String
+                     ):OpResp = {
+    svcAuditEx(ops, status, duration, uid, err)
+  }
+
   def svcAuditEx(
     ops:String,
     status:Int,

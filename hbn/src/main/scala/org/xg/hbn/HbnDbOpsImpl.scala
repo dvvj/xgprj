@@ -471,7 +471,7 @@ object HbnDbOpsImpl {
           )
 
           val auditId = sess.save(audit)
-          println(s"Audit added: $auditId")
+          //println(s"Audit added: $auditId")
 
           OpResp.Success
         }

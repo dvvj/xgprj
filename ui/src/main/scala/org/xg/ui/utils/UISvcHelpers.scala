@@ -114,13 +114,11 @@ object UISvcHelpers {
   }
 
   def updateMedProfsOf(orgAgentId:String, userToken:String):Array[MMedProf] = {
-    val j = SvcHelpers.post(
+    SvcHelpers.getDecArray(
       serverCfg.medprofsOfURL,
       userToken,
-      orgAgentId
+      MMedProf.fromJsons
     )
-
-    MMedProf.fromJsons(j)
   }
 
   def updateCustomerPassword(up:UpdatePassword, userToken:String):Unit = {

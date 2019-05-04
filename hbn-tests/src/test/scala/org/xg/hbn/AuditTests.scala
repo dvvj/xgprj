@@ -9,6 +9,6 @@ object AuditTests extends App {
 
   val audits = testHbnOps.allSvcAudit
 
-  println(audits.length)
+  println(audits.mkString("\n\n"))
 
 }

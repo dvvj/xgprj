@@ -1,16 +1,21 @@
 package org.xg;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.xg.audit.SvcAuditEntry;
 import org.xg.auth.UserDbAuthority;
 import org.xg.dbModels.*;
 import org.xg.gnl.CachedData;
 import org.xg.gnl.GlobalCfg;
 import org.xg.svc.AddNewCustomer;
 import org.xg.svc.AddNewMedProf;
+import org.xg.user.UserType;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -171,29 +176,54 @@ public class SvcUtils {
 
   public static <T> T tryOps(
     Supplier<T> producer,
+    SecurityContext sc,
+    SvcAuditEntry auditEntry
+  ) {
+    String uid = sc.getUserPrincipal().getName();
+    return tryOps(producer, uid, auditEntry.getOpStr(), auditEntry.errMsg());
+  }
+
+  public static <T> T tryOps(
+    Supplier<T> producer,
     String uid,
     String ops,
     String errorMsg
     ) {
     Long ms0 = System.currentTimeMillis();
     int auditStatus = MSvcAudit.StatusOK();
+    String errMsg = null;
     try {
       return producer.get();
     }
     catch (Exception ex) {
       auditStatus = MSvcAudit.StatusException();
-      ex.printStackTrace();
+      StringWriter errors = new StringWriter();
+      ex.printStackTrace(new PrintWriter(errors));
+      errMsg = errors.toString().substring(0, 511); // length determined by db table def
+      //System.out.println("errMsg::::::::::: " + errMsg);
       throw new WebApplicationException(errorMsg, ex);
     }
     finally {
       Long diff = System.currentTimeMillis() - ms0;
       try {
-        getDbOps().svcAudit_Status(
-          ops,
-          auditStatus,
-          diff.intValue(),
-          uid
-        );
+        if (errMsg != null) {
+          getDbOps().svcAudit_Error(
+            ops,
+            auditStatus,
+            diff.intValue(),
+            uid,
+            errMsg
+          );
+        }
+        else {
+          getDbOps().svcAudit_Status(
+            ops,
+            auditStatus,
+            diff.intValue(),
+            uid
+          );
+        }
+
         logger.info("================= Audited");
       }
       catch (Exception ex) {
