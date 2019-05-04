@@ -1,5 +1,6 @@
 package org.xg;
 
+import org.xg.audit.SvcAuditUtils;
 import org.xg.auth.AuthHelpers;
 import org.xg.auth.Secured;
 import org.xg.busiLogic.PricePlanLogics;
@@ -25,25 +26,20 @@ public class UserCfgOps {
   @Path("pricePlan")
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getPricePlan(@Context SecurityContext sc) {
-    String uid = sc.getUserPrincipal().getName();
     return SvcUtils.tryOps(
       () -> {
-        MCustomer customer = SvcUtils.getCustomers().get(uid);
+        MCustomer customer = SvcUtils.getCustomers().get(sc.getUserPrincipal().getName());
         String plansJson = PricePlanLogics.pricePlanJsonForJ(
           customer,
           PricePlanUtils.getPricePlanMaps(),
           PricePlanUtils.getPricePlans()
         );
 
-//      if (pricePlan == null)
-//        logger.info(String.format("No price plan found for user [%s]", uid));
-
         return Response.ok(plansJson)
           .build();
       },
-      uid,
-      "getUserPricePlan",
-      String.format("Error getting price plan for [%s]", uid)
+      sc,
+      SvcAuditUtils.UserCfg_GetPricePlan()
     );
   }
 
@@ -52,7 +48,6 @@ public class UserCfgOps {
   @Path("allPricePlans")
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getAllPricePlans(@Context SecurityContext sc) {
-    String uid = sc.getUserPrincipal().getName();
     return SvcUtils.tryOps(
       () -> {
         Map<String, MPricePlan> planMap = PricePlanUtils.getPricePlans();
@@ -65,31 +60,28 @@ public class UserCfgOps {
         return Response.ok(json)
           .build();
       },
-      uid,
-      "getUserPricePlan",
-      String.format("Error getting price plan for [%s]", uid)
+      sc,
+      SvcAuditUtils.UserCfg_GetAllPricePlan()
     );
   }
 
   @Secured
-  @POST
+  @GET
   @Path("pricePlanAccessibleBy")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response getPricePlanAccessibleBy(String creatorId) {
-    try {
-      MPricePlan[] pricePlans = PricePlanUtils.getPricePlansAccessibleBy(creatorId);
+  public Response getPricePlanAccessibleBy(@Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        MPricePlan[] pricePlans = PricePlanUtils.getPricePlansAccessibleBy(sc.getUserPrincipal().getName());
 
-      String j = MPricePlan.toJsons(pricePlans);
-//      if (pricePlan == null)
-//        logger.info(String.format("No price plan found for user [%s]", uid));
+        String j = MPricePlan.toJsons(pricePlans);
 
-      return Response.ok(j).build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        return Response.ok(j).build();
+      },
+      sc,
+      SvcAuditUtils.UserCfg_GetAllPricePlan()
+    );
   }
 
   @Secured

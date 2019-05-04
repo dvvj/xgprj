@@ -1,5 +1,6 @@
 package org.xg;
 
+import org.xg.audit.SvcAuditUtils;
 import org.xg.auth.Secured;
 import org.xg.dbModels.MCustomerProfile;
 import org.xg.dbModels.MMedProf;
@@ -21,28 +22,24 @@ import static org.xg.SvcUtils.*;
 public class CustomerOps {
   private final static Logger logger = Logger.getLogger(CustomerOps.class.getName());
 
-  @Secured
-  @GET
-  @Path("testAll")
-  @RolesAllowed("user")
-  @Produces(SvcUtils.MediaType_JSON_UTF8)
-  public Response allCustomers(@Context SecurityContext sc) {
-    String uid = sc.getUserPrincipal().getName();
-    return tryOps(
-      () -> {
-        TDbOps dbOps = SvcUtils.getDbOps();
-        MCustomer[] customers = dbOps.allCustomers();
-//      conn.close();
-        return Response.ok(
-          MCustomer.toJsons(customers)
-        ).build();
-      },
-      uid,
-      "get all customers",
-      "Error running 'allCustomers'"
-
-    );
-  }
+//  @Secured
+//  @GET
+//  @Path("testAll")
+//  @RolesAllowed("user")
+//  @Produces(SvcUtils.MediaType_JSON_UTF8)
+//  public Response allCustomers(@Context SecurityContext sc) {
+//    return tryOps(
+//      () -> {
+//        TDbOps dbOps = SvcUtils.getDbOps();
+//        MCustomer[] customers = dbOps.allCustomers();
+//        return Response.ok(
+//          MCustomer.toJsons(customers)
+//        ).build();
+//      },
+//      sc,
+//      SvcAuditUtils.Customer_TestAll()
+//    );
+//  }
 
   @Secured
   @GET
@@ -50,19 +47,17 @@ public class CustomerOps {
   @RolesAllowed("user")
   @Produces(SvcUtils.MediaType_JSON_UTF8)
   public Response getProfiles(@Context SecurityContext sc) {
-    String uid = sc.getUserPrincipal().getName();
     return tryOps(
       () -> {
         TDbOps dbOps = SvcUtils.getDbOps();
-        MCustomerProfile[] profiles = dbOps.getCustomerProfiles(uid);
+        MCustomerProfile[] profiles = dbOps.getCustomerProfiles(sc.getUserPrincipal().getName());
 //      conn.close();
         return Response.ok(
           MCustomerProfile.toJsons(profiles)
         ).build();
       },
-      uid,
-      "getProfiles",
-      String.format("Error getting profiles for '%s'", uid)
+      sc,
+      SvcAuditUtils.Customer_GetProfiles()
     );
   }
 
@@ -72,11 +67,10 @@ public class CustomerOps {
   @RolesAllowed("user")
   @Produces(SvcUtils.MediaType_JSON_UTF8)
   public Response referringMedProfs(@Context SecurityContext sc) {
-    String uid = sc.getUserPrincipal().getName();
     return tryOps(
       () -> {
         TDbOps dbOps = SvcUtils.getDbOps();
-        MCustomerProfile[] profiles = dbOps.getCustomerProfiles(uid);
+        MCustomerProfile[] profiles = dbOps.getCustomerProfiles(sc.getUserPrincipal().getName());
 
         String[] profIds = Arrays.stream(profiles).map(MCustomerProfile::profId).toArray(String[]::new);
         MMedProf[] res = dbOps.medprofsByIds(profIds);
@@ -85,9 +79,8 @@ public class CustomerOps {
           MMedProf.toJsons(res)
         ).build();
       },
-      uid,
-      "getProfiles",
-      String.format("Error getting profiles for '%s'", uid)
+      sc,
+      SvcAuditUtils.Customer_ReferringMedProfs()
     );
   }
 

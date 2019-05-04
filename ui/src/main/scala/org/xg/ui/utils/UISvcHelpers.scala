@@ -216,14 +216,11 @@ object UISvcHelpers {
     SvcHelpers.getDecArray(serverCfg.orgRewardPlansURL, userToken, MRewardPlan.fromJsons)
 
   def updatePricePlansOfProf(profId:String, token:String):Array[MPricePlan] = {
-    val mps = SvcHelpers.postDecArray(
+    SvcHelpers.getDecArray(
       serverCfg.pricePlanAccessibleByURL,
       token,
-      profId,
       MPricePlan.fromJsons
     )
-
-    mps
   }
 
   import collection.JavaConverters._

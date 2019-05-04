@@ -5,8 +5,9 @@ import org.xg.user.UserType.UserType
 
 object SvcAuditUtils {
 
+  import SvcAuditEntry._
   private def profOrgAgentAudit(op:String):SvcAuditEntry =
-    SvcAuditEntry(UserType.MedProfOrgAgent, op, s"$op error.")
+    fromUserType(UserType.MedProfOrgAgent, op)
 
   val ProfOrgAgent_GetProfs:SvcAuditEntry = profOrgAgentAudit("getProfs")
   val ProfOrgAgent_AddNewMedProf:SvcAuditEntry = profOrgAgentAudit("addNewMedProf")
@@ -14,7 +15,7 @@ object SvcAuditUtils {
   //val ProfOrgAgentGetProfs:SvcAuditEntry = profOrgAgentAudit("getProfs")
 
   private def medProfAudit(op:String):SvcAuditEntry =
-    SvcAuditEntry(UserType.MedProf, op, s"$op error.")
+    fromUserType(UserType.MedProf, op)
 
   val MedProf_GetCustomers:SvcAuditEntry = medProfAudit("getCustomers")
   val MedProf_FindCustomerById:SvcAuditEntry = medProfAudit("findCustomerById")
@@ -22,4 +23,15 @@ object SvcAuditUtils {
   val MedProf_NewProfileExistingCustomer:SvcAuditEntry = medProfAudit("newProfileExistingCustomer")
   val MedProf_ExistingCustomerProfiles:SvcAuditEntry = medProfAudit("existingCustomerProfiles")
   val MedProf_GetCustomerPricePlans:SvcAuditEntry = medProfAudit("getCustomerPricePlans")
+
+  private def customerAudit(op:String):SvcAuditEntry =
+    fromUserType(UserType.Customer, op)
+
+  val Customer_TestAll:SvcAuditEntry = medProfAudit("testAll")
+  val Customer_GetProfiles:SvcAuditEntry = medProfAudit("getProfiles")
+  val Customer_ReferringMedProfs:SvcAuditEntry = medProfAudit("referringMedProfs")
+
+  val UserCfg_GetPricePlan:SvcAuditEntry = userCfgAudit("getPricePlan")
+  val UserCfg_GetAllPricePlan:SvcAuditEntry = userCfgAudit("allPricePlans")
+
 }

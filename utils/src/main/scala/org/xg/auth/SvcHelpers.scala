@@ -196,8 +196,8 @@ object SvcHelpers {
     res
   }
 
-  def pricePlansBy(url:String, token:String, creatorId:String):Array[MPricePlan] = {
-    val res = post(url, token, creatorId)
+  def pricePlansBy(url:String, token:String):Array[MPricePlan] = {
+    val res = get(url, token)
     MPricePlan.fromJsons(res)
   }
 
