@@ -6,12 +6,12 @@ import org.xg.dbModels.MCustomerProfile;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.TDbOps;
 import org.xg.dbModels.MCustomer;
+import org.xg.svc.UserOrder;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.Arrays;
@@ -84,4 +84,36 @@ public class CustomerOps {
     );
   }
 
+
+  @Secured
+  @PUT
+  @Path("placeOrder")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response placeOrder(String orderJson, @Context SecurityContext sc) {
+    UserOrder userOrder = UserOrder.fromJson(orderJson);
+    return tryOps(
+      () -> {
+        TDbOps dbOps = SvcUtils.getDbOps();
+        //String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
+        MCustomer customer = SvcUtils.getCustomers().get(userOrder.uid());
+        MMedProf prof = SvcUtils.getMedProfs().get(customer.refUid());
+        String profOrgAgentId = SvcUtils.getProfOrgAgent(prof.profId()).orgAgentId();
+
+        Long orderId = dbOps.placeOrder(
+          userOrder.uid(), customer.refUid(),
+          profOrgAgentId, userOrder.productId(), userOrder.qty(), userOrder.actualCost()
+        );
+
+        String msg = String.format("Created Order (id: %d)", orderId);
+        logger.info(msg);
+
+        return Response.status(Response.Status.CREATED)
+          .entity(orderId)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.Customer_PlaceOrder()
+    );
+  }
 }

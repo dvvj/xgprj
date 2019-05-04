@@ -61,7 +61,7 @@ object GlobalCfg {
   private val CUSTOMER_PROFILES = "customer/profiles"
   private val CUSTOMER_PROFS = "customer/referringMedProfs"
   private val CURR_ORDERS = "order/currUser"
-  private val PLACE_ORDER = "order/placeOrder"
+  private val PLACE_ORDER = "customer/placeOrder"
   private val PAY_ORDER = "order/payOrder"
   private val CANCEL_ORDER = "order/cancelOrder"
   private val ALLPRODUCTS = "product/all"

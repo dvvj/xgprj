@@ -28,9 +28,10 @@ object SvcAuditUtils {
   private def customerAudit(op:String):SvcAuditEntry =
     fromUserType(UserType.Customer, op)
 
-  val Customer_TestAll:SvcAuditEntry = medProfAudit("testAll")
-  val Customer_GetProfiles:SvcAuditEntry = medProfAudit("getProfiles")
-  val Customer_ReferringMedProfs:SvcAuditEntry = medProfAudit("referringMedProfs")
+  val Customer_TestAll:SvcAuditEntry = customerAudit("testAll")
+  val Customer_GetProfiles:SvcAuditEntry = customerAudit("getProfiles")
+  val Customer_ReferringMedProfs:SvcAuditEntry = customerAudit("referringMedProfs")
+  val Customer_PlaceOrder:SvcAuditEntry = customerAudit("placeOrder")
 
   val UserCfg_GetPricePlan:SvcAuditEntry = userCfgAudit("getPricePlan")
   val UserCfg_GetAllPricePlan:SvcAuditEntry = userCfgAudit("allPricePlans")

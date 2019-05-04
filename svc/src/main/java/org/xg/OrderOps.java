@@ -44,38 +44,6 @@ public class OrderOps {
   }
 
 
-  @Secured
-  @PUT
-  @Path("placeOrder")
-  @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response placeOrder(String orderJson, @Context SecurityContext sc) {
-    UserOrder userOrder = UserOrder.fromJson(orderJson);
-    try {
-      TDbOps dbOps = SvcUtils.getDbOps();
-      //String uid = sc.getUserPrincipal().getName(); //userOrder.uid();
-      MCustomer customer = SvcUtils.getCustomers().get(userOrder.uid());
-      MMedProf prof = SvcUtils.getMedProfs().get(customer.refUid());
-      String profOrgAgentId = SvcUtils.getProfOrgAgent(prof.profId()).orgAgentId();
-
-      Long orderId = dbOps.placeOrder(
-        userOrder.uid(), customer.refUid(),
-        profOrgAgentId, userOrder.productId(), userOrder.qty(), userOrder.actualCost()
-      );
-
-      String msg = String.format("Created Order (id: %d)", orderId);
-      logger.info(msg);
-
-      return Response.status(Response.Status.CREATED)
-        .entity(orderId)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
-  }
-
 //  @Secured
 //  @POST
 //  @Path("payOrder")
