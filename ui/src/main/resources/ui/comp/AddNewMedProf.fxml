@@ -11,22 +11,25 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      spacing="10"
-      fx:controller="org.xg.ui.comp.AddNewMedProfCtrl">
-    <padding>
-        <Insets top="20" left="20" right="20" bottom="20" />
-    </padding>
-    <JFXTextField fx:id="tfUid" text="prof200" promptText="%addMedProf.uid.prompt"/>
-    <JFXTextField fx:id="tfName" text="test1" promptText="%addMedProf.name.prompt"/>
-    <JFXTextField fx:id="tfIdCardNo" text="cardno200" promptText="%addMedProf.idCardNo.prompt"/>
-    <JFXTextField fx:id="tfMobile" text="12342134" promptText="%addMedProf.mobile.prompt"/>
-    <JFXPasswordField fx:id="pfNew" text="123" promptText="%addMedProf.newPassowrd.prompt" />
-    <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addMedProf.repeatPassowrd.prompt" />
-    <HBox spacing="10">
-        <JFXComboBox fx:id="cmboRewardPlanType" promptText="%addMedProf.rewardPlanType.prompt" />
-        <JFXButton text="%addMedProf.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
-    </HBox>
+<StackPane xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:id="containerAddNewMedProf"
+    fx:controller="org.xg.ui.comp.AddNewMedProfCtrl">
+    <VBox spacing="10">
+        <padding>
+            <Insets top="20" left="20" right="20" bottom="20" />
+        </padding>
+        <JFXTextField fx:id="tfUid" text="prof200" promptText="%addMedProf.uid.prompt"/>
+        <JFXTextField fx:id="tfName" text="test1" promptText="%addMedProf.name.prompt"/>
+        <JFXTextField fx:id="tfIdCardNo" text="cardno200" promptText="%addMedProf.idCardNo.prompt"/>
+        <JFXTextField fx:id="tfMobile" text="12342134" promptText="%addMedProf.mobile.prompt"/>
+        <JFXPasswordField fx:id="pfNew" text="123" promptText="%addMedProf.newPassowrd.prompt" />
+        <JFXPasswordField fx:id="pfNew2" text="123" promptText="%addMedProf.repeatPassowrd.prompt" />
+        <HBox spacing="10">
+            <JFXComboBox fx:id="cmboRewardPlanType" promptText="%addMedProf.rewardPlanType.prompt" />
+            <JFXButton text="%addMedProf.doAdd" fx:id="btnAdd" onAction="#onAdd" styleClass="button-raised" />
+        </HBox>
+    </VBox>
 
-</VBox>
+
+</StackPane>

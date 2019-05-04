@@ -7,9 +7,11 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 import org.xg.dbModels.MMedProf;
 import org.xg.dbModels.MRewardPlan;
 import org.xg.dbModels.MRewardPlanMap;
+import org.xg.dbModels.OpResp;
 import org.xg.gnl.DataUtils;
 import org.xg.svc.AddNewMedProf;
 import org.xg.ui.model.RewardPlanOption;
@@ -33,6 +35,9 @@ public class AddNewMedProfCtrl {
   @FXML
   JFXComboBox<RewardPlanOption> cmboRewardPlanType;
 
+  @FXML
+  StackPane containerAddNewMedProf;
+
   public void onAdd() {
     RewardPlanOption rewardPlanOption = cmboRewardPlanType.getSelectionModel().getSelectedItem();
     String uid = UserType.MedProf().genUid(tfUid.getText().trim());
@@ -45,7 +50,7 @@ public class AddNewMedProfCtrl {
       pfNew.getText(),
       rpm
     );
-    UISvcHelpers.addNewMedProf(mp);
+    UISvcHelpers.addNewMedProf(mp, containerAddNewMedProf);
   }
 
   private Runnable newMedProfCallback;

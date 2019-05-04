@@ -363,7 +363,7 @@ public class ProfOrgAgentsMain {
   private void loadAddNewProfsTab() throws Exception {
     URL path = UiLoginController.class.getResource("/ui/comp/AddNewMedProf.fxml");
     FXMLLoader addNewProfLoader = new FXMLLoader(path, Global.AllRes);
-    VBox addNewProf = addNewProfLoader.load();
+    StackPane addNewProf = addNewProfLoader.load();
     AddNewMedProfCtrl ctrl = addNewProfLoader.getController();
     ctrl.setup(
       dataModel.getRewardPlanOptions(),

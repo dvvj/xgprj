@@ -1,5 +1,6 @@
 package org.xg.ui.utils;
 
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -10,10 +11,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.xg.ui.UiLoginController;
+import org.xg.ui.comp.ErrorMessageCtrl;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class UIHelpers {
@@ -65,5 +70,26 @@ public class UIHelpers {
       Global.loggingTodo("failed to load FXML from: " + fxmlPath);
       throw new RuntimeException(ex);
     }
+  }
+
+  public static void errorDialog(String errMsg, StackPane container) {
+    FXMLLoader errMsgLoader = new FXMLLoader(
+      UiLoginController.class.getResource("/ui/comp/dialogs/ErrorMessage.fxml"),
+      Global.AllRes
+    );
+
+    try {
+      JFXDialog dialog = new JFXDialog();
+      Pane content = errMsgLoader.load();
+      ErrorMessageCtrl ctrl = errMsgLoader.getController();
+      ctrl.setErrorMsg(errMsg);
+      dialog.setContent(content);
+      dialog.show(container);
+    }
+    catch (IOException ex) {
+      ex.printStackTrace();
+      Global.loggingTodo("error creating error dialog: " + ex.getMessage());
+    }
+
   }
 }

@@ -1,6 +1,7 @@
 package org.xg.ui.utils
 
 import javafx.collections.{FXCollections, ObservableList}
+import javafx.scene.layout.StackPane
 import org.xg.auth.SvcHelpers
 import org.xg.busiLogic.PricePlanLogics
 import org.xg.dbModels.MCustomerProfile.ProfileDetailV1_00
@@ -10,6 +11,7 @@ import org.xg.json.CommonUtils
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
 import org.xg.svc.{AddNewCustomer, AddNewMedProf, CustomerPricePlan, UpdatePassword}
+import org.xg.ui.error.SvcException
 import org.xg.uiModels.Order
 
 object UISvcHelpers {
@@ -40,7 +42,7 @@ object UISvcHelpers {
     }
   }
 
-  def trySvc[T](
+  def trySvcT[T](
     action:() => T
   ):T = {
     try {
@@ -54,19 +56,45 @@ object UISvcHelpers {
     }
   }
 
-  def addNewMedProf(mp:AddNewMedProf):Boolean = {
-    trySvcTF { () =>
-      SvcHelpers.post(
-        serverCfg.addNewMedProfURL,
-        Global.getCurrToken,
-        AddNewMedProf.toJson(mp)
-      )
-      true
+  def trySvc(
+    action:() => OpResp,
+    dlgContainer: StackPane
+  ):Unit = {
+    var opResp:OpResp = null
+    try {
+      opResp = action()
+    }
+    catch {
+      case t:Throwable => {
+        Global.loggingTodo(s"Error adding new med prof: ${t.getMessage}")
+        throw t
+      }
+    }
+
+    if (!opResp.success) {
+      UIHelpers.errorDialog(opResp.errMsgJ, dlgContainer)
     }
   }
 
+  def handleOpResp(resp:OpResp):Unit = {
+    if (!resp.success) {
+      throw SvcException.create(resp.errMsgJ)
+    }
+  }
+
+  def addNewMedProf(mp:AddNewMedProf, dlgContainer: StackPane):Unit = {
+    trySvc( () =>
+      SvcHelpers.postCheckStatus(
+        serverCfg.addNewMedProfURL,
+        Global.getCurrToken,
+        AddNewMedProf.toJson(mp)
+      ),
+      dlgContainer
+    )
+  }
+
   def addNewCustomer(nc:AddNewCustomer):OpResp = {
-    trySvc { () =>
+    trySvcT { () =>
       val res = SvcHelpers.postCheckStatus(
         serverCfg.addNewCustomerURL,
         Global.getCurrToken,
@@ -93,7 +121,7 @@ object UISvcHelpers {
   }
 
   def findCustomerById(customerId:String):MCustomer = {
-    trySvc { () =>
+    trySvcT { () =>
       val j = SvcHelpers.post(
         serverCfg.customerByIdURL,
         Global.getCurrToken,
