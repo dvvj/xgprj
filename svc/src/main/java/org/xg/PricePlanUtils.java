@@ -52,8 +52,8 @@ public class PricePlanUtils {
   }
   // ========================
 
-  public static CustomerPricePlan[] getPricePlanMap4Agent(String agentId) {
-    MCustomer[] customers = SvcUtils.getCustomersRefedBy(agentId);
+  public static CustomerPricePlan[] getPricePlanMap4Agent(String profId) {
+    MCustomer[] customers = SvcUtils.getCustomersRefedBy(profId);
     Set<String> customerIds = new HashSet<>(customers.length);
     for (int i = 0; i < customers.length; i++) {
       customerIds.add(customers[i].uid());

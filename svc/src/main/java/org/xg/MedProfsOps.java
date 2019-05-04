@@ -1,5 +1,6 @@
 package org.xg;
 
+import org.xg.audit.SvcAuditUtils;
 import org.xg.auth.Secured;
 import org.xg.dbModels.MCustomer;
 import org.xg.dbModels.MCustomerProfile;
@@ -23,23 +24,22 @@ public class MedProfsOps {
   private final static Logger logger = Logger.getLogger(MedProfsOps.class.getName());
 
   @Secured
-  @POST
+  @GET
   @Path("customers")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response getCustomers(String profId) {
-    try {
-      //MMedProf prof = SvcUtils.getMedProfs().get(profId);
-      MCustomer[] customers = SvcUtils.getCustomersRefedBy(profId);
-      String j = MCustomer.toJsons(customers);
+  public Response getCustomers(@Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        MCustomer[] customers = SvcUtils.getCustomersRefedBy(sc.getUserPrincipal().getName());
+        String j = MCustomer.toJsons(customers);
 
-      return Response.ok(j)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        return Response.ok(j)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.MedProf_GetCustomers()
+    );
   }
 
   @Secured
@@ -48,19 +48,18 @@ public class MedProfsOps {
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response findCustomerById(String customerId, @Context SecurityContext sc) {
-    try {
-      //MMedProf prof = SvcUtils.getMedProfs().get(profId);
-      String cid = UserType.Customer().genUid(customerId);
-      MCustomer customer = SvcUtils.getCustomerById(cid);
-      String j = (customer != null) ? MCustomer.toJson(customer) : "";
+    return SvcUtils.tryOps(
+      () -> {
+        String cid = UserType.Customer().genUid(customerId);
+        MCustomer customer = SvcUtils.getCustomerById(cid);
+        String j = (customer != null) ? MCustomer.toJson(customer) : "";
 
-      return Response.ok(j)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        return Response.ok(j)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.MedProf_FindCustomerById()
+    );
   }
 
   @Secured
@@ -68,35 +67,34 @@ public class MedProfsOps {
   @Path("newCustomer")
   @Consumes(SvcUtils.MediaType_TXT_UTF8)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response newCustomer(String newCustomerJson) {
-    try {
-      //MMedProf prof = SvcUtils.getMedProfs().get(profId);
-      AddNewCustomer addNewCustomer = AddNewCustomer.fromJson(newCustomerJson);
+  public Response newCustomer(String newCustomerJson, @Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        AddNewCustomer addNewCustomer = AddNewCustomer.fromJson(newCustomerJson);
 
-      SvcUtils.addNewCustomer(addNewCustomer);
-      logger.info(
-        String.format("New customer added: id [%s], name [%s]",
-          addNewCustomer.customer().uid(),
-          addNewCustomer.customer().name()
-        )
-      );
-
-      if (addNewCustomer.ppm() != null) {
-        PricePlanUtils.addPricePlanMap(addNewCustomer.ppm());
+        SvcUtils.addNewCustomer(addNewCustomer);
         logger.info(
-          String.format("Price plan mapped: ids [%s]",
-            addNewCustomer.ppm().planIdStr()
+          String.format("New customer added: id [%s], name [%s]",
+            addNewCustomer.customer().uid(),
+            addNewCustomer.customer().name()
           )
         );
-      }
 
-      return Response.status(Response.Status.CREATED)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        if (addNewCustomer.ppm() != null) {
+          PricePlanUtils.addPricePlanMap(addNewCustomer.ppm());
+          logger.info(
+            String.format("Price plan mapped: ids [%s]",
+              addNewCustomer.ppm().planIdStr()
+            )
+          );
+        }
+
+        return Response.status(Response.Status.CREATED)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.MedProf_NewCustomer()
+    );
   }
 
   @Secured
@@ -105,7 +103,7 @@ public class MedProfsOps {
   @Consumes(SvcUtils.MediaType_TXT_UTF8)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response newProfileExistingCustomer(String newProfileExistingCustomerJson, @Context SecurityContext sc) {
-    String profId = sc.getUserPrincipal().getName();
+//    String profId = sc.getUserPrincipal().getName();
 
     return SvcUtils.tryOps(
       () -> {
@@ -115,9 +113,8 @@ public class MedProfsOps {
         );
         return Response.ok(newProfileId).build();
       },
-      profId,
-      "newProfileExistingCustomer",
-      "Error newProfileExistingCustomer"
+      sc,
+      SvcAuditUtils.MedProf_NewProfileExistingCustomer()
     );
   }
 
@@ -128,11 +125,6 @@ public class MedProfsOps {
   @Consumes(SvcUtils.MediaType_TXT_UTF8)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response existingCustomerProfiles(String customerId, @Context SecurityContext sc) {
-    String profId = sc.getUserPrincipal().getName();
-//    logger.warning(
-//      String.format("querying customer profiles: %s, %s", customerId, profId)
-//    );
-
     return SvcUtils.tryOps(
       () -> {
         TDbOps dbOps = SvcUtils.getDbOps();
@@ -143,29 +135,26 @@ public class MedProfsOps {
           MCustomerProfile.toJsons(profiles)
         ).build();
       },
-      profId,
-      "existingCustomerProfiles",
-      "existingCustomerProfiles"
+      sc,
+      SvcAuditUtils.MedProf_ExistingCustomerProfiles()
     );
   }
 
   @Secured
-  @POST
+  @GET
   @Path("customerPricePlans")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response getCustomerPricePlans(String agentId, @Context SecurityContext sc) {
-    String profId = sc.getUserPrincipal().getName();
+  public Response getCustomerPricePlans(@Context SecurityContext sc) {
     return SvcUtils.tryOps(
       () -> {
-        CustomerPricePlan[] res = PricePlanUtils.getPricePlanMap4Agent(agentId);
+        CustomerPricePlan[] res = PricePlanUtils.getPricePlanMap4Agent(sc.getUserPrincipal().getName());
         String j = CustomerPricePlan.toJsons(res);
 
         return Response.ok(j).build();
       },
-      profId,
-      "getCustomerPricePlans",
-      "Failed to get CustomerPricePlans"
+      sc,
+      SvcAuditUtils.MedProf_GetCustomerPricePlans()
     );
   }
 }

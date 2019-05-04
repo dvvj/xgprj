@@ -132,13 +132,11 @@ object UISvcHelpers {
     }
   }
   def updateAllRefedCustomers(profId:String, userToken:String):Array[MCustomer] = {
-    val j = SvcHelpers.post(
+    SvcHelpers.getDecArray(
       serverCfg.customersRefedByURL,
       userToken,
-      profId
+      MCustomer.fromJsons
     )
-
-    MCustomer.fromJsons(j)
   }
 
   def updateMedProfsOf(orgAgentId:String, userToken:String):Array[MMedProf] = {
@@ -230,10 +228,9 @@ object UISvcHelpers {
 
   import collection.JavaConverters._
   def updatePricePlans4Customers(profId:String, token:String):java.util.Map[String, MPricePlan] = {
-    val cps = SvcHelpers.postDecArray(
+    val cps = SvcHelpers.getDecArray(
       serverCfg.customerPricePlansURL,
       token,
-      profId,
       CustomerPricePlan.fromJsons
     )
 
