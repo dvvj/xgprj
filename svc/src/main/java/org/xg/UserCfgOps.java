@@ -85,53 +85,65 @@ public class UserCfgOps {
   }
 
   @Secured
-  @POST
-  @Path("addPricePlan")
-  @Consumes(MediaType.TEXT_PLAIN)
-  @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response addPricePlan(String json) {
-    try {
-      MPricePlan plan = MPricePlan.fromJson(json);
-      TDbOps dbOps = SvcUtils.getDbOps();
-
-      String planId = dbOps.addPricePlan(plan);
-
-      PricePlanUtils.updatePricePlans();
-
-      return Response.status(Response.Status.CREATED)
-        .entity(planId)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+  @GET
+  @Path("allProducts")
+  @Produces(SvcUtils.MediaType_JSON_UTF8)
+  public Response allProducts(@Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        TDbOps dbOps = SvcUtils.getDbOps();
+        MProduct[] allProducts = dbOps.allProducts();
+        String res = MProduct.toJsons(allProducts);
+        return Response.ok(res).build();
+      },
+      sc,
+      SvcAuditUtils.UserCfg_AllProducts()
+    );
   }
 
   @Secured
   @POST
+  @Path("addPricePlan")
+  @Consumes(MediaType.TEXT_PLAIN)
+  @Produces(SvcUtils.MediaType_TXT_UTF8)
+  public Response addPricePlan(String json, @Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        MPricePlan plan = MPricePlan.fromJson(json);
+        TDbOps dbOps = SvcUtils.getDbOps();
+        String planId = dbOps.addPricePlan(plan);
+        PricePlanUtils.updatePricePlans();
+        return Response.status(Response.Status.CREATED)
+          .entity(planId)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.UserCfg_AddPricePlan()
+    );
+
+  }
+
+  @Secured
+  @GET
   @Path("rewardPlan")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response getRewardPlan(String uid) {
-    try {
-      //MMedProf prof = SvcUtils.getMedProfs().get(uid);
-      String plansJson = RewardPlanLogics.rewardPlanJsonForJ(
-        uid,
-        RewardPlanUtils.getRewardPlanMaps(),
-        RewardPlanUtils.getRewardPlans()
-      );
+  public Response getRewardPlan(@Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        String plansJson = RewardPlanLogics.rewardPlanJsonForJ(
+          sc.getUserPrincipal().getName(),
+          RewardPlanUtils.getRewardPlanMaps(),
+          RewardPlanUtils.getRewardPlans()
+        );
 
-//      if (pricePlan == null)
-//        logger.info(String.format("No price plan found for user [%s]", uid));
+        return Response.ok(plansJson)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.UserCfg_AddPricePlan()
+    );
 
-      return Response.ok(plansJson)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
   }
 
   @Secured
@@ -139,23 +151,24 @@ public class UserCfgOps {
   @Path("addRewardPlan")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response addRewardPlan(String json) {
-    try {
-      MRewardPlan plan = MRewardPlan.fromJson(json);
-      TDbOps dbOps = SvcUtils.getDbOps();
+  public Response addRewardPlan(String json, @Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        MRewardPlan plan = MRewardPlan.fromJson(json);
+        TDbOps dbOps = SvcUtils.getDbOps();
 
-      String planId = dbOps.addRewardPlan(plan);
+        String planId = dbOps.addRewardPlan(plan);
 
-      RewardPlanUtils.updateRewardPlans();
+        RewardPlanUtils.updateRewardPlans();
 
-      return Response.status(Response.Status.CREATED)
-        .entity(planId)
-        .build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        return Response.status(Response.Status.CREATED)
+          .entity(planId)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.UserCfg_AddRewardPlan()
+    );
+
   }
 
 

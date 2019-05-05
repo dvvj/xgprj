@@ -37,5 +37,17 @@ object SvcAuditUtils {
 
   val UserCfg_GetPricePlan:SvcAuditEntry = userCfgAudit("getPricePlan")
   val UserCfg_GetAllPricePlan:SvcAuditEntry = userCfgAudit("allPricePlans")
+  val UserCfg_AllProducts:SvcAuditEntry = userCfgAudit("allProducts")
+  val UserCfg_AddPricePlan:SvcAuditEntry = userCfgAudit("addPricePlan")
+  val UserCfg_GetRewardPlan:SvcAuditEntry = userCfgAudit("getRewardPlan")
+  val UserCfg_AddRewardPlan:SvcAuditEntry = userCfgAudit("addRewardPlan")
+
+  private def profOrgAudit(op:String):SvcAuditEntry =
+    fromUserType(UserType.MedProfOrg, op)
+
+  val ProfOrg_GetAgents:SvcAuditEntry = profOrgAudit("getAgents")
+  val ProfOrg_AgentRewardPlans:SvcAuditEntry = profOrgAudit("agentRewardPlans")
+  val ProfOrg_RewardPlans:SvcAuditEntry = profOrgAudit("rewardPlans")
+  val ProfOrg_OrderStats4Org:SvcAuditEntry = profOrgAudit("orderStats4Org")
 
 }

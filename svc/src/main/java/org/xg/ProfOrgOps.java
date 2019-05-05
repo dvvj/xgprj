@@ -1,5 +1,6 @@
 package org.xg;
 
+import org.xg.audit.SvcAuditUtils;
 import org.xg.auth.Secured;
 import org.xg.dbModels.*;
 
@@ -22,18 +23,16 @@ public class ProfOrgOps {
   @Path("agents")
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getAgentsOf(@Context SecurityContext sc) {
-    String orgId = sc.getUserPrincipal().getName();
     return SvcUtils.tryOps(
       () -> {
-        MProfOrgAgent[] agents = SvcUtils.getProfOrgAgentsOf(orgId);
+        MProfOrgAgent[] agents = SvcUtils.getProfOrgAgentsOf(sc.getUserPrincipal().getName());
         String j = MProfOrgAgent.toJsons(agents);
 
         return Response.ok(j)
           .build();
       },
-      orgId,
-      "getAgentsOf",
-      String.format("Error getting agents of [%s]", orgId)
+      sc,
+      SvcAuditUtils.ProfOrg_GetAgents()
     );
   }
 
@@ -45,21 +44,18 @@ public class ProfOrgOps {
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getAgentRewardPlansOf(@Context SecurityContext sc) {
-    String orgId = sc.getUserPrincipal().getName();
-    try {
-//      MProfOrgAgent[] agents = SvcUtils.getProfOrgAgentsOf(orgId);
-//      String j = MProfOrgAgent.toJsons(agents);
-      MRewardPlanMap[] rewardPlanMaps = SvcUtils.getDbOps().allRewardPlanMaps();
-      String j = MRewardPlanMap.toJsons(rewardPlanMaps);
 
-      return Response.ok(j)
-        .build();
-    }
-    catch (Exception ex) {
-      logger.warning("Error getting agents: " + ex.getMessage());
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+    return SvcUtils.tryOps(
+      () -> {
+        MRewardPlanMap[] rewardPlanMaps = SvcUtils.getDbOps().allRewardPlanMaps();
+        String j = MRewardPlanMap.toJsons(rewardPlanMaps);
+
+        return Response.ok(j)
+          .build();
+      },
+      sc,
+      SvcAuditUtils.ProfOrg_AgentRewardPlans()
+    );
   }
 
   @Secured
@@ -69,7 +65,6 @@ public class ProfOrgOps {
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getRewardPlansOf(@Context SecurityContext sc) {
-    String orgId = sc.getUserPrincipal().getName();
     return SvcUtils.tryOps(
       () -> {
         TDbOps dbOps = SvcUtils.getDbOps();
@@ -80,10 +75,10 @@ public class ProfOrgOps {
         return Response.ok(j)
           .build();
       },
-      orgId,
-      "rewardPlans",
-      String.format("Error getting reward plans for [%s]", orgId)
+      sc,
+      SvcAuditUtils.ProfOrg_RewardPlans()
     );
+
   }
 
 
@@ -94,37 +89,19 @@ public class ProfOrgOps {
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response getOrderStats(@Context SecurityContext sc) {
-    String orgId = sc.getUserPrincipal().getName();
     return SvcUtils.tryOps(
       () -> {
         TDbOps dbOps = SvcUtils.getDbOps();
 
-        MOrgOrderStat[] orderStats = dbOps.orderStatsOfOrg(orgId);
+        MOrgOrderStat[] orderStats = dbOps.orderStatsOfOrg(sc.getUserPrincipal().getName());
         String j = MOrgOrderStat.toJsons(orderStats);
 
         return Response.ok(j)
           .build();
       },
-      orgId,
-      "orderStats4Org",
-      String.format(
-        "Error getting orderStats for org [%s]", orgId
-      )
+      sc,
+      SvcAuditUtils.ProfOrg_OrderStats4Org()
     );
-//    try {
-//      TDbOps dbOps = SvcUtils.getDbOps();
-//
-//      MOrgOrderStat[] orderStats = dbOps.orderStatsOfOrg(orgId);
-//      String j = MOrgOrderStat.toJsons(orderStats);
-//
-//      return Response.ok(j)
-//        .build();
-//    }
-//    catch (Exception ex) {
-//      logger.warning("Error getting orderStats: " + ex.getMessage());
-//      ex.printStackTrace();
-//      throw new WebApplicationException("Error", ex);
-//    }
   }
 
 }

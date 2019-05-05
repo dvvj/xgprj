@@ -64,7 +64,7 @@ object GlobalCfg {
   private val PLACE_ORDER = "customer/placeOrder"
   private val PAY_ORDER = "order/payOrder"
   private val CANCEL_ORDER = "customer/cancelOrder"
-  private val ALLPRODUCTS = "product/all"
+  private val ALLPRODUCTS = "user/allProducts"
   private val IMAGE_ASSET = "asset/img"
   private val PRICE_PLAN = "user/pricePlan"
   private val ALL_PRICE_PLANS = "user/allPricePlans"
