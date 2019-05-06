@@ -1,6 +1,7 @@
 package org.xg;
 
 import org.xg.alipay.NotifyUtils;
+import org.xg.audit.SvcAuditUtils;
 import org.xg.auth.UserDbAuthority;
 
 import javax.ws.rs.*;
@@ -28,9 +29,7 @@ public class PaymentOps {
         logger.info("Successfully processed notification: " + notifyContent);
         return Response.ok().build();
       },
-      null,
-      "alipayNotify",
-      "Failed to processing notification: " + notifyContent
+      SvcAuditUtils.Alipay_Notify()
     );
   }
 
@@ -51,8 +50,14 @@ public class PaymentOps {
 //        );
 //      }
 //    );
-    return Response.ok(
-      String.format(NotifyUtils.returnMsgTemplate(), totalAmount)
-    ).build();
+    return SvcUtils.tryOps(
+      () -> {
+        return Response.ok(
+          String.format(NotifyUtils.returnMsgTemplate(), totalAmount)
+        ).build();
+      },
+      SvcAuditUtils.Alipay_Return()
+    );
+
   }
 }

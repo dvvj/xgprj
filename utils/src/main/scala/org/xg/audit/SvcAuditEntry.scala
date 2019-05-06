@@ -12,4 +12,7 @@ object SvcAuditEntry {
 
   private val userCfg = "UserCfg"
   def userCfgAudit(op:String):SvcAuditEntry = SvcAuditEntry(userCfg, op, s"$op error.")
+
+  private val alipay = "Alipay"
+  def alipayAudit(op:String):SvcAuditEntry = SvcAuditEntry(alipay, op, s"$op error.")
 }

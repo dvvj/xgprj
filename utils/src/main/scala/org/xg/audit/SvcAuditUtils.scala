@@ -52,4 +52,7 @@ object SvcAuditUtils {
   val ProfOrg_RewardPlans:SvcAuditEntry = profOrgAudit("rewardPlans")
   val ProfOrg_OrderStats4Org:SvcAuditEntry = profOrgAudit("orderStats4Org")
 
+  val Alipay_Notify:SvcAuditEntry = alipayAudit("alipayNotify")
+  val Alipay_Return:SvcAuditEntry = alipayAudit("alipayReturn")
+
 }

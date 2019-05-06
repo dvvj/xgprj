@@ -60,7 +60,8 @@ object NotifyUtils {
     println(res.size)
   }
 
-  val returnMsgTemplate =
+  val returnPageId:String = "c0ced014-142b-410b-bb6d-8bea90306fa1"
+  val returnMsgTemplate:String =
     """
       |<!doctype html>
       |
@@ -72,6 +73,7 @@ object NotifyUtils {
       |
       |<body>
       |  <h5>付款成功 （共计：%s元），请关闭本窗口</h5>
+      |  <div id="c0ced014-142b-410b-bb6d-8bea90306fa1" style="display: none;"></div>
       |</body>
       |</html>
     """.stripMargin

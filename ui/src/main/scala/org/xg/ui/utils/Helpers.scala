@@ -5,6 +5,8 @@ import java.util.function.Supplier
 
 import javafx.application.Platform
 import javafx.concurrent.Task
+import javafx.scene.web.WebView
+import org.xg.alipay.NotifyUtils
 import org.xg.dbModels._
 import org.xg.pay.pricePlan.TPricePlan
 import org.xg.pay.rewardPlan.TRewardPlan
@@ -13,6 +15,7 @@ import org.xg.uiModels
 import org.xg.uiModels._
 
 import scala.concurrent.{Await, Future}
+import scala.util.{Failure, Success}
 
 object Helpers {
   def convProducts(mps:Array[MProduct]):Array[UIProduct] = {
@@ -136,6 +139,42 @@ object Helpers {
         throw new RuntimeException("Other error", t)
       }
     }
+  }
+
+  def monitorAlipayReturn(
+                         supplier:Supplier[Boolean],
+                           timeoutSec:Int
+                         ):Boolean = {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    import scala.concurrent.duration._
+
+    val f = Future {
+      val interval = 2000
+      var trials = timeoutSec*1000 / interval + 1
+      var found = false
+      while (!found && trials > 0) {
+        Thread.sleep(500)
+        found = supplier.get()
+//        if (wvAlipay.getEngine.getDocument != null) {
+//          val returnPageDiv = wvAlipay.getEngine.getDocument.getElementById(NotifyUtils.returnPageId)
+//          println(returnPageDiv)
+//          if (returnPageDiv != null)
+//            found = true
+//        }
+        println(s"$trials: $found")
+        trials = trials - 1
+      }
+      println(s"monitor result: $found")
+      if (!found)
+        throw new TimeoutException()
+      found
+    }
+
+    f.onComplete{
+      case Success(v) => v
+      case Failure(ex) => throw new RuntimeException(ex)
+    }
+    true
   }
 
   import collection.JavaConverters._

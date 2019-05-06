@@ -183,6 +183,13 @@ public class SvcUtils {
     return tryOps(producer, uid, auditEntry.getOpStr(), auditEntry.errMsg());
   }
 
+  public static <T> T tryOps(
+    Supplier<T> producer,
+    SvcAuditEntry auditEntry
+  ) {
+    return tryOps(producer, null, auditEntry.getOpStr(), auditEntry.errMsg());
+  }
+
   private final static int MaxExceptionMsgLength = 8000;
 
   public static <T> T tryOps(
