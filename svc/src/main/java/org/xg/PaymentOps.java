@@ -43,6 +43,7 @@ public class PaymentOps {
   ) {
     logger.warning("=================================== alipayReturn:");
     logger.warning("outTradeNo: " + outTradeNo);
+    long orderId = NotifyUtils.parseOutTraceOrderNo_OrderId(outTradeNo);
 //    return SvcUtils.tryOps(
 //      () -> {
 //        NotifyUtils.parseNotifyResultAndSave2Db(
@@ -53,7 +54,7 @@ public class PaymentOps {
     return SvcUtils.tryOps(
       () -> {
         return Response.ok(
-          String.format(NotifyUtils.returnMsgTemplate(), totalAmount)
+          String.format(NotifyUtils.returnMsgTemplate(), totalAmount, orderId)
         ).build();
       },
       SvcAuditUtils.Alipay_Return()

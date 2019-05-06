@@ -27,6 +27,15 @@ object NotifyUtils {
   private val OutTradeParamName = "out_trade_no"
   private val OutTradeParamValuePfx = "OutTradeNo"
   def genOutTradeNo(orderId:Long, timeStr:String):String = s"$OutTradeParamValuePfx$orderId-$timeStr"
+  def parseOutTraceOrderNo(otn:String):(Long, String) = {
+    val parts = otn.split("-")
+    val orderId = parts(0).substring(OutTradeParamValuePfx.length).toLong
+    val dt = parts(1)
+    orderId -> dt
+  }
+  def parseOutTraceOrderNo_OrderId(otn:String):Long = {
+    parseOutTraceOrderNo(otn)._1
+  }
   def parseNotifyResultAndSave2Db(urlEncoded:String, dbOps:TDbOps):Unit = {
     val params = parseNotifyResult(urlEncoded)
 
@@ -34,8 +43,7 @@ object NotifyUtils {
       try {
         val outTraceNo = params(OutTradeParamName)
         val parts = outTraceNo.split("-")
-        val orderId = parts(0).substring(OutTradeParamValuePfx.length).toLong
-        val dt = parts(1)
+        val (orderId, dt) = parseOutTraceOrderNo(outTraceNo)
         dbOps.saveAlipayNotifyRawAndPayOrder(urlEncoded, orderId, dt)
       }
       catch {
@@ -73,7 +81,7 @@ object NotifyUtils {
       |
       |<body>
       |  <h5>付款成功 （共计：%s元），请关闭本窗口</h5>
-      |  <div id="c0ced014-142b-410b-bb6d-8bea90306fa1" style="display: none;"></div>
+      |  <div id="c0ced014-142b-410b-bb6d-8bea90306fa1" style="display: none;">%d</div>
       |</body>
       |</html>
     """.stripMargin
