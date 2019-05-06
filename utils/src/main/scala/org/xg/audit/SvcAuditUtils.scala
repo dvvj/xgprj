@@ -41,6 +41,8 @@ object SvcAuditUtils {
   val UserCfg_AddPricePlan:SvcAuditEntry = userCfgAudit("addPricePlan")
   val UserCfg_GetRewardPlan:SvcAuditEntry = userCfgAudit("getRewardPlan")
   val UserCfg_AddRewardPlan:SvcAuditEntry = userCfgAudit("addRewardPlan")
+  val UserCfg_RewardPlanAccessibleBy:SvcAuditEntry = userCfgAudit("rewardPlanAccessibleBy")
+  val UserCfg_UpdateCustomerPassword:SvcAuditEntry = userCfgAudit("updateCustomerPassword")
 
   private def profOrgAudit(op:String):SvcAuditEntry =
     fromUserType(UserType.MedProfOrg, op)

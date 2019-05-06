@@ -233,13 +233,10 @@ object UISvcHelpers {
   }
 
   def updateRewardPlansCreatedBy(uid:String, token:String):Array[MRewardPlan] = {
-    val mps = SvcHelpers.postDecArray(
+    SvcHelpers.getDecArray(
       serverCfg.rewardPlanAccessibleByURL,
       token,
-      uid,
       MRewardPlan.fromJsons
     )
-
-    mps
   }
 }

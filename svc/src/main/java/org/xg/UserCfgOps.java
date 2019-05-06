@@ -173,22 +173,23 @@ public class UserCfgOps {
 
 
   @Secured
-  @POST
+  @GET
   @Path("rewardPlanAccessibleBy")
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
-  public Response rewardPlanAccessibleBy(String creatorId) {
-    try {
-      MRewardPlan[] rewardPlans = RewardPlanUtils.getRewardPlansAccessibleBy(creatorId);
+  public Response rewardPlanAccessibleBy(@Context SecurityContext sc) {
+    return SvcUtils.tryOps(
+      () -> {
+        MRewardPlan[] rewardPlans = RewardPlanUtils.getRewardPlansAccessibleBy(sc.getUserPrincipal().getName());
 
-      String j = MRewardPlan.toJsons(rewardPlans);
+        String j = MRewardPlan.toJsons(rewardPlans);
 
-      return Response.ok(j).build();
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-      throw new WebApplicationException("Error", ex);
-    }
+        return Response.ok(j).build();
+      },
+      sc,
+      SvcAuditUtils.UserCfg_RewardPlanAccessibleBy()
+    );
+
   }
 
   @Secured
@@ -197,7 +198,6 @@ public class UserCfgOps {
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(SvcUtils.MediaType_TXT_UTF8)
   public Response updatePassword(String updatePasswordJson, @Context SecurityContext sc) {
-    String uid = sc.getUserPrincipal().getName();
     return SvcUtils.tryOps(
       () -> {
         UpdatePassword up = UpdatePassword.fromJson(updatePasswordJson);
@@ -205,6 +205,7 @@ public class UserCfgOps {
         byte[] oldPassHash = AuthHelpers.str2Hash(up.oldpassHash());
         byte[] newPassHash = AuthHelpers.str2Hash(up.newpassHash());
 
+        String uid = sc.getUserPrincipal().getName();
         OpResp dbResp = SvcUtils.getDbOps().updateCustomerPass(
           uid, oldPassHash, newPassHash
         );
@@ -221,11 +222,9 @@ public class UserCfgOps {
             .build();
         }
       },
-      uid,
-      "updatePassword",
-      String.format(
-        "updatePassword error, updatePasswordJson: %s", updatePasswordJson
-      )
+      sc,
+      SvcAuditUtils.UserCfg_UpdateCustomerPassword()
     );
+
   }
 }
