@@ -78,7 +78,7 @@ public class AlipayWebviewCtrl implements Initializable {
           Element retPageDiv = doc.getElementById(NotifyUtils.returnPageId());
           transformDoc(doc);
           if (retPageDiv != null) {
-            System.out.println("found return page!");
+            System.out.println("found return page: " + retPageDiv.getTextContent());
           }
         }
       }
