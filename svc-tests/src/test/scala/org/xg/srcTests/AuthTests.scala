@@ -47,7 +47,7 @@ object AuthTests extends App {
   val (uid2, pass2) = UserType.Customer.genUid("customer4") -> "acf"
   val resp2 = SvcHelpers.authReq(cfg.authCustomerURL, uid2, pass2)
 
-  val pricePlans2 = SvcHelpers.getPricePlan4User(cfg.pricePlanURL, uid2, resp2.token)
+  val pricePlans2 = SvcHelpers.getPricePlan4User(cfg.pricePlanURL, resp2.token)
   println(pricePlans2)
 
   (1 to 4).foreach { prodId =>
