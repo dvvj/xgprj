@@ -10,6 +10,9 @@ object OrderTests extends App {
 
   val uid1 = "customer1"
 
+  val t1 = testHbnOps.allCustomers
+  println(t1.length)
+
   val orders1 = testHbnOps.ordersOf(uid1)
   println(orders1.length)
 
