@@ -1,0 +1,6 @@
+{
+  "svcSvr": "https://localhost:443/webapi",
+  "timeOutMs": 1200,
+  "infoDbSvr": "jdbc:mysql://mysql:3308",
+  "assetLocalPath": "/appdata/product_assets"
+}

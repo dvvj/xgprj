@@ -12,7 +12,7 @@ services:
      - "3306:3306"
     volumes:
      - $PWD/mysql/data:/var/lib/mysql
-     - $PWD/../docker-mysql/:/etc/mysql/conf.d/mysqld_charset.cnf
+     - $PWD/../docker-mysql/mysqld_charset.cnf:/etc/mysql/conf.d/mysqld_charset.cnf
      - $PWD/../docker-mysql/scripts/:/docker-entrypoint-initdb.d/
     command: --max_allowed_packet=32505856
 
@@ -27,8 +27,8 @@ services:
       - $PWD/../ssl/ssl.crt:/usr/local/tomcat/conf/ssl.crt
       - $PWD/../ssl/ssl.key:/usr/local/tomcat/conf/ssl.key
       - $PWD/../ssl/server.xml:/usr/local/tomcat/conf/server.xml
-      - $PWD/../ssl/svc_cfg.json:/usr/local/tomcat/webapps/svc/svc_cfg.json
-      - $PWD/../hibernate.cfg.xml:/usr/local/tomcat/webapps/svc/hibernate.cfg.xml
+      - $PWD/./svc_cfg.json:/usr/local/tomcat/webapps/svc/svc_cfg.json
+      - $PWD/./hibernate.cfg.xml:/usr/local/tomcat/webapps/svc/hibernate.cfg.xml
       - $PWD/../../prod_assets:/appdata/product_assets
       - /tmp/tomcat-logs:/usr/local/tomcat/logs
     depends_on:
