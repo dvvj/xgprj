@@ -1,5 +1,6 @@
 package org.xg.ui.comp;
 
+import com.github.binarywang.wxpay.service.WxPayService;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
@@ -16,6 +17,7 @@ import org.xg.uiModels.CustomerProduct;
 import org.xg.uiModels.UIProduct;
 import org.xg.ui.utils.Global;
 import org.xg.ui.utils.UISvcHelpers;
+import org.xg.weixin.WxUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -80,7 +82,15 @@ public class PlaceOrderCtrl implements Initializable {
         throw new RuntimeException("Error placing order!", ex);
       }
 
-      AlipayWindow.launch(newOrderId, actualCost, product.getName(), qty);
+//      AlipayWindow.launch(newOrderId, actualCost, product.getName(), qty);
+
+      WeixinPayWindow.launch(
+        wxPayService,
+        product.getName(),
+        "prodId001",
+        actualCost,
+        "https://todo/notfiy"
+      );
 
       postPurchase.run();
     }
@@ -89,6 +99,14 @@ public class PlaceOrderCtrl implements Initializable {
     }
 
   }
+
+  private final static WxPayService wxPayService = WxUtils.createWxSvc(
+    "wx6f58f5f5ff06f57f",
+    "1409382102",
+    "/home/devvj/.weixin/apikey.txt",
+    "/home/devvj/.weixin/apiclient_cert.p12",
+    false
+  );
 
   @FXML
   private void handleMinus1(ActionEvent e) {
