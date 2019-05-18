@@ -13,6 +13,7 @@
         <amazonaws.version>1.11.99</amazonaws.version>
         <hibernate.version>5.3.8.Final</hibernate.version>
         <jjwt.version>0.10.5</jjwt.version>
+        <weixin-java-pay.version>3.3.0</weixin-java-pay.version>
     </properties>
     <groupId>org.xg</groupId>
     <artifactId>xg-root</artifactId>
@@ -262,6 +263,18 @@
                 <groupId>net.bull.javamelody</groupId>
                 <artifactId>javamelody-core</artifactId>
                 <version>1.76.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${weixin-java-pay.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>3.3.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

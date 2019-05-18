@@ -49,6 +49,16 @@
           <groupId>io.datafx</groupId>
           <artifactId>datafx</artifactId>
       </dependency>
+
+      <dependency>
+          <groupId>com.github.binarywang</groupId>
+          <artifactId>weixin-java-pay</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>com.google.zxing</groupId>
+          <artifactId>javase</artifactId>
+      </dependency>
   </dependencies>
 
 
