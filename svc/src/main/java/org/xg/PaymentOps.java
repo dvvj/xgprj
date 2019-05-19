@@ -36,7 +36,7 @@ public class PaymentOps {
   @POST
   @Path("weixinNotify")
 //  @Consumes("application/x-www-form-urlencoded;text/html;charset=utf-8")
-  @Consumes(SvcUtils.MediaType_HTML_UTF8)
+  @Consumes(MediaType.TEXT_HTML)
   public Response weixinNotify(String notifyContent) {
     logger.warning("=================================== weixinNotify:");
     logger.warning(notifyContent);
