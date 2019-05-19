@@ -15,4 +15,7 @@ object SvcAuditEntry {
 
   private val alipay = "Alipay"
   def alipayAudit(op:String):SvcAuditEntry = SvcAuditEntry(alipay, op, s"$op error.")
+
+  private val WxPay = "WxPay"
+  def wxPayAudit(op:String):SvcAuditEntry = SvcAuditEntry(WxPay, op, s"$op error.")
 }

@@ -49,6 +49,7 @@ case class GlobalCfg(
   def customerPricePlansURL:String = s"$svcSvr/$CUSTOMER_PRICEPLANS_OF_PROF"
   def alipayNotifyURL: String = s"$svcSvr/$ALIPAY_NOTIFY_URL"
   def alipayReturnURL: String = s"$svcSvr/$ALIPAY_RETURN_URL"
+  def weixinNotifyURL: String = s"$svcSvr/$WEIXIN_NOTIFY_URL"
   def infoDbConnStr:String = s"$infoDbSvr/xgproj?user=dbuser&password=dbpass"
 }
 
@@ -88,6 +89,7 @@ object GlobalCfg {
   private val FIND_CUSTOMER_BY_ID = "prof/findCustomerById"
   private val ADD_PRICE_PLAN = "user/addPricePlan"
   private val ALIPAY_NOTIFY_URL = "payment/alipayNotify"
+  private val WEIXIN_NOTIFY_URL = "payment/weixinNotify"
   private val ALIPAY_RETURN_URL = "payment/alipayReturn"
   private val UPDATE_CUSTOMER_PASSWORD = "user/updateCustomerPassword"
 

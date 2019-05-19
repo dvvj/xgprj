@@ -33,6 +33,24 @@ public class PaymentOps {
     );
   }
 
+  @POST
+  @Path("weixinNotify")
+//  @Consumes("application/x-www-form-urlencoded;text/html;charset=utf-8")
+  @Consumes(SvcUtils.MediaType_HTML_UTF8)
+  public Response weixinNotify(String notifyContent) {
+    logger.warning("=================================== weixinNotify:");
+    logger.warning(notifyContent);
+
+    return SvcUtils.tryOps(
+      () -> {
+//        NotifyUtils.parseNotifyResultAndSave2Db(notifyContent, SvcUtils.getDbOps());
+//        logger.info("Successfully processed notification: " + notifyContent);
+        return Response.ok().build();
+      },
+      SvcAuditUtils.Weixin_Notify()
+    );
+  }
+
   @GET
   @Path("alipayReturn")
   @Produces(SvcUtils.MediaType_HTML_UTF8)

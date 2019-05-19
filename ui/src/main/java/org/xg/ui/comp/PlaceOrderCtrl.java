@@ -89,7 +89,7 @@ public class PlaceOrderCtrl implements Initializable {
         product.getName(),
         "prodId001",
         actualCost,
-        "https://todo/notfiy"
+        UISvcHelpers.serverCfg().weixinNotifyURL()
       );
 
       postPurchase.run();
