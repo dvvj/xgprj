@@ -2,12 +2,14 @@ package org.xg.weixin
 
 import java.io.FileInputStream
 import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
 import java.time.{ZoneId, ZonedDateTime}
 import java.time.format.DateTimeFormatter
 
 import com.github.binarywang.wxpay.bean.order.WxPayNativeOrderResult
 import com.github.binarywang.wxpay.bean.request
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest
+import com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderResult
 import com.github.binarywang.wxpay.config.WxPayConfig
 import com.github.binarywang.wxpay.constant.WxPayConstants
 import com.github.binarywang.wxpay.service.WxPayService
@@ -16,6 +18,7 @@ import com.google.zxing.{BarcodeFormat, MultiFormatWriter}
 import com.google.zxing.client.j2se.MatrixToImageConfig
 import com.google.zxing.common.BitMatrix
 import javafx.scene.image.Image
+import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang3.StringUtils
 
@@ -87,4 +90,58 @@ object WxUtils {
     bc
   }
 
+  def createOrder4MP(
+                   wxService:WxPayService,
+                   apiKeyPath:String,
+                   amount:Integer,
+                   //                   mchId:String,
+                   //                   appId:String,
+                   body:String,
+                   prodId:String,
+                   notifyUrl:String
+                 ):Unit = {
+    val dtNow = ZonedDateTime.now(_defaultZoneId)
+    val nowStr = dtNow.format(_dateTimeFormat)
+    val dtExp = dtNow.plusHours(1)
+    val expStr = dtExp.format(_dateTimeFormat)
+    val outTradeNo = "OutTradeNo_" + nowStr
+
+    val req = WxPayUnifiedOrderRequest.newBuilder()
+      .body(body)
+      .productId(prodId)
+      .outTradeNo(outTradeNo)
+      .timeStart(nowStr)
+      .timeExpire(expStr)
+      .totalFee(amount)
+      .tradeType(WxPayConstants.TradeType.NATIVE)
+      .spbillCreateIp("123.123.123.123")
+      .notifyUrl(notifyUrl)
+      .build()
+    //    req.setMchId(mchId)
+    //    req.setAppid(appId)
+    //req.setSignType("MD5")
+    val t = wxService.unifiedOrder(req)
+
+    val prepayId = t.getPrepayId
+    val ts = ZonedDateTime.now().toInstant.toEpochMilli
+    val paySign = getPaySign(
+      List(
+        "appId" -> t.getAppid,
+        "nonceStr" -> t.getNonceStr,
+        "package" -> s"prepay_id=$prepayId",
+        "signType" -> "MD5",
+        "timeStamp" -> ts.toString,
+        "key" -> getApiKey(apiKeyPath)
+      )
+    )
+    println(paySign)
+  }
+
+  def getPaySign(tuples:List[(String, String)]):String = {
+    val sin = tuples.map { p =>
+      val (k, v) = p
+      s"$k=$v"
+    }.mkString
+    DigestUtils.md5Hex(sin).toUpperCase()
+  }
 }

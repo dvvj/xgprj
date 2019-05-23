@@ -8,6 +8,7 @@ import org.xg.weixin.WxUtils
 
 object Test0 {
 
+  private val apiKeyPath = "/home/devvj/.weixin/apikey.txt";
   private val wxService: WxPayService = WxUtils.createWxSvc(
     "wx6f58f5f5ff06f57f",
     "1409382102",
@@ -18,15 +19,17 @@ object Test0 {
 
   def main(args:Array[String]):Unit = {
 
-    val order = WxUtils.createOrder(
-      wxService,
-      1,
-      "zhuti",
-      "prodId001",
-      "http://todo/notifyUrl",
-      200
-    )
+//    val order = WxUtils.createOrder(
+//      wxService,
+//      1,
+//      "zhuti",
+//      "prodId001",
+//      "http://todo/notifyUrl",
+//      200
+//    )
+//
+//    println(order)
 
-    println(order)
+    WxUtils.createOrder4MP(wxService, apiKeyPath, 1, "test body", "001", "http://todo")
   }
 }
