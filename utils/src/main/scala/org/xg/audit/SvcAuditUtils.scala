@@ -56,4 +56,6 @@ object SvcAuditUtils {
   val Alipay_Return:SvcAuditEntry = alipayAudit("alipayReturn")
 
   val Weixin_Notify:SvcAuditEntry = wxPayAudit("weixinNotify")
+  val Weixin_PayReq:SvcAuditEntry = wxPayAudit("weixinPayReq")
+  val Weixin_NotifyMP:SvcAuditEntry = wxPayAudit("weixinNotifyMP")
 }

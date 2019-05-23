@@ -91,15 +91,15 @@ object WxUtils {
   }
 
   def createOrder4MP(
-                   wxService:WxPayService,
-                   apiKeyPath:String,
-                   amount:Integer,
-                   //                   mchId:String,
-                   //                   appId:String,
-                   body:String,
-                   prodId:String,
-                   notifyUrl:String
-                 ):Unit = {
+    wxService:WxPayService,
+    apiKeyPath:String,
+    amount:Integer,
+    //                   mchId:String,
+    //                   appId:String,
+    body:String,
+    prodId:String,
+    notifyUrl:String
+  ):WxMPPayReq = {
     val dtNow = ZonedDateTime.now(_defaultZoneId)
     val nowStr = dtNow.format(_dateTimeFormat)
     val dtExp = dtNow.plusHours(1)
@@ -123,18 +123,26 @@ object WxUtils {
     val t = wxService.unifiedOrder(req)
 
     val prepayId = t.getPrepayId
+    val pkg = s"prepay_id=$prepayId"
     val ts = ZonedDateTime.now().toInstant.toEpochMilli
     val paySign = getPaySign(
       List(
         "appId" -> t.getAppid,
         "nonceStr" -> t.getNonceStr,
-        "package" -> s"prepay_id=$prepayId",
+        "package" -> pkg,
         "signType" -> "MD5",
         "timeStamp" -> ts.toString,
         "key" -> getApiKey(apiKeyPath)
       )
     )
-    println(paySign)
+    //println(paySign)
+    WxMPPayReq(
+      ts.toString,
+      t.getNonceStr,
+      pkg,
+      "MD5",
+      paySign
+    )
   }
 
   def getPaySign(tuples:List[(String, String)]):String = {
