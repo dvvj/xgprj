@@ -67,7 +67,7 @@ public class WxPayOps {
       FileInputStream fin = new FileInputStream(path);
       String res = IOUtils.toString(fin, StandardCharsets.UTF_8);
       fin.close();
-      return res;
+      return res.trim();
     }
     catch (IOException ex) {
       throw new RuntimeException(ex);
@@ -80,7 +80,7 @@ public class WxPayOps {
 
   @POST
   @Path("loginReq")
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Consumes(MediaType.APPLICATION_JSON)
   public Response loginReq(String wxLoginReq) {
     return SvcUtils.tryOps(
       () -> {
@@ -95,6 +95,10 @@ public class WxPayOps {
           loginReq.loginCode()
         );
 
+        int t = _mpAppSecret.charAt(_mpAppSecret.length()-1);
+
+        logger.warning("======= secret: " + t);
+        logger.warning("======= url: " + code2SessionUrl);
         String res = SvcHelpers.get(code2SessionUrl, "");
 
         logger.warning("======= code2Session response: " + res);
@@ -105,6 +109,44 @@ public class WxPayOps {
     );
 
   }
+
+
+  /**
+   onLoad: function () {
+     wx.login({
+       success: function (res) {
+         console.log("res: ", res)
+         if (res.code) {
+           wx.request({
+             url: 'https://app.wonder4.life/webapi/wxPay/loginReq',
+             data: {
+               userId: 'todo',
+               loginCode: res.code
+             },
+             method: "POST",
+             header: {
+               'content-type': 'application/json'
+             },
+             success: function (r) {
+               console.log('r: ', r)
+               console.log(r.data.openid)
+               console.log(r.data.session_key)
+             },
+             fail: function (r) {
+               console.log('error getting openid, session_key', r)
+             }
+           })
+         }
+         else {
+           console.log('failed to login', res)
+         }
+       },
+       fail: function (r) {
+         console.log('failed to login: ', r)
+       }
+     })
+   },
+   */
 
   @POST
   @Path("weixinNotifyMP")

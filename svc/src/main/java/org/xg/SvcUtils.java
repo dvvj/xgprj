@@ -209,6 +209,7 @@ public class SvcUtils {
       StringWriter errors = new StringWriter();
       ex.printStackTrace(new PrintWriter(errors));
       String err = errors.toString();
+      logger.warning(err);
       errMsg = err.length() < MaxExceptionMsgLength ? err : err.substring(0, MaxExceptionMsgLength); // length determined by db table def
       //System.out.println("errMsg::::::::::: " + errMsg);
       throw new WebApplicationException(errorMsg, ex);
