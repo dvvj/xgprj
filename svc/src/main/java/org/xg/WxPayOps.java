@@ -36,8 +36,8 @@ public class WxPayOps {
 
 
   @POST
-  @Path("payReq")
-  @Consumes(MediaType.TEXT_PLAIN)
+  @Path("payReqMP")
+  @Consumes(MediaType.APPLICATION_JSON)
   public Response payReq(String wxPayReq) {
     return SvcUtils.tryOps(
       () -> {
