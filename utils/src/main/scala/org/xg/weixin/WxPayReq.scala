@@ -2,11 +2,19 @@ package org.xg.weixin
 
 import org.xg.json.CommonUtils
 
+case class WxLoginReqMP(
+                     userId:String,
+                     loginCode:String
+                   ) {
+
+}
+
+
 case class WxPayReq(
   userId:String,
-  actId:String,
+//  actId:String,
   prodId:String,
-  openId:String,
+//  openId:String,
   amount:Int,
   info:String
 ) {
@@ -28,4 +36,8 @@ object WxPayReq {
 object WxMPPayReq {
   def toJson(r:WxMPPayReq):String = CommonUtils._toJson(r)
 
+}
+
+object WxLoginReqMP {
+  def fromJson(j:String):WxLoginReqMP = CommonUtils._fromJson[WxLoginReqMP](j)
 }
