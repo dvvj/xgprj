@@ -25,6 +25,7 @@ object UISvcHelpers {
     userCfg.svcSvr,
     userCfg.timeOutMs,
     "N/A",
+    "N/A",
     "N/A"
   )
 
