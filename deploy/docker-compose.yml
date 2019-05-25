@@ -1,0 +1,38 @@
+version: '2'
+services:
+  mysql:
+    image: "mysql:8.0"
+    restart: always
+    environment:
+     - MYSQL_ROOT_PASSWORD=cPEaKeXnzq8fuRBD87csHdaL
+     - MYSQL_DATABASE=xgproj
+     - MYSQL_USER=dbuser
+     - MYSQL_PASSWORD=dbpass
+    ports:
+     - "3306:3306"
+    volumes:
+     - $PWD/mysql/data:/var/lib/mysql
+     - $PWD/../docker-mysql/mysqld_charset.cnf:/etc/mysql/conf.d/mysqld_charset.cnf
+     - $PWD/../docker-mysql/scripts/:/docker-entrypoint-initdb.d/
+    command: --max_allowed_packet=32505856
+
+  websvc:
+    image: "tomcat:8.5"
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - $PWD/tomcat/svc.war:/usr/local/tomcat/webapps/svc.war
+      - $PWD/tomcat/svc:/usr/local/tomcat/webapps/ROOT
+      - $PWD/../ssl/ssl.crt:/usr/local/tomcat/conf/ssl.crt
+      - $PWD/../ssl/ssl.key:/usr/local/tomcat/conf/ssl.key
+      - $PWD/../ssl/ssl.pem:/usr/local/tomcat/conf/ssl.pem
+      - $PWD/../ssl/server.xml:/usr/local/tomcat/conf/server.xml
+      - $PWD/./svc_cfg.json:/usr/local/tomcat/webapps/svc/svc_cfg.json
+      - $PWD/./hibernate.cfg.xml:/usr/local/tomcat/webapps/svc/hibernate.cfg.xml
+      - $PWD/../../prod_assets:/appdata/product_assets
+      - /tmp/tomcat-logs:/usr/local/tomcat/logs
+      - /home/ubuntu/.weixin/:/opt/.weixin/
+    depends_on:
+      - mysql
+
