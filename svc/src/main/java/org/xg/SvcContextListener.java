@@ -32,6 +32,7 @@ public class SvcContextListener implements ServletContextListener {
             new FileInputStream(path),
             StandardCharsets.UTF_8
           );
+          logger.info("Configuration: " + cfgJson);
           _cfg = GlobalCfg.fromJson(cfgJson);
           logger.info("Configuration initialized: " + _cfg);
 
