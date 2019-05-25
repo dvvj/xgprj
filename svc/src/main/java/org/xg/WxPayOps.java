@@ -25,12 +25,13 @@ public class WxPayOps {
 
   private final static Logger logger = Logger.getLogger(WxPayOps.class.getName());
 
-  private final static String _apiKeyPath = "/home/devvj/.weixin/apikey.txt";
+  private final static String wxKeyPath = SvcUtils.getCfg().wxKeyPath();
+  private final static String _apiKeyPath = wxKeyPath + "/apikey.txt";
   private final static WxPayService wxPayService = WxUtils.createWxSvc(
     "wx6f58f5f5ff06f57f",
     "1409382102",
     _apiKeyPath,
-    "/home/devvj/.weixin/apiclient_cert.p12",
+    wxKeyPath + "/apiclient_cert.p12",
     false
   );
 
@@ -74,7 +75,7 @@ public class WxPayOps {
     }
   }
 
-  private static final String _mpAppSecret = readAppSecret("/home/devvj/.weixin/mpAppSecret.txt");
+  private static final String _mpAppSecret = readAppSecret(wxKeyPath + "/mpAppSecret.txt");
   private static final String code2SessionTempl =
     "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
 
