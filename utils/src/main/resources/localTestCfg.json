@@ -1,6 +1,7 @@
 {
   "svcSvr": "https://localhost:443/webapi",
   "timeOutMs": 1200,
+  "wxKeyPath": "/home/devvj/.weixin",
   "infoDbSvr": "jdbc:mysql://mysql:3306",
   "assetLocalPath": "/appdata/product_assets"
 }
