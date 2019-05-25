@@ -63,6 +63,78 @@ public class WxPayOps {
 
   }
 
+  /**
+   wx.login({
+   success: function (res) {
+   console.log("res: ", res)
+   if (res.code) {
+   wx.request({
+   url: 'https://app.wonder4.life/webapi/wxPay/loginReq',
+   data: {
+   userId: 'todo',
+   loginCode: res.code
+   },
+   method: "POST",
+   header: {
+   'content-type': 'application/json'
+   },
+   success: function (r) {
+   console.log('r: ', r)
+   console.log(r.data.openid)
+   console.log(r.data.session_key)
+   wx.request( {
+   url: 'https://app.wonder4.life/webapi/wxPay/payReqMP',
+   data: {
+   userId: 'todo',
+   prodId: 'prod001',
+   amount: 1,
+   info: 'todo-info'
+   },
+   method: "POST",
+   header: {
+   'content-type': 'application/json'
+   },
+   success: function (r2) {
+   console.log('r2: ', r2)
+   wx.requestPayment({
+   'timeStamp': r2.data.timeStamp,
+   'nonceStr': r2.data.nonceStr,
+   'package': r2.data.package_,
+   'signType': 'MD5',
+   'paySign': r2.data.paySign,
+   success: function (r3) {
+   console.info('r3: ', r3)
+   //报名
+   //goApply(event, that)
+   },
+   fail: function (e3) {
+   console.info(e3)
+   },
+   complete: function (c3) {
+   console.info(c3)
+   }
+   })
+   }
+   }
+   )
+   },
+   fail: function (r) {
+   console.log('error getting openid, session_key', r)
+   }
+   })
+   }
+   else {
+   console.log('failed to login', res)
+   }
+   },
+   fail: function (r) {
+   console.log('failed to login: ', r)
+   }
+   })
+
+   */
+
+
   private static String readAppSecret(String path) {
     try {
       FileInputStream fin = new FileInputStream(path);
