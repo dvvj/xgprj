@@ -30,6 +30,6 @@ object Test0 {
 //
 //    println(order)
 
-    WxUtils.createOrder4MP(wxService, apiKeyPath, 1, "test body", "001", "http://todo")
+    //WxUtils.createOrder4MP(wxService, apiKeyPath, 1, "test body", "001", "http://todo")
   }
 }

@@ -14,7 +14,7 @@ case class WxPayReq(
   userId:String,
 //  actId:String,
   prodId:String,
-//  openId:String,
+  openid:String,
   amount:Int,
   info:String
 ) {

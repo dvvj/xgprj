@@ -93,6 +93,7 @@ object WxUtils {
   def createOrder4MP(
     wxService:WxPayService,
     apiKeyPath:String,
+    openid:String,
     amount:Integer,
     //                   mchId:String,
     //                   appId:String,
@@ -113,7 +114,8 @@ object WxUtils {
       .timeStart(nowStr)
       .timeExpire(expStr)
       .totalFee(amount)
-      .tradeType(WxPayConstants.TradeType.NATIVE)
+      .openid(openid)
+      .tradeType(WxPayConstants.TradeType.JSAPI)
       .spbillCreateIp("123.123.123.123")
       .notifyUrl(notifyUrl)
       .build()
