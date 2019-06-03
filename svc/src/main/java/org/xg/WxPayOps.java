@@ -35,7 +35,13 @@ public class WxPayOps {
     false
   );
 
-
+  private final static WxPayService wxPayServiceMP = WxUtils.createWxSvc(
+    "wxcce411c146c16195",
+    "1409382102",
+    _apiKeyPath,
+    wxKeyPath + "/apiclient_cert.p12",
+    false
+  );
   @POST
   @Path("payReqMP")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -45,7 +51,7 @@ public class WxPayOps {
         WxPayReq req = WxPayReq.fromJson(wxPayReq);
 
         WxMPPayReq mpReq = WxUtils.createOrder4MP(
-          wxPayService,
+          wxPayServiceMP,
           _apiKeyPath,
           req.openid(),
           req.amount(),
