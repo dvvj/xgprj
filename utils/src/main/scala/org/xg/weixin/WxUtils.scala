@@ -31,7 +31,7 @@ object WxUtils {
     val strm = new FileInputStream(keyFilePath)
     val res = IOUtils.toString(strm, StandardCharsets.US_ASCII)
     strm.close()
-    res
+    res.trim
   }
 
   def createWxSvc(
