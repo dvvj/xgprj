@@ -152,7 +152,8 @@ object WxUtils {
       val (k, v) = p
       s"$k=$v"
     }.mkString("&")
-    println(sin)
-    DigestUtils.md5Hex(sin).toUpperCase()
+    val res = DigestUtils.md5Hex(sin).toUpperCase()
+    println(s"sin: $sin, res: $res")
+    res
   }
 }
