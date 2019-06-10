@@ -53,7 +53,7 @@ public class WxPayOps {
 
         WxMPPayReq mpReq = WxUtils.createOrder4MP(
           wxPayServiceMP,
-          _apiKeyPath,
+          _apiKeyPathMP,
           req.openid(),
           req.amount(),
           req.info(),
