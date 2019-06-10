@@ -35,11 +35,12 @@ public class WxPayOps {
     false
   );
 
+  private final static String _apiKeyPathMP = wxKeyPath + "/apikey_wf.txt";
   private final static WxPayService wxPayServiceMP = WxUtils.createWxSvc(
     "wxcce411c146c16195",
     "1513163741",
-    _apiKeyPath,
-    wxKeyPath + "/apiclient_cert.p12",
+    _apiKeyPathMP,
+    wxKeyPath + "/apiclient_cert_wf.p12",
     false
   );
   @POST
