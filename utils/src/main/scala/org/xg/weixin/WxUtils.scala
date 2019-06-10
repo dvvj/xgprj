@@ -151,7 +151,8 @@ object WxUtils {
     val sin = tuples.map { p =>
       val (k, v) = p
       s"$k=$v"
-    }.mkString
+    }.mkString("&")
+    println(sin)
     DigestUtils.md5Hex(sin).toUpperCase()
   }
 }
